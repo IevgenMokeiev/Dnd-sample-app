@@ -8,13 +8,11 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class SpellListViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        self.title = "Spell Book"
     }
-
-
 }
 
