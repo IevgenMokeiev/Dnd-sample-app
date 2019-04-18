@@ -14,6 +14,7 @@
 		85B353F82267B64A00617C7E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85B353F62267B64A00617C7E /* LaunchScreen.storyboard */; };
 		85B354032267B64A00617C7E /* Dnd5eAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B354022267B64A00617C7E /* Dnd5eAppTests.swift */; };
 		85B3540E2267B64A00617C7E /* Dnd5eAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B3540D2267B64A00617C7E /* Dnd5eAppUITests.swift */; };
+		E40722631CD2960F1E0326AA /* Pods_Dnd5eApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D05E6B1516E140741ECBB23F /* Pods_Dnd5eApp.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +35,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3333E5D2C97CF77B9ACAE369 /* Pods-Dnd5eApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dnd5eApp.release.xcconfig"; path = "Target Support Files/Pods-Dnd5eApp/Pods-Dnd5eApp.release.xcconfig"; sourceTree = "<group>"; };
+		5FFD2B8E3FC0D68652CDEF67 /* Pods-Dnd5eApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dnd5eApp.debug.xcconfig"; path = "Target Support Files/Pods-Dnd5eApp/Pods-Dnd5eApp.debug.xcconfig"; sourceTree = "<group>"; };
 		85B353EA2267B64200617C7E /* Dnd5eApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dnd5eApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85B353ED2267B64200617C7E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		85B353EF2267B64200617C7E /* SpellListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellListViewController.swift; sourceTree = "<group>"; };
@@ -47,6 +50,7 @@
 		85B354092267B64A00617C7E /* Dnd5eAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Dnd5eAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		85B3540D2267B64A00617C7E /* Dnd5eAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dnd5eAppUITests.swift; sourceTree = "<group>"; };
 		85B3540F2267B64A00617C7E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D05E6B1516E140741ECBB23F /* Pods_Dnd5eApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dnd5eApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E40722631CD2960F1E0326AA /* Pods_Dnd5eApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +79,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0FBC1E351D9889D259C1BC27 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5FFD2B8E3FC0D68652CDEF67 /* Pods-Dnd5eApp.debug.xcconfig */,
+				3333E5D2C97CF77B9ACAE369 /* Pods-Dnd5eApp.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		6FDD1FDE4AB162DE19869E84 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D05E6B1516E140741ECBB23F /* Pods_Dnd5eApp.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		85B353E12267B64200617C7E = {
 			isa = PBXGroup;
 			children = (
@@ -81,6 +104,8 @@
 				85B354012267B64A00617C7E /* Dnd5eAppTests */,
 				85B3540C2267B64A00617C7E /* Dnd5eAppUITests */,
 				85B353EB2267B64200617C7E /* Products */,
+				0FBC1E351D9889D259C1BC27 /* Pods */,
+				6FDD1FDE4AB162DE19869E84 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -132,9 +157,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 85B354122267B64A00617C7E /* Build configuration list for PBXNativeTarget "Dnd5eApp" */;
 			buildPhases = (
+				C211E6CC7F446B46B41ED00E /* [CP] Check Pods Manifest.lock */,
 				85B353E62267B64200617C7E /* Sources */,
 				85B353E72267B64200617C7E /* Frameworks */,
 				85B353E82267B64200617C7E /* Resources */,
+				BD82C4E8558F6474AB4C29AB /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -250,6 +277,53 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		BD82C4E8558F6474AB4C29AB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Dnd5eApp/Pods-Dnd5eApp-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Dnd5eApp/Pods-Dnd5eApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C211E6CC7F446B46B41ED00E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Dnd5eApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		85B353E62267B64200617C7E /* Sources */ = {
@@ -430,6 +504,7 @@
 		};
 		85B354132267B64A00617C7E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5FFD2B8E3FC0D68652CDEF67 /* Pods-Dnd5eApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -448,6 +523,7 @@
 		};
 		85B354142267B64A00617C7E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3333E5D2C97CF77B9ACAE369 /* Pods-Dnd5eApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
