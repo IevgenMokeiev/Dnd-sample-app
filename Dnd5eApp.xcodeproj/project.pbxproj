@@ -124,11 +124,9 @@
 			isa = PBXGroup;
 			children = (
 				85B353ED2267B64200617C7E /* AppDelegate.swift */,
-				85B353EF2267B64200617C7E /* SpellListViewController.swift */,
-				85B353F12267B64200617C7E /* Main.storyboard */,
-				85B353F42267B64A00617C7E /* Assets.xcassets */,
-				85B353F62267B64A00617C7E /* LaunchScreen.storyboard */,
-				85B354582268B49700617C7E /* DnDModel.xcdatamodeld */,
+				85B3545B2268BB4700617C7E /* View */,
+				85B3545D2268BB6100617C7E /* Model */,
+				85B3545F2268BB8A00617C7E /* Resources */,
 				85B353F92267B64A00617C7E /* Info.plist */,
 			);
 			path = Dnd5eApp;
@@ -150,6 +148,32 @@
 				85B3540F2267B64A00617C7E /* Info.plist */,
 			);
 			path = Dnd5eAppUITests;
+			sourceTree = "<group>";
+		};
+		85B3545B2268BB4700617C7E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				85B353EF2267B64200617C7E /* SpellListViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		85B3545D2268BB6100617C7E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				85B354582268B49700617C7E /* DnDModel.xcdatamodeld */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		85B3545F2268BB8A00617C7E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				85B353F42267B64A00617C7E /* Assets.xcassets */,
+				85B353F12267B64200617C7E /* Main.storyboard */,
+				85B353F62267B64A00617C7E /* LaunchScreen.storyboard */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
