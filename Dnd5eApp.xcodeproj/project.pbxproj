@@ -14,6 +14,7 @@
 		85B353F82267B64A00617C7E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85B353F62267B64A00617C7E /* LaunchScreen.storyboard */; };
 		85B354032267B64A00617C7E /* Dnd5eAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B354022267B64A00617C7E /* Dnd5eAppTests.swift */; };
 		85B3540E2267B64A00617C7E /* Dnd5eAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B3540D2267B64A00617C7E /* Dnd5eAppUITests.swift */; };
+		85B3545A2268B49700617C7E /* DnDModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 85B354582268B49700617C7E /* DnDModel.xcdatamodeld */; };
 		E40722631CD2960F1E0326AA /* Pods_Dnd5eApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D05E6B1516E140741ECBB23F /* Pods_Dnd5eApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -50,6 +51,7 @@
 		85B354092267B64A00617C7E /* Dnd5eAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Dnd5eAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		85B3540D2267B64A00617C7E /* Dnd5eAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dnd5eAppUITests.swift; sourceTree = "<group>"; };
 		85B3540F2267B64A00617C7E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		85B354592268B49700617C7E /* DnDModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DnDModel.xcdatamodel; sourceTree = "<group>"; };
 		D05E6B1516E140741ECBB23F /* Pods_Dnd5eApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dnd5eApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -85,7 +87,6 @@
 				5FFD2B8E3FC0D68652CDEF67 /* Pods-Dnd5eApp.debug.xcconfig */,
 				3333E5D2C97CF77B9ACAE369 /* Pods-Dnd5eApp.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -127,6 +128,7 @@
 				85B353F12267B64200617C7E /* Main.storyboard */,
 				85B353F42267B64A00617C7E /* Assets.xcassets */,
 				85B353F62267B64A00617C7E /* LaunchScreen.storyboard */,
+				85B354582268B49700617C7E /* DnDModel.xcdatamodeld */,
 				85B353F92267B64A00617C7E /* Info.plist */,
 			);
 			path = Dnd5eApp;
@@ -332,6 +334,7 @@
 			files = (
 				85B353F02267B64200617C7E /* SpellListViewController.swift in Sources */,
 				85B353EE2267B64200617C7E /* AppDelegate.swift in Sources */,
+				85B3545A2268B49700617C7E /* DnDModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -658,6 +661,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		85B354582268B49700617C7E /* DnDModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				85B354592268B49700617C7E /* DnDModel.xcdatamodel */,
+			);
+			currentVersion = 85B354592268B49700617C7E /* DnDModel.xcdatamodel */;
+			path = DnDModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 85B353E22267B64200617C7E /* Project object */;
 }
