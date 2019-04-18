@@ -53,7 +53,7 @@ class SpellListViewController: UIViewController {
     // MARK: - NSURLSession
     
     private func loadData() {
-        ContentDownloader().downloadContent(with: .spells) { (result, error) in
+        ContentManager.sharedManager.retrieveContent(for: .spells) { (result, error) in
             self.spellsDictionary = result
             self.viewModel = .spells
             self.view.setNeedsLayout()
