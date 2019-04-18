@@ -10,5 +10,8 @@ import Foundation
 
 class ContentManager {
     
-    private static let sharedManager = ContentManager()
+    public static let sharedManager = ContentManager()
+    private var isDownloaded: Bool = false
+    
+    
 }

@@ -8,7 +8,11 @@
 
 import Foundation
 
-enum DownloadingError: Int {
+enum ContentPath: String {
+    case spells = "spells"
+}
+
+enum DownloadingError: Error {
     case incorrectURL
     case downloadFailed
     case invalidResponseStatusCode
@@ -17,19 +21,24 @@ enum DownloadingError: Int {
 
 class ContentDownloader {
     
+    private static let rootPath = "http://dnd5eapi.co/api/"
     internal var urlSessionProtocolClasses: [AnyClass]?
-    static let spellsURLString = "http://dnd5eapi.co/api/spells"
     
-    public func downloadContent(with completionHandler: (_ result: [String: Any], _ error: Error) -> Void) {
+    public func downloadContent(with path: ContentPath, completionHandler: @escaping (_ result: [String: Any]?, _ error: DownloadingError?) -> Void) {
         let configuration = URLSessionConfiguration.default
         configuration.protocolClasses = self.urlSessionProtocolClasses
         let session = URLSession(configuration: configuration, delegate: nil, delegateQueue: OperationQueue.main)
         
-        guard let spellsUrl  = URL(string: type(of: self).spellsURLString) else { return }
+        guard let spellsUrl  = URL(string: type(of: self).rootPath + path.rawValue) else { completionHandler(nil, .incorrectURL); return }
         
         session.dataTask(with: spellsUrl) { (data, response, error) in
-            guard let jsonData = data else { return }
-            let dictionary = try? JSONSerialization.jsonObject(with: jsonData) as? [String: Any]
+            guard let jsonData = data else { completionHandler(nil, .invalidResponseData); return }
+            do {
+                let dictionary = try JSONSerialization.jsonObject(with: jsonData) as? [String: Any]
+                completionHandler(dictionary, nil)
+            } catch {
+                completionHandler(nil, .invalidResponseData)
+            }
         }.resume()
     }
 }

@@ -16,8 +16,6 @@ class SpellListViewController: UITableViewController {
     
     var spellsDictionary: [String: Any]?
     
-    internal var urlSessionProtocolClasses: [AnyClass]?
-    
     // Mark: - View Lifecycle
     
     override func viewDidLoad() {
@@ -33,19 +31,12 @@ class SpellListViewController: UITableViewController {
         self.isLoading = true
         self.showLoadingHUD()
         
-        let configuration = URLSessionConfiguration.default
-        configuration.protocolClasses = self.urlSessionProtocolClasses
-        let session = URLSession.init(configuration: configuration, delegate: nil, delegateQueue: OperationQueue.main)
-        
-        guard let spellsUrl  = URL(string: "http://dnd5eapi.co/api/spells") else { return }
-        
-        session.dataTask(with: spellsUrl) { (data, response, error) in
-            guard let jsonData = data else { return }
-            self.spellsDictionary = try? JSONSerialization.jsonObject(with: jsonData) as? [String: Any]
+        ContentDownloader().downloadContent(with: .spells) { (result, error) in
+            self.spellsDictionary = result
             self.isLoading = false
             self.tableView.reloadData()
             self.hideLoadingHUD()
-        }.resume()
+        }
     }
     
     private func showLoadingHUD() {
