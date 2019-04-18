@@ -9,11 +9,17 @@
 import UIKit
 import MBProgressHUD
 
-class SpellListViewController: UITableViewController {
+enum ViewModel {
+    case loading
+    case spells
+}
 
-    static let cellReuseIdentifier = "spellCell"
-    var isLoading: Bool = false
+class SpellListViewController: UIViewController {
+
+    @IBOutlet weak var tableView: UITableView!
     
+    static let cellReuseIdentifier = "spellCell"
+    var viewModel: ViewModel?
     var spellsDictionary: [String: Any]?
     
     // Mark: - View Lifecycle
@@ -21,40 +27,56 @@ class SpellListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Spell Book"
-        
+        self.viewModel = .loading
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         self.loadData()
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        switch self.viewModel {
+        case .loading?:
+            self.tableView.isHidden = true
+            self.showLoadingHUD()
+        case .spells?:
+            self.tableView.isHidden = false
+            self.tableView.reloadData()
+            self.hideLoadingHUD()
+        default: break
+        }
     }
     
     // MARK: - NSURLSession
     
     private func loadData() {
-        self.isLoading = true
-        self.showLoadingHUD()
-        
         ContentDownloader().downloadContent(with: .spells) { (result, error) in
             self.spellsDictionary = result
-            self.isLoading = false
-            self.tableView.reloadData()
-            self.hideLoadingHUD()
+            self.viewModel = .spells
+            self.view.setNeedsLayout()
         }
     }
     
     private func showLoadingHUD() {
-        let hud = MBProgressHUD.showAdded(to: self.tableView, animated: true)
+        let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
         hud.label.text = "Loading..."
     }
     
     private func hideLoadingHUD() {
-        MBProgressHUD.hide(for: self.tableView, animated: true)
+        MBProgressHUD.hide(for: self.view, animated: true)
+    }
+}
+
+extension SpellListViewController: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return .loading == self.viewModel ? 0: 1
     }
     
-    // Mark: - UITableViewDataSource
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return self.isLoading ? 0: 1
-    }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         var value = 0
         
@@ -65,20 +87,20 @@ class SpellListViewController: UITableViewController {
         return value
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: type(of: self).cellReuseIdentifier, for: indexPath)
         return cell
     }
-    
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+}
+
+extension SpellListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let dict = self.spellsDictionary else { return }
         guard let array: [[String: Any]] = dict["results"] as? [[String: Any]] else { return }
         let spellDict = array[indexPath.row]
         guard let string = spellDict["name"] as? String else { return }
         
         cell.textLabel?.text = string
-        cell.setNeedsLayout()
-        cell.layoutIfNeeded()
     }
 }
 

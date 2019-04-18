@@ -12,6 +12,8 @@ class ContentManager {
     
     public static let sharedManager = ContentManager()
     private var isDownloaded: Bool = false
+    private var contentDownloader: ContentDownloader?
+    
     
     
 }
