@@ -14,10 +14,12 @@
 		85B353F82267B64A00617C7E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85B353F62267B64A00617C7E /* LaunchScreen.storyboard */; };
 		85B354032267B64A00617C7E /* Dnd5eAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B354022267B64A00617C7E /* Dnd5eAppTests.swift */; };
 		85B3540E2267B64A00617C7E /* Dnd5eAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B3540D2267B64A00617C7E /* Dnd5eAppUITests.swift */; };
-		85B3545A2268B49700617C7E /* DnDModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 85B354582268B49700617C7E /* DnDModel.xcdatamodeld */; };
 		85B354612268BCD400617C7E /* ContentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B354602268BCD400617C7E /* ContentManager.swift */; };
 		85B354632268BD3A00617C7E /* ContentDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B354622268BD3A00617C7E /* ContentDownloader.swift */; };
 		85B354652268BF4E00617C7E /* SpellDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B354642268BF4E00617C7E /* SpellDetailViewController.swift */; };
+		85B3546B2269030A00617C7E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B3546A2269030A00617C7E /* Constants.swift */; };
+		85B354762269067500617C7E /* Spell+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B354742269067500617C7E /* Spell+CoreDataClass.swift */; };
+		85B354772269067500617C7E /* Spell+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B354752269067500617C7E /* Spell+CoreDataProperties.swift */; };
 		E40722631CD2960F1E0326AA /* Pods_Dnd5eApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D05E6B1516E140741ECBB23F /* Pods_Dnd5eApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +60,9 @@
 		85B354602268BCD400617C7E /* ContentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentManager.swift; sourceTree = "<group>"; };
 		85B354622268BD3A00617C7E /* ContentDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentDownloader.swift; sourceTree = "<group>"; };
 		85B354642268BF4E00617C7E /* SpellDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellDetailViewController.swift; sourceTree = "<group>"; };
+		85B3546A2269030A00617C7E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		85B354742269067500617C7E /* Spell+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Spell+CoreDataClass.swift"; sourceTree = "<group>"; };
+		85B354752269067500617C7E /* Spell+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Spell+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		D05E6B1516E140741ECBB23F /* Pods_Dnd5eApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dnd5eApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -168,7 +173,10 @@
 		85B3545D2268BB6100617C7E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				85B354742269067500617C7E /* Spell+CoreDataClass.swift */,
+				85B354752269067500617C7E /* Spell+CoreDataProperties.swift */,
 				85B354582268B49700617C7E /* DnDModel.xcdatamodeld */,
+				85B3546A2269030A00617C7E /* Constants.swift */,
 				85B354602268BCD400617C7E /* ContentManager.swift */,
 				85B354622268BD3A00617C7E /* ContentDownloader.swift */,
 			);
@@ -368,9 +376,11 @@
 				85B353F02267B64200617C7E /* SpellListViewController.swift in Sources */,
 				85B354612268BCD400617C7E /* ContentManager.swift in Sources */,
 				85B353EE2267B64200617C7E /* AppDelegate.swift in Sources */,
-				85B3545A2268B49700617C7E /* DnDModel.xcdatamodeld in Sources */,
 				85B354652268BF4E00617C7E /* SpellDetailViewController.swift in Sources */,
+				85B354772269067500617C7E /* Spell+CoreDataProperties.swift in Sources */,
 				85B354632268BD3A00617C7E /* ContentDownloader.swift in Sources */,
+				85B354762269067500617C7E /* Spell+CoreDataClass.swift in Sources */,
+				85B3546B2269030A00617C7E /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

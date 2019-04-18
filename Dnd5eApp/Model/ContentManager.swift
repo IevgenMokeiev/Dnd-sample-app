@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class ContentManager {
     
@@ -14,6 +15,7 @@ class ContentManager {
     private var isDownloaded: Bool = false
     private var contentDownloader: ContentDownloader?
     
-    
-    
+    public func retrieveContent(for path: ContentPath, completionHandler: @escaping (_ result: [String: Any]?, _ error: DownloadingError?) -> Void) {
+        
+    }
 }

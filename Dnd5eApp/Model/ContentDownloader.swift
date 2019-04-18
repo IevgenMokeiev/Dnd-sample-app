@@ -8,10 +8,6 @@
 
 import Foundation
 
-enum ContentPath: String {
-    case spells = "spells"
-}
-
 enum DownloadingError: Error {
     case incorrectURL
     case downloadFailed
