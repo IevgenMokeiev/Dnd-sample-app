@@ -64,7 +64,7 @@ class SpellDetailViewController: UIViewController {
         guard let castingTime = self.spell?.casting_time else { return }
         guard let concentration = self.spell?.concentration else { return }
         
-        let levelString = "Level: \(level))\n\n"
+        let levelString = "Level: \(level)\n\n"
         let descString = "Description: \(desc))\n\n"
         let castingTimeString = "Casting time: \(castingTime)\n\n"
         let concentrationstring = "Concentration: \(concentration)\n\n"
