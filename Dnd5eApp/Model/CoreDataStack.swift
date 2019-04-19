@@ -66,6 +66,22 @@ class CoreDataStack {
         return spellArray
     }
     
+    public func saveDownloadedSpell(spell: Spell?, object: [String: Any]?) {
+        let managedContext = self.persistentContainer.viewContext
+        
+        guard let spellObject = object else { return }
+        
+        guard let descArray = spellObject["desc"] as? [String] else { return }
+        guard let desc = descArray.first else { return }
+        spell?.desc = desc
+        
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
     private lazy var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult> = {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Spell")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "url", ascending: true)]

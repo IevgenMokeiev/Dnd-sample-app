@@ -9,9 +9,9 @@
 import UIKit
 import MBProgressHUD
 
-enum ViewModel {
+private enum ViewModel {
     case loading
-    case spells
+    case displayingSpells
 }
 
 class SpellListViewController: UIViewController {
@@ -19,7 +19,7 @@ class SpellListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     static let cellReuseIdentifier = "spellCell"
-    var viewModel: ViewModel?
+    private var viewModel: ViewModel?
     
     // Mark: - View Lifecycle
     
@@ -41,7 +41,7 @@ class SpellListViewController: UIViewController {
         case .loading?:
             self.tableView.isHidden = true
             self.showLoadingHUD()
-        case .spells?:
+        case .displayingSpells?:
             self.tableView.isHidden = false
             self.tableView.reloadData()
             self.hideLoadingHUD()
@@ -58,18 +58,17 @@ class SpellListViewController: UIViewController {
         }
     }
     
-    // MARK: - URLSession
-    
+    // MARK: - Loading
     private func loadData() {
         ContentManager.shared.retrieveSpellList { (result, error) in
-            self.viewModel = .spells
+            self.viewModel = .displayingSpells
             self.view.setNeedsLayout()
         }
     }
     
     private func showLoadingHUD() {
         let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
-        hud.label.text = "Loading..."
+        hud.label.text = "Loading Spells..."
     }
     
     private func hideLoadingHUD() {

@@ -8,7 +8,11 @@
 
 import Foundation
 
-enum DownloadingError: Error {
+private enum ContentPath: String {
+    case spells = "spells"
+}
+
+public enum DownloadingError: Error {
     case incorrectURL
     case downloadFailed
     case invalidResponseStatusCode
@@ -20,19 +24,25 @@ class ContentDownloader {
     private static let rootPath = "http://dnd5eapi.co/api/"
     internal var urlSessionProtocolClasses: [AnyClass]?
     
-    public func downloadSpellList(_ completionHandler: @escaping (_ result: [[String: Any]]?, _ error: DownloadingError?) -> Void) {
-        self.downloadContent(with: .spells) { (resultDict, error) in
+    public func downloadSpellList(_ completionHandler: @escaping (_ result: [[String: Any]]?, _ error: DownloadingError?) -> Void){
+        self.downloadContent(with: URL(string: (type(of: self).rootPath + ContentPath.spells.rawValue))) { (resultDict, error) in
             guard let array = resultDict?["results"] as? [[String: Any]] else { completionHandler(nil, .invalidResponseData); return }
-            completionHandler(array, nil)
+            completionHandler(array, error)
         }
     }
     
-    private func downloadContent(with path: ContentPath, completionHandler: @escaping (_ result: [String: Any]?, _ error: DownloadingError?) -> Void) {
+    public func downloadSpell(with url: URL?, _ completionHandler: @escaping (_ result: [String: Any]?, _ error: DownloadingError?) -> Void) {
+            self.downloadContent(with: url) { (resultDict, error) in
+            completionHandler(resultDict, error)
+        }
+    }
+    
+    private func downloadContent(with url: URL?, completionHandler: @escaping (_ result: [String: Any]?, _ error: DownloadingError?) -> Void) {
         let configuration = URLSessionConfiguration.default
         configuration.protocolClasses = self.urlSessionProtocolClasses
         let session = URLSession(configuration: configuration, delegate: nil, delegateQueue: OperationQueue.main)
         
-        guard let spellsUrl  = URL(string: type(of: self).rootPath + path.rawValue) else { completionHandler(nil, .incorrectURL); return }
+        guard let spellsUrl  = url else { completionHandler(nil, .incorrectURL); return }
         
         session.dataTask(with: spellsUrl) { (data, response, error) in
             guard let jsonData = data else { completionHandler(nil, .invalidResponseData); return }
