@@ -66,6 +66,25 @@ class CoreDataStack {
         return spellArray
     }
     
+    private lazy var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult> = {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Spell")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "url", ascending: true)]
+        
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext:self.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        
+        try? fetchedResultsController.performFetch()
+        return fetchedResultsController
+    }()
+
+    
+    public var numberOfSpells: Int {
+        return self.fetchedResultsController.fetchedObjects?.count ?? 0
+    }
+    
+    public func spell(at indexPath:IndexPath) -> Spell? {
+        return self.fetchedResultsController.object(at: indexPath) as? Spell
+    }
+    
 // MARK: - Core Data stack
 
     private lazy var persistentContainer: NSPersistentContainer = {

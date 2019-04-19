@@ -30,4 +30,15 @@ class ContentManager {
             }
         }
     }
+    
+    // MARK: - Datasource support
+    
+    public var numberOfSpells: Int {
+        return CoreDataStack.shared.numberOfSpells
+    }
+    
+    public func spell(at indexPath:IndexPath) -> Spell? {
+        return CoreDataStack.shared.spell(at: indexPath)
+    }
+
 }

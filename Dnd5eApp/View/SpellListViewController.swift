@@ -20,7 +20,6 @@ class SpellListViewController: UIViewController {
     
     static let cellReuseIdentifier = "spellCell"
     var viewModel: ViewModel?
-    var spellsArray: [Spell]?
     
     // Mark: - View Lifecycle
     
@@ -54,8 +53,8 @@ class SpellListViewController: UIViewController {
         if segue.identifier == "showDetail" {
             guard let detailViewController = segue.destination as? SpellDetailViewController else { return }
             guard let cell = sender as? UITableViewCell else { return }
-            guard let index = self.tableView.indexPath(for: cell)?.row else { return }
-            detailViewController.spell = self.spellsArray?[index]
+            guard let indexPath = self.tableView.indexPath(for: cell) else { return }
+            detailViewController.spell = ContentManager.shared.spell(at: indexPath)
         }
     }
     
@@ -63,7 +62,6 @@ class SpellListViewController: UIViewController {
     
     private func loadData() {
         ContentManager.shared.retrieveSpellList { (result, error) in
-            self.spellsArray = result
             self.viewModel = .spells
             self.view.setNeedsLayout()
         }
@@ -87,7 +85,7 @@ extension SpellListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return self.spellsArray?.count ?? 0
+        return ContentManager.shared.numberOfSpells
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -98,9 +96,8 @@ extension SpellListViewController: UITableViewDataSource {
 
 extension SpellListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard let array = self.spellsArray else { return }
-        let spell = array[indexPath.row]
-        cell.textLabel?.text = spell.name
+        let spell = ContentManager.shared.spell(at: indexPath)
+        cell.textLabel?.text = spell?.name
     }
 }
 
