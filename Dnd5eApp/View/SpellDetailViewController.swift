@@ -10,4 +10,13 @@ import UIKit
 
 class SpellDetailViewController: UIViewController {
 
+    public var spell: Spell?
+    
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var spellContentView: UIView!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.titleLabel.text = self.spell?.name
+    }
 }

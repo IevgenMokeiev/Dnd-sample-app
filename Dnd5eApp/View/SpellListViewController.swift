@@ -50,7 +50,16 @@ class SpellListViewController: UIViewController {
         }
     }
     
-    // MARK: - NSURLSession
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showDetail" {
+            guard let detailViewController = segue.destination as? SpellDetailViewController else { return }
+            guard let cell = sender as? UITableViewCell else { return }
+            guard let index = self.tableView.indexPath(for: cell)?.row else { return }
+            detailViewController.spell = self.spellsArray?[index]
+        }
+    }
+    
+    // MARK: - URLSession
     
     private func loadData() {
         ContentManager.shared.retrieveSpellList { (result, error) in
