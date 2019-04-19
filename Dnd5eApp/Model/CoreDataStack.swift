@@ -75,10 +75,13 @@ class CoreDataStack {
         guard let desc = descArray.first else { return }
         spell?.desc = desc
         
+        guard let level = spellObject["level"] as? Int16 else { return }
+        spell?.level = level
+        
         guard let castingTime = spellObject["casting_time"] as? String else { return }
         spell?.casting_time = castingTime
         
-        guard let concentration = spellObject["concentration"] as? Bool else { return }
+        guard let concentration = spellObject["concentration"] as? String else { return }
         spell?.concentration = concentration
         
         do {
