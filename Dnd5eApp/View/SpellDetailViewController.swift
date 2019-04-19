@@ -18,6 +18,7 @@ class SpellDetailViewController: UIViewController {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var spellContentView: UIView!
+    @IBOutlet weak var descriptionLabel: UILabel!
     
     public var spell: Spell?
     private var viewModel: ViewModel?
@@ -51,13 +52,18 @@ class SpellDetailViewController: UIViewController {
     private func loadDataIfNeeded() {
         if nil == self.spell?.desc {
             ContentManager.shared.retrieve(spell: self.spell, completionHandler: { (result, error) in
-                self.viewModel = .displayingSpell
-                self.view.setNeedsLayout()
+                self.populateContentView()
             })
         } else {
-            self.viewModel = .displayingSpell
-            self.view.setNeedsLayout()
+            self.populateContentView()
         }
+    }
+    
+    private func populateContentView() {
+        guard let desc = self.spell?.desc else { return }
+        self.descriptionLabel.text = "Description: " + desc
+        self.viewModel = .displayingSpell
+        self.view.setNeedsLayout()
     }
     
     private func showLoadingHUD() {
