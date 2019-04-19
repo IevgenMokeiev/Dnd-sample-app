@@ -92,7 +92,7 @@
                                 <rect key="frame" x="0.0" y="201" width="375" height="466"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rV7-zj-FRy">
-                                        <rect key="frame" x="8" y="8" width="359" height="0.0"/>
+                                        <rect key="frame" x="8" y="8" width="359" height="450"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.58072251080000004" green="0.066734083" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -103,6 +103,7 @@
                                     <constraint firstAttribute="trailing" secondItem="rV7-zj-FRy" secondAttribute="trailing" constant="8" id="NAi-4Q-RXk"/>
                                     <constraint firstItem="rV7-zj-FRy" firstAttribute="leading" secondItem="C8h-wb-H9j" secondAttribute="leading" constant="8" id="Zyk-Or-RRa"/>
                                     <constraint firstItem="rV7-zj-FRy" firstAttribute="top" secondItem="C8h-wb-H9j" secondAttribute="top" constant="8" id="dqt-Y5-6Si"/>
+                                    <constraint firstAttribute="bottom" secondItem="rV7-zj-FRy" secondAttribute="bottom" constant="8" id="fU9-hi-Smn"/>
                                 </constraints>
                             </view>
                         </subviews>

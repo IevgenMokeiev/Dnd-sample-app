@@ -75,6 +75,12 @@ class CoreDataStack {
         guard let desc = descArray.first else { return }
         spell?.desc = desc
         
+        guard let castingTime = spellObject["casting_time"] as? String else { return }
+        spell?.casting_time = castingTime
+        
+        guard let concentration = spellObject["concentration"] as? Bool else { return }
+        spell?.concentration = concentration
+        
         do {
             try managedContext.save()
         } catch let error as NSError {
