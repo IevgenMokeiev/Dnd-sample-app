@@ -41,13 +41,16 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="spellCell" id="v5F-uJ-pgr">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="spellCell" id="v5F-uJ-pgr">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="v5F-uJ-pgr" id="53L-N3-Fer">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="oWT-fl-sNz" kind="show" id="AZR-h3-l6x"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -74,5 +77,43 @@
             </objects>
             <point key="canvasLocation" x="1129" y="20"/>
         </scene>
+        <!--Spell Detail View Controller-->
+        <scene sceneID="jFo-S5-ZSd">
+            <objects>
+                <viewController id="oWT-fl-sNz" customClass="SpellDetailViewController" customModule="Dnd5eApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="EIG-xo-5qz">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HMf-mY-jyx">
+                                <rect key="frame" x="20" y="74" width="335" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="0.1857388616" blue="0.57339501380000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="scroll" translatesAutoresizingMaskIntoConstraints="NO" id="TrE-fb-iKX">
+                                <rect key="frame" x="139" y="105" width="97.5" height="129"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.94901960784313721" green="0.94509803921568625" blue="0.92941176470588238" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="0Zr-Gz-BFb" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="TrE-fb-iKX" secondAttribute="trailing" id="Nbb-qL-al6"/>
+                            <constraint firstItem="HMf-mY-jyx" firstAttribute="top" secondItem="0Zr-Gz-BFb" secondAttribute="top" constant="10" id="QZs-kc-uFE"/>
+                            <constraint firstItem="TrE-fb-iKX" firstAttribute="top" secondItem="HMf-mY-jyx" secondAttribute="bottom" constant="10" id="SaC-BP-ELM"/>
+                            <constraint firstItem="0Zr-Gz-BFb" firstAttribute="trailing" secondItem="HMf-mY-jyx" secondAttribute="trailing" constant="20" id="W4M-Cl-stj"/>
+                            <constraint firstItem="TrE-fb-iKX" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="0Zr-Gz-BFb" secondAttribute="leading" id="gfY-o8-D9h"/>
+                            <constraint firstItem="HMf-mY-jyx" firstAttribute="leading" secondItem="0Zr-Gz-BFb" secondAttribute="leading" constant="20" id="k7x-Y1-0l4"/>
+                            <constraint firstItem="TrE-fb-iKX" firstAttribute="centerX" secondItem="EIG-xo-5qz" secondAttribute="centerX" id="nTX-4C-d2w"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="0Zr-Gz-BFb"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ao6-Jg-xdI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2038" y="19"/>
+        </scene>
     </scenes>
+    <resources>
+        <image name="scroll" width="97.5" height="129"/>
+    </resources>
 </document>

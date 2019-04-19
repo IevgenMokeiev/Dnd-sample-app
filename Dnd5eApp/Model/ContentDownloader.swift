@@ -20,7 +20,14 @@ class ContentDownloader {
     private static let rootPath = "http://dnd5eapi.co/api/"
     internal var urlSessionProtocolClasses: [AnyClass]?
     
-    public func downloadContent(with path: ContentPath, completionHandler: @escaping (_ result: [String: Any]?, _ error: DownloadingError?) -> Void) {
+    public func downloadSpellList(_ completionHandler: @escaping (_ result: [[String: Any]]?, _ error: DownloadingError?) -> Void) {
+        self.downloadContent(with: .spells) { (resultDict, error) in
+            guard let array = resultDict?["results"] as? [[String: Any]] else { completionHandler(nil, .invalidResponseData); return }
+            completionHandler(array, nil)
+        }
+    }
+    
+    private func downloadContent(with path: ContentPath, completionHandler: @escaping (_ result: [String: Any]?, _ error: DownloadingError?) -> Void) {
         let configuration = URLSessionConfiguration.default
         configuration.protocolClasses = self.urlSessionProtocolClasses
         let session = URLSession(configuration: configuration, delegate: nil, delegateQueue: OperationQueue.main)

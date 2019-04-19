@@ -15,15 +15,18 @@ class ContentManager {
     public static let shared = ContentManager()
     private var isDownloaded: Bool = false
     
-    public func retrieveContent(for path: ContentPath, completionHandler: @escaping (_ result: [String: Any]?, _ error: Error?) -> Void) {
+    public func retrieveSpellList(_ completionHandler: @escaping (_ result: [Spell]?, _ error: Error?) -> Void) {
         
-        CoreDataStack.shared.fetchContent(for: path) { (result, error) in
+        CoreDataStack.shared.fetchSpellList { (result, error) in
+        
             if nil == result {
                 // need to download the data first
-                ContentDownloader().downloadContent(with: path) { (result, error) in
-                    CoreDataStack.shared.saveContent(with: result)
-                    completionHandler(result, error)
+                ContentDownloader().downloadSpellList { (result, error) in
+                    let spells = CoreDataStack.shared.convertDownloadedContent(from: result)
+                    completionHandler(spells, nil)
                 }
+            } else {
+                completionHandler(result, nil)
             }
         }
     }

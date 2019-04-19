@@ -20,7 +20,7 @@ class SpellListViewController: UIViewController {
     
     static let cellReuseIdentifier = "spellCell"
     var viewModel: ViewModel?
-    var spellsDictionary: [String: Any]?
+    var spellsArray: [Spell]?
     
     // Mark: - View Lifecycle
     
@@ -53,8 +53,8 @@ class SpellListViewController: UIViewController {
     // MARK: - NSURLSession
     
     private func loadData() {
-        ContentManager.shared.retrieveContent(for: .spells) { (result, error) in
-            self.spellsDictionary = result
+        ContentManager.shared.retrieveSpellList { (result, error) in
+            self.spellsArray = result
             self.viewModel = .spells
             self.view.setNeedsLayout()
         }
@@ -78,13 +78,7 @@ extension SpellListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        var value = 0
-        
-        if let dict = self.spellsDictionary, let count = dict["count"] as? Int{
-            value = count
-        }
-        
-        return value
+        return self.spellsArray?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -95,12 +89,9 @@ extension SpellListViewController: UITableViewDataSource {
 
 extension SpellListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard let dict = self.spellsDictionary else { return }
-        guard let array: [[String: Any]] = dict["results"] as? [[String: Any]] else { return }
-        let spellDict = array[indexPath.row]
-        guard let string = spellDict["name"] as? String else { return }
-        
-        cell.textLabel?.text = string
+        guard let array = self.spellsArray else { return }
+        let spell = array[indexPath.row]
+        cell.textLabel?.text = spell.name
     }
 }
 

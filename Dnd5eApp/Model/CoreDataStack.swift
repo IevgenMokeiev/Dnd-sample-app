@@ -20,7 +20,7 @@ class CoreDataStack {
     
  // MARK: - Public interface
     
-    public func fetchContent(for path: ContentPath, completionHandler: @escaping (_ result: [String: Any]?, _ error: StackError?) -> Void) {
+    public func fetchSpellList(_ completionHandler: @escaping (_ result: [Spell]?, _ error: StackError?) -> Void) {
         
         // try fetching results from Core Data stack
         let context = self.persistentContainer.viewContext
@@ -32,8 +32,8 @@ class CoreDataStack {
             if result.isEmpty {
                 completionHandler(nil, .emptyStack)
             } else {
-                completionHandler(nil, .emptyStack) // to remove
-//                completionHandler(result, nil)
+                guard let resultArray = result as? [Spell] else { return }
+                completionHandler(resultArray, nil)
             }
         } catch let error as NSError {
             print("Could not retrieve. \(error), \(error.userInfo)")
@@ -41,17 +41,20 @@ class CoreDataStack {
         }
     }
     
-    public func saveContent(with object:[String: Any]?) {
+    public func convertDownloadedContent(from objectsArray:[[String: Any]]?) -> [Spell]? {
         let managedContext = self.persistentContainer.viewContext
+        var spellArray = [Spell]()
         
-        guard let dict = object else { return }
-        guard let array: [[String: Any]] = dict["results"] as? [[String: Any]] else { return }
+        guard let array = objectsArray else { return nil }
         
         for entry in array {
             let entity = NSEntityDescription.entity(forEntityName: "Spell", in: managedContext)!
-            let spell = NSManagedObject(entity: entity, insertInto: managedContext)
-            guard let name = entry["name"] as? String else { return }
-            spell.setValue(name, forKeyPath: "name")
+            let spell = Spell(entity: entity, insertInto: managedContext)
+            guard let name = entry["name"] as? String else { return nil }
+            guard let url = entry["url"] as? String else { return nil }
+            spell.name = name
+            spell.url = url
+            spellArray.append(spell)
         }
         
         do {
@@ -59,6 +62,8 @@ class CoreDataStack {
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
+        
+        return spellArray
     }
     
 // MARK: - Core Data stack
