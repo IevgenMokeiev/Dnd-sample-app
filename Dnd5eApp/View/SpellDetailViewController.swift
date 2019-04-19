@@ -16,7 +16,6 @@ private enum ViewModel {
 
 class SpellDetailViewController: UIViewController {
     
-    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var spellContentView: UIView!
     @IBOutlet weak var descriptionLabel: UILabel!
     
@@ -25,7 +24,7 @@ class SpellDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.titleLabel.text = self.spell?.name
+        self.title = self.spell?.name
         self.viewModel = .loading
     }
     
