@@ -27,6 +27,7 @@ class SpellListViewController: UIViewController {
         super.viewDidLoad()
         self.title = "Spell Book"
         self.viewModel = .loading
+        self.tableView.accessibilityIdentifier = "SpellTableView"
     }
     
     override func viewDidAppear(_ animated: Bool) {

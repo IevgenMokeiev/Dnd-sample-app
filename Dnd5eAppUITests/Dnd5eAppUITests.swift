@@ -15,20 +15,18 @@ class Dnd5eAppUITests: XCTestCase {
 
         // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
-
-        // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
-        XCUIApplication().launch()
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
     }
 
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    func testInteraction() {
+        let app = XCUIApplication()
+        app.launch()
+        let tableView = app.tables.containing(.table, identifier: "SpellTableView")
+        XCTAssertTrue(tableView.cells.count > 0)
+        
+        let firstCell = tableView.cells.element(boundBy: 0)
+        firstCell.tap()
+        
+        let spellLabel = app.staticTexts["Acid Arrow"]
+        XCTAssertEqual(spellLabel.exists, true)
     }
-
-    func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
 }
