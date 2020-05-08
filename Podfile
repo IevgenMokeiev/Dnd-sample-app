@@ -1,5 +1,5 @@
 
- platform :ios, '12.0'
+platform :ios, '12.0'
 
 target 'Dnd5eApp' do
   use_frameworks!

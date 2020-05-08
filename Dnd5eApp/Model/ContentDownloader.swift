@@ -19,7 +19,12 @@ public enum DownloadingError: Error {
     case invalidResponseData
 }
 
-class ContentDownloader {
+protocol ContentDownloaderService {
+    func downloadSpellList(_ completionHandler: @escaping (_ result: [[String: Any]]?, _ error: DownloadingError?) -> Void)
+    func downloadSpell(with path: String, _ completionHandler: @escaping (_ result: [String: Any]?, _ error: DownloadingError?) -> Void)
+}
+
+class ContentDownloader: ContentDownloaderService {
     
     private static let rootAPIPath = "http://dnd5eapi.co/api/"
     private static let rootPath = "http://dnd5eapi.co"

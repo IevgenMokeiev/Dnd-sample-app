@@ -9,7 +9,7 @@
 import UIKit
 import MBProgressHUD
 
-private enum ViewModel {
+private enum ViewState {
     case loading
     case displayingSpells
 }
@@ -19,15 +19,20 @@ class SpellListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     static let cellReuseIdentifier = "spellCell"
-    private var viewModel: ViewModel?
+    private var viewState: ViewState?
+
+    var contentManagerService: ContentManagerService?
     
     // Mark: - View Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Spell Book"
-        self.viewModel = .loading
+        self.viewState = .loading
         self.tableView.accessibilityIdentifier = "SpellTableView"
+
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        contentManagerService = appDelegate.contentManagerService
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -38,7 +43,7 @@ class SpellListViewController: UIViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        switch self.viewModel {
+        switch self.viewState {
         case .loading?:
             self.tableView.isHidden = true
             self.showLoadingHUD()
@@ -55,14 +60,14 @@ class SpellListViewController: UIViewController {
             guard let detailViewController = segue.destination as? SpellDetailViewController else { return }
             guard let cell = sender as? UITableViewCell else { return }
             guard let indexPath = self.tableView.indexPath(for: cell) else { return }
-            detailViewController.spell = ContentManager.shared.spell(at: indexPath)
+            detailViewController.spell = contentManagerService?.spell(at: indexPath)
         }
     }
     
     // MARK: - Loading
     private func loadData() {
-        ContentManager.shared.retrieveSpellList { (result, error) in
-            self.viewModel = .displayingSpells
+        contentManagerService?.retrieveSpellList { (result, error) in
+            self.viewState = .displayingSpells
             self.view.setNeedsLayout()
         }
     }
@@ -80,12 +85,12 @@ class SpellListViewController: UIViewController {
 extension SpellListViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return .loading == self.viewModel ? 0: 1
+        return .loading == self.viewState ? 0: 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return ContentManager.shared.numberOfSpells
+        return contentManagerService?.numberOfSpells ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -96,7 +101,7 @@ extension SpellListViewController: UITableViewDataSource {
 
 extension SpellListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let spell = ContentManager.shared.spell(at: indexPath)
+        let spell = contentManagerService?.spell(at: indexPath)
         cell.textLabel?.text = spell?.name
     }
 }

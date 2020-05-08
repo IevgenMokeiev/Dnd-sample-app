@@ -14,13 +14,19 @@ enum StackError: Error {
     case fetchingError
 }
 
-class CoreDataStack {
+protocol CoreDataService {
+    var numberOfSpells: Int { get }
+    func spell(at indexPath:IndexPath) -> Spell?
+    func fetchSpellList(_ completionHandler: @escaping (_ result: [SpellDTO]?, _ error: StackError?) -> Void)
+    func translateDownloadedContent(from objectsArray:[[String: Any]]?) -> [SpellDTO]?
+    func saveDownloadedSpell(spell: SpellDTO?, object: [String: Any]?)
+    func saveContext ()
+}
 
-    public static let shared = CoreDataStack()
+class CoreDataStack: CoreDataService {    
+    // MARK: - Public interface
     
- // MARK: - Public interface
-    
-    public func fetchSpellList(_ completionHandler: @escaping (_ result: [Spell]?, _ error: StackError?) -> Void) {
+    public func fetchSpellList(_ completionHandler: @escaping (_ result: [SpellDTO]?, _ error: StackError?) -> Void) {
         
         // try fetching results from Core Data stack
         let context = self.persistentContainer.viewContext
@@ -33,7 +39,10 @@ class CoreDataStack {
                 completionHandler(nil, .emptyStack)
             } else {
                 guard let resultArray = result as? [Spell] else { return }
-                completionHandler(resultArray, nil)
+                let spellDTOs = resultArray.map { spell in
+                    DataTraslator.convertToDTO(spell: spell)
+                }
+                completionHandler(spellDTOs, nil)
             }
         } catch let error as NSError {
             print("Could not retrieve. \(error), \(error.userInfo)")
@@ -41,9 +50,9 @@ class CoreDataStack {
         }
     }
     
-    public func convertDownloadedContent(from objectsArray:[[String: Any]]?) -> [Spell]? {
+    public func translateDownloadedContent(from objectsArray:[[String: Any]]?) -> [SpellDTO]? {
         let managedContext = self.persistentContainer.viewContext
-        var spellArray = [Spell]()
+        var spellArray = [SpellDTO]()
         
         guard let array = objectsArray else { return nil }
         
@@ -54,7 +63,9 @@ class CoreDataStack {
             guard let path = entry["url"] as? String else { return nil }
             spell.name = name
             spell.path = path
-            spellArray.append(spell)
+
+            let spellDTO = DataTraslator.convertToDTO(spell: spell)
+            spellArray.append(spellDTO)
         }
         
         do {
@@ -66,28 +77,48 @@ class CoreDataStack {
         return spellArray
     }
     
-    public func saveDownloadedSpell(spell: Spell?, object: [String: Any]?) {
+    public func saveDownloadedSpell(spell: SpellDTO?, object: [String: Any]?) {
         let managedContext = self.persistentContainer.viewContext
-        
-        guard let spellObject = object else { return }
-        
-        guard let descArray = spellObject["desc"] as? [String] else { return }
-        guard let desc = descArray.first else { return }
-        spell?.desc = desc
-        
-        guard let level = spellObject["level"] as? Int16 else { return }
-        spell?.level = level
-        
-        guard let castingTime = spellObject["casting_time"] as? String else { return }
-        spell?.casting_time = castingTime
-        
-        guard let concentration = spellObject["concentration"] as? Bool else { return }
-        spell?.concentration = concentration
-        
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Spell")
+        let predicate = NSPredicate { (object, _) -> Bool in
+            guard let spellObject = object as? Spell else { return false }
+            return spellObject.name == spell?.name
+        }
+        request.predicate = predicate
+
         do {
-            try managedContext.save()
+            let result = try managedContext.fetch(request)
+
+            if result.isEmpty {
+                return
+            } else {
+                guard let resultArray = result as? [Spell] else { return }
+                guard let resultSpell = resultArray.first else { return }
+
+                guard let spellObject = object else { return }
+
+                guard let descArray = spellObject["desc"] as? [String] else { return }
+                guard let desc = descArray.first else { return }
+                resultSpell.desc = desc
+
+                guard let level = spellObject["level"] as? Int16 else { return }
+                resultSpell.level = level
+
+                guard let castingTime = spellObject["casting_time"] as? String else { return }
+                resultSpell.casting_time = castingTime
+
+                guard let concentration = spellObject["concentration"] as? Bool else { return }
+                resultSpell.concentration = concentration
+
+                do {
+                    try managedContext.save()
+                } catch let error as NSError {
+                    print("Could not save. \(error), \(error.userInfo)")
+                }
+            }
         } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
+            print("Could not retrieve. \(error), \(error.userInfo)")
+            return
         }
     }
     
@@ -110,7 +141,7 @@ class CoreDataStack {
         return self.fetchedResultsController.object(at: indexPath) as? Spell
     }
     
-// MARK: - Core Data stack
+    // MARK: - Core Data stack
 
     private lazy var persistentContainer: NSPersistentContainer = {
         /*
@@ -139,7 +170,7 @@ class CoreDataStack {
         return container
     }()
 
-// MARK: - Core Data Saving support
+    // MARK: - Core Data Saving support
 
     public func saveContext () {
         let context = persistentContainer.viewContext

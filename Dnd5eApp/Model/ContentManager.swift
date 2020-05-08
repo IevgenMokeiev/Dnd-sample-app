@@ -10,19 +10,31 @@ import Foundation
 import UIKit
 import CoreData
 
-class ContentManager {
-    
-    public static let shared = ContentManager()
+protocol ContentManagerService {
+    var numberOfSpells: Int { get }
+    func spell(at indexPath:IndexPath) -> SpellDTO?
+    func retrieveSpellList(_ completionHandler: @escaping (_ result: [SpellDTO]?, _ error: Error?) -> Void)
+    func retrieve(spell: SpellDTO?, completionHandler: @escaping (_ result: SpellDTO?, _ error: Error?) -> Void)
+}
+
+class ContentManager: ContentManagerService {
     private var isDownloaded: Bool = false
+    private var coreDataService: CoreDataService
+    private var contentDownloaderService: ContentDownloaderService
+
+    init(coreDataService: CoreDataService, contentDownloaderService: ContentDownloaderService) {
+        self.coreDataService = coreDataService
+        self.contentDownloaderService = contentDownloaderService
+    }
     
-    public func retrieveSpellList(_ completionHandler: @escaping (_ result: [Spell]?, _ error: Error?) -> Void) {
+    public func retrieveSpellList(_ completionHandler: @escaping (_ result: [SpellDTO]?, _ error: Error?) -> Void) {
         
-        CoreDataStack.shared.fetchSpellList { (result, error) in
+        coreDataService.fetchSpellList { (result, error) in
         
             if nil == result {
                 // need to download the data first
-                ContentDownloader().downloadSpellList { (result, error) in
-                    let spells = CoreDataStack.shared.convertDownloadedContent(from: result)
+                self.contentDownloaderService.downloadSpellList { (result, error) in
+                    let spells = self.coreDataService.translateDownloadedContent(from: result)
                     completionHandler(spells, nil)
                 }
             } else {
@@ -31,12 +43,12 @@ class ContentManager {
         }
     }
     
-    public func retrieve(spell: Spell?, completionHandler: @escaping (_ result: Spell?, _ error: Error?) -> Void) {
+    public func retrieve(spell: SpellDTO?, completionHandler: @escaping (_ result: SpellDTO?, _ error: Error?) -> Void) {
         
         guard let path = spell?.path else { return } //to do
         
-        ContentDownloader().downloadSpell(with: path) { (downloadResult, error) in
-            CoreDataStack.shared.saveDownloadedSpell(spell: spell, object: downloadResult)
+        contentDownloaderService.downloadSpell(with: path) { (downloadResult, error) in
+            self.coreDataService.saveDownloadedSpell(spell: spell, object: downloadResult)
             completionHandler(spell, nil)
         }
     }
@@ -44,11 +56,13 @@ class ContentManager {
     // MARK: - Datasource support
     
     public var numberOfSpells: Int {
-        return CoreDataStack.shared.numberOfSpells
+        return coreDataService.numberOfSpells
     }
     
-    public func spell(at indexPath:IndexPath) -> Spell? {
-        return CoreDataStack.shared.spell(at: indexPath)
+    public func spell(at indexPath:IndexPath) -> SpellDTO? {
+        guard let spell = coreDataService.spell(at: indexPath) else { return nil }
+        let spellDTO = DataTraslator.convertToDTO(spell: spell)
+        return spellDTO
     }
 
 }

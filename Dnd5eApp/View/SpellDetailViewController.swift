@@ -18,8 +18,10 @@ class SpellDetailViewController: UIViewController {
     
     @IBOutlet weak var spellContentView: UIView!
     @IBOutlet weak var descriptionLabel: UILabel!
+
+    var contentManagerService: ContentManagerService?
     
-    public var spell: Spell?
+    public var spell: SpellDTO?
     private var viewModel: ViewModel?
     
     override func viewDidLoad() {
@@ -49,8 +51,8 @@ class SpellDetailViewController: UIViewController {
     
     // MARK: - Loading
     private func loadDataIfNeeded() {
-        if nil == self.spell?.desc {
-            ContentManager.shared.retrieve(spell: self.spell, completionHandler: { (result, error) in
+        if nil == self.spell?.description {
+            self.contentManagerService?.retrieve(spell: self.spell, completionHandler: { (result, error) in
                 self.populateContentView()
             })
         } else {
@@ -60,8 +62,8 @@ class SpellDetailViewController: UIViewController {
     
     private func populateContentView() {
         guard let level = self.spell?.level else { return }
-        guard let desc = self.spell?.desc else { return }
-        guard let castingTime = self.spell?.casting_time else { return }
+        guard let desc = self.spell?.description else { return }
+        guard let castingTime = self.spell?.castingTime else { return }
         guard let concentration = self.spell?.concentration else { return }
         
         let levelString = "Level: \(level)\n\n"
