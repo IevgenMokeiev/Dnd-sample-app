@@ -53,6 +53,7 @@ class SpellDetailViewController: UIViewController {
     private func loadDataIfNeeded() {
         if nil == self.spell?.description {
             self.contentManagerService?.retrieve(spell: self.spell, completionHandler: { (result, error) in
+                self.spell = result
                 self.populateContentView()
             })
         } else {
