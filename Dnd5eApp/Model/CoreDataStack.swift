@@ -51,9 +51,9 @@ class CoreDataStack {
             let entity = NSEntityDescription.entity(forEntityName: "Spell", in: managedContext)!
             let spell = Spell(entity: entity, insertInto: managedContext)
             guard let name = entry["name"] as? String else { return nil }
-            guard let url = entry["url"] as? String else { return nil }
+            guard let path = entry["url"] as? String else { return nil }
             spell.name = name
-            spell.url = url
+            spell.path = path
             spellArray.append(spell)
         }
         
@@ -81,7 +81,7 @@ class CoreDataStack {
         guard let castingTime = spellObject["casting_time"] as? String else { return }
         spell?.casting_time = castingTime
         
-        guard let concentration = spellObject["concentration"] as? String else { return }
+        guard let concentration = spellObject["concentration"] as? Bool else { return }
         spell?.concentration = concentration
         
         do {
@@ -93,7 +93,7 @@ class CoreDataStack {
     
     private lazy var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult> = {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Spell")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "url", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "path", ascending: true)]
         
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext:self.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         

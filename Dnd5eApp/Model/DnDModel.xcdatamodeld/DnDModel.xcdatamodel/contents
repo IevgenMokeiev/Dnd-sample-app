@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14490.98" systemVersion="18E226" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19E287" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Spell" representedClassName="Spell" syncable="YES" codeGenerationType="class">
-        <attribute name="casting_time" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="classes" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="components" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="concentration" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="duration" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="higherlevel" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="level" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="material" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="page" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="range" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="ritual" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="school" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="subclasses" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="casting_time" optional="YES" attributeType="String"/>
+        <attribute name="classes" optional="YES" attributeType="String"/>
+        <attribute name="components" optional="YES" attributeType="String"/>
+        <attribute name="concentration" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="desc" optional="YES" attributeType="String"/>
+        <attribute name="duration" optional="YES" attributeType="String"/>
+        <attribute name="higherlevel" optional="YES" attributeType="String"/>
+        <attribute name="level" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="material" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="page" optional="YES" attributeType="String"/>
+        <attribute name="path" optional="YES" attributeType="String"/>
+        <attribute name="range" optional="YES" attributeType="String"/>
+        <attribute name="ritual" optional="YES" attributeType="String"/>
+        <attribute name="school" optional="YES" attributeType="String"/>
+        <attribute name="subclasses" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="Spell" positionX="-63" positionY="-18" width="128" height="285"/>
+        <element name="Spell" positionX="-63" positionY="-18" width="128" height="283"/>
     </elements>
 </model>

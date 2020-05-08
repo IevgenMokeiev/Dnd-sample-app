@@ -33,9 +33,9 @@ class ContentManager {
     
     public func retrieve(spell: Spell?, completionHandler: @escaping (_ result: Spell?, _ error: Error?) -> Void) {
         
-        guard let urlString = spell?.url else { return } //to do
+        guard let path = spell?.path else { return } //to do
         
-        ContentDownloader().downloadSpell(with: URL(string: urlString)) { (downloadResult, error) in
+        ContentDownloader().downloadSpell(with: path) { (downloadResult, error) in
             CoreDataStack.shared.saveDownloadedSpell(spell: spell, object: downloadResult)
             completionHandler(spell, nil)
         }

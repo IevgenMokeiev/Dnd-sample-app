@@ -21,17 +21,19 @@ public enum DownloadingError: Error {
 
 class ContentDownloader {
     
-    private static let rootPath = "http://dnd5eapi.co/api/"
+    private static let rootAPIPath = "http://dnd5eapi.co/api/"
+    private static let rootPath = "http://dnd5eapi.co"
     internal var urlSessionProtocolClasses: [AnyClass]?
     
     public func downloadSpellList(_ completionHandler: @escaping (_ result: [[String: Any]]?, _ error: DownloadingError?) -> Void){
-        self.downloadContent(with: URL(string: (type(of: self).rootPath + ContentPath.spells.rawValue))) { (resultDict, error) in
+        self.downloadContent(with: URL(string: (type(of: self).rootAPIPath + ContentPath.spells.rawValue))) { (resultDict, error) in
             guard let array = resultDict?["results"] as? [[String: Any]] else { completionHandler(nil, .invalidResponseData); return }
             completionHandler(array, error)
         }
     }
     
-    public func downloadSpell(with url: URL?, _ completionHandler: @escaping (_ result: [String: Any]?, _ error: DownloadingError?) -> Void) {
+    public func downloadSpell(with path: String, _ completionHandler: @escaping (_ result: [String: Any]?, _ error: DownloadingError?) -> Void) {
+            let url = URL(string: (type(of: self).rootPath + path))
             self.downloadContent(with: url) { (resultDict, error) in
             completionHandler(resultDict, error)
         }
@@ -42,7 +44,7 @@ class ContentDownloader {
         configuration.protocolClasses = self.urlSessionProtocolClasses
         let session = URLSession(configuration: configuration, delegate: nil, delegateQueue: OperationQueue.main)
         
-        guard let spellsUrl  = url else { completionHandler(nil, .incorrectURL); return }
+        guard let spellsUrl = url else { completionHandler(nil, .incorrectURL); return }
         
         session.dataTask(with: spellsUrl) { (data, response, error) in
             guard let jsonData = data else { completionHandler(nil, .invalidResponseData); return }
