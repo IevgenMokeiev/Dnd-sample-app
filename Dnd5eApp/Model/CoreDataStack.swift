@@ -18,8 +18,8 @@ protocol CoreDataService {
     var numberOfSpells: Int { get }
     func spell(at indexPath:IndexPath) -> Spell?
     func fetchSpellList(_ completionHandler: @escaping (_ result: [SpellDTO]?, _ error: StackError?) -> Void)
-    func translateDownloadedContent(from objectsArray:[[String: Any]]?) -> [SpellDTO]?
-    func saveDownloadedSpell(spell: SpellDTO?, object: [String: Any]?)
+    func saveDownloadedContent(from objectsArray:[[String: Any]]?) -> [SpellDTO]?
+    func saveDownloadedSpell(spell: SpellDTO?, object: [String: Any]?) -> SpellDTO?
     func saveContext ()
 }
 
@@ -50,7 +50,7 @@ class CoreDataStack: CoreDataService {
         }
     }
     
-    public func translateDownloadedContent(from objectsArray:[[String: Any]]?) -> [SpellDTO]? {
+    public func saveDownloadedContent(from objectsArray:[[String: Any]]?) -> [SpellDTO]? {
         let managedContext = self.persistentContainer.viewContext
         var spellArray = [SpellDTO]()
         
@@ -77,48 +77,51 @@ class CoreDataStack: CoreDataService {
         return spellArray
     }
     
-    public func saveDownloadedSpell(spell: SpellDTO?, object: [String: Any]?) {
+    public func saveDownloadedSpell(spell: SpellDTO?, object: [String: Any]?) -> SpellDTO? {
+        guard let name = spell?.name else { return nil }
         let managedContext = self.persistentContainer.viewContext
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Spell")
-        let predicate = NSPredicate { (object, _) -> Bool in
-            guard let spellObject = object as? Spell else { return false }
-            return spellObject.name == spell?.name
-        }
+        let predicate = NSPredicate(format: "name == %@", name)
         request.predicate = predicate
+        request.returnsObjectsAsFaults = false
 
         do {
             let result = try managedContext.fetch(request)
 
             if result.isEmpty {
-                return
+                return nil
             } else {
-                guard let resultArray = result as? [Spell] else { return }
-                guard let resultSpell = resultArray.first else { return }
+                guard let resultArray = result as? [Spell] else { return nil }
+                guard let resultSpell = resultArray.first else { return nil }
 
-                guard let spellObject = object else { return }
+                guard let spellObject = object else { return nil }
 
-                guard let descArray = spellObject["desc"] as? [String] else { return }
-                guard let desc = descArray.first else { return }
+                guard let descArray = spellObject["desc"] as? [String] else { return nil }
+                guard let desc = descArray.first else { return nil }
                 resultSpell.desc = desc
 
-                guard let level = spellObject["level"] as? Int16 else { return }
+                guard let level = spellObject["level"] as? Int16 else { return nil }
                 resultSpell.level = level
 
-                guard let castingTime = spellObject["casting_time"] as? String else { return }
+                guard let castingTime = spellObject["casting_time"] as? String else { return nil }
                 resultSpell.casting_time = castingTime
 
-                guard let concentration = spellObject["concentration"] as? Bool else { return }
+                guard let concentration = spellObject["concentration"] as? Bool else { return nil }
                 resultSpell.concentration = concentration
+
+                let spelllDTO = DataTraslator.convertToDTO(spell: resultSpell)
 
                 do {
                     try managedContext.save()
                 } catch let error as NSError {
                     print("Could not save. \(error), \(error.userInfo)")
                 }
+
+                return spelllDTO
             }
         } catch let error as NSError {
             print("Could not retrieve. \(error), \(error.userInfo)")
-            return
+            return nil
         }
     }
     

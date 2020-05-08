@@ -61,6 +61,7 @@ class SpellListViewController: UIViewController {
             guard let cell = sender as? UITableViewCell else { return }
             guard let indexPath = self.tableView.indexPath(for: cell) else { return }
             detailViewController.spell = contentManagerService?.spell(at: indexPath)
+            detailViewController.contentManagerService = contentManagerService
         }
     }
     

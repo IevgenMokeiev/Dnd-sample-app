@@ -34,7 +34,7 @@ class ContentManager: ContentManagerService {
             if nil == result {
                 // need to download the data first
                 self.contentDownloaderService.downloadSpellList { (result, error) in
-                    let spells = self.coreDataService.translateDownloadedContent(from: result)
+                    let spells = self.coreDataService.saveDownloadedContent(from: result)
                     completionHandler(spells, nil)
                 }
             } else {
@@ -48,8 +48,8 @@ class ContentManager: ContentManagerService {
         guard let path = spell?.path else { return } //to do
         
         contentDownloaderService.downloadSpell(with: path) { (downloadResult, error) in
-            self.coreDataService.saveDownloadedSpell(spell: spell, object: downloadResult)
-            completionHandler(spell, nil)
+            let spellDTO = self.coreDataService.saveDownloadedSpell(spell: spell, object: downloadResult)
+            completionHandler(spellDTO, nil)
         }
     }
     

@@ -61,6 +61,9 @@ class SpellDetailViewController: UIViewController {
     }
     
     private func populateContentView() {
+        self.viewModel = .displayingSpell
+        self.view.setNeedsLayout()
+
         guard let level = self.spell?.level else { return }
         guard let desc = self.spell?.description else { return }
         guard let castingTime = self.spell?.castingTime else { return }
@@ -72,7 +75,6 @@ class SpellDetailViewController: UIViewController {
         let concentrationstring = "Concentration: \(concentration)\n\n"
         
         self.descriptionLabel.text = levelString + descString + castingTimeString + concentrationstring
-        self.viewModel = .displayingSpell
         self.view.setNeedsLayout()
     }
     

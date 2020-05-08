@@ -166,8 +166,8 @@
 		85B3545B2268BB4700617C7E /* View */ = {
 			isa = PBXGroup;
 			children = (
-				85B353EF2267B64200617C7E /* SpellListViewController.swift */,
 				9F6BD7BF2465905C001D8825 /* SpellListView.swift */,
+				85B353EF2267B64200617C7E /* SpellListViewController.swift */,
 				85B354642268BF4E00617C7E /* SpellDetailViewController.swift */,
 			);
 			path = View;
