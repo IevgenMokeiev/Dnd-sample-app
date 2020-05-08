@@ -69,7 +69,6 @@ class SpellListViewController: UIViewController {
     private func loadData() {
         contentManagerService?.retrieveSpellList { (result, error) in
             self.viewState = .displayingSpells
-            self.view.setNeedsLayout()
         }
     }
     

@@ -8,7 +8,10 @@
 
 import Foundation
 
-struct SpellDTO: Equatable {
+struct SpellDTO: Equatable, Identifiable {
+    typealias ID = String
+    var id: String { return name ?? "" }
+
     let name: String?
     let level: Int?
     let description: String?

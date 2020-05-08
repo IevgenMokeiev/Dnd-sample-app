@@ -21,6 +21,7 @@
 		85B3547B2269AF3100617C7E /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B3547A2269AF3100617C7E /* CoreDataStack.swift */; };
 		9F6BD7C2246593CF001D8825 /* SpellDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6BD7C1246593CF001D8825 /* SpellDTO.swift */; };
 		9F6BD7C424659691001D8825 /* DataTranslator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6BD7C324659691001D8825 /* DataTranslator.swift */; };
+		9F8CC71D2465A8CA00F35746 /* SpellListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6BD7BF2465905C001D8825 /* SpellListView.swift */; };
 		E40722631CD2960F1E0326AA /* Pods_Dnd5eApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D05E6B1516E140741ECBB23F /* Pods_Dnd5eApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -377,6 +378,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				85B353F02267B64200617C7E /* SpellListViewController.swift in Sources */,
+				9F8CC71D2465A8CA00F35746 /* SpellListView.swift in Sources */,
 				9F6BD7C424659691001D8825 /* DataTranslator.swift in Sources */,
 				85B354612268BCD400617C7E /* ContentManager.swift in Sources */,
 				85B35479226912D300617C7E /* DnDModel.xcdatamodeld in Sources */,

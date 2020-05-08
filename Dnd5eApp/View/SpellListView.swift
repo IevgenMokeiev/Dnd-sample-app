@@ -8,23 +8,29 @@
 
 import SwiftUI
 
-enum ViewState {
-    case loading
-    case displayingSpells
-}
-
 struct SpellListView: View {
 
-    @State var viewState: ViewState = .loading
-
-    var spells: [Spell] = []
+    @State var contentManagerService: ContentManagerService?
+    @State var spells: [SpellDTO] = []
 
     var body: some View {
-        VStack {
-            Text("Spell Book")
-            List(spells) { spell in
-                Text(spell.te)
+        NavigationView {
+            VStack {
+                Text("Spell Book")
+                List(spells) { spell in
+                    Text(spell.name ?? "")
+                }.onAppear(perform: loadData)
             }
+        }.onAppear {
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+            self.contentManagerService = appDelegate.contentManagerService
+        }
+    }
+
+    // MARK: - Loading
+    private func loadData() {
+        contentManagerService?.retrieveSpellList { (result, error) in
+            self.spells = result ?? []
         }
     }
 }

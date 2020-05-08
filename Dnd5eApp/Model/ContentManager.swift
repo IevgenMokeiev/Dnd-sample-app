@@ -13,6 +13,8 @@ import CoreData
 protocol ContentManagerService {
     var numberOfSpells: Int { get }
     func spell(at indexPath:IndexPath) -> SpellDTO?
+    func spells() -> [SpellDTO]?
+
     func retrieveSpellList(_ completionHandler: @escaping (_ result: [SpellDTO]?, _ error: Error?) -> Void)
     func retrieve(spell: SpellDTO?, completionHandler: @escaping (_ result: SpellDTO?, _ error: Error?) -> Void)
 }
@@ -65,4 +67,9 @@ class ContentManager: ContentManagerService {
         return spellDTO
     }
 
+    func spells() -> [SpellDTO]? {
+        return coreDataService.spells()?.map({ spell in
+            return DataTraslator.convertToDTO(spell: spell)
+        })
+    }
 }

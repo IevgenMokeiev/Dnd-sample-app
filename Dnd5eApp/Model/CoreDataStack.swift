@@ -17,6 +17,8 @@ enum StackError: Error {
 protocol CoreDataService {
     var numberOfSpells: Int { get }
     func spell(at indexPath:IndexPath) -> Spell?
+    func spells() -> [Spell]?
+
     func fetchSpellList(_ completionHandler: @escaping (_ result: [SpellDTO]?, _ error: StackError?) -> Void)
     func saveDownloadedContent(from objectsArray:[[String: Any]]?) -> [SpellDTO]?
     func saveDownloadedSpell(spell: SpellDTO?, object: [String: Any]?) -> SpellDTO?
@@ -142,6 +144,10 @@ class CoreDataStack: CoreDataService {
     
     public func spell(at indexPath:IndexPath) -> Spell? {
         return self.fetchedResultsController.object(at: indexPath) as? Spell
+    }
+
+    func spells() -> [Spell]? {
+        return self.fetchedResultsController.fetchedObjects as? [Spell]
     }
     
     // MARK: - Core Data stack
