@@ -13,9 +13,9 @@ struct SpellDTO: Equatable, Identifiable {
     var id: String { return name }
 
     let name: String
+    let path: String
     let level: Int?
     let description: String?
     let castingTime: String?
     let concentration: Bool?
-    let path: String
 }

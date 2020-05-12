@@ -1,5 +1,5 @@
 //
-//  CoreDataService.swift
+//  DatabaseService.swift
 //  Dnd5eApp
 //
 //  Created by Ievgen on 4/19/19.
@@ -9,24 +9,28 @@
 import Foundation
 import CoreData
 
-enum CoreDataServiceError: Error {
+enum DatabaseServiceError: Error {
     case emptyStack
     case fetchingError
 }
 
-protocol CoreDataService {
-    func spells() -> [Spell]?
-
-    func fetchSpellList(_ completionHandler: @escaping (_ result: [SpellDTO]?, _ error: CoreDataServiceError?) -> Void)
-    func saveDownloadedContent(from objectsArray:[[String: Any]]?)
-    func saveDownloadedSpell(spell: SpellDTO?, object: [String: Any]?) -> SpellDTO?
-    func saveContext ()
+protocol DatabaseService {
+    func fetchSpellList(_ completionHandler: @escaping (_ result: [SpellDTO]?, _ error: DatabaseServiceError?) -> Void)
+    func saveDownloadedSpellList(_ spells: [SpellDTO])
+    func saveDownloadedSpell(_ spell: SpellDTO)
+    func saveContext()
 }
 
-class CoreDataServiceImpl: CoreDataService {    
+class DatabaseServiceImpl: DatabaseService {
     // MARK: - Public interface
+
+    var translationService: TranslationService
+
+    init(translationService: TranslationService) {
+        self.translationService = translationService
+    }
     
-    public func fetchSpellList(_ completionHandler: @escaping (_ result: [SpellDTO]?, _ error: CoreDataServiceError?) -> Void) {
+    public func fetchSpellList(_ completionHandler: @escaping (_ result: [SpellDTO]?, _ error: DatabaseServiceError?) -> Void) {
         
         // try fetching results from Core Data stack
         let context = self.persistentContainer.viewContext
@@ -40,7 +44,7 @@ class CoreDataServiceImpl: CoreDataService {
             } else {
                 guard let resultArray = result as? [Spell] else { return }
                 let spellDTOs = resultArray.map { spell in
-                    DataTraslator.convertToDTO(spell: spell)
+                    translationService.convertToDTO(spell: spell)
                 }
                 completionHandler(spellDTOs, nil)
             }
@@ -50,17 +54,14 @@ class CoreDataServiceImpl: CoreDataService {
         }
     }
     
-    public func saveDownloadedContent(from objectsArray:[[String: Any]]?) {
+    public func saveDownloadedSpellList(_ spells: [SpellDTO]) {
         let managedContext = self.persistentContainer.viewContext
-        guard let array = objectsArray else { return }
-        
-        for entry in array {
+
+        spells.forEach { (spell) in
             let entity = NSEntityDescription.entity(forEntityName: "Spell", in: managedContext)!
-            let spell = Spell(entity: entity, insertInto: managedContext)
-            guard let name = entry["name"] as? String else { return }
-            guard let path = entry["url"] as? String else { return }
-            spell.name = name
-            spell.path = path
+            let spellEntity = Spell(entity: entity, insertInto: managedContext)
+            spellEntity.name = spell.name
+            spellEntity.path = spell.path
         }
         
         do {
@@ -70,51 +71,29 @@ class CoreDataServiceImpl: CoreDataService {
         }
     }
     
-    public func saveDownloadedSpell(spell: SpellDTO?, object: [String: Any]?) -> SpellDTO? {
-        guard let name = spell?.name else { return nil }
+    public func saveDownloadedSpell(_ spell: SpellDTO) {
         let managedContext = self.persistentContainer.viewContext
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Spell")
-        let predicate = NSPredicate(format: "name == %@", name)
+        let predicate = NSPredicate(format: "name == %@", spell.name)
         request.predicate = predicate
         request.returnsObjectsAsFaults = false
 
         do {
             let result = try managedContext.fetch(request)
+            guard !result.isEmpty else { return }
 
-            if result.isEmpty {
-                return nil
-            } else {
-                guard let resultArray = result as? [Spell] else { return nil }
-                guard let resultSpell = resultArray.first else { return nil }
+            guard let matchedArray = result as? [Spell] else { return }
+            guard let matchedSpell = matchedArray.first else { return }
 
-                guard let spellObject = object else { return nil }
+            translationService.populateSpellWith(dto: spell, spell: matchedSpell)
 
-                guard let descArray = spellObject["desc"] as? [String] else { return nil }
-                guard let desc = descArray.first else { return nil }
-                resultSpell.desc = desc
-
-                guard let level = spellObject["level"] as? Int16 else { return nil }
-                resultSpell.level = level
-
-                guard let castingTime = spellObject["casting_time"] as? String else { return nil }
-                resultSpell.casting_time = castingTime
-
-                guard let concentration = spellObject["concentration"] as? Bool else { return nil }
-                resultSpell.concentration = concentration
-
-                let spelllDTO = DataTraslator.convertToDTO(spell: resultSpell)
-
-                do {
-                    try managedContext.save()
-                } catch let error as NSError {
-                    print("Could not save. \(error), \(error.userInfo)")
-                }
-
-                return spelllDTO
+            do {
+                try managedContext.save()
+            } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
             }
         } catch let error as NSError {
             print("Could not retrieve. \(error), \(error.userInfo)")
-            return nil
         }
     }
     

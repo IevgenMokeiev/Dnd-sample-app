@@ -10,13 +10,13 @@ import SwiftUI
 
 struct SpellListView: View {
 
-    var contentManagerService: ContentManagerService?
+    var dataLayer: DataLayer?
     @State var spells: [SpellDTO] = []
 
     var body: some View {
         NavigationView {
             List(spells) { spell in
-                NavigationLink(destination: SpellDetailView(contentManagerService: self.contentManagerService, spell: spell)) {
+                NavigationLink(destination: SpellDetailView(dataLayer: self.dataLayer, spell: spell)) {
                     Text(spell.name)
                 }
             }
@@ -28,7 +28,7 @@ struct SpellListView: View {
 
     // MARK: - Loading
     private func loadData() {
-        contentManagerService?.retrieveSpellList { (result, error) in
+        dataLayer?.retrieveSpellList { (result, error) in
             self.spells = result ?? []
         }
     }
@@ -36,9 +36,10 @@ struct SpellListView: View {
 
 struct SpellListView_Previews: PreviewProvider {
     static var previews: some View {
-        let coreDataServiceImpl = CoreDataServiceImpl()
-        let contentDownloaderServiceImpl = ContentDownloaderServiceImpl()
-        let contentManagerServiceImpl = ContentManagerServiceImpl(coreDataService: coreDataServiceImpl, contentDownloaderService: contentDownloaderServiceImpl)
-        return SpellListView(contentManagerService: contentManagerServiceImpl)
+        let translationServiceImpl = TranslationServiceImpl()
+        let databaseServiceImpl = DatabaseServiceImpl(translationService: translationServiceImpl)
+        let networkserviceImpl = NetworkServiceImpl()
+        let dataLayer = DataLayerImpl(databaseService: databaseServiceImpl, networkService: networkserviceImpl, translationService: translationServiceImpl)
+        return SpellListView(dataLayer: dataLayer)
     }
 }

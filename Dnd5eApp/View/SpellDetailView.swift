@@ -10,17 +10,17 @@ import SwiftUI
 
 struct SpellDetailView: View {
 
-    var contentManagerService: ContentManagerService?
-    @State var spell: SpellDTO?
+    var dataLayer: DataLayer?
+    @State var spell: SpellDTO
 
     var body: some View {
         NavigationView {
             VStack {
                 Image("scroll").padding()
-                Text("Level: \(spell?.level ?? 0)").padding()
-                Text("Description: \(spell?.description ?? "")").padding()
-                Text("Casting time: \(spell?.castingTime ?? "")").padding()
-                Text("Concentration: \(spell?.concentration ?? false ? "true" : "false")").padding()
+                Text("Level: \(spell.level ?? 0)").padding()
+                Text("Description: \(spell.description ?? "")").padding()
+                Text("Casting time: \(spell.castingTime ?? "")").padding()
+                Text("Concentration: \(spell.concentration ?? false ? "true" : "false")").padding()
             }
             .padding()
             .onAppear(perform: loadData)
@@ -30,14 +30,16 @@ struct SpellDetailView: View {
 
     // MARK: - Loading
     private func loadData() {
-        contentManagerService?.retrieve(spell: self.spell, completionHandler: { (spell, error) in
-            self.spell = spell
+        dataLayer?.retrieveSpellDetails(self.spell, completionHandler: { (result, error) in
+            if let spell = result {
+                self.spell = spell
+            }
         })
     }
 }
 
 struct SpellDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SpellDetailView()
+        SpellDetailView(spell: SpellDTO(name: "name", path: "path", level: 1, description: "description", castingTime: "1 action", concentration: false))
     }
 }
