@@ -9,13 +9,13 @@
 import Foundation
 
 protocol TranslationService {
-    func populateSpellWith(dto: SpellDTO, spell: Spell)
+    func populate(spell: Spell, with dto: SpellDTO)
     func convertToDTO(spell: Spell) -> SpellDTO
     func convertToDTO(spells: [Spell]) -> [SpellDTO]
 }
 
 class TranslationServiceImpl: TranslationService {
-    func populateSpellWith(dto: SpellDTO, spell: Spell) {
+    func populate(spell: Spell, with dto: SpellDTO) {
         spell.name = dto.name
         spell.level = Int16(dto.level ?? 0)
         spell.desc = dto.description

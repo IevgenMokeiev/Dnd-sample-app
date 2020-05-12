@@ -10,7 +10,6 @@
 		85B353EE2267B64200617C7E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B353ED2267B64200617C7E /* AppDelegate.swift */; };
 		85B353F52267B64A00617C7E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85B353F42267B64A00617C7E /* Assets.xcassets */; };
 		85B353F82267B64A00617C7E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85B353F62267B64A00617C7E /* LaunchScreen.storyboard */; };
-		85B354032267B64A00617C7E /* Dnd5eAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B354022267B64A00617C7E /* Dnd5eAppTests.swift */; };
 		85B3540E2267B64A00617C7E /* Dnd5eAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B3540D2267B64A00617C7E /* Dnd5eAppUITests.swift */; };
 		85B354612268BCD400617C7E /* DataLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B354602268BCD400617C7E /* DataLayer.swift */; };
 		85B354632268BD3A00617C7E /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B354622268BD3A00617C7E /* NetworkService.swift */; };
@@ -22,6 +21,7 @@
 		9F6BD7C2246593CF001D8825 /* SpellDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6BD7C1246593CF001D8825 /* SpellDTO.swift */; };
 		9F6BD7C424659691001D8825 /* TranslationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6BD7C324659691001D8825 /* TranslationService.swift */; };
 		9F8CC71D2465A8CA00F35746 /* SpellListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6BD7BF2465905C001D8825 /* SpellListView.swift */; };
+		9FC14EAD246B3AC000428073 /* TranslationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC14EAC246B3AC000428073 /* TranslationServiceTests.swift */; };
 		9FD5C0AC246ADEA9006C7604 /* ParsingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD5C0AB246ADEA9006C7604 /* ParsingService.swift */; };
 		E40722631CD2960F1E0326AA /* Pods_Dnd5eApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D05E6B1516E140741ECBB23F /* Pods_Dnd5eApp.framework */; };
 /* End PBXBuildFile section */
@@ -52,7 +52,6 @@
 		85B353F72267B64A00617C7E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		85B353F92267B64A00617C7E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85B353FE2267B64A00617C7E /* Dnd5eAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Dnd5eAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		85B354022267B64A00617C7E /* Dnd5eAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dnd5eAppTests.swift; sourceTree = "<group>"; };
 		85B354042267B64A00617C7E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85B354092267B64A00617C7E /* Dnd5eAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Dnd5eAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		85B3540D2267B64A00617C7E /* Dnd5eAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dnd5eAppUITests.swift; sourceTree = "<group>"; };
@@ -67,6 +66,7 @@
 		9F6BD7BF2465905C001D8825 /* SpellListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellListView.swift; sourceTree = "<group>"; };
 		9F6BD7C1246593CF001D8825 /* SpellDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellDTO.swift; sourceTree = "<group>"; };
 		9F6BD7C324659691001D8825 /* TranslationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationService.swift; sourceTree = "<group>"; };
+		9FC14EAC246B3AC000428073 /* TranslationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationServiceTests.swift; sourceTree = "<group>"; };
 		9FD5C0AB246ADEA9006C7604 /* ParsingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingService.swift; sourceTree = "<group>"; };
 		D05E6B1516E140741ECBB23F /* Pods_Dnd5eApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dnd5eApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -153,7 +153,7 @@
 		85B354012267B64A00617C7E /* Dnd5eAppTests */ = {
 			isa = PBXGroup;
 			children = (
-				85B354022267B64A00617C7E /* Dnd5eAppTests.swift */,
+				9FC14EAB246B3A8500428073 /* Services */,
 				85B354042267B64A00617C7E /* Info.plist */,
 			);
 			path = Dnd5eAppTests;
@@ -204,6 +204,14 @@
 				85B3547A2269AF3100617C7E /* DatabaseService.swift */,
 				9FD5C0AB246ADEA9006C7604 /* ParsingService.swift */,
 				85B354622268BD3A00617C7E /* NetworkService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		9FC14EAB246B3A8500428073 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				9FC14EAC246B3AC000428073 /* TranslationServiceTests.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -281,6 +289,7 @@
 					};
 					85B353FD2267B64A00617C7E = {
 						CreatedOnToolsVersion = 10.2;
+						LastSwiftMigration = 1140;
 						TestTargetID = 85B353E92267B64200617C7E;
 					};
 					85B354082267B64A00617C7E = {
@@ -406,7 +415,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				85B354032267B64A00617C7E /* Dnd5eAppTests.swift in Sources */,
+				9FC14EAD246B3AC000428073 /* TranslationServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -604,6 +613,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Dnd5eAppTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -613,6 +623,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ievgen.Dnd5eAppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Dnd5eApp.app/Dnd5eApp";
@@ -624,6 +635,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Dnd5eAppTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

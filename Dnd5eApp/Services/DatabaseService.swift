@@ -108,7 +108,7 @@ class DatabaseServiceImpl: DatabaseService {
             guard let matchedArray = result as? [Spell] else { return }
             guard let matchedSpell = matchedArray.first else { return }
 
-            translationService.populateSpellWith(dto: spell, spell: matchedSpell)
+            translationService.populate(spell: matchedSpell, with: spell)
 
             do {
                 try managedContext.save()
