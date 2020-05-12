@@ -30,9 +30,6 @@ class SpellListViewController: UIViewController {
         self.title = "Spell Book"
         self.viewState = .loading
         self.tableView.accessibilityIdentifier = "SpellTableView"
-
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        contentManagerService = appDelegate.contentManagerService
     }
     
     override func viewDidAppear(_ animated: Bool) {

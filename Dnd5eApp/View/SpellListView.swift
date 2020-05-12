@@ -10,22 +10,20 @@ import SwiftUI
 
 struct SpellListView: View {
 
-    @State var contentManagerService: ContentManagerService?
+    var contentManagerService: ContentManagerService?
     @State var spells: [SpellDTO] = []
 
     var body: some View {
         NavigationView {
             VStack {
-                Text("Spell Book")
                 List(spells) { spell in
                     NavigationLink(destination: SpellDetailView(contentManagerService: self.contentManagerService, spell: spell)) {
                         Text(spell.name ?? "")
                     }
-                }.onAppear(perform: loadData)
+                }
+                .onAppear(perform: loadData)
             }
-        }.onAppear {
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-            self.contentManagerService = appDelegate.contentManagerService
+            .navigationBarTitle("Spell Book", displayMode: .inline)
         }
     }
 

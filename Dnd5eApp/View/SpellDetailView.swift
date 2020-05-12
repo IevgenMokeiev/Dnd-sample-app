@@ -10,15 +10,21 @@ import SwiftUI
 
 struct SpellDetailView: View {
 
-    @State var contentManagerService: ContentManagerService?
+    var contentManagerService: ContentManagerService?
     @State var spell: SpellDTO?
 
     var body: some View {
-        VStack {
-            Text("Spell Details").foregroundColor(Color.purple)
-            Text(spell?.name ?? "")
-            Text(spell?.description ?? "")
-        }.onAppear(perform: loadData)
+        NavigationView {
+            VStack {
+                Text("Level: \(spell?.level ?? 0)").padding()
+                Text("Description: \(spell?.description ?? "")").padding()
+                Text("Casting time: \(spell?.castingTime ?? "")").padding()
+                Text("Concentration: \(spell?.concentration ?? false ? "true" : "false")").padding()
+            }
+            .padding()
+            .onAppear(perform: loadData)
+        }
+        .navigationBarTitle("Spell Details", displayMode: .inline)
     }
 
     // MARK: - Loading
