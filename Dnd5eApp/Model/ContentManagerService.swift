@@ -1,5 +1,5 @@
 //
-//  ContentManager.swift
+//  ContentManagerService.swift
 //  Dnd5eApp
 //
 //  Created by Ievgen on 4/18/19.
@@ -19,7 +19,7 @@ protocol ContentManagerService {
     func retrieve(spell: SpellDTO?, completionHandler: @escaping (_ result: SpellDTO?, _ error: Error?) -> Void)
 }
 
-class ContentManager: ContentManagerService {
+class ContentManagerServiceImpl: ContentManagerService {
     private var isDownloaded: Bool = false
     private var coreDataService: CoreDataService
     private var contentDownloaderService: ContentDownloaderService

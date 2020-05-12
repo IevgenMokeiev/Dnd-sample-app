@@ -8,16 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		85B353EE2267B64200617C7E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B353ED2267B64200617C7E /* AppDelegate.swift */; };
-		85B353F02267B64200617C7E /* SpellListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B353EF2267B64200617C7E /* SpellListViewController.swift */; };
 		85B353F52267B64A00617C7E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85B353F42267B64A00617C7E /* Assets.xcassets */; };
 		85B353F82267B64A00617C7E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85B353F62267B64A00617C7E /* LaunchScreen.storyboard */; };
 		85B354032267B64A00617C7E /* Dnd5eAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B354022267B64A00617C7E /* Dnd5eAppTests.swift */; };
 		85B3540E2267B64A00617C7E /* Dnd5eAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B3540D2267B64A00617C7E /* Dnd5eAppUITests.swift */; };
-		85B354612268BCD400617C7E /* ContentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B354602268BCD400617C7E /* ContentManager.swift */; };
-		85B354632268BD3A00617C7E /* ContentDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B354622268BD3A00617C7E /* ContentDownloader.swift */; };
-		85B354652268BF4E00617C7E /* SpellDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B354642268BF4E00617C7E /* SpellDetailViewController.swift */; };
+		85B354612268BCD400617C7E /* ContentManagerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B354602268BCD400617C7E /* ContentManagerService.swift */; };
+		85B354632268BD3A00617C7E /* ContentDownloaderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B354622268BD3A00617C7E /* ContentDownloaderService.swift */; };
 		85B35479226912D300617C7E /* DnDModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 85B354582268B49700617C7E /* DnDModel.xcdatamodeld */; };
-		85B3547B2269AF3100617C7E /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B3547A2269AF3100617C7E /* CoreDataStack.swift */; };
+		85B3547B2269AF3100617C7E /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B3547A2269AF3100617C7E /* CoreDataService.swift */; };
 		9F0C894C246A885C003592F5 /* SpellDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0C894B246A885C003592F5 /* SpellDetailView.swift */; };
 		9F0C894E246A921C003592F5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0C894D246A921C003592F5 /* SceneDelegate.swift */; };
 		9F6BD7C2246593CF001D8825 /* SpellDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6BD7C1246593CF001D8825 /* SpellDTO.swift */; };
@@ -48,7 +46,6 @@
 		5FFD2B8E3FC0D68652CDEF67 /* Pods-Dnd5eApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dnd5eApp.debug.xcconfig"; path = "Target Support Files/Pods-Dnd5eApp/Pods-Dnd5eApp.debug.xcconfig"; sourceTree = "<group>"; };
 		85B353EA2267B64200617C7E /* Dnd5eApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dnd5eApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85B353ED2267B64200617C7E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		85B353EF2267B64200617C7E /* SpellListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellListViewController.swift; sourceTree = "<group>"; };
 		85B353F42267B64A00617C7E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		85B353F72267B64A00617C7E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		85B353F92267B64A00617C7E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -59,10 +56,9 @@
 		85B3540D2267B64A00617C7E /* Dnd5eAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dnd5eAppUITests.swift; sourceTree = "<group>"; };
 		85B3540F2267B64A00617C7E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85B354592268B49700617C7E /* DnDModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DnDModel.xcdatamodel; sourceTree = "<group>"; };
-		85B354602268BCD400617C7E /* ContentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentManager.swift; sourceTree = "<group>"; };
-		85B354622268BD3A00617C7E /* ContentDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentDownloader.swift; sourceTree = "<group>"; };
-		85B354642268BF4E00617C7E /* SpellDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellDetailViewController.swift; sourceTree = "<group>"; };
-		85B3547A2269AF3100617C7E /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		85B354602268BCD400617C7E /* ContentManagerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentManagerService.swift; sourceTree = "<group>"; };
+		85B354622268BD3A00617C7E /* ContentDownloaderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentDownloaderService.swift; sourceTree = "<group>"; };
+		85B3547A2269AF3100617C7E /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
 		9F0C894B246A885C003592F5 /* SpellDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellDetailView.swift; sourceTree = "<group>"; };
 		9F0C894D246A921C003592F5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		9F6BD7BF2465905C001D8825 /* SpellListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellListView.swift; sourceTree = "<group>"; };
@@ -172,8 +168,6 @@
 			children = (
 				9F6BD7BF2465905C001D8825 /* SpellListView.swift */,
 				9F0C894B246A885C003592F5 /* SpellDetailView.swift */,
-				85B353EF2267B64200617C7E /* SpellListViewController.swift */,
-				85B354642268BF4E00617C7E /* SpellDetailViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -182,9 +176,9 @@
 			isa = PBXGroup;
 			children = (
 				85B354582268B49700617C7E /* DnDModel.xcdatamodeld */,
-				85B354602268BCD400617C7E /* ContentManager.swift */,
-				85B3547A2269AF3100617C7E /* CoreDataStack.swift */,
-				85B354622268BD3A00617C7E /* ContentDownloader.swift */,
+				85B354602268BCD400617C7E /* ContentManagerService.swift */,
+				85B3547A2269AF3100617C7E /* CoreDataService.swift */,
+				85B354622268BD3A00617C7E /* ContentDownloaderService.swift */,
 				9F6BD7C324659691001D8825 /* DataTranslator.swift */,
 				9F6BD7C1246593CF001D8825 /* SpellDTO.swift */,
 			);
@@ -379,17 +373,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				85B353F02267B64200617C7E /* SpellListViewController.swift in Sources */,
 				9F8CC71D2465A8CA00F35746 /* SpellListView.swift in Sources */,
 				9F0C894C246A885C003592F5 /* SpellDetailView.swift in Sources */,
 				9F6BD7C424659691001D8825 /* DataTranslator.swift in Sources */,
-				85B354612268BCD400617C7E /* ContentManager.swift in Sources */,
+				85B354612268BCD400617C7E /* ContentManagerService.swift in Sources */,
 				85B35479226912D300617C7E /* DnDModel.xcdatamodeld in Sources */,
 				9F6BD7C2246593CF001D8825 /* SpellDTO.swift in Sources */,
 				85B353EE2267B64200617C7E /* AppDelegate.swift in Sources */,
-				85B354652268BF4E00617C7E /* SpellDetailViewController.swift in Sources */,
-				85B354632268BD3A00617C7E /* ContentDownloader.swift in Sources */,
-				85B3547B2269AF3100617C7E /* CoreDataStack.swift in Sources */,
+				85B354632268BD3A00617C7E /* ContentDownloaderService.swift in Sources */,
+				85B3547B2269AF3100617C7E /* CoreDataService.swift in Sources */,
 				9F0C894E246A921C003592F5 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

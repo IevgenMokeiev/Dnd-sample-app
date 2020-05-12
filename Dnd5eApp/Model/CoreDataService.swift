@@ -1,5 +1,5 @@
 //
-//  CoreDataStack.swift
+//  CoreDataService.swift
 //  Dnd5eApp
 //
 //  Created by Ievgen on 4/19/19.
@@ -25,7 +25,7 @@ protocol CoreDataService {
     func saveContext ()
 }
 
-class CoreDataStack: CoreDataService {    
+class CoreDataServiceImpl: CoreDataService {    
     // MARK: - Public interface
     
     public func fetchSpellList(_ completionHandler: @escaping (_ result: [SpellDTO]?, _ error: StackError?) -> Void) {

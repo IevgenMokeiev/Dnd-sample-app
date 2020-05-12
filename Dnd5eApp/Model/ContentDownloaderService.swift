@@ -1,5 +1,5 @@
 //
-//  ContentDownloader.swift
+//  ContentDownloaderService.swift
 //  Dnd5eApp
 //
 //  Created by Ievgen on 4/18/19.
@@ -24,7 +24,7 @@ protocol ContentDownloaderService {
     func downloadSpell(with path: String, _ completionHandler: @escaping (_ result: [String: Any]?, _ error: DownloadingError?) -> Void)
 }
 
-class ContentDownloader: ContentDownloaderService {
+class ContentDownloaderServiceImpl: ContentDownloaderService {
     
     private static let rootAPIPath = "http://dnd5eapi.co/api/"
     private static let rootPath = "http://dnd5eapi.co"

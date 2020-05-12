@@ -23,9 +23,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Use a UIHostingController as window root view controller.
 
-        coreDataService = CoreDataStack()
-        contentDownloaderService = ContentDownloader()
-        contentManagerService = ContentManager(coreDataService: coreDataService!, contentDownloaderService: contentDownloaderService!)
+        let coreDataServiceImpl = CoreDataServiceImpl()
+        coreDataService = coreDataServiceImpl
+        let contentDownloaderServiceImpl = ContentDownloaderServiceImpl()
+        contentDownloaderService = contentDownloaderServiceImpl
+        contentManagerService = ContentManagerServiceImpl(coreDataService: coreDataServiceImpl, contentDownloaderService: contentDownloaderServiceImpl)
 
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
