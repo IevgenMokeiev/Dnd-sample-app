@@ -179,9 +179,9 @@
 		85B3545D2268BB6100617C7E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				85B354602268BCD400617C7E /* DataLayer.swift */,
 				85B354582268B49700617C7E /* DnDModel.xcdatamodeld */,
 				9F6BD7C1246593CF001D8825 /* SpellDTO.swift */,
-				85B354602268BCD400617C7E /* DataLayer.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";

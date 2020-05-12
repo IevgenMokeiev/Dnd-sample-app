@@ -11,8 +11,8 @@ import UIKit
 import CoreData
 
 protocol DataLayer {
-    func retrieveSpellList(_ completionHandler: @escaping (_ result: [SpellDTO]?, _ error: Error?) -> Void)
-    func retrieveSpellDetails(_ spell: SpellDTO, completionHandler: @escaping (_ result: SpellDTO?, _ error: Error?) -> Void)
+    func retrieveSpellList(_ completionHandler: @escaping (_ result: Result<[SpellDTO], Error>) -> Void)
+    func retrieveSpellDetails(_ spell: SpellDTO, completionHandler: @escaping (_ result: Result<SpellDTO, Error>) -> Void)
 }
 
 class DataLayerImpl: DataLayer {
@@ -27,31 +27,45 @@ class DataLayerImpl: DataLayer {
         self.translationService = translationService
     }
     
-    func retrieveSpellList(_ completionHandler: @escaping (_ result: [SpellDTO]?, _ error: Error?) -> Void) {
-        
-        databaseService.fetchSpellList { (resultSpells, error) in
-            if let resultSpells = resultSpells {
-                let sortedSpells = self.sortedSpells(spells: resultSpells)
-                completionHandler(sortedSpells, nil)
-            } else {
+    func retrieveSpellList(_ completionHandler: @escaping (_ result: Result<[SpellDTO], Error>) -> Void) {
+        databaseService.fetchSpellList { [weak self] (fetchResult) in
+            guard let self = self else { return }
+
+            switch fetchResult {
+            case .success(let spellList):
+                let sortedSpells = self.sortedSpells(spells: spellList)
+                completionHandler(.success(sortedSpells))
+            case .failure(_):
                 // need to download the data first
-                self.networkService.downloadSpellList { (resultArray, error) in
-                    guard let resultArray = resultArray else { completionHandler(nil, nil); return }
-                    let spellDTOs = self.translationService.convertToDTO(dictArray: resultArray)
-                    self.databaseService.saveDownloadedSpellList(spellDTOs)
-                    let sortedSpells = self.sortedSpells(spells: spellDTOs)
-                    completionHandler(sortedSpells, nil)
+                self.networkService.downloadSpellList { [weak self] (downloadResult) in
+                    guard let self = self else { return }
+
+                    switch downloadResult {
+                    case .success(let spellList):
+                        let spellDTOs = self.translationService.convertToDTO(dictArray: spellList)
+                        self.databaseService.saveDownloadedSpellList(spellDTOs)
+                        let sortedSpells = self.sortedSpells(spells: spellDTOs)
+                        completionHandler(.success(sortedSpells))
+                    case .failure(let error):
+                        completionHandler(.failure(error))
+                    }
                 }
             }
         }
     }
     
-    func retrieveSpellDetails(_ spell: SpellDTO, completionHandler: @escaping (_ result: SpellDTO?, _ error: Error?) -> Void) {
-        networkService.downloadSpell(with: spell.path) { (downloadResult, error) in
-            guard let dict = downloadResult else { completionHandler(nil, nil); return }
-            let spellDTO = self.translationService.convertToDTO(dict: dict)
-            self.databaseService.saveDownloadedSpell(spellDTO)
-            completionHandler(spellDTO, nil)
+    func retrieveSpellDetails(_ spell: SpellDTO, completionHandler: @escaping (_ result: Result<SpellDTO, Error>) -> Void) {
+        networkService.downloadSpell(with: spell.path) { [weak self] (downloadResult) in
+            guard let self = self else { return }
+
+            switch downloadResult {
+            case .success(let spell):
+                let spellDTO = self.translationService.convertToDTO(dict: spell)
+                self.databaseService.saveDownloadedSpell(spellDTO)
+                completionHandler(.success(spellDTO))
+            case .failure(let error):
+                completionHandler(.failure(error))
+            }
         }
     }
 

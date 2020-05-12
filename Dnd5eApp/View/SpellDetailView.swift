@@ -18,19 +18,19 @@ struct SpellDetailView: View {
         NavigationView {
             if self.loading {
                 ProgressView(isAnimating: $loading)
-                .onAppear(perform: loadData)
+                    .onAppear(perform: loadData)
             } else {
                 VStack {
                     Image("scroll").padding()
                     Text("Level: \(spell.level ?? 0)")
                         .fontWeight(.bold)
-                    .padding()
+                        .padding()
                     Text("Description: \(spell.description ?? "")")
-                    .padding()
+                        .padding()
                     Text("Casting time: \(spell.castingTime ?? "")")
-                    .padding()
+                        .padding()
                     Text("Concentration: \(spell.concentration ?? false ? "true" : "false")")
-                    .padding()
+                        .padding()
                 }
                 .padding()
             }
@@ -40,8 +40,8 @@ struct SpellDetailView: View {
 
     // MARK: - Loading
     private func loadData() {
-        dataLayer?.retrieveSpellDetails(self.spell, completionHandler: { (result, error) in
-            if let spell = result {
+        dataLayer?.retrieveSpellDetails(self.spell, completionHandler: { (result) in
+            if case .success(let spell) = result {
                 self.spell = spell
                 self.loading = false
             }

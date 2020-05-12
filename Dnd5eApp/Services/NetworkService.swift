@@ -21,42 +21,54 @@ public enum NetworkServiceError: Error {
 }
 
 protocol NetworkService {
-    func downloadSpellList(_ completionHandler: @escaping (_ result: [[String: Any]]?, _ error: NetworkServiceError?) -> Void)
-    func downloadSpell(with path: String, _ completionHandler: @escaping (_ result: [String: Any]?, _ error: NetworkServiceError?) -> Void)
+    func downloadSpellList(_ completionHandler: @escaping (Result<[[String: Any]], NetworkServiceError>) -> Void)
+    func downloadSpell(with path: String, _ completionHandler: @escaping (Result<[String: Any], NetworkServiceError>) -> Void)
 }
 
 class NetworkServiceImpl: NetworkService {
 
     internal var urlSessionProtocolClasses: [AnyClass]?
     
-    func downloadSpellList(_ completionHandler: @escaping (_ result: [[String: Any]]?, _ error: NetworkServiceError?) -> Void){
-        self.downloadContent(with: URL(string: Endpoints.spellList.rawValue)) { (resultDict, error) in
-            guard let array = resultDict?["results"] as? [[String: Any]] else { completionHandler(nil, .invalidResponseData); return }
-            completionHandler(array, error)
+    func downloadSpellList(_ completionHandler: @escaping (Result<[[String: Any]], NetworkServiceError>) -> Void) {
+        
+        downloadContent(with: URL(string: Endpoints.spellList.rawValue)) { result in
+            switch result {
+            case .success(let resultDict):
+                if let array = resultDict["results"] as? [[String: Any]] {
+                    completionHandler(.success(array))
+                } else {
+                    completionHandler(.failure(.invalidResponseData))
+                }
+            case .failure(let error):
+                completionHandler(.failure(error))
+            }
         }
     }
     
-    func downloadSpell(with path: String, _ completionHandler: @escaping (_ result: [String: Any]?, _ error: NetworkServiceError?) -> Void) {
+    func downloadSpell(with path: String, _ completionHandler: @escaping (Result<[String: Any], NetworkServiceError>) -> Void) {
         let url = URL(string: Endpoints.spellDetails.rawValue + path)
-            self.downloadContent(with: url) { (resultDict, error) in
-            completionHandler(resultDict, error)
+        downloadContent(with: url) { (result) in
+            completionHandler(result)
         }
     }
     
-    func downloadContent(with url: URL?, completionHandler: @escaping (_ result: [String: Any]?, _ error: NetworkServiceError?) -> Void) {
+    func downloadContent(with url: URL?, completionHandler: @escaping (Result<[String: Any], NetworkServiceError>) -> Void) {
         let configuration = URLSessionConfiguration.default
         configuration.protocolClasses = self.urlSessionProtocolClasses
         let session = URLSession(configuration: configuration, delegate: nil, delegateQueue: OperationQueue.main)
         
-        guard let spellsUrl = url else { completionHandler(nil, .incorrectURL); return }
+        guard let spellsUrl = url else { completionHandler(.failure(.incorrectURL)); return }
         
         session.dataTask(with: spellsUrl) { (data, response, error) in
-            guard let jsonData = data else { completionHandler(nil, .invalidResponseData); return }
+            guard let jsonData = data else { completionHandler(.failure(.invalidResponseData)); return }
             do {
-                let dictionary = try JSONSerialization.jsonObject(with: jsonData) as? [String: Any]
-                completionHandler(dictionary, nil)
+                if let dictionary = try JSONSerialization.jsonObject(with: jsonData) as? [String: Any] {
+                    completionHandler(.success(dictionary))
+                } else {
+                    completionHandler(.failure(.invalidResponseData))
+                }
             } catch {
-                completionHandler(nil, .invalidResponseData)
+                completionHandler(.failure(.invalidResponseData))
             }
         }.resume()
     }

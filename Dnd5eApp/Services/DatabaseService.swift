@@ -15,7 +15,7 @@ enum DatabaseServiceError: Error {
 }
 
 protocol DatabaseService {
-    func fetchSpellList(_ completionHandler: @escaping (_ result: [SpellDTO]?, _ error: DatabaseServiceError?) -> Void)
+    func fetchSpellList(_ completionHandler: @escaping (_ result: Result<[SpellDTO], DatabaseServiceError>) -> Void)
     func saveDownloadedSpellList(_ spells: [SpellDTO])
     func saveDownloadedSpell(_ spell: SpellDTO)
     func saveContext()
@@ -30,7 +30,7 @@ class DatabaseServiceImpl: DatabaseService {
         self.translationService = translationService
     }
     
-    func fetchSpellList(_ completionHandler: @escaping (_ result: [SpellDTO]?, _ error: DatabaseServiceError?) -> Void) {
+    func fetchSpellList(_ completionHandler: @escaping (_ result: Result<[SpellDTO], DatabaseServiceError>) -> Void) {
         
         // try fetching results from Core Data stack
         let context = self.persistentContainer.viewContext
@@ -40,17 +40,17 @@ class DatabaseServiceImpl: DatabaseService {
             let result = try context.fetch(request)
             
             if result.isEmpty {
-                completionHandler(nil, .emptyStack)
+                completionHandler(.failure(.emptyStack))
             } else {
                 guard let resultArray = result as? [Spell] else { return }
                 let spellDTOs = resultArray.map { spell in
                     translationService.convertToDTO(spell: spell)
                 }
-                completionHandler(spellDTOs, nil)
+                completionHandler(.success(spellDTOs))
             }
         } catch let error as NSError {
             print("Could not retrieve. \(error), \(error.userInfo)")
-            completionHandler(nil, .fetchingError)
+            completionHandler(.failure(.fetchingError))
         }
     }
     
