@@ -20,7 +20,7 @@ struct SpellListView: View {
                     Text(spell.name)
                 }
             }
-            .accessibilityElement()
+            .accessibility(label: Text("Spell Table View"))
             .accessibility(identifier: "SpellTableView")
             .onAppear(perform: loadData)
             .navigationBarTitle("Spell Book", displayMode: .inline)
