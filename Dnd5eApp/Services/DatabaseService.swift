@@ -15,7 +15,8 @@ enum DatabaseServiceError: Error {
 }
 
 protocol DatabaseService {
-    func fetchSpellList(_ completionHandler: @escaping (_ result: Result<[SpellDTO], DatabaseServiceError>) -> Void)
+    func fetchSpellList() -> Result<[SpellDTO], DatabaseServiceError>
+    func fetchSpell(by name:String) -> Result<SpellDTO, DatabaseServiceError>
     func saveDownloadedSpellList(_ spells: [SpellDTO])
     func saveDownloadedSpell(_ spell: SpellDTO)
     func saveContext()
@@ -30,8 +31,7 @@ class DatabaseServiceImpl: DatabaseService {
         self.translationService = translationService
     }
     
-    func fetchSpellList(_ completionHandler: @escaping (_ result: Result<[SpellDTO], DatabaseServiceError>) -> Void) {
-        
+    func fetchSpellList() -> Result<[SpellDTO], DatabaseServiceError> {
         // try fetching results from Core Data stack
         let context = self.persistentContainer.viewContext
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Spell")
@@ -40,17 +40,41 @@ class DatabaseServiceImpl: DatabaseService {
             let result = try context.fetch(request)
             
             if result.isEmpty {
-                completionHandler(.failure(.emptyStack))
+                return .failure(.emptyStack)
             } else {
-                guard let resultArray = result as? [Spell] else { return }
+                guard let resultArray = result as? [Spell] else { return .failure(.fetchingError) }
                 let spellDTOs = resultArray.map { spell in
                     translationService.convertToDTO(spell: spell)
                 }
-                completionHandler(.success(spellDTOs))
+                return .success(spellDTOs)
             }
         } catch let error as NSError {
             print("Could not retrieve. \(error), \(error.userInfo)")
-            completionHandler(.failure(.fetchingError))
+            return .failure(.fetchingError)
+        }
+    }
+
+    func fetchSpell(by name:String) -> Result<SpellDTO, DatabaseServiceError> {
+        let managedContext = self.persistentContainer.viewContext
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Spell")
+        let predicate = NSPredicate(format: "name == %@", name)
+        request.predicate = predicate
+        request.returnsObjectsAsFaults = false
+
+        do {
+            let result = try managedContext.fetch(request)
+            guard !result.isEmpty else { return .failure(.fetchingError) }
+            guard let matchedArray = result as? [Spell] else { return .failure(.fetchingError) }
+            guard let matchedSpell = matchedArray.first else { return .failure(.fetchingError) }
+
+            if matchedSpell.desc != nil {
+                return .success(translationService.convertToDTO(spell: matchedSpell))
+            } else {
+                return .failure(.fetchingError)
+            }
+        } catch let error as NSError {
+            print("Could not retrieve. \(error), \(error.userInfo)")
+            return .failure(.fetchingError)
         }
     }
     
@@ -81,7 +105,6 @@ class DatabaseServiceImpl: DatabaseService {
         do {
             let result = try managedContext.fetch(request)
             guard !result.isEmpty else { return }
-
             guard let matchedArray = result as? [Spell] else { return }
             guard let matchedSpell = matchedArray.first else { return }
 
