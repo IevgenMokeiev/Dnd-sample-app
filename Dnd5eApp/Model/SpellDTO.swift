@@ -35,10 +35,10 @@ extension SpellDTO: Codable {
 
         name = try values.decode(String.self, forKey: .name)
         path = try values.decode(String.self, forKey: .path)
-        level = try values.decode(Int.self, forKey: .level)
-        castingTime = try values.decode(String.self, forKey: .castingTime)
-        concentration = try values.decode(Bool.self, forKey: .concentration)
-        let array = try values.decode([String].self, forKey: .description)
-        description = array.first
+        level = try values.decodeIfPresent(Int.self, forKey: .level)
+        castingTime = try values.decodeIfPresent(String.self, forKey: .castingTime)
+        concentration = try values.decodeIfPresent(Bool.self, forKey: .concentration)
+        let array = try values.decodeIfPresent([String].self, forKey: .description)
+        description = array?.first
     }
 }
