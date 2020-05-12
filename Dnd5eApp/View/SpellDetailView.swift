@@ -21,6 +21,8 @@ struct SpellDetailView: View {
                     .onAppear(perform: loadData)
             } else {
                 VStack {
+                    Text("\(spell.name)")
+                        .fontWeight(.bold)
                     Image("scroll").padding()
                     Text("Level: \(spell.level ?? 0)")
                         .fontWeight(.bold)

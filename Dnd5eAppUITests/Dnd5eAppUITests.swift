@@ -20,11 +20,11 @@ class Dnd5eAppUITests: XCTestCase {
     func testInteraction() {
         let app = XCUIApplication()
         app.launch()
-        let tableView = app.tables.matching(identifier: "SpellTableView").firstMatch
+        let tableView = app.tables.firstMatch
         let firstCell = tableView.cells.element(boundBy: 0)
         firstCell.tap()
         
         let spellLabel = app.staticTexts["Acid Arrow"]
-        XCTAssertEqual(spellLabel.exists, true)
+        XCTAssertTrue(spellLabel.exists)
     }
 }
