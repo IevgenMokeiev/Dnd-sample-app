@@ -37,6 +37,9 @@ struct SpellListView: View {
 
 struct SpellListView_Previews: PreviewProvider {
     static var previews: some View {
-        SpellListView()
+        let coreDataServiceImpl = CoreDataServiceImpl()
+        let contentDownloaderServiceImpl = ContentDownloaderServiceImpl()
+        let contentManagerServiceImpl = ContentManagerServiceImpl(coreDataService: coreDataServiceImpl, contentDownloaderService: contentDownloaderServiceImpl)
+        return SpellListView(contentManagerService: contentManagerServiceImpl)
     }
 }
