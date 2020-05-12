@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-enum StackError: Error {
+enum CoreDataServiceError: Error {
     case emptyStack
     case fetchingError
 }
@@ -19,7 +19,7 @@ protocol CoreDataService {
     func spell(at indexPath:IndexPath) -> Spell?
     func spells() -> [Spell]?
 
-    func fetchSpellList(_ completionHandler: @escaping (_ result: [SpellDTO]?, _ error: StackError?) -> Void)
+    func fetchSpellList(_ completionHandler: @escaping (_ result: [SpellDTO]?, _ error: CoreDataServiceError?) -> Void)
     func saveDownloadedContent(from objectsArray:[[String: Any]]?) -> [SpellDTO]?
     func saveDownloadedSpell(spell: SpellDTO?, object: [String: Any]?) -> SpellDTO?
     func saveContext ()
@@ -28,7 +28,7 @@ protocol CoreDataService {
 class CoreDataServiceImpl: CoreDataService {    
     // MARK: - Public interface
     
-    public func fetchSpellList(_ completionHandler: @escaping (_ result: [SpellDTO]?, _ error: StackError?) -> Void) {
+    public func fetchSpellList(_ completionHandler: @escaping (_ result: [SpellDTO]?, _ error: CoreDataServiceError?) -> Void) {
         
         // try fetching results from Core Data stack
         let context = self.persistentContainer.viewContext

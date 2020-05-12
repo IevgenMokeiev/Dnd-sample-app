@@ -16,6 +16,7 @@ struct SpellDetailView: View {
     var body: some View {
         NavigationView {
             VStack {
+                Image("scroll").padding()
                 Text("Level: \(spell?.level ?? 0)").padding()
                 Text("Description: \(spell?.description ?? "")").padding()
                 Text("Casting time: \(spell?.castingTime ?? "")").padding()
