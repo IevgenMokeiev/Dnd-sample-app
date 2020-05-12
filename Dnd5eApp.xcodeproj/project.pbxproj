@@ -138,6 +138,7 @@
 				85B353ED2267B64200617C7E /* AppDelegate.swift */,
 				9F0C894D246A921C003592F5 /* SceneDelegate.swift */,
 				85B3545B2268BB4700617C7E /* View */,
+				9F0C894F246ACBE2003592F5 /* Services */,
 				85B3545D2268BB6100617C7E /* Model */,
 				85B3545F2268BB8A00617C7E /* Resources */,
 				85B353F92267B64A00617C7E /* Info.plist */,
@@ -176,11 +177,8 @@
 			isa = PBXGroup;
 			children = (
 				85B354582268B49700617C7E /* DnDModel.xcdatamodeld */,
-				85B354602268BCD400617C7E /* DataLayer.swift */,
-				85B3547A2269AF3100617C7E /* DatabaseService.swift */,
-				85B354622268BD3A00617C7E /* NetworkService.swift */,
-				9F6BD7C324659691001D8825 /* TranslationService.swift */,
 				9F6BD7C1246593CF001D8825 /* SpellDTO.swift */,
+				85B354602268BCD400617C7E /* DataLayer.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -192,6 +190,16 @@
 				85B353F62267B64A00617C7E /* LaunchScreen.storyboard */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		9F0C894F246ACBE2003592F5 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				85B3547A2269AF3100617C7E /* DatabaseService.swift */,
+				85B354622268BD3A00617C7E /* NetworkService.swift */,
+				9F6BD7C324659691001D8825 /* TranslationService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
