@@ -18,7 +18,9 @@ struct SpellListView: View {
             VStack {
                 Text("Spell Book")
                 List(spells) { spell in
-                    Text(spell.name ?? "")
+                    NavigationLink(destination: SpellDetailView(contentManagerService: self.contentManagerService, spell: spell)) {
+                        Text(spell.name ?? "")
+                    }
                 }.onAppear(perform: loadData)
             }
         }.onAppear {
