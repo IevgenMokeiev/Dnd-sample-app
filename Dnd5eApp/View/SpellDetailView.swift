@@ -22,10 +22,15 @@ struct SpellDetailView: View {
             } else {
                 VStack {
                     Image("scroll").padding()
-                    Text("Level: \(spell.level ?? 0)").padding()
-                    Text("Description: \(spell.description ?? "")").padding()
-                    Text("Casting time: \(spell.castingTime ?? "")").padding()
-                    Text("Concentration: \(spell.concentration ?? false ? "true" : "false")").padding()
+                    Text("Level: \(spell.level ?? 0)")
+                        .fontWeight(.bold)
+                    .padding()
+                    Text("Description: \(spell.description ?? "")")
+                    .padding()
+                    Text("Casting time: \(spell.castingTime ?? "")")
+                    .padding()
+                    Text("Concentration: \(spell.concentration ?? false ? "true" : "false")")
+                    .padding()
                 }
                 .padding()
             }
@@ -46,6 +51,6 @@ struct SpellDetailView: View {
 
 struct SpellDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SpellDetailView(spell: SpellDTO(name: "name", path: "path", level: 1, description: "description", castingTime: "1 action", concentration: false))
+        SpellDetailView(spell: SpellDTO(name: "name", path: "path", level: 1, description: "description", castingTime: "1 action", concentration: false), loading: false)
     }
 }
