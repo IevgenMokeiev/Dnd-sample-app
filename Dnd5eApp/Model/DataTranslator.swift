@@ -22,6 +22,6 @@ class DataTraslator {
     }
 
     static func convertToDTO(spell: Spell) -> SpellDTO {
-        return SpellDTO(name: spell.name, level: Int(spell.level), description: spell.desc, castingTime: spell.casting_time, concentration: spell.concentration, path: spell.path)
+        return SpellDTO(name: spell.name ?? "", level: Int(spell.level), description: spell.desc, castingTime: spell.casting_time, concentration: spell.concentration, path: spell.path ?? "")
     }
 }

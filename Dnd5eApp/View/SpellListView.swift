@@ -15,14 +15,13 @@ struct SpellListView: View {
 
     var body: some View {
         NavigationView {
-            VStack {
-                List(spells) { spell in
-                    NavigationLink(destination: SpellDetailView(contentManagerService: self.contentManagerService, spell: spell)) {
-                        Text(spell.name ?? "")
-                    }
+            List(spells) { spell in
+                NavigationLink(destination: SpellDetailView(contentManagerService: self.contentManagerService, spell: spell)) {
+                    Text(spell.name)
                 }
-                .onAppear(perform: loadData)
             }
+            .accessibility(identifier: "SpellTableView")
+            .onAppear(perform: loadData)
             .navigationBarTitle("Spell Book", displayMode: .inline)
         }
     }

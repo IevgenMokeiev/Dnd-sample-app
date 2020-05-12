@@ -20,9 +20,7 @@ class Dnd5eAppUITests: XCTestCase {
     func testInteraction() {
         let app = XCUIApplication()
         app.launch()
-        let tableView = app.tables.containing(.table, identifier: "SpellTableView")
-        XCTAssertTrue(tableView.cells.count > 0)
-        
+        let tableView = app.tables.matching(identifier: "SpellTableView").firstMatch
         let firstCell = tableView.cells.element(boundBy: 0)
         firstCell.tap()
         

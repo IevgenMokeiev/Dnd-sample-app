@@ -10,12 +10,12 @@ import Foundation
 
 struct SpellDTO: Equatable, Identifiable {
     typealias ID = String
-    var id: String { return name ?? "" }
+    var id: String { return name }
 
-    let name: String?
+    let name: String
     let level: Int?
     let description: String?
     let castingTime: String?
     let concentration: Bool?
-    let path: String?
+    let path: String
 }

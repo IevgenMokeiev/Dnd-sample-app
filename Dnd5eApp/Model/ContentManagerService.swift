@@ -11,8 +11,6 @@ import UIKit
 import CoreData
 
 protocol ContentManagerService {
-    var numberOfSpells: Int { get }
-    func spell(at indexPath:IndexPath) -> SpellDTO?
     func spells() -> [SpellDTO]?
 
     func retrieveSpellList(_ completionHandler: @escaping (_ result: [SpellDTO]?, _ error: Error?) -> Void)
@@ -32,15 +30,14 @@ class ContentManagerServiceImpl: ContentManagerService {
     public func retrieveSpellList(_ completionHandler: @escaping (_ result: [SpellDTO]?, _ error: Error?) -> Void) {
         
         coreDataService.fetchSpellList { (result, error) in
-        
             if nil == result {
                 // need to download the data first
                 self.contentDownloaderService.downloadSpellList { (result, error) in
-                    let spells = self.coreDataService.saveDownloadedContent(from: result)
-                    completionHandler(spells, nil)
+                    self.coreDataService.saveDownloadedContent(from: result)
+                    completionHandler(self.spells(), nil)
                 }
             } else {
-                completionHandler(result, nil)
+                completionHandler(self.spells(), nil)
             }
         }
     }
@@ -56,20 +53,11 @@ class ContentManagerServiceImpl: ContentManagerService {
     }
     
     // MARK: - Datasource support
-    
-    public var numberOfSpells: Int {
-        return coreDataService.numberOfSpells
-    }
-    
-    public func spell(at indexPath:IndexPath) -> SpellDTO? {
-        guard let spell = coreDataService.spell(at: indexPath) else { return nil }
-        let spellDTO = DataTraslator.convertToDTO(spell: spell)
-        return spellDTO
-    }
-
     func spells() -> [SpellDTO]? {
-        return coreDataService.spells()?.map({ spell in
+        guard let spells = coreDataService.spells()?.map({ spell in
             return DataTraslator.convertToDTO(spell: spell)
-        })
+        }) else { return nil }
+
+        return spells.sorted(by: { $0.name.caseInsensitiveCompare($1.name) == ComparisonResult.orderedAscending })
     }
 }

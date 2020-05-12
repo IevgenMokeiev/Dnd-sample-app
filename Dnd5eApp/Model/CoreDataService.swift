@@ -15,12 +15,10 @@ enum CoreDataServiceError: Error {
 }
 
 protocol CoreDataService {
-    var numberOfSpells: Int { get }
-    func spell(at indexPath:IndexPath) -> Spell?
     func spells() -> [Spell]?
 
     func fetchSpellList(_ completionHandler: @escaping (_ result: [SpellDTO]?, _ error: CoreDataServiceError?) -> Void)
-    func saveDownloadedContent(from objectsArray:[[String: Any]]?) -> [SpellDTO]?
+    func saveDownloadedContent(from objectsArray:[[String: Any]]?)
     func saveDownloadedSpell(spell: SpellDTO?, object: [String: Any]?) -> SpellDTO?
     func saveContext ()
 }
@@ -52,22 +50,17 @@ class CoreDataServiceImpl: CoreDataService {
         }
     }
     
-    public func saveDownloadedContent(from objectsArray:[[String: Any]]?) -> [SpellDTO]? {
+    public func saveDownloadedContent(from objectsArray:[[String: Any]]?) {
         let managedContext = self.persistentContainer.viewContext
-        var spellArray = [SpellDTO]()
-        
-        guard let array = objectsArray else { return nil }
+        guard let array = objectsArray else { return }
         
         for entry in array {
             let entity = NSEntityDescription.entity(forEntityName: "Spell", in: managedContext)!
             let spell = Spell(entity: entity, insertInto: managedContext)
-            guard let name = entry["name"] as? String else { return nil }
-            guard let path = entry["url"] as? String else { return nil }
+            guard let name = entry["name"] as? String else { return }
+            guard let path = entry["url"] as? String else { return }
             spell.name = name
             spell.path = path
-
-            let spellDTO = DataTraslator.convertToDTO(spell: spell)
-            spellArray.append(spellDTO)
         }
         
         do {
@@ -75,8 +68,6 @@ class CoreDataServiceImpl: CoreDataService {
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
-        
-        return spellArray
     }
     
     public func saveDownloadedSpell(spell: SpellDTO?, object: [String: Any]?) -> SpellDTO? {
@@ -136,15 +127,6 @@ class CoreDataServiceImpl: CoreDataService {
         try? fetchedResultsController.performFetch()
         return fetchedResultsController
     }()
-
-    
-    public var numberOfSpells: Int {
-        return self.fetchedResultsController.fetchedObjects?.count ?? 0
-    }
-    
-    public func spell(at indexPath:IndexPath) -> Spell? {
-        return self.fetchedResultsController.object(at: indexPath) as? Spell
-    }
 
     func spells() -> [Spell]? {
         return self.fetchedResultsController.fetchedObjects as? [Spell]
