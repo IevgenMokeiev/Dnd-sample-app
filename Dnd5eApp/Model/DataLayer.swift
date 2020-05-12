@@ -27,7 +27,7 @@ class DataLayerImpl: DataLayer {
         self.translationService = translationService
     }
     
-    public func retrieveSpellList(_ completionHandler: @escaping (_ result: [SpellDTO]?, _ error: Error?) -> Void) {
+    func retrieveSpellList(_ completionHandler: @escaping (_ result: [SpellDTO]?, _ error: Error?) -> Void) {
         
         databaseService.fetchSpellList { (resultSpells, error) in
             if let resultSpells = resultSpells {
@@ -46,7 +46,7 @@ class DataLayerImpl: DataLayer {
         }
     }
     
-    public func retrieveSpellDetails(_ spell: SpellDTO, completionHandler: @escaping (_ result: SpellDTO?, _ error: Error?) -> Void) {
+    func retrieveSpellDetails(_ spell: SpellDTO, completionHandler: @escaping (_ result: SpellDTO?, _ error: Error?) -> Void) {
         networkService.downloadSpell(with: spell.path) { (downloadResult, error) in
             guard let dict = downloadResult else { completionHandler(nil, nil); return }
             let spellDTO = self.translationService.convertToDTO(dict: dict)
@@ -54,8 +54,7 @@ class DataLayerImpl: DataLayer {
             completionHandler(spellDTO, nil)
         }
     }
-    
-    // MARK: - Datasource support
+
     func sortedSpells(spells: [SpellDTO]) -> [SpellDTO] {
         return spells.sorted(by: { $0.name.caseInsensitiveCompare($1.name) == ComparisonResult.orderedAscending })
     }

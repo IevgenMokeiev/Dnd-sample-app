@@ -12,10 +12,16 @@ import SwiftUI
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    var dataLayer: DataLayer?
-    var translationService: TranslationService?
-    var networkService: NetworkService?
     var databaseService: DatabaseService?
+
+    func provideDataLayer() -> DataLayer {
+        let translationServiceImpl = TranslationServiceImpl()
+        let databaseServiceImpl = DatabaseServiceImpl(translationService: translationServiceImpl)
+        let networkServiceImpl = NetworkServiceImpl()
+        let dataLayer = DataLayerImpl(databaseService: databaseServiceImpl, networkService: networkServiceImpl, translationService: translationServiceImpl)
+        databaseService = databaseServiceImpl
+        return dataLayer
+    }
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -24,17 +30,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Use a UIHostingController as window root view controller.
 
-        let translationServiceImpl = TranslationServiceImpl()
-        let databaseServiceImpl = DatabaseServiceImpl(translationService: translationServiceImpl)
-        let networkServiceImpl = NetworkServiceImpl()
-        databaseService = databaseServiceImpl
-        networkService = networkServiceImpl
-        dataLayer = DataLayerImpl(databaseService: databaseServiceImpl, networkService: networkServiceImpl, translationService: translationServiceImpl)
-
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             window.rootViewController = UIHostingController(rootView:
-                SpellListView(dataLayer: dataLayer))
+                SpellListView(dataLayer: provideDataLayer()))
             self.window = window
             window.makeKeyAndVisible()
         }
@@ -46,7 +45,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Release any resources associated with this scene that can be re-created the next time the scene connects.
         // The scene may re-connect later, as its session was not neccessarily discarded (see `application:didDiscardSceneSessions` instead).
         databaseService?.saveContext()
-        
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {

@@ -8,8 +8,9 @@
 
 import Foundation
 
-private enum ContentPath: String {
-    case spells = "spells"
+private enum Endpoints: String {
+    case spellList = "http://dnd5eapi.co/api/spells"
+    case spellDetails = "http://dnd5eapi.co"
 }
 
 public enum NetworkServiceError: Error {
@@ -25,26 +26,24 @@ protocol NetworkService {
 }
 
 class NetworkServiceImpl: NetworkService {
-    
-    private static let rootAPIPath = "http://dnd5eapi.co/api/"
-    private static let rootPath = "http://dnd5eapi.co"
+
     internal var urlSessionProtocolClasses: [AnyClass]?
     
-    public func downloadSpellList(_ completionHandler: @escaping (_ result: [[String: Any]]?, _ error: NetworkServiceError?) -> Void){
-        self.downloadContent(with: URL(string: (type(of: self).rootAPIPath + ContentPath.spells.rawValue))) { (resultDict, error) in
+    func downloadSpellList(_ completionHandler: @escaping (_ result: [[String: Any]]?, _ error: NetworkServiceError?) -> Void){
+        self.downloadContent(with: URL(string: Endpoints.spellList.rawValue)) { (resultDict, error) in
             guard let array = resultDict?["results"] as? [[String: Any]] else { completionHandler(nil, .invalidResponseData); return }
             completionHandler(array, error)
         }
     }
     
-    public func downloadSpell(with path: String, _ completionHandler: @escaping (_ result: [String: Any]?, _ error: NetworkServiceError?) -> Void) {
-            let url = URL(string: (type(of: self).rootPath + path))
+    func downloadSpell(with path: String, _ completionHandler: @escaping (_ result: [String: Any]?, _ error: NetworkServiceError?) -> Void) {
+        let url = URL(string: Endpoints.spellDetails.rawValue + path)
             self.downloadContent(with: url) { (resultDict, error) in
             completionHandler(resultDict, error)
         }
     }
     
-    private func downloadContent(with url: URL?, completionHandler: @escaping (_ result: [String: Any]?, _ error: NetworkServiceError?) -> Void) {
+    func downloadContent(with url: URL?, completionHandler: @escaping (_ result: [String: Any]?, _ error: NetworkServiceError?) -> Void) {
         let configuration = URLSessionConfiguration.default
         configuration.protocolClasses = self.urlSessionProtocolClasses
         let session = URLSession(configuration: configuration, delegate: nil, delegateQueue: OperationQueue.main)

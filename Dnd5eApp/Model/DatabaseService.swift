@@ -30,7 +30,7 @@ class DatabaseServiceImpl: DatabaseService {
         self.translationService = translationService
     }
     
-    public func fetchSpellList(_ completionHandler: @escaping (_ result: [SpellDTO]?, _ error: DatabaseServiceError?) -> Void) {
+    func fetchSpellList(_ completionHandler: @escaping (_ result: [SpellDTO]?, _ error: DatabaseServiceError?) -> Void) {
         
         // try fetching results from Core Data stack
         let context = self.persistentContainer.viewContext
@@ -54,7 +54,7 @@ class DatabaseServiceImpl: DatabaseService {
         }
     }
     
-    public func saveDownloadedSpellList(_ spells: [SpellDTO]) {
+    func saveDownloadedSpellList(_ spells: [SpellDTO]) {
         let managedContext = self.persistentContainer.viewContext
 
         spells.forEach { (spell) in
@@ -71,7 +71,7 @@ class DatabaseServiceImpl: DatabaseService {
         }
     }
     
-    public func saveDownloadedSpell(_ spell: SpellDTO) {
+    func saveDownloadedSpell(_ spell: SpellDTO) {
         let managedContext = self.persistentContainer.viewContext
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Spell")
         let predicate = NSPredicate(format: "name == %@", spell.name)
@@ -96,20 +96,16 @@ class DatabaseServiceImpl: DatabaseService {
             print("Could not retrieve. \(error), \(error.userInfo)")
         }
     }
-    
+
     private lazy var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult> = {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Spell")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "path", ascending: true)]
-        
+
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext:self.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
-        
+
         try? fetchedResultsController.performFetch()
         return fetchedResultsController
     }()
-
-    func spells() -> [Spell]? {
-        return self.fetchedResultsController.fetchedObjects as? [Spell]
-    }
     
     // MARK: - Core Data stack
 
