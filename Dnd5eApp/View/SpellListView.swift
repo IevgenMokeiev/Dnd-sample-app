@@ -28,7 +28,7 @@ struct SpellListView: View {
 
     // MARK: - Loading
     private func loadData() {
-        dataLayer?.retrieveSpellList { (result) in
+        dataLayer?.retrieveSpellList { result in
             if case .success(let spellList) = result {
                 self.spells = spellList
             }

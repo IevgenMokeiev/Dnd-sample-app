@@ -19,16 +19,14 @@ class DataLayerImpl: DataLayer {
     private var isDownloaded: Bool = false
     private var databaseService: DatabaseService
     private var networkService: NetworkService
-    private var translationService: TranslationService
 
-    init(databaseService: DatabaseService, networkService: NetworkService, translationService: TranslationService) {
+    init(databaseService: DatabaseService, networkService: NetworkService) {
         self.databaseService = databaseService
         self.networkService = networkService
-        self.translationService = translationService
     }
     
     func retrieveSpellList(_ completionHandler: @escaping (_ result: Result<[SpellDTO], Error>) -> Void) {
-        databaseService.fetchSpellList { [weak self] (fetchResult) in
+        databaseService.fetchSpellList { [weak self] fetchResult in
             guard let self = self else { return }
 
             switch fetchResult {
@@ -37,12 +35,11 @@ class DataLayerImpl: DataLayer {
                 completionHandler(.success(sortedSpells))
             case .failure(_):
                 // need to download the data first
-                self.networkService.downloadSpellList { [weak self] (downloadResult) in
+                self.networkService.downloadSpellList { [weak self] downloadResult in
                     guard let self = self else { return }
 
                     switch downloadResult {
-                    case .success(let spellList):
-                        let spellDTOs = self.translationService.convertToDTO(dictArray: spellList)
+                    case .success(let spellDTOs):
                         self.databaseService.saveDownloadedSpellList(spellDTOs)
                         let sortedSpells = self.sortedSpells(spells: spellDTOs)
                         completionHandler(.success(sortedSpells))
@@ -55,12 +52,11 @@ class DataLayerImpl: DataLayer {
     }
     
     func retrieveSpellDetails(_ spell: SpellDTO, completionHandler: @escaping (_ result: Result<SpellDTO, Error>) -> Void) {
-        networkService.downloadSpell(with: spell.path) { [weak self] (downloadResult) in
+        networkService.downloadSpell(with: spell.path) { [weak self] downloadResult in
             guard let self = self else { return }
 
             switch downloadResult {
-            case .success(let spell):
-                let spellDTO = self.translationService.convertToDTO(dict: spell)
+            case .success(let spellDTO):
                 self.databaseService.saveDownloadedSpell(spellDTO)
                 completionHandler(.success(spellDTO))
             case .failure(let error):

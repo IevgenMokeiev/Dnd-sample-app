@@ -22,6 +22,7 @@
 		9F6BD7C2246593CF001D8825 /* SpellDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6BD7C1246593CF001D8825 /* SpellDTO.swift */; };
 		9F6BD7C424659691001D8825 /* TranslationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6BD7C324659691001D8825 /* TranslationService.swift */; };
 		9F8CC71D2465A8CA00F35746 /* SpellListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6BD7BF2465905C001D8825 /* SpellListView.swift */; };
+		9FD5C0AC246ADEA9006C7604 /* ParsingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD5C0AB246ADEA9006C7604 /* ParsingService.swift */; };
 		E40722631CD2960F1E0326AA /* Pods_Dnd5eApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D05E6B1516E140741ECBB23F /* Pods_Dnd5eApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +67,7 @@
 		9F6BD7BF2465905C001D8825 /* SpellListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellListView.swift; sourceTree = "<group>"; };
 		9F6BD7C1246593CF001D8825 /* SpellDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellDTO.swift; sourceTree = "<group>"; };
 		9F6BD7C324659691001D8825 /* TranslationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationService.swift; sourceTree = "<group>"; };
+		9FD5C0AB246ADEA9006C7604 /* ParsingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingService.swift; sourceTree = "<group>"; };
 		D05E6B1516E140741ECBB23F /* Pods_Dnd5eApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dnd5eApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -198,9 +200,10 @@
 		9F0C894F246ACBE2003592F5 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				85B3547A2269AF3100617C7E /* DatabaseService.swift */,
-				85B354622268BD3A00617C7E /* NetworkService.swift */,
 				9F6BD7C324659691001D8825 /* TranslationService.swift */,
+				85B3547A2269AF3100617C7E /* DatabaseService.swift */,
+				9FD5C0AB246ADEA9006C7604 /* ParsingService.swift */,
+				85B354622268BD3A00617C7E /* NetworkService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -388,6 +391,7 @@
 				9F0C894C246A885C003592F5 /* SpellDetailView.swift in Sources */,
 				9F6BD7C424659691001D8825 /* TranslationService.swift in Sources */,
 				85B354612268BCD400617C7E /* DataLayer.swift in Sources */,
+				9FD5C0AC246ADEA9006C7604 /* ParsingService.swift in Sources */,
 				85B35479226912D300617C7E /* DnDModel.xcdatamodeld in Sources */,
 				9F6BD7C2246593CF001D8825 /* SpellDTO.swift in Sources */,
 				85B353EE2267B64200617C7E /* AppDelegate.swift in Sources */,

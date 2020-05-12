@@ -40,7 +40,7 @@ struct SpellDetailView: View {
 
     // MARK: - Loading
     private func loadData() {
-        dataLayer?.retrieveSpellDetails(self.spell, completionHandler: { (result) in
+        dataLayer?.retrieveSpellDetails(self.spell, completionHandler: { result in
             if case .success(let spell) = result {
                 self.spell = spell
                 self.loading = false
