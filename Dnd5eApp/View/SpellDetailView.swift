@@ -9,21 +9,26 @@
 import SwiftUI
 
 struct SpellDetailView: View {
-
+    
     var dataLayer: DataLayer?
     @State var spell: SpellDTO
+    @State var loading: Bool = true
 
     var body: some View {
         NavigationView {
-            VStack {
-                Image("scroll").padding()
-                Text("Level: \(spell.level ?? 0)").padding()
-                Text("Description: \(spell.description ?? "")").padding()
-                Text("Casting time: \(spell.castingTime ?? "")").padding()
-                Text("Concentration: \(spell.concentration ?? false ? "true" : "false")").padding()
+            if self.loading {
+                ProgressView(isAnimating: $loading)
+                .onAppear(perform: loadData)
+            } else {
+                VStack {
+                    Image("scroll").padding()
+                    Text("Level: \(spell.level ?? 0)").padding()
+                    Text("Description: \(spell.description ?? "")").padding()
+                    Text("Casting time: \(spell.castingTime ?? "")").padding()
+                    Text("Concentration: \(spell.concentration ?? false ? "true" : "false")").padding()
+                }
+                .padding()
             }
-            .padding()
-            .onAppear(perform: loadData)
         }
         .navigationBarTitle("Spell Details", displayMode: .inline)
     }
@@ -33,6 +38,7 @@ struct SpellDetailView: View {
         dataLayer?.retrieveSpellDetails(self.spell, completionHandler: { (result, error) in
             if let spell = result {
                 self.spell = spell
+                self.loading = false
             }
         })
     }
