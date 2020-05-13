@@ -26,6 +26,8 @@ public enum NetworkServiceError: Error {
 }
 
 protocol NetworkService {
+//    func downloadSpellList() -> AnyPublisher<[SpellDTO], Error>
+//    func downloadSpell() -> AnyPublisher<SpellDTO, Error>
     func downloadSpellList(_ completionHandler: @escaping (Result<[SpellDTO], NetworkServiceError>) -> Void)
     func downloadSpell(with path: String, _ completionHandler: @escaping (Result<SpellDTO, NetworkServiceError>) -> Void)
 }
@@ -41,15 +43,18 @@ class NetworkServiceImpl: NetworkService {
             completionHandler(.failure(.incorrectURL)); return
         }
 
-        downloadContent(with: url, decodingType: Response.self) { result in
-            switch result {
-            case .success(let response):
+        self.cancellable = downloadContent(with: url, decodingType: Response.self)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(_):
+                    completionHandler(.failure(.invalidResponseData))
+                }
+            }, receiveValue: { response in
                 let spells = response.results
                 completionHandler(.success(spells))
-            case .failure(let error):
-                completionHandler(.failure(error))
-            }
-        }
+            })
     }
     
     func downloadSpell(with path: String, _ completionHandler: @escaping (Result<SpellDTO, NetworkServiceError>) -> Void) {
@@ -58,26 +63,7 @@ class NetworkServiceImpl: NetworkService {
             completionHandler(.failure(.incorrectURL)); return
         }
 
-        downloadContent(with: url, decodingType: SpellDTO.self) { result in
-            switch result {
-            case .success(let spell):
-                completionHandler(.success(spell))
-            case .failure(let error):
-                completionHandler(.failure(error))
-            }
-        }
-    }
-    
-    func downloadContent<T: Decodable>(with url: URL, decodingType: T.Type, completionHandler: @escaping (Result<T, NetworkServiceError>) -> Void) {
-        let configuration = URLSessionConfiguration.default
-        configuration.protocolClasses = self.urlSessionProtocolClasses
-
-        let session = URLSession(configuration: configuration, delegate: nil, delegateQueue: OperationQueue.main)
-
-        self.cancellable = session.dataTaskPublisher(for: url)
-            .map { $0.data }
-            .decode(type: decodingType.self , decoder: JSONDecoder())
-            .eraseToAnyPublisher()
+        self.cancellable = downloadContent(with: url, decodingType: SpellDTO.self)
             .sink(receiveCompletion: { completion in
                 switch completion {
                 case .finished:
@@ -85,8 +71,19 @@ class NetworkServiceImpl: NetworkService {
                 case .failure(_):
                     completionHandler(.failure(.invalidResponseData))
                 }
-            }, receiveValue: { result in
-                completionHandler(.success(result))
+            }, receiveValue: { spell in
+                completionHandler(.success(spell))
             })
+    }
+    
+    func downloadContent<T: Decodable>(with url: URL, decodingType: T.Type) -> AnyPublisher<T, Error> {
+        let configuration = URLSessionConfiguration.default
+        configuration.protocolClasses = self.urlSessionProtocolClasses
+
+        return URLSession(configuration: configuration).dataTaskPublisher(for: url)
+            .receive(on: RunLoop.main)
+            .map { $0.data }
+            .decode(type: decodingType.self , decoder: JSONDecoder())
+            .eraseToAnyPublisher()
     }
 }
