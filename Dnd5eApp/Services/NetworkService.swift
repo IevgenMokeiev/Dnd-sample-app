@@ -19,17 +19,15 @@ private enum Endpoints: String {
 }
 
 public enum NetworkServiceError: Error {
-    case incorrectURL
+    case invalidURL
     case downloadFailed
     case invalidResponseStatusCode
     case invalidResponseData
 }
 
 protocol NetworkService {
-//    func downloadSpellList() -> AnyPublisher<[SpellDTO], Error>
-//    func downloadSpell() -> AnyPublisher<SpellDTO, Error>
-    func downloadSpellList(_ completionHandler: @escaping (Result<[SpellDTO], NetworkServiceError>) -> Void)
-    func downloadSpell(with path: String, _ completionHandler: @escaping (Result<SpellDTO, NetworkServiceError>) -> Void)
+    func downloadSpellList() -> AnyPublisher<[SpellDTO], NetworkServiceError>
+    func downloadSpell(with path: String) -> AnyPublisher<SpellDTO, NetworkServiceError>
 }
 
 class NetworkServiceImpl: NetworkService {
@@ -37,46 +35,25 @@ class NetworkServiceImpl: NetworkService {
 
     private var cancellable: AnyCancellable?
     
-    func downloadSpellList(_ completionHandler: @escaping (Result<[SpellDTO], NetworkServiceError>) -> Void) {
-
+    func downloadSpellList() -> AnyPublisher<[SpellDTO], NetworkServiceError> {
         guard let url = URL(string: Endpoints.spellList.rawValue) else {
-            completionHandler(.failure(.incorrectURL)); return
+            return Fail(error: .invalidURL).eraseToAnyPublisher()
         }
 
-        self.cancellable = downloadContent(with: url, decodingType: Response.self)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    break
-                case .failure(_):
-                    completionHandler(.failure(.invalidResponseData))
-                }
-            }, receiveValue: { response in
-                let spells = response.results
-                completionHandler(.success(spells))
-            })
+        return downloadContent(with: url, decodingType: Response.self)
+            .map { $0.results }
+            .eraseToAnyPublisher()
     }
     
-    func downloadSpell(with path: String, _ completionHandler: @escaping (Result<SpellDTO, NetworkServiceError>) -> Void) {
-
+    func downloadSpell(with path: String) -> AnyPublisher<SpellDTO, NetworkServiceError> {
         guard let url = URL(string: Endpoints.spellDetails.rawValue + path) else {
-            completionHandler(.failure(.incorrectURL)); return
+            return Fail(error: .invalidURL).eraseToAnyPublisher()
         }
 
-        self.cancellable = downloadContent(with: url, decodingType: SpellDTO.self)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    break
-                case .failure(_):
-                    completionHandler(.failure(.invalidResponseData))
-                }
-            }, receiveValue: { spell in
-                completionHandler(.success(spell))
-            })
+        return downloadContent(with: url, decodingType: SpellDTO.self)
     }
     
-    func downloadContent<T: Decodable>(with url: URL, decodingType: T.Type) -> AnyPublisher<T, Error> {
+    func downloadContent<T: Decodable>(with url: URL, decodingType: T.Type) -> AnyPublisher<T, NetworkServiceError> {
         let configuration = URLSessionConfiguration.default
         configuration.protocolClasses = self.urlSessionProtocolClasses
 
@@ -84,6 +61,7 @@ class NetworkServiceImpl: NetworkService {
             .receive(on: RunLoop.main)
             .map { $0.data }
             .decode(type: decodingType.self , decoder: JSONDecoder())
+            .mapError { _ in NetworkServiceError.invalidResponseData }
             .eraseToAnyPublisher()
     }
 }

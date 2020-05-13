@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import CoreData
+import Combine
 
 protocol DataLayer {
     func retrieveSpellList(_ completionHandler: @escaping (_ result: Result<[SpellDTO], Error>) -> Void)
@@ -18,6 +19,8 @@ protocol DataLayer {
 class DataLayerImpl: DataLayer {
     private var databaseService: DatabaseService
     private var networkService: NetworkService
+
+    private var cancellable: AnyCancellable?
 
     init(databaseService: DatabaseService, networkService: NetworkService) {
         self.databaseService = databaseService
@@ -32,17 +35,18 @@ class DataLayerImpl: DataLayer {
             completionHandler(.success(sortedSpells))
         case .failure(_):
             // need to download the data first
-            self.networkService.downloadSpellList { [weak self] downloadResult in
-                guard let self = self else { return }
-
-                switch downloadResult {
-                case .success(let spellDTOs):
+            self.cancellable = networkService.downloadSpellList()
+                .sink(receiveCompletion: { completion in
+                    switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        completionHandler(.failure(error))
+                    }
+                }) { spellDTOs in
                     self.databaseService.saveDownloadedSpellList(spellDTOs)
                     let sortedSpells = self.sortedSpells(spells: spellDTOs)
                     completionHandler(.success(sortedSpells))
-                case .failure(let error):
-                    completionHandler(.failure(error))
-                }
             }
         }
     }
@@ -55,16 +59,18 @@ class DataLayerImpl: DataLayer {
             completionHandler(.success(spell))
         case .failure(_):
             // need to download the data first
-            networkService.downloadSpell(with: spell.path) { [weak self] downloadResult in
-                guard let self = self else { return }
-
-                switch downloadResult {
-                case .success(let spellDTO):
+            self.cancellable = networkService.downloadSpell(with: spell.path)
+                .sink(receiveCompletion: { completion in
+                    switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        completionHandler(.failure(error))
+                    }
+                }) { spellDTO in
                     self.databaseService.saveDownloadedSpell(spellDTO)
-                    completionHandler(.success(spellDTO))
-                case .failure(let error):
-                    completionHandler(.failure(error))
-                }
+                    completionHandler(.success(spellDTO)
+                    )
             }
         }
     }
