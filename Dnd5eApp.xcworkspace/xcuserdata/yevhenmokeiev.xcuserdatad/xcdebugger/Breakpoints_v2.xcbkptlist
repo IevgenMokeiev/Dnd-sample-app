@@ -7,38 +7,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "50862945-4FD5-4C8E-97CA-1985851E7952"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Dnd5eApp/Services/ParsingService.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
-            landmarkName = "parseFrom(spellListData:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A7EAA74A-AAF7-448C-B15A-24E4DE0CF8B4"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Dnd5eApp/Services/ParsingService.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
-            landmarkName = "parseFrom(spellListData:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "EFBA55A5-F461-40FC-A18A-EDBFC02CD4FA"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -78,8 +46,8 @@
             filePath = "Dnd5eApp/Services/DatabaseService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
             landmarkName = "saveDownloadedSpell(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -94,8 +62,8 @@
             filePath = "Dnd5eApp/Services/DatabaseService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
             landmarkName = "saveDownloadedSpell(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -103,49 +71,33 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "EABDB932-BBC4-45E5-86D9-C26E3DCC5173"
+            uuid = "EFAD369C-D904-400D-B713-787F758436FD"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Dnd5eApp/View/SpellListView.swift"
+            filePath = "Dnd5eApp/Services/DatabaseService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
-            landmarkName = "loadData()"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "fetchSpell(by:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "EABDB932-BBC4-45E5-86D9-C26E3DCC5173 - 5aed1d8f8ae11445"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Dnd5eApp.SpellListView.(loadData in _BC64C3A8CF3B95F61E7ABEAFB8459832)() -&gt; ()"
-                  moduleName = "Dnd5eApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/yevhenmokeiev/Documents/Personal/Dnd-sample-app/Dnd5eApp/View/SpellListView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "33"
-                  endingLineNumber = "33"
-                  offsetFromSymbolStart = "62">
-               </Location>
-               <Location
-                  uuid = "EABDB932-BBC4-45E5-86D9-C26E3DCC5173 - 1c7f6572a1605376"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Result&lt;Swift.Array&lt;Dnd5eApp.SpellDTO&gt;, Swift.Error&gt;) -&gt; () in Dnd5eApp.SpellListView.(loadData in _BC64C3A8CF3B95F61E7ABEAFB8459832)() -&gt; ()"
-                  moduleName = "Dnd5eApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/yevhenmokeiev/Documents/Personal/Dnd-sample-app/Dnd5eApp/View/SpellListView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "32"
-                  endingLineNumber = "32"
-                  offsetFromSymbolStart = "155">
-               </Location>
-            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B964E52F-C2B3-46A4-B5A5-98BB779474E7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Dnd5eAppTests/Services/TranslationServiceTests.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "24"
+            endingLineNumber = "24"
+            landmarkName = "test_spell_population()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

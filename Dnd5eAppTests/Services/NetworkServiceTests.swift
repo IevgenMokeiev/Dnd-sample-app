@@ -28,7 +28,7 @@ class NetworkServiceTests: XCTestCase {
         sut.downloadSpellList { result in
             switch result {
             case .success(let spellDTOs):
-                XCTAssertTrue(spellDTOs == FakeDataFactory.provideFakeSpellListDTO())
+                XCTAssertTrue(spellDTOs == FakeDataFactory.provideEmptySpellListDTO())
             case .failure(let error):
                 XCTFail("\(error)")
             }
@@ -66,7 +66,7 @@ class NetworkServiceTests: XCTestCase {
     }
 
     private func makeSUT() -> NetworkService {
-        let sut = NetworkServiceImpl(parsingService: FakeParsingService())
+        let sut = NetworkServiceImpl()
         sut.urlSessionProtocolClasses = [MockURLProtocol.self]
 
         return sut

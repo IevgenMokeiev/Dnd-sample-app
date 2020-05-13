@@ -30,11 +30,12 @@ class DatabaseServiceImpl: DatabaseService {
     
     private var coreDataStack: CoreDataStack
     private var translationService: TranslationService
+    private var cancellable: AnyCancellable?
 
     init(coreDataStack: CoreDataStack, translationService: TranslationService) {
         self.coreDataStack = coreDataStack
         self.translationService = translationService
-        _ = NotificationCenter.default.publisher(for: UIApplication.willTerminateNotification)
+        self.cancellable = NotificationCenter.default.publisher(for: UIApplication.willTerminateNotification)
             .sink { _ in coreDataStack.saveContext() }
     }
     

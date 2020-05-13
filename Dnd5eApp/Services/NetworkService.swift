@@ -9,6 +9,10 @@
 import Foundation
 import Combine
 
+struct Response: Codable {
+    public let results: [SpellDTO]
+}
+
 private enum Endpoints: String {
     case spellList = "http://dnd5eapi.co/api/spells"
     case spellDetails = "http://dnd5eapi.co"
@@ -29,30 +33,19 @@ protocol NetworkService {
 class NetworkServiceImpl: NetworkService {
     internal var urlSessionProtocolClasses: [AnyClass]?
 
-    private let parsingService: ParsingService
-
-    init(parsingService: ParsingService) {
-        self.parsingService = parsingService
-    }
+    private var cancellable: AnyCancellable?
     
     func downloadSpellList(_ completionHandler: @escaping (Result<[SpellDTO], NetworkServiceError>) -> Void) {
 
         guard let url = URL(string: Endpoints.spellList.rawValue) else {
             completionHandler(.failure(.incorrectURL)); return
         }
-        
-        downloadContent(with: url) { [weak self] result in
-            guard let self = self else { return }
 
+        downloadContent(with: url, decodingType: Response.self) { result in
             switch result {
-            case .success(let rawData):
-                let result = self.parsingService.parseFrom(spellListData: rawData)
-                switch result {
-                case .success(let spellList):
-                    completionHandler(.success(spellList))
-                case .failure(_):
-                    completionHandler(.failure(.invalidResponseData))
-                }
+            case .success(let response):
+                let spells = response.results
+                completionHandler(.success(spells))
             case .failure(let error):
                 completionHandler(.failure(error))
             }
@@ -65,34 +58,35 @@ class NetworkServiceImpl: NetworkService {
             completionHandler(.failure(.incorrectURL)); return
         }
 
-        downloadContent(with: url) { [weak self] result in
-            guard let self = self else { return }
+        downloadContent(with: url, decodingType: SpellDTO.self) { result in
             switch result {
-            case .success(let rawData):
-                let result = self.parsingService.parseFrom(spellDetailData: rawData)
-                switch result {
-                case .success(let spell):
-                    completionHandler(.success(spell))
-                case .failure(_):
-                    completionHandler(.failure(.invalidResponseData))
-                }
+            case .success(let spell):
+                completionHandler(.success(spell))
             case .failure(let error):
                 completionHandler(.failure(error))
             }
         }
     }
     
-    func downloadContent(with url: URL, completionHandler: @escaping (Result<Data, NetworkServiceError>) -> Void) {
+    func downloadContent<T: Decodable>(with url: URL, decodingType: T.Type, completionHandler: @escaping (Result<T, NetworkServiceError>) -> Void) {
         let configuration = URLSessionConfiguration.default
         configuration.protocolClasses = self.urlSessionProtocolClasses
+
         let session = URLSession(configuration: configuration, delegate: nil, delegateQueue: OperationQueue.main)
 
-        session.dataTask(with: url) { (data, _, _) in
-            if let jsonData = data {
-                completionHandler(.success(jsonData))
-            } else {
-                completionHandler(.failure(.invalidResponseData))
-            }
-        }.resume()
+        self.cancellable = session.dataTaskPublisher(for: url)
+            .map { $0.data }
+            .decode(type: decodingType.self , decoder: JSONDecoder())
+            .eraseToAnyPublisher()
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(_):
+                    completionHandler(.failure(.invalidResponseData))
+                }
+            }, receiveValue: { result in
+                completionHandler(.success(result))
+            })
     }
 }

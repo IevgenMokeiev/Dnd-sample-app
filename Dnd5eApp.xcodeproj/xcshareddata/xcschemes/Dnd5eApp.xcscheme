@@ -47,6 +47,11 @@
                BlueprintName = "Dnd5eAppTests"
                ReferencedContainer = "container:Dnd5eApp.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "ParsingServiceTests">
+               </Test>
+            </SkippedTests>
          </TestableReference>
          <TestableReference
             skipped = "NO">

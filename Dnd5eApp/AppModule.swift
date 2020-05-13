@@ -22,8 +22,7 @@ class AppModule {
         let translationServiceImpl = TranslationServiceImpl()
         let coreDataStackImpl = CoreDataStackImpl()
         let databaseServiceImpl = DatabaseServiceImpl(coreDataStack: coreDataStackImpl, translationService: translationServiceImpl)
-        let parsingServiceImpl = ParsingServiceImpl()
-        let networkServiceImpl = NetworkServiceImpl(parsingService: parsingServiceImpl)
+        let networkServiceImpl = NetworkServiceImpl()
         let dataLayer = DataLayerImpl(databaseService: databaseServiceImpl, networkService: networkServiceImpl)
         return dataLayer
     }
