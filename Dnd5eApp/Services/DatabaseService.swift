@@ -127,9 +127,9 @@ class DatabaseServiceImpl: DatabaseService {
         }
     }
     
-    private lazy var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult> = {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Spell")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "path", ascending: true)]
+    private lazy var fetchedResultsController: NSFetchedResultsController<Spell> = {
+        let fetchRequest: NSFetchRequest<Spell> = Spell.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext:coreDataStack.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         
