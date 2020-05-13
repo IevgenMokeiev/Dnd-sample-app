@@ -26,10 +26,10 @@ protocol DatabaseService {
 }
 
 class DatabaseServiceImpl: DatabaseService {
-
+    
     var coreDataStack: CoreDataStack
     var translationService: TranslationService
-
+    
     init(coreDataStack: CoreDataStack, translationService: TranslationService) {
         self.coreDataStack = coreDataStack
         self.translationService = translationService
@@ -54,19 +54,19 @@ class DatabaseServiceImpl: DatabaseService {
             return .failure(.fetchError)
         }
     }
-
+    
     func fetchSpell(by name:String) -> Result<SpellDTO, DatabaseServiceError> {
         let managedContext = coreDataStack.persistentContainer.viewContext
         let request: NSFetchRequest<Spell> = Spell.fetchRequest()
         let predicate = NSPredicate(format: "name == %@", name)
         request.predicate = predicate
         request.returnsObjectsAsFaults = false
-
+        
         do {
             let result = try managedContext.fetch(request)
             guard !result.isEmpty else { return .failure(.fetchError) }
             guard let matchedSpell = result.first else { return .failure(.fetchError) }
-
+            
             if matchedSpell.desc != nil {
                 return .success(translationService.convertToDTO(spell: matchedSpell))
             } else {
@@ -77,12 +77,12 @@ class DatabaseServiceImpl: DatabaseService {
             return .failure(.fetchError)
         }
     }
-
+    
     @discardableResult
     func saveDownloadedSpellList(_ spells: [SpellDTO]) -> DatabaseServiceError? {
         let managedContext = coreDataStack.persistentContainer.viewContext
         var spells = [Spell]()
-
+        
         spells.forEach { (spell) in
             let entity = NSEntityDescription.entity(forEntityName: "Spell", in: managedContext)!
             let spellEntity = Spell(entity: entity, insertInto: managedContext)
@@ -99,7 +99,7 @@ class DatabaseServiceImpl: DatabaseService {
             return .saveError
         }
     }
-
+    
     @discardableResult
     func saveDownloadedSpell(_ spell: SpellDTO) -> DatabaseServiceError? {
         let managedContext = coreDataStack.persistentContainer.viewContext
@@ -107,13 +107,13 @@ class DatabaseServiceImpl: DatabaseService {
         let predicate = NSPredicate(format: "name == %@", spell.name)
         request.predicate = predicate
         request.returnsObjectsAsFaults = false
-
+        
         do {
             let result = try managedContext.fetch(request)
             guard !result.isEmpty else { return .fetchError }
             guard let matchedSpell = result.first else { return .fetchError }
             translationService.populate(spell: matchedSpell, with: spell)
-
+            
             do {
                 try managedContext.save()
                 return nil
@@ -126,17 +126,17 @@ class DatabaseServiceImpl: DatabaseService {
             return .fetchError
         }
     }
-
+    
     private lazy var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult> = {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Spell")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "path", ascending: true)]
-
+        
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext:coreDataStack.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
-
+        
         try? fetchedResultsController.performFetch()
         return fetchedResultsController
     }()
-
+    
     // MARK: - Notifications
     @objc func applicationWillTerminate(notification: Notification) {
         coreDataStack.saveContext()

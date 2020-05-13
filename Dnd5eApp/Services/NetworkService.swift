@@ -88,7 +88,7 @@ class NetworkServiceImpl: NetworkService {
 
         session.dataTask(with: url) { (data, _, _) in
             if let jsonData = data {
-                 completionHandler(.success(jsonData))
+                completionHandler(.success(jsonData))
             } else {
                 completionHandler(.failure(.invalidResponseData))
             }

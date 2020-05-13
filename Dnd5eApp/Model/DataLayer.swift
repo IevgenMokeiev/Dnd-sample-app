@@ -16,7 +16,6 @@ protocol DataLayer {
 }
 
 class DataLayerImpl: DataLayer {
-    private var isDownloaded: Bool = false
     private var databaseService: DatabaseService
     private var networkService: NetworkService
 
@@ -53,7 +52,7 @@ class DataLayerImpl: DataLayer {
 
         switch fetchResult {
         case .success(let spell):
-           completionHandler(.success(spell))
+            completionHandler(.success(spell))
         case .failure(_):
             // need to download the data first
             networkService.downloadSpell(with: spell.path) { [weak self] downloadResult in

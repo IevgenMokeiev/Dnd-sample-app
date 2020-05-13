@@ -24,7 +24,7 @@ protocol ParsingService {
 class ParsingServiceImpl: ParsingService {
     
     private let decoder = JSONDecoder()
-
+    
     func parseFrom(spellListData: Data) -> Result<[SpellDTO], ParsingError> {
         do {
             let spellsData = try decoder.decode(Response.self, from: spellListData)
@@ -34,7 +34,7 @@ class ParsingServiceImpl: ParsingService {
             return .failure(.generalError)
         }
     }
-
+    
     func parseFrom(spellDetailData: Data) -> Result<SpellDTO, ParsingError> {
         do {
             let spell = try decoder.decode(SpellDTO.self, from: spellDetailData)
