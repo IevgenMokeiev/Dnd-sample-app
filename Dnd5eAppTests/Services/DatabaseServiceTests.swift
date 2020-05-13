@@ -22,7 +22,7 @@ class DatabaseServiceTests: XCTestCase {
 
         switch result {
         case .success(let spellDTOs):
-            XCTAssertEqual(spellDTOs, FakeDataFactory.provideFakeSpellListDTO())
+            XCTAssertTrue(spellDTOs == FakeDataFactory.provideFakeSpellListDTO())
         case .failure(let error):
             XCTFail("\(error)")
         }
@@ -36,7 +36,7 @@ class DatabaseServiceTests: XCTestCase {
 
         switch result {
         case .success(let spellDTO):
-            XCTAssertEqual(spellDTO, FakeDataFactory.provideFakeSpellDTO())
+            XCTAssertTrue(spellDTO == FakeDataFactory.provideFakeSpellDTO())
         case .failure(let error):
             XCTFail("\(error)")
         }

@@ -18,7 +18,7 @@ class NetworkServiceTests: XCTestCase {
         let data = FakeDataFactory.provideFakeSpellListRawData()
 
         MockURLProtocol.requestHandler = { request in
-            XCTAssertEqual(request.url, apiURL)
+            XCTAssertTrue(request.url == apiURL)
             let response = HTTPURLResponse(url: apiURL, statusCode: 200, httpVersion: nil, headerFields: nil)!
             return (response, data)
         }
@@ -28,7 +28,7 @@ class NetworkServiceTests: XCTestCase {
         sut.downloadSpellList { result in
             switch result {
             case .success(let spellDTOs):
-                XCTAssertEqual(spellDTOs, FakeDataFactory.provideFakeSpellListDTO())
+                XCTAssertTrue(spellDTOs == FakeDataFactory.provideFakeSpellListDTO())
             case .failure(let error):
                 XCTFail("\(error)")
             }
@@ -45,7 +45,7 @@ class NetworkServiceTests: XCTestCase {
         let data = FakeDataFactory.provideFakeSpellDetailsRawData()
 
         MockURLProtocol.requestHandler = { request in
-            XCTAssertEqual(request.url, apiURL)
+            XCTAssertTrue(request.url == apiURL)
             let response = HTTPURLResponse(url: apiURL, statusCode: 200, httpVersion: nil, headerFields: nil)!
             return (response, data)
         }
@@ -55,7 +55,7 @@ class NetworkServiceTests: XCTestCase {
         sut.downloadSpell(with: "/api/spells/acid-arrow") { result in
             switch result {
             case .success(let spellDTO):
-                XCTAssertEqual(spellDTO, FakeDataFactory.provideFakeSpellDTO())
+                XCTAssertTrue(spellDTO == FakeDataFactory.provideFakeSpellDTO())
             case .failure(let error):
                 XCTFail("\(error)")
             }
