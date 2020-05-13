@@ -12,15 +12,14 @@ import XCTest
 class NetworkServiceTests: XCTestCase {
 
     func test_download_spellList() {
-        let sut = NetworkServiceImpl(parsingService: FakeParsingService())
-        sut.urlSessionProtocolClasses = [MockURLProtocol.self]
+        let sut = makeSUT()
 
         let apiURL = URL(string: "http://dnd5eapi.co/api/spells")!
         let data = FakeDataFactory.provideFakeSpellListRawData()
 
         MockURLProtocol.requestHandler = { request in
             guard let url = request.url, url == apiURL else {
-            throw NSError()
+                throw NetworkServiceError.incorrectURL
           }
 
           let response = HTTPURLResponse(url: apiURL, statusCode: 200, httpVersion: nil, headerFields: nil)!
@@ -32,7 +31,7 @@ class NetworkServiceTests: XCTestCase {
         sut.downloadSpellList { result in
             switch result {
             case .success(let spellDTOs):
-                XCTAssertTrue(spellDTOs == [FakeDataFactory.provideFakeSpellDTO()])
+                XCTAssertTrue(spellDTOs == FakeDataFactory.provideFakeSpellListDTO())
             case .failure(let error):
                 XCTFail("\(error)")
             }
@@ -43,15 +42,14 @@ class NetworkServiceTests: XCTestCase {
     }
 
     func test_download_spellDetail() {
-        let sut = NetworkServiceImpl(parsingService: FakeParsingService())
-        sut.urlSessionProtocolClasses = [MockURLProtocol.self]
+        let sut = makeSUT()
 
         let apiURL = URL(string: "http://dnd5eapi.co/api/spells/acid-arrow")!
         let data = FakeDataFactory.provideFakeSpellDetailsRawData()
 
         MockURLProtocol.requestHandler = { request in
             guard let url = request.url, url == apiURL else {
-            throw NSError()
+            throw NetworkServiceError.incorrectURL
           }
 
           let response = HTTPURLResponse(url: apiURL, statusCode: 200, httpVersion: nil, headerFields: nil)!
@@ -71,5 +69,12 @@ class NetworkServiceTests: XCTestCase {
         }
 
         waitForExpectations(timeout: 5)
+    }
+
+    private func makeSUT() -> NetworkService {
+        let sut = NetworkServiceImpl(parsingService: FakeParsingService())
+        sut.urlSessionProtocolClasses = [MockURLProtocol.self]
+
+        return sut
     }
 }

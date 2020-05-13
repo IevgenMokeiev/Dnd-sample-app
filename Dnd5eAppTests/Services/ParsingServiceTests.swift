@@ -12,7 +12,7 @@ import XCTest
 class ParsingServiceTests: XCTestCase {
 
     func test_parse_from_spellList_data() {
-        let sut = ParsingServiceImpl()
+        let sut = makeSUT()
         let testData = FakeDataFactory.provideFakeSpellListRawData()
         let result = sut.parseFrom(spellListData: testData)
         switch result {
@@ -25,7 +25,7 @@ class ParsingServiceTests: XCTestCase {
     }
 
     func test_parse_from_spellDetails_data() {
-        let sut = ParsingServiceImpl()
+        let sut = makeSUT()
         let testData = FakeDataFactory.provideFakeSpellDetailsRawData()
         let result = sut.parseFrom(spellDetailData: testData)
         switch result {
@@ -35,5 +35,9 @@ class ParsingServiceTests: XCTestCase {
         case .failure(let error):
             XCTFail("\(error)")
         }
+    }
+
+    private func makeSUT() -> ParsingService {
+        return ParsingServiceImpl()
     }
 }

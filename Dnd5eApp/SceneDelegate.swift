@@ -15,7 +15,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func provideDataLayer() -> DataLayer {
         let translationServiceImpl = TranslationServiceImpl()
-        let databaseServiceImpl = DatabaseServiceImpl(translationService: translationServiceImpl)
+        let coreDataStackImpl = CoreDataStackImpl()
+        let databaseServiceImpl = DatabaseServiceImpl(coreDataStack: coreDataStackImpl, translationService: translationServiceImpl)
         let parsingServiceImpl = ParsingServiceImpl()
         let networkServiceImpl = NetworkServiceImpl(parsingService: parsingServiceImpl)
         let dataLayer = DataLayerImpl(databaseService: databaseServiceImpl, networkService: networkServiceImpl)

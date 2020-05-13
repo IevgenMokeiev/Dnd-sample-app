@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 @testable import Dnd5eApp
 
 class FakeDataFactory {
@@ -15,24 +16,59 @@ class FakeDataFactory {
         return SpellDTO(name: "fake", path: "/fake", level: 1, description: "fake desc", castingTime: "fake time", concentration: true)
     }
 
-    static func provideFakeSpellListRawData() -> Data {
-        return """
-        {
-            "count": 2,
-            "results": [
-                {
-                    "index": "acid-arrow",
-                    "name": "Acid Arrow",
-                    "url": "/api/spells/acid-arrow"
-                },
-                {
-                    "index": "acid-splash",
-                    "name": "Acid Splash",
-                    "url": "/api/spells/acid-splash"
-                }
-            ]
-        }
-        """.data(using: .utf8)!
+    static func provideFakeSpellListDTO() -> [SpellDTO] {
+        return [
+            SpellDTO(name: "fake1", path: "/fake1", level: 1, description: "fake desc 1", castingTime: "fake time 1", concentration: true),
+            SpellDTO(name: "fake2", path: "/fake2", level: 0, description: "fake desc 2", castingTime: "fake time 2", concentration: false)
+        ]
+    }
+
+    static func provideEmptySpell() -> Spell {
+        let coreDataStack = FakeCoreDataStack()
+        let context = coreDataStack.persistentContainer.viewContext
+        let entity = NSEntityDescription.entity(forEntityName: "Spell", in: context)!
+        let spell = Spell(entity: entity, insertInto: context)
+        
+        return spell
+    }
+
+    static func provideFakeSpell() -> Spell {
+        let coreDataStack = FakeCoreDataStack()
+        let context = coreDataStack.persistentContainer.viewContext
+        let entity = NSEntityDescription.entity(forEntityName: "Spell", in: context)!
+        let spell = Spell(entity: entity, insertInto: context)
+        spell.name = "fake"
+        spell.path = "/fake"
+        spell.level = 1
+        spell.desc = "fake desc"
+        spell.casting_time = "fake time"
+        spell.concentration = true
+        try? context.save()
+
+        return spell
+    }
+
+    static func provideFakeSpellList() -> [Spell] {
+        let coreDataStack = FakeCoreDataStack()
+        let context = coreDataStack.persistentContainer.viewContext
+        let entity = NSEntityDescription.entity(forEntityName: "Spell", in: context)!
+        let spell1 = Spell(entity: entity, insertInto: context)
+        spell1.name = "fake1"
+        spell1.path = "/fake1"
+        spell1.level = 1
+        spell1.desc = "fake desc 1"
+        spell1.casting_time = "fake time 1"
+        spell1.concentration = true
+        let spell2 = Spell(entity: entity, insertInto: context)
+        spell2.name = "fake2"
+        spell2.path = "/fake2"
+        spell2.level = 0
+        spell2.desc = "fake desc 2"
+        spell2.casting_time = "fake time 2"
+        spell2.concentration = false
+        try? context.save()
+
+        return [spell1, spell2]
     }
 
     static func provideFakeSpellDetailsRawData() -> Data {
@@ -80,6 +116,26 @@ class FakeDataFactory {
                 }
             ],
             "url": "/api/spells/acid-arrow"
+        }
+        """.data(using: .utf8)!
+    }
+
+    static func provideFakeSpellListRawData() -> Data {
+        return """
+        {
+            "count": 2,
+            "results": [
+                {
+                    "index": "acid-arrow",
+                    "name": "Acid Arrow",
+                    "url": "/api/spells/acid-arrow"
+                },
+                {
+                    "index": "acid-splash",
+                    "name": "Acid Splash",
+                    "url": "/api/spells/acid-splash"
+                }
+            ]
         }
         """.data(using: .utf8)!
     }

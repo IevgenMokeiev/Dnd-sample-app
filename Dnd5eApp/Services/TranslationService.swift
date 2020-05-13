@@ -11,7 +11,7 @@ import Foundation
 protocol TranslationService {
     func populate(spell: Spell, with dto: SpellDTO)
     func convertToDTO(spell: Spell) -> SpellDTO
-    func convertToDTO(spells: [Spell]) -> [SpellDTO]
+    func convertToDTO(spellList: [Spell]) -> [SpellDTO]
 }
 
 class TranslationServiceImpl: TranslationService {
@@ -28,7 +28,7 @@ class TranslationServiceImpl: TranslationService {
         return SpellDTO(name: spell.name ?? "", path: spell.path ?? "", level: Int(spell.level), description: spell.desc, castingTime: spell.casting_time, concentration: spell.concentration)
     }
 
-    func convertToDTO(spells: [Spell]) -> [SpellDTO] {
-        return spells.map { convertToDTO(spell: $0) }
+    func convertToDTO(spellList: [Spell]) -> [SpellDTO] {
+        return spellList.map { convertToDTO(spell: $0) }
     }
 }

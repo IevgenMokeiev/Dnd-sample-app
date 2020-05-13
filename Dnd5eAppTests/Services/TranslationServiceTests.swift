@@ -11,19 +11,34 @@ import CoreData
 @testable import Dnd5eApp
 
 class TranslationServiceTests: XCTestCase {
-    // TODO: - check and reenable
-    func test_spell_population() throws {
-        let translationService = TranslationServiceImpl()
-        let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-        let entity = NSEntityDescription.entity(forEntityName: "Spell", in: context)!
-        let spell = Spell(entity: entity, insertInto: context)
-        spell.name = "test"
-        spell.path = "/path"
-        let spellDTO = SpellDTO(name: "test", path: "/path", level: 1, description: "desc", castingTime: "1 action", concentration: true)
-        translationService.populate(spell: spell, with: spellDTO)
-        XCTAssertEqual(spell.level, 1)
-        XCTAssertEqual(spell.desc, "desc")
-        XCTAssertEqual(spell.casting_time, "1 action")
-        XCTAssertEqual(spell.concentration, true)
+
+    func test_spell_population() {
+        let sut = makeSUT()
+        let spell = FakeDataFactory.provideEmptySpell()
+        let spellDTO = FakeDataFactory.provideFakeSpellDTO()
+        let expectedSpell = FakeDataFactory.provideFakeSpell()
+        sut.populate(spell: spell, with: spellDTO)
+        XCTAssertEqual(spell.level, expectedSpell.level)
+        XCTAssertEqual(spell.desc, expectedSpell.desc)
+        XCTAssertEqual(spell.casting_time, expectedSpell.casting_time)
+        XCTAssertEqual(spell.concentration, expectedSpell.concentration)
+    }
+
+    func test_spell_dto_conversion() {
+        let sut = makeSUT()
+        let spell = FakeDataFactory.provideFakeSpell()
+        let spellDTO = sut.convertToDTO(spell: spell)
+        XCTAssertTrue(spellDTO == FakeDataFactory.provideFakeSpellDTO())
+    }
+
+    func test_spellList_dto_conversion() {
+        let sut = makeSUT()
+        let spellList = FakeDataFactory.provideFakeSpellList()
+        let spellDTOs = sut.convertToDTO(spellList: spellList)
+        XCTAssertTrue(spellDTOs == FakeDataFactory.provideFakeSpellListDTO())
+    }
+
+    private func makeSUT() -> TranslationService {
+        return TranslationServiceImpl()
     }
 }

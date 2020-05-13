@@ -20,23 +20,22 @@ protocol DatabaseService {
     func fetchSpell(by name:String) -> Result<SpellDTO, DatabaseServiceError>
     func saveDownloadedSpellList(_ spells: [SpellDTO])
     func saveDownloadedSpell(_ spell: SpellDTO)
-    func saveContext()
 }
 
 class DatabaseServiceImpl: DatabaseService {
-    // MARK: - Public interface
 
+    var coreDataStack: CoreDataStack
     var translationService: TranslationService
 
-    init(translationService: TranslationService) {
+    init(coreDataStack: CoreDataStack, translationService: TranslationService) {
+        self.coreDataStack = coreDataStack
         self.translationService = translationService
         NotificationCenter.default.addObserver(self, selector: #selector(applicationWillTerminate(notification:)), name: UIApplication.willTerminateNotification, object: nil)
     }
     
     func fetchSpellList() -> Result<[SpellDTO], DatabaseServiceError> {
-        // try fetching results from Core Data stack
-        let context = self.persistentContainer.viewContext
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Spell")
+        let context = coreDataStack.persistentContainer.viewContext
+        let request: NSFetchRequest<Spell> = Spell.fetchRequest()
         request.returnsObjectsAsFaults = false
         do {
             let result = try context.fetch(request)
@@ -44,10 +43,7 @@ class DatabaseServiceImpl: DatabaseService {
             if result.isEmpty {
                 return .failure(.emptyStack)
             } else {
-                guard let resultArray = result as? [Spell] else { return .failure(.fetchingError) }
-                let spellDTOs = resultArray.map { spell in
-                    translationService.convertToDTO(spell: spell)
-                }
+                let spellDTOs = translationService.convertToDTO(spellList: result)
                 return .success(spellDTOs)
             }
         } catch let error as NSError {
@@ -57,8 +53,8 @@ class DatabaseServiceImpl: DatabaseService {
     }
 
     func fetchSpell(by name:String) -> Result<SpellDTO, DatabaseServiceError> {
-        let managedContext = self.persistentContainer.viewContext
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Spell")
+        let managedContext = coreDataStack.persistentContainer.viewContext
+        let request: NSFetchRequest<Spell> = Spell.fetchRequest()
         let predicate = NSPredicate(format: "name == %@", name)
         request.predicate = predicate
         request.returnsObjectsAsFaults = false
@@ -66,8 +62,7 @@ class DatabaseServiceImpl: DatabaseService {
         do {
             let result = try managedContext.fetch(request)
             guard !result.isEmpty else { return .failure(.fetchingError) }
-            guard let matchedArray = result as? [Spell] else { return .failure(.fetchingError) }
-            guard let matchedSpell = matchedArray.first else { return .failure(.fetchingError) }
+            guard let matchedSpell = result.first else { return .failure(.fetchingError) }
 
             if matchedSpell.desc != nil {
                 return .success(translationService.convertToDTO(spell: matchedSpell))
@@ -81,7 +76,7 @@ class DatabaseServiceImpl: DatabaseService {
     }
     
     func saveDownloadedSpellList(_ spells: [SpellDTO]) {
-        let managedContext = self.persistentContainer.viewContext
+        let managedContext = coreDataStack.persistentContainer.viewContext
 
         spells.forEach { (spell) in
             let entity = NSEntityDescription.entity(forEntityName: "Spell", in: managedContext)!
@@ -98,8 +93,8 @@ class DatabaseServiceImpl: DatabaseService {
     }
     
     func saveDownloadedSpell(_ spell: SpellDTO) {
-        let managedContext = self.persistentContainer.viewContext
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Spell")
+        let managedContext = coreDataStack.persistentContainer.viewContext
+        let request: NSFetchRequest<Spell> = Spell.fetchRequest()
         let predicate = NSPredicate(format: "name == %@", spell.name)
         request.predicate = predicate
         request.returnsObjectsAsFaults = false
@@ -107,9 +102,7 @@ class DatabaseServiceImpl: DatabaseService {
         do {
             let result = try managedContext.fetch(request)
             guard !result.isEmpty else { return }
-            guard let matchedArray = result as? [Spell] else { return }
-            guard let matchedSpell = matchedArray.first else { return }
-
+            guard let matchedSpell = result.first else { return }
             translationService.populate(spell: matchedSpell, with: spell)
 
             do {
@@ -126,40 +119,14 @@ class DatabaseServiceImpl: DatabaseService {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Spell")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "path", ascending: true)]
 
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext:self.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext:coreDataStack.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
 
         try? fetchedResultsController.performFetch()
         return fetchedResultsController
     }()
-    
-    // MARK: - Core Data stack
 
-    private lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "DnDModel")
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
-            }
-        })
-        return container
-    }()
-
-    // MARK: - Core Data Saving support
-
-    public func saveContext () {
-        let context = persistentContainer.viewContext
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-            }
-        }
-    }
-
-    // MARK: - Notification
+    // MARK: - Notifications
     @objc func applicationWillTerminate(notification: Notification) {
-        saveContext()
+        coreDataStack.saveContext()
     }
 }

@@ -47,11 +47,6 @@
                BlueprintName = "Dnd5eAppTests"
                ReferencedContainer = "container:Dnd5eApp.xcodeproj">
             </BuildableReference>
-            <SkippedTests>
-               <Test
-                  Identifier = "TranslationServiceTests/test_spell_population()">
-               </Test>
-            </SkippedTests>
          </TestableReference>
          <TestableReference
             skipped = "NO">

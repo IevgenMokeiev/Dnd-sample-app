@@ -23,6 +23,7 @@
 		9F54AC17246BE651005B4849 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC15246BE628005B4849 /* MockURLProtocol.swift */; };
 		9F54AC1A246BE721005B4849 /* Fakes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC18246BE71E005B4849 /* Fakes.swift */; };
 		9F54AC1D246BE997005B4849 /* FakeDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC1B246BE90E005B4849 /* FakeDataFactory.swift */; };
+		9F54AC1F246BF023005B4849 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC1E246BF023005B4849 /* CoreDataStack.swift */; };
 		9F6BD7C2246593CF001D8825 /* SpellDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6BD7C1246593CF001D8825 /* SpellDTO.swift */; };
 		9F6BD7C424659691001D8825 /* TranslationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6BD7C324659691001D8825 /* TranslationService.swift */; };
 		9F8CC71D2465A8CA00F35746 /* SpellListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6BD7BF2465905C001D8825 /* SpellListView.swift */; };
@@ -73,6 +74,7 @@
 		9F54AC15246BE628005B4849 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 		9F54AC18246BE71E005B4849 /* Fakes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fakes.swift; sourceTree = "<group>"; };
 		9F54AC1B246BE90E005B4849 /* FakeDataFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeDataFactory.swift; sourceTree = "<group>"; };
+		9F54AC1E246BF023005B4849 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		9F6BD7BF2465905C001D8825 /* SpellListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellListView.swift; sourceTree = "<group>"; };
 		9F6BD7C1246593CF001D8825 /* SpellDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellDTO.swift; sourceTree = "<group>"; };
 		9F6BD7C324659691001D8825 /* TranslationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationService.swift; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 			isa = PBXGroup;
 			children = (
 				85B354602268BCD400617C7E /* DataLayer.swift */,
+				9F54AC1E246BF023005B4849 /* CoreDataStack.swift */,
 				85B354582268B49700617C7E /* DnDModel.xcdatamodeld */,
 				9F6BD7C1246593CF001D8825 /* SpellDTO.swift */,
 			);
@@ -425,6 +428,7 @@
 				85B354612268BCD400617C7E /* DataLayer.swift in Sources */,
 				9FD5C0AC246ADEA9006C7604 /* ParsingService.swift in Sources */,
 				85B35479226912D300617C7E /* DnDModel.xcdatamodeld in Sources */,
+				9F54AC1F246BF023005B4849 /* CoreDataStack.swift in Sources */,
 				9F6BD7C2246593CF001D8825 /* SpellDTO.swift in Sources */,
 				85B353EE2267B64200617C7E /* AppDelegate.swift in Sources */,
 				85B354632268BD3A00617C7E /* NetworkService.swift in Sources */,
