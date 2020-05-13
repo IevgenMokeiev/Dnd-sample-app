@@ -57,11 +57,6 @@
                BlueprintName = "Dnd5eAppUITests"
                ReferencedContainer = "container:Dnd5eApp.xcodeproj">
             </BuildableReference>
-            <SkippedTests>
-               <Test
-                  Identifier = "Dnd5eAppUITests/testIntegration()">
-               </Test>
-            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>

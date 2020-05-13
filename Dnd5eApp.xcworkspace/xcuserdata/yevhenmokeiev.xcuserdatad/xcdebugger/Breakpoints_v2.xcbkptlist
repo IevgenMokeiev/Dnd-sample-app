@@ -100,5 +100,53 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EABDB932-BBC4-45E5-86D9-C26E3DCC5173"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Dnd5eApp/View/SpellListView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "loadData()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "EABDB932-BBC4-45E5-86D9-C26E3DCC5173 - 5aed1d8f8ae11445"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Dnd5eApp.SpellListView.(loadData in _BC64C3A8CF3B95F61E7ABEAFB8459832)() -&gt; ()"
+                  moduleName = "Dnd5eApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yevhenmokeiev/Documents/Personal/Dnd-sample-app/Dnd5eApp/View/SpellListView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "62">
+               </Location>
+               <Location
+                  uuid = "EABDB932-BBC4-45E5-86D9-C26E3DCC5173 - 1c7f6572a1605376"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;Swift.Array&lt;Dnd5eApp.SpellDTO&gt;, Swift.Error&gt;) -&gt; () in Dnd5eApp.SpellListView.(loadData in _BC64C3A8CF3B95F61E7ABEAFB8459832)() -&gt; ()"
+                  moduleName = "Dnd5eApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yevhenmokeiev/Documents/Personal/Dnd-sample-app/Dnd5eApp/View/SpellListView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "32"
+                  endingLineNumber = "32"
+                  offsetFromSymbolStart = "155">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

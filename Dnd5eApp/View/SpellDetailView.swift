@@ -23,7 +23,6 @@ struct SpellDetailView: View {
                 VStack {
                     Text("\(spell.name)")
                         .fontWeight(.bold)
-                        .accessibilityElement()
                     Image("scroll").padding()
                     Text("Level: \(spell.level ?? 0)")
                         .fontWeight(.bold)
