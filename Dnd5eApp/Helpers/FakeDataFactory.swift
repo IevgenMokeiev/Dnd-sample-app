@@ -23,18 +23,15 @@ class FakeDataFactory {
         ]
     }
 
-    static func provideEmptySpell() -> Spell {
-        let coreDataStack = FakeCoreDataStack()
-        let context = coreDataStack.persistentContainer.viewContext
+    static func provideEmptySpell(context: NSManagedObjectContext) -> Spell {
         let entity = NSEntityDescription.entity(forEntityName: "Spell", in: context)!
         let spell = Spell(entity: entity, insertInto: context)
-        
+        try? context.save()
+
         return spell
     }
 
-    static func provideFakeSpell() -> Spell {
-        let coreDataStack = FakeCoreDataStack()
-        let context = coreDataStack.persistentContainer.viewContext
+    static func provideFakeSpell(context: NSManagedObjectContext) -> Spell {
         let entity = NSEntityDescription.entity(forEntityName: "Spell", in: context)!
         let spell = Spell(entity: entity, insertInto: context)
         spell.name = "fake"
@@ -48,9 +45,7 @@ class FakeDataFactory {
         return spell
     }
 
-    static func provideFakeSpellList() -> [Spell] {
-        let coreDataStack = FakeCoreDataStack()
-        let context = coreDataStack.persistentContainer.viewContext
+    static func provideFakeSpellList(context: NSManagedObjectContext) -> [Spell] {
         let entity = NSEntityDescription.entity(forEntityName: "Spell", in: context)!
         let spell1 = Spell(entity: entity, insertInto: context)
         spell1.name = "fake1"

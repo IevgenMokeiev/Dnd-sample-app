@@ -12,14 +12,17 @@ import UIKit
 
 enum DatabaseServiceError: Error {
     case emptyStack
-    case fetchingError
+    case fetchError
+    case saveError
 }
 
 protocol DatabaseService {
     func fetchSpellList() -> Result<[SpellDTO], DatabaseServiceError>
-    func fetchSpell(by name:String) -> Result<SpellDTO, DatabaseServiceError>
-    func saveDownloadedSpellList(_ spells: [SpellDTO])
-    func saveDownloadedSpell(_ spell: SpellDTO)
+    func fetchSpell(by name: String) -> Result<SpellDTO, DatabaseServiceError>
+    @discardableResult
+    func saveDownloadedSpellList(_ spells: [SpellDTO]) -> DatabaseServiceError?
+    @discardableResult
+    func saveDownloadedSpell(_ spell: SpellDTO) -> DatabaseServiceError?
 }
 
 class DatabaseServiceImpl: DatabaseService {
@@ -48,7 +51,7 @@ class DatabaseServiceImpl: DatabaseService {
             }
         } catch let error as NSError {
             print("Could not retrieve. \(error), \(error.userInfo)")
-            return .failure(.fetchingError)
+            return .failure(.fetchError)
         }
     }
 
@@ -61,38 +64,44 @@ class DatabaseServiceImpl: DatabaseService {
 
         do {
             let result = try managedContext.fetch(request)
-            guard !result.isEmpty else { return .failure(.fetchingError) }
-            guard let matchedSpell = result.first else { return .failure(.fetchingError) }
+            guard !result.isEmpty else { return .failure(.fetchError) }
+            guard let matchedSpell = result.first else { return .failure(.fetchError) }
 
             if matchedSpell.desc != nil {
                 return .success(translationService.convertToDTO(spell: matchedSpell))
             } else {
-                return .failure(.fetchingError)
+                return .failure(.fetchError)
             }
         } catch let error as NSError {
             print("Could not retrieve. \(error), \(error.userInfo)")
-            return .failure(.fetchingError)
+            return .failure(.fetchError)
         }
     }
-    
-    func saveDownloadedSpellList(_ spells: [SpellDTO]) {
+
+    @discardableResult
+    func saveDownloadedSpellList(_ spells: [SpellDTO]) -> DatabaseServiceError? {
         let managedContext = coreDataStack.persistentContainer.viewContext
+        var spells = [Spell]()
 
         spells.forEach { (spell) in
             let entity = NSEntityDescription.entity(forEntityName: "Spell", in: managedContext)!
             let spellEntity = Spell(entity: entity, insertInto: managedContext)
             spellEntity.name = spell.name
             spellEntity.path = spell.path
+            spells.append(spellEntity)
         }
         
         do {
             try managedContext.save()
+            return nil
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
+            return .saveError
         }
     }
-    
-    func saveDownloadedSpell(_ spell: SpellDTO) {
+
+    @discardableResult
+    func saveDownloadedSpell(_ spell: SpellDTO) -> DatabaseServiceError? {
         let managedContext = coreDataStack.persistentContainer.viewContext
         let request: NSFetchRequest<Spell> = Spell.fetchRequest()
         let predicate = NSPredicate(format: "name == %@", spell.name)
@@ -101,17 +110,20 @@ class DatabaseServiceImpl: DatabaseService {
 
         do {
             let result = try managedContext.fetch(request)
-            guard !result.isEmpty else { return }
-            guard let matchedSpell = result.first else { return }
+            guard !result.isEmpty else { return .fetchError }
+            guard let matchedSpell = result.first else { return .fetchError }
             translationService.populate(spell: matchedSpell, with: spell)
 
             do {
                 try managedContext.save()
+                return nil
             } catch let error as NSError {
                 print("Could not save. \(error), \(error.userInfo)")
+                return .saveError
             }
         } catch let error as NSError {
             print("Could not retrieve. \(error), \(error.userInfo)")
+            return .fetchError
         }
     }
 
