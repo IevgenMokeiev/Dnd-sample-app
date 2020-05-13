@@ -11,12 +11,13 @@ import SwiftUI
 struct SpellListView: View {
 
     var dataLayer: DataLayer?
+    var viewFactory: ViewFactory?
     @State var spells: [SpellDTO] = []
 
     var body: some View {
         NavigationView {
             List(spells) { spell in
-                NavigationLink(destination: SpellDetailView(dataLayer: self.dataLayer, spell: spell)) {
+                NavigationLink(destination: self.viewFactory?.provideSpellDetailView(spell: spell)) {
                     Text(spell.name)
                 }
             }
@@ -39,6 +40,6 @@ struct SpellListView: View {
 
 struct SpellListView_Previews: PreviewProvider {
     static var previews: some View {
-        return SpellListView(dataLayer: SceneDelegate().provideDataLayer())
+        return SpellListView(dataLayer: AppModule.provideDataLayer())
     }
 }

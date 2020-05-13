@@ -13,15 +13,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-    func provideDataLayer() -> DataLayer {
-        let translationServiceImpl = TranslationServiceImpl()
-        let coreDataStackImpl = CoreDataStackImpl()
-        let databaseServiceImpl = DatabaseServiceImpl(coreDataStack: coreDataStackImpl, translationService: translationServiceImpl)
-        let parsingServiceImpl = ParsingServiceImpl()
-        let networkServiceImpl = NetworkServiceImpl(parsingService: parsingServiceImpl)
-        let dataLayer = DataLayerImpl(databaseService: databaseServiceImpl, networkService: networkServiceImpl)
-        return dataLayer
-    }
+    var appModule: AppModule?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -30,10 +22,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Use a UIHostingController as window root view controller.
 
+        appModule = AppModule()
+
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             window.rootViewController = UIHostingController(rootView:
-                SpellListView(dataLayer: provideDataLayer()))
+                appModule?.viewFactory.provideSpellListView())
             self.window = window
             window.makeKeyAndVisible()
         }
