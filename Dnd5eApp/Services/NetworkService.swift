@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Combine
 
 private enum Endpoints: String {
     case spellList = "http://dnd5eapi.co/api/spells"
@@ -28,7 +29,7 @@ protocol NetworkService {
 class NetworkServiceImpl: NetworkService {
     internal var urlSessionProtocolClasses: [AnyClass]?
 
-    let parsingService: ParsingService
+    private let parsingService: ParsingService
 
     init(parsingService: ParsingService) {
         self.parsingService = parsingService
