@@ -12,7 +12,6 @@ import SwiftUI
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    var databaseService: DatabaseService?
 
     func provideDataLayer() -> DataLayer {
         let translationServiceImpl = TranslationServiceImpl()
@@ -20,7 +19,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let parsingServiceImpl = ParsingServiceImpl()
         let networkServiceImpl = NetworkServiceImpl(parsingService: parsingServiceImpl)
         let dataLayer = DataLayerImpl(databaseService: databaseServiceImpl, networkService: networkServiceImpl)
-        databaseService = databaseServiceImpl
         return dataLayer
     }
 
@@ -45,7 +43,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This occurs shortly after the scene enters the background, or when its session is discarded.
         // Release any resources associated with this scene that can be re-created the next time the scene connects.
         // The scene may re-connect later, as its session was not neccessarily discarded (see `application:didDiscardSceneSessions` instead).
-        databaseService?.saveContext()
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {

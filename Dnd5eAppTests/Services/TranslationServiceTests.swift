@@ -11,9 +11,10 @@ import CoreData
 @testable import Dnd5eApp
 
 class TranslationServiceTests: XCTestCase {
+    // TODO: - check and reenable
     func test_spell_population() throws {
         let translationService = TranslationServiceImpl()
-        let context = NSManagedObjectContext.
+        let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         let entity = NSEntityDescription.entity(forEntityName: "Spell", in: context)!
         let spell = Spell(entity: entity, insertInto: context)
         spell.name = "test"
