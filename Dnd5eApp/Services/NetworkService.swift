@@ -2,8 +2,8 @@
 //  NetworkService.swift
 //  Dnd5eApp
 //
-//  Created by Ievgen on 4/18/19.
-//  Copyright © 2019 Ievgen. All rights reserved.
+//  Created by Yevhen Mokeiev on 4/18/19.
+//  Copyright © 2019 Yevhen Mokeiev. All rights reserved.
 //
 
 import Foundation

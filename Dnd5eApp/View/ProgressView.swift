@@ -3,7 +3,7 @@
 //  Dnd5eApp
 //
 //  Created by Yevhen Mokeiev on 12.05.2020.
-//  Copyright © 2020 Ievgen. All rights reserved.
+//  Copyright © 2020 Yevhen Mokeiev. All rights reserved.
 //
 
 import SwiftUI

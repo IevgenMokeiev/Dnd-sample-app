@@ -2,8 +2,8 @@
 //  AppDelegate.swift
 //  Dnd5eApp
 //
-//  Created by Ievgen on 4/17/19.
-//  Copyright © 2019 Ievgen. All rights reserved.
+//  Created by Yevhen Mokeiev on 4/17/19.
+//  Copyright © 2019 Yevhen Mokeiev. All rights reserved.
 //
 
 import UIKit

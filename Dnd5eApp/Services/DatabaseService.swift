@@ -2,8 +2,8 @@
 //  DatabaseService.swift
 //  Dnd5eApp
 //
-//  Created by Ievgen on 4/19/19.
-//  Copyright © 2019 Ievgen. All rights reserved.
+//  Created by Yevhen Mokeiev on 4/19/19.
+//  Copyright © 2019 Yevhen Mokeiev. All rights reserved.
 //
 
 import Foundation
@@ -145,7 +145,7 @@ class DatabaseServiceImpl: DatabaseService {
     }()
 
     // MARK: - Core Data Saving support
-    
+
     public func saveContext () {
         let context = persistentContainer.viewContext
         if context.hasChanges {
