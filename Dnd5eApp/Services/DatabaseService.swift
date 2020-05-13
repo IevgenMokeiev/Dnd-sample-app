@@ -27,8 +27,8 @@ protocol DatabaseService {
 
 class DatabaseServiceImpl: DatabaseService {
     
-    var coreDataStack: CoreDataStack
-    var translationService: TranslationService
+    private var coreDataStack: CoreDataStack
+    private var translationService: TranslationService
     
     init(coreDataStack: CoreDataStack, translationService: TranslationService) {
         self.coreDataStack = coreDataStack
