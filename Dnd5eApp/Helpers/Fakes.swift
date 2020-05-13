@@ -20,6 +20,19 @@ class FakeParsingService: ParsingService {
     }
 }
 
+class FakeTranslationService: TranslationService {
+    func populate(spell: Spell, with dto: SpellDTO) {
+    }
+
+    func convertToDTO(spell: Spell) -> SpellDTO {
+        return FakeDataFactory.provideFakeSpellDTO()
+    }
+
+    func convertToDTO(spellList: [Spell]) -> [SpellDTO] {
+        return FakeDataFactory.provideFakeSpellListDTO()
+    }
+}
+
 class FakeCoreDataStack: CoreDataStack {
     var managedObjectContext: NSManagedObjectContext!
     var persistentContainer: NSPersistentContainer!

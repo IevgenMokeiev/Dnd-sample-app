@@ -17,8 +17,8 @@ class ParsingServiceTests: XCTestCase {
         let result = sut.parseFrom(spellListData: testData)
         switch result {
         case .success(let spells):
-            XCTAssertTrue(spells.count == 2)
-            XCTAssertTrue(spells.first?.name == "Acid Arrow")
+            XCTAssertEqual(spells.count, 2)
+            XCTAssertEqual(spells.first?.name, "Acid Arrow")
         case .failure(let error):
             XCTFail("\(error)")
         }
@@ -30,8 +30,8 @@ class ParsingServiceTests: XCTestCase {
         let result = sut.parseFrom(spellDetailData: testData)
         switch result {
         case .success(let spell):
-            XCTAssertTrue(spell.name == "Acid Arrow")
-            XCTAssertTrue(spell.description == "A shimmering green arrow streaks toward a target within range and bursts in a spray of acid. Make a ranged spell attack against the target. On a hit, the target takes 4d4 acid damage immediately and 2d4 acid damage at the end of its next turn. On a miss, the arrow splashes the target with acid for half as much of the initial damage and no damage at the end of its next turn.")
+            XCTAssertEqual(spell.name, "Acid Arrow")
+            XCTAssertEqual(spell.description, "A shimmering green arrow streaks toward a target within range and bursts in a spray of acid. Make a ranged spell attack against the target. On a hit, the target takes 4d4 acid damage immediately and 2d4 acid damage at the end of its next turn. On a miss, the arrow splashes the target with acid for half as much of the initial damage and no damage at the end of its next turn.")
         case .failure(let error):
             XCTFail("\(error)")
         }

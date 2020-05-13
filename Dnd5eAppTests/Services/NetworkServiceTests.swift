@@ -18,12 +18,9 @@ class NetworkServiceTests: XCTestCase {
         let data = FakeDataFactory.provideFakeSpellListRawData()
 
         MockURLProtocol.requestHandler = { request in
-            guard let url = request.url, url == apiURL else {
-                throw NetworkServiceError.incorrectURL
-          }
-
-          let response = HTTPURLResponse(url: apiURL, statusCode: 200, httpVersion: nil, headerFields: nil)!
-          return (response, data)
+            XCTAssertEqual(request.url, apiURL)
+            let response = HTTPURLResponse(url: apiURL, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            return (response, data)
         }
 
         let expectatation = expectation(description: "wait for network call")
@@ -31,7 +28,7 @@ class NetworkServiceTests: XCTestCase {
         sut.downloadSpellList { result in
             switch result {
             case .success(let spellDTOs):
-                XCTAssertTrue(spellDTOs == FakeDataFactory.provideFakeSpellListDTO())
+                XCTAssertEqual(spellDTOs, FakeDataFactory.provideFakeSpellListDTO())
             case .failure(let error):
                 XCTFail("\(error)")
             }
@@ -48,12 +45,9 @@ class NetworkServiceTests: XCTestCase {
         let data = FakeDataFactory.provideFakeSpellDetailsRawData()
 
         MockURLProtocol.requestHandler = { request in
-            guard let url = request.url, url == apiURL else {
-            throw NetworkServiceError.incorrectURL
-          }
-
-          let response = HTTPURLResponse(url: apiURL, statusCode: 200, httpVersion: nil, headerFields: nil)!
-          return (response, data)
+            XCTAssertEqual(request.url, apiURL)
+            let response = HTTPURLResponse(url: apiURL, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            return (response, data)
         }
 
         let expectatation = expectation(description: "wait for network call")
@@ -61,7 +55,7 @@ class NetworkServiceTests: XCTestCase {
         sut.downloadSpell(with: "/api/spells/acid-arrow") { result in
             switch result {
             case .success(let spellDTO):
-                XCTAssertTrue(spellDTO == FakeDataFactory.provideFakeSpellDTO())
+                XCTAssertEqual(spellDTO, FakeDataFactory.provideFakeSpellDTO())
             case .failure(let error):
                 XCTFail("\(error)")
             }

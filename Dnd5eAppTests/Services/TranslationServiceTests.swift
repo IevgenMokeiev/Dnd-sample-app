@@ -28,14 +28,14 @@ class TranslationServiceTests: XCTestCase {
         let sut = makeSUT()
         let spell = FakeDataFactory.provideFakeSpell()
         let spellDTO = sut.convertToDTO(spell: spell)
-        XCTAssertTrue(spellDTO == FakeDataFactory.provideFakeSpellDTO())
+        XCTAssertEqual(spellDTO, FakeDataFactory.provideFakeSpellDTO())
     }
 
     func test_spellList_dto_conversion() {
         let sut = makeSUT()
         let spellList = FakeDataFactory.provideFakeSpellList()
         let spellDTOs = sut.convertToDTO(spellList: spellList)
-        XCTAssertTrue(spellDTOs == FakeDataFactory.provideFakeSpellListDTO())
+        XCTAssertEqual(spellDTOs, FakeDataFactory.provideFakeSpellListDTO())
     }
 
     private func makeSUT() -> TranslationService {
