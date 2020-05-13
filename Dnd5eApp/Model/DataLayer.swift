@@ -12,45 +12,30 @@ import CoreData
 import Combine
 
 protocol DataLayer {
-    func retrieveSpellList(_ completionHandler: @escaping (_ result: Result<[SpellDTO], Error>) -> Void)
-    func retrieveSpellDetails(_ spell: SpellDTO, completionHandler: @escaping (_ result: Result<SpellDTO, Error>) -> Void)
+    func retrieveSpellList() -> AnyPublisher<[SpellDTO], Error>
+    func retrieveSpellDetails(spell: SpellDTO) -> AnyPublisher<SpellDTO, Error>
 }
 
 class DataLayerImpl: DataLayer {
     private var databaseService: DatabaseService
     private var networkService: NetworkService
 
-    private var cancellable: AnyCancellable?
-
     init(databaseService: DatabaseService, networkService: NetworkService) {
         self.databaseService = databaseService
         self.networkService = networkService
     }
     
-    func retrieveSpellList(_ completionHandler: @escaping (_ result: Result<[SpellDTO], Error>) -> Void) {
-        let fetchResult = databaseService.fetchSpellList()
-        switch fetchResult {
-        case .success(let spellList):
-            let sortedSpells = self.sortedSpells(spells: spellList)
-            completionHandler(.success(sortedSpells))
-        case .failure(_):
-            // need to download the data first
-            self.cancellable = networkService.downloadSpellList()
-                .sink(receiveCompletion: { completion in
-                    switch completion {
-                    case .finished:
-                        break
-                    case .failure(let error):
-                        completionHandler(.failure(error))
-                    }
-                }) { spellDTOs in
-                    self.databaseService.saveDownloadedSpellList(spellDTOs)
-                    let sortedSpells = self.sortedSpells(spells: spellDTOs)
-                    completionHandler(.success(sortedSpells))
-            }
-        }
+    func retrieveSpellList() -> AnyPublisher<[SpellDTO], Error> {
+
+        let downloadPublisher = networkService.downloadSpellList()
+            .map{ self.sortedSpells(spells: $0) }
+            .map{ self.databaseService.saveDownloadedSpellList($0) }
+
+        return databaseService.fetchSpellList()
+        .map { self.sortedSpells(spells: $0) }
+        .catch { _ in downloadPublisher }
     }
-    
+
     func retrieveSpellDetails(_ spell: SpellDTO, completionHandler: @escaping (_ result: Result<SpellDTO, Error>) -> Void) {
         let fetchResult = databaseService.fetchSpell(by: spell.name)
 
@@ -59,7 +44,7 @@ class DataLayerImpl: DataLayer {
             completionHandler(.success(spell))
         case .failure(_):
             // need to download the data first
-            self.cancellable = networkService.downloadSpell(with: spell.path)
+            networkService.downloadSpell(with: spell.path)
                 .sink(receiveCompletion: { completion in
                     switch completion {
                     case .finished:
@@ -72,6 +57,7 @@ class DataLayerImpl: DataLayer {
                     completionHandler(.success(spellDTO)
                     )
             }
+            .store(in: &bag)
         }
     }
 

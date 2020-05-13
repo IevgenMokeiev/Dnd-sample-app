@@ -18,28 +18,27 @@ enum DatabaseServiceError: Error {
 }
 
 protocol DatabaseService {
-    func fetchSpellList() -> Result<[SpellDTO], DatabaseServiceError>
-    func fetchSpell(by name: String) -> Result<SpellDTO, DatabaseServiceError>
-    @discardableResult
-    func saveDownloadedSpellList(_ spells: [SpellDTO]) -> DatabaseServiceError?
-    @discardableResult
-    func saveDownloadedSpell(_ spell: SpellDTO) -> DatabaseServiceError?
+    func fetchSpellList() -> AnyPublisher<[SpellDTO], DatabaseServiceError>
+    func fetchSpell(by name: String) -> AnyPublisher<SpellDTO, DatabaseServiceError>
+    func saveDownloadedSpellList(_ spells: [SpellDTO]) -> AnyPublisher<Any, DatabaseServiceError>
+    func saveDownloadedSpell(_ spell: SpellDTO) -> AnyPublisher<Any, DatabaseServiceError>
 }
 
 class DatabaseServiceImpl: DatabaseService {
     
     private var coreDataStack: CoreDataStack
     private var translationService: TranslationService
-    private var cancellable: AnyCancellable?
+    private var bag = Set<AnyCancellable>()
 
     init(coreDataStack: CoreDataStack, translationService: TranslationService) {
         self.coreDataStack = coreDataStack
         self.translationService = translationService
-        self.cancellable = NotificationCenter.default.publisher(for: UIApplication.willTerminateNotification)
+        NotificationCenter.default.publisher(for: UIApplication.willTerminateNotification)
             .sink { _ in coreDataStack.saveContext() }
+            .store(in: &bag)
     }
     
-    func fetchSpellList() -> Result<[SpellDTO], DatabaseServiceError> {
+    func fetchSpellList() -> AnyPublisher<[SpellDTO], DatabaseServiceError> {
         let context = coreDataStack.persistentContainer.viewContext
         let request: NSFetchRequest<Spell> = Spell.fetchRequest()
         request.returnsObjectsAsFaults = false
@@ -47,18 +46,18 @@ class DatabaseServiceImpl: DatabaseService {
             let result = try context.fetch(request)
             
             if result.isEmpty {
-                return .failure(.emptyStack)
+                return Fail(error: .emptyStack).eraseToAnyPublisher()
             } else {
                 let spellDTOs = translationService.convertToDTO(spellList: result)
-                return .success(spellDTOs)
+                return Result.Publisher(spellDTOs).eraseToAnyPublisher()
             }
         } catch let error as NSError {
             print("Could not retrieve. \(error), \(error.userInfo)")
-            return .failure(.fetchError)
+            return Fail(error: .fetchError).eraseToAnyPublisher()
         }
     }
     
-    func fetchSpell(by name:String) -> Result<SpellDTO, DatabaseServiceError> {
+    func fetchSpell(by name: String) -> AnyPublisher<SpellDTO, DatabaseServiceError> {
         let managedContext = coreDataStack.persistentContainer.viewContext
         let request: NSFetchRequest<Spell> = Spell.fetchRequest()
         let predicate = NSPredicate(format: "name == %@", name)
@@ -67,22 +66,21 @@ class DatabaseServiceImpl: DatabaseService {
         
         do {
             let result = try managedContext.fetch(request)
-            guard !result.isEmpty else { return .failure(.fetchError) }
-            guard let matchedSpell = result.first else { return .failure(.fetchError) }
+            guard !result.isEmpty else { return Fail(error: .fetchError).eraseToAnyPublisher() }
+            guard let matchedSpell = result.first else { return Fail(error: .fetchError).eraseToAnyPublisher() }
             
             if matchedSpell.desc != nil {
-                return .success(translationService.convertToDTO(spell: matchedSpell))
+                return Result.Publisher(translationService.convertToDTO(spell: matchedSpell)).eraseToAnyPublisher()
             } else {
-                return .failure(.fetchError)
+                return Fail(error: .fetchError).eraseToAnyPublisher()
             }
         } catch let error as NSError {
             print("Could not retrieve. \(error), \(error.userInfo)")
-            return .failure(.fetchError)
+            return Fail(error: .fetchError).eraseToAnyPublisher()
         }
     }
-    
-    @discardableResult
-    func saveDownloadedSpellList(_ spells: [SpellDTO]) -> DatabaseServiceError? {
+
+    func saveDownloadedSpellList(_ spells: [SpellDTO]) -> AnyPublisher<Any, DatabaseServiceError> {
         let managedContext = coreDataStack.persistentContainer.viewContext
         var spells = [Spell]()
         
@@ -96,15 +94,14 @@ class DatabaseServiceImpl: DatabaseService {
         
         do {
             try managedContext.save()
-            return nil
+            return Empty().eraseToAnyPublisher()
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
-            return .saveError
+            return Fail(error: .saveError).eraseToAnyPublisher()
         }
     }
-    
-    @discardableResult
-    func saveDownloadedSpell(_ spell: SpellDTO) -> DatabaseServiceError? {
+
+    func saveDownloadedSpell(_ spell: SpellDTO) -> AnyPublisher<Any, DatabaseServiceError> {
         let managedContext = coreDataStack.persistentContainer.viewContext
         let request: NSFetchRequest<Spell> = Spell.fetchRequest()
         let predicate = NSPredicate(format: "name == %@", spell.name)
@@ -113,20 +110,20 @@ class DatabaseServiceImpl: DatabaseService {
         
         do {
             let result = try managedContext.fetch(request)
-            guard !result.isEmpty else { return .fetchError }
-            guard let matchedSpell = result.first else { return .fetchError }
+            guard !result.isEmpty else { return Fail(error: .fetchError).eraseToAnyPublisher() }
+            guard let matchedSpell = result.first else { return Fail(error: .fetchError).eraseToAnyPublisher() }
             translationService.populate(spell: matchedSpell, with: spell)
             
             do {
                 try managedContext.save()
-                return nil
+                return Empty().eraseToAnyPublisher()
             } catch let error as NSError {
                 print("Could not save. \(error), \(error.userInfo)")
-                return .saveError
+                return Fail(error: .saveError).eraseToAnyPublisher()
             }
         } catch let error as NSError {
             print("Could not retrieve. \(error), \(error.userInfo)")
-            return .fetchError
+            return Fail(error: .fetchError).eraseToAnyPublisher()
         }
     }
     
