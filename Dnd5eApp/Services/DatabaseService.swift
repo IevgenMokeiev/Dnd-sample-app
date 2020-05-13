@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 import UIKit
+import Combine
 
 enum DatabaseServiceError: Error {
     case emptyStack
@@ -29,11 +30,12 @@ class DatabaseServiceImpl: DatabaseService {
     
     private var coreDataStack: CoreDataStack
     private var translationService: TranslationService
-    
+
     init(coreDataStack: CoreDataStack, translationService: TranslationService) {
         self.coreDataStack = coreDataStack
         self.translationService = translationService
-        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillTerminate(notification:)), name: UIApplication.willTerminateNotification, object: nil)
+        _ = NotificationCenter.default.publisher(for: UIApplication.willTerminateNotification)
+            .sink { _ in coreDataStack.saveContext() }
     }
     
     func fetchSpellList() -> Result<[SpellDTO], DatabaseServiceError> {
@@ -136,9 +138,4 @@ class DatabaseServiceImpl: DatabaseService {
         try? fetchedResultsController.performFetch()
         return fetchedResultsController
     }()
-    
-    // MARK: - Notifications
-    @objc func applicationWillTerminate(notification: Notification) {
-        coreDataStack.saveContext()
-    }
 }
