@@ -32,8 +32,6 @@ protocol NetworkService {
 
 class NetworkServiceImpl: NetworkService {
     internal var urlSessionProtocolClasses: [AnyClass]?
-
-    private var cancellable: AnyCancellable?
     
     func downloadSpellList() -> AnyPublisher<[SpellDTO], NetworkServiceError> {
         guard let url = URL(string: Endpoints.spellList.rawValue) else {

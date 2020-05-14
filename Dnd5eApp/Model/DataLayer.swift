@@ -11,9 +11,13 @@ import UIKit
 import CoreData
 import Combine
 
+public enum DataLayerError: Error {
+    case generalError
+}
+
 protocol DataLayer {
-    func retrieveSpellList() -> AnyPublisher<[SpellDTO], Error>
-    func retrieveSpellDetails(spell: SpellDTO) -> AnyPublisher<SpellDTO, Error>
+    func retrieveSpellList() -> AnyPublisher<[SpellDTO], DataLayerError>
+    func retrieveSpellDetails(spell: SpellDTO) -> AnyPublisher<SpellDTO, DataLayerError>
 }
 
 class DataLayerImpl: DataLayer {
@@ -25,40 +29,35 @@ class DataLayerImpl: DataLayer {
         self.networkService = networkService
     }
     
-    func retrieveSpellList() -> AnyPublisher<[SpellDTO], Error> {
+    func retrieveSpellList() -> AnyPublisher<[SpellDTO], DataLayerError> {
 
         let downloadPublisher = networkService.downloadSpellList()
             .map{ self.sortedSpells(spells: $0) }
-            .map{ self.databaseService.saveDownloadedSpellList($0) }
+//            .map { self.databaseService.saveDownloadedSpellList($0) }
+            .mapError { _ in DataLayerError.generalError
+            }
+            .eraseToAnyPublisher()
 
         return databaseService.fetchSpellList()
         .map { self.sortedSpells(spells: $0) }
+        .mapError { _ in DataLayerError.generalError
+            }
         .catch { _ in downloadPublisher }
+        .eraseToAnyPublisher()
     }
 
-    func retrieveSpellDetails(_ spell: SpellDTO, completionHandler: @escaping (_ result: Result<SpellDTO, Error>) -> Void) {
-        let fetchResult = databaseService.fetchSpell(by: spell.name)
-
-        switch fetchResult {
-        case .success(let spell):
-            completionHandler(.success(spell))
-        case .failure(_):
-            // need to download the data first
-            networkService.downloadSpell(with: spell.path)
-                .sink(receiveCompletion: { completion in
-                    switch completion {
-                    case .finished:
-                        break
-                    case .failure(let error):
-                        completionHandler(.failure(error))
+    func retrieveSpellDetails(spell: SpellDTO) -> AnyPublisher<SpellDTO, DataLayerError> {
+        let downloadPublisher = networkService.downloadSpell(with: spell.path)
+        //            .map { self.databaseService.saveDownloadedSpell($0) }
+                    .mapError { _ in DataLayerError.generalError
                     }
-                }) { spellDTO in
-                    self.databaseService.saveDownloadedSpell(spellDTO)
-                    completionHandler(.success(spellDTO)
-                    )
+                    .eraseToAnyPublisher()
+
+        return databaseService.fetchSpell(by: spell.name)
+        .mapError { _ in DataLayerError.generalError
             }
-            .store(in: &bag)
-        }
+        .catch { _ in downloadPublisher }
+        .eraseToAnyPublisher()
     }
 
     func sortedSpells(spells: [SpellDTO]) -> [SpellDTO] {

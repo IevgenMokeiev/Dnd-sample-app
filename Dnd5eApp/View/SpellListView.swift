@@ -7,12 +7,15 @@
 //
 
 import SwiftUI
+import Combine
 
 struct SpellListView: View {
 
     var dataLayer: DataLayer?
     var viewFactory: ViewFactory?
     @State var spells: [SpellDTO] = []
+
+    @State var bag = Set<AnyCancellable>()
 
     var body: some View {
         NavigationView {
@@ -30,11 +33,12 @@ struct SpellListView: View {
 
     // MARK: - Loading
     private func loadData() {
-        dataLayer?.retrieveSpellList { result in
-            if case .success(let spellList) = result {
-                self.spells = spellList
-            }
-        }
+        dataLayer?.retrieveSpellList()
+        .sink(receiveCompletion: { _ in
+        }, receiveValue: { spellList in
+            self.spells = spellList
+        })
+        .store(in: &bag)
     }
 }
 

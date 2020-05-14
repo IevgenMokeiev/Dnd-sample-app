@@ -7,12 +7,15 @@
 //
 
 import SwiftUI
+import Combine
 
 struct SpellDetailView: View {
     
     var dataLayer: DataLayer?
     @State var spell: SpellDTO
     @State var loading: Bool = true
+
+    @State var bag = Set<AnyCancellable>()
 
     var body: some View {
         NavigationView {
@@ -42,12 +45,13 @@ struct SpellDetailView: View {
 
     // MARK: - Loading
     private func loadData() {
-        dataLayer?.retrieveSpellDetails(self.spell, completionHandler: { result in
-            if case .success(let spell) = result {
-                self.spell = spell
-                self.loading = false
-            }
+        dataLayer?.retrieveSpellDetails(spell: self.spell)
+        .sink(receiveCompletion: { _ in
+        }, receiveValue: { spell in
+            self.spell = spell
+            self.loading = false
         })
+        .store(in: &bag)
     }
 }
 
