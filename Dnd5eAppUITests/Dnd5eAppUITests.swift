@@ -22,6 +22,6 @@ class Dnd5eAppUITests: XCTestCase {
         firstCell.tap()
 
         let spellLabel = app.staticTexts["Acid Arrow"]
-        XCTAssertTrue(spellLabel.exists)
+        XCTAssertTrue(spellLabel.waitForExistence(timeout: 3))
     }
 }

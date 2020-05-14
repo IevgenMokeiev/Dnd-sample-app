@@ -53,7 +53,7 @@ class NetworkServiceImpl: NetworkService {
     
     func downloadContent<T: Decodable>(with url: URL, decodingType: T.Type) -> AnyPublisher<T, NetworkServiceError> {
         let configuration = URLSessionConfiguration.default
-        configuration.protocolClasses = self.urlSessionProtocolClasses
+        configuration.protocolClasses = urlSessionProtocolClasses
 
         return URLSession(configuration: configuration).dataTaskPublisher(for: url)
             .receive(on: RunLoop.main)
