@@ -36,7 +36,6 @@ class DataLayerImpl: DataLayer {
         .eraseToAnyPublisher()
 
         return databaseService.spellListPublisher()
-            .map { self.sortedSpells(spells: $0) }
             .mapError { $0 as Error }
             .catch { _ in downloadPublisher }
             .map { self.sortedSpells(spells: $0) }
@@ -46,7 +45,9 @@ class DataLayerImpl: DataLayer {
     func spellDetailsPublisher(for spell: SpellDTO) -> AnyPublisher<SpellDTO, Error> {
         let downloadPublisher = networkService.spellDetailPublisher(for: spell.path)
             .mapError { $0 as Error }
-            .flatMap { self.databaseService.saveSpellDetailsPublisher(for: $0).mapError { $0 as Error }.eraseToAnyPublisher() }
+            .flatMap { self.databaseService.saveSpellDetailsPublisher(for: $0)
+                .mapError { $0 as Error }
+                .eraseToAnyPublisher() }
             .eraseToAnyPublisher()
 
         return databaseService.spellDetailsPublisher(for: spell.name)
