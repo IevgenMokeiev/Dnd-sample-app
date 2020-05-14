@@ -31,6 +31,6 @@ struct SpellListView: View {
 
 struct SpellListView_Previews: PreviewProvider {
     static var previews: some View {
-        return SpellListView(viewModel: <#T##SpellListViewModel#>))
+        return AppModule().viewFactory.provideSpellListView()
     }
 }

@@ -7,11 +7,17 @@
 //
 
 import Foundation
+import SwiftUI
 import Combine
 
 class SpellDetailViewModel: ObservableObject {
 
-    @Published var spellDTO: [SpellDTO] = []
+    @Published var spellDTO: SpellDTO = SpellDTO.placeholder {
+        didSet {
+            loading = false
+        }
+    }
+    @Published var loading: Bool = true
 
     private let publisher: AnyPublisher<SpellDTO, Error>
     private var cancellableSet: Set<AnyCancellable> = []
@@ -21,10 +27,10 @@ class SpellDetailViewModel: ObservableObject {
     }
 
     func onAppear() {
-        let _ = publisher
-        .assertNoFailure()
-        .assign(to: \.spellDTO, on: self)
-        .store(in: &cancellableSet)
+        publisher
+            .replaceError(with: SpellDTO.placeholder)
+            .assign(to: \.spellDTO, on: self)
+            .store(in: &cancellableSet)
     }
 }
 

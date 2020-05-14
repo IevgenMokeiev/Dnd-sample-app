@@ -21,10 +21,10 @@ class SpellListViewModel: ObservableObject {
     }
 
     func onAppear() {
-        let _ = publisher
-        .replaceError(with: [])
-        .assign(to: \.spellDTOs, on: self)
-        .store(in: &cancellableSet)
+        publisher
+            .replaceError(with: [])
+            .assign(to: \.spellDTOs, on: self)
+            .store(in: &cancellableSet)
     }
 }
 

@@ -29,6 +29,6 @@ class ViewFactoryImpl: ViewFactory {
 
     func provideSpellDetailView(spell: SpellDTO) -> SpellDetailView {
         let viewModel = SpellDetailViewModel(publisher: dataLayer.retrieveSpellDetails(spell: spell))
-        return SpellDetailView(dataLayer: dataLayer, spell: spell)
+        return SpellDetailView(viewModel: viewModel)
     }
 }

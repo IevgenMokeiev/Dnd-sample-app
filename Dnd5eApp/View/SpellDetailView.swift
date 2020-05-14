@@ -12,26 +12,25 @@ import Combine
 struct SpellDetailView: View {
     
     @ObservedObject var viewModel: SpellDetailViewModel
-    @State var loading: Bool = true
 
     var body: some View {
         NavigationView {
-            if self.loading {
-                ProgressView(isAnimating: $loading)
+            if viewModel.loading {
+                ProgressView(isAnimating: viewModel.loading)
                     .onAppear(perform: viewModel.onAppear)
             } else {
                 VStack {
-                    Text("\(viewModel.filledSpellDTO.name)")
+                    Text("\(viewModel.spellDTO.name)")
                         .fontWeight(.bold)
                     Image("scroll").padding()
-                    Text("Level: \(viewModel.filledSpellDTO.level ?? 0)")
+                    Text("Level: \(viewModel.spellDTO.level ?? 0)")
                         .fontWeight(.bold)
                         .padding()
-                    Text("Description: \(viewModel.filledSpellDTO.description ?? "")")
+                    Text("Description: \(viewModel.spellDTO.description ?? "")")
                         .padding()
-                    Text("Casting time: \(viewModel.filledSpellDTO.castingTime ?? "")")
+                    Text("Casting time: \(viewModel.spellDTO.castingTime ?? "")")
                         .padding()
-                    Text("Concentration: \(viewModel.filledSpellDTO.concentration ?? false ? "true" : "false")")
+                    Text("Concentration: \(viewModel.spellDTO.concentration ?? false ? "true" : "false")")
                         .padding()
                 }
                 .padding()
@@ -43,6 +42,6 @@ struct SpellDetailView: View {
 
 struct SpellDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SpellDetailView()
+        return AppModule().viewFactory.provideSpellDetailView(spell: SpellDTO(name: "name", path: "path", level: 1, description: "description", castingTime: "1 action", concentration: false))
     }
 }
