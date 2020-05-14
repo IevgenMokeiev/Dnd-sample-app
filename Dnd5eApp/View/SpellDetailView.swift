@@ -42,6 +42,6 @@ struct SpellDetailView: View {
 
 struct SpellDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        return AppModule().viewFactory.provideSpellDetailView(spell: SpellDTO(name: "name", path: "path", level: 1, description: "description", castingTime: "1 action", concentration: false))
+        return AppCoordinator().viewFactory.provideSpellDetailView(spell: SpellDTO(name: "name", path: "path", level: 1, description: "description", castingTime: "1 action", concentration: false))
     }
 }

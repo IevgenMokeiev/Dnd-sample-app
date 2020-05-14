@@ -31,6 +31,6 @@ struct SpellListView: View {
 
 struct SpellListView_Previews: PreviewProvider {
     static var previews: some View {
-        return AppModule().viewFactory.provideSpellListView()
+        return AppCoordinator().viewFactory.provideSpellListView()
     }
 }

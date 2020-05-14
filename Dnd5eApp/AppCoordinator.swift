@@ -1,5 +1,5 @@
 //
-//  AppModule.swift
+//  AppCoordinator.swift
 //  Dnd5eApp
 //
 //  Created by Yevhen Mokeiev on 13.05.2020.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class AppModule {
+class AppCoordinator {
 
     let viewFactory: ViewFactory
 

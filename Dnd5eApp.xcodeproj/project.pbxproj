@@ -25,7 +25,7 @@
 		9F54AC1F246BF023005B4849 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC1E246BF023005B4849 /* CoreDataStack.swift */; };
 		9F54AC21246BF86D005B4849 /* DatabaseServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC20246BF86D005B4849 /* DatabaseServiceTests.swift */; };
 		9F54AC24246C0B8C005B4849 /* ViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC23246C0B8C005B4849 /* ViewFactory.swift */; };
-		9F54AC28246C1150005B4849 /* AppModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC27246C1150005B4849 /* AppModule.swift */; };
+		9F54AC28246C1150005B4849 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC27246C1150005B4849 /* AppCoordinator.swift */; };
 		9F54AC2A246C21D7005B4849 /* Spell+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC29246C21D7005B4849 /* Spell+Equatable.swift */; };
 		9F6BD7C2246593CF001D8825 /* SpellDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6BD7C1246593CF001D8825 /* SpellDTO.swift */; };
 		9F6BD7C424659691001D8825 /* TranslationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6BD7C324659691001D8825 /* TranslationService.swift */; };
@@ -80,7 +80,7 @@
 		9F54AC1E246BF023005B4849 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		9F54AC20246BF86D005B4849 /* DatabaseServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseServiceTests.swift; sourceTree = "<group>"; };
 		9F54AC23246C0B8C005B4849 /* ViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewFactory.swift; sourceTree = "<group>"; };
-		9F54AC27246C1150005B4849 /* AppModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModule.swift; sourceTree = "<group>"; };
+		9F54AC27246C1150005B4849 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		9F54AC29246C21D7005B4849 /* Spell+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Spell+Equatable.swift"; sourceTree = "<group>"; };
 		9F6BD7BF2465905C001D8825 /* SpellListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellListView.swift; sourceTree = "<group>"; };
 		9F6BD7C1246593CF001D8825 /* SpellDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellDTO.swift; sourceTree = "<group>"; };
@@ -161,7 +161,7 @@
 			children = (
 				85B353ED2267B64200617C7E /* AppDelegate.swift */,
 				9F0C894D246A921C003592F5 /* SceneDelegate.swift */,
-				9F54AC27246C1150005B4849 /* AppModule.swift */,
+				9F54AC27246C1150005B4849 /* AppCoordinator.swift */,
 				85B3545B2268BB4700617C7E /* View */,
 				9F0C894F246ACBE2003592F5 /* Services */,
 				9FD2744E246D422B009A9FBD /* ViewModels */,
@@ -463,7 +463,7 @@
 				85B354632268BD3A00617C7E /* NetworkService.swift in Sources */,
 				85B3547B2269AF3100617C7E /* DatabaseService.swift in Sources */,
 				9FD27450246D4244009A9FBD /* SpellListViewModel.swift in Sources */,
-				9F54AC28246C1150005B4849 /* AppModule.swift in Sources */,
+				9F54AC28246C1150005B4849 /* AppCoordinator.swift in Sources */,
 				9F0C894E246A921C003592F5 /* SceneDelegate.swift in Sources */,
 				9F0C8951246ACC92003592F5 /* ProgressView.swift in Sources */,
 				9F54AC2A246C21D7005B4849 /* Spell+Equatable.swift in Sources */,
