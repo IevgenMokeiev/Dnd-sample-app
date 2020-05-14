@@ -20,8 +20,8 @@ enum DatabaseServiceError: Error {
 protocol DatabaseService {
     func fetchSpellList() -> AnyPublisher<[SpellDTO], DatabaseServiceError>
     func fetchSpell(by name: String) -> AnyPublisher<SpellDTO, DatabaseServiceError>
-    func saveDownloadedSpellList(_ spells: [SpellDTO]) -> AnyPublisher<Any, DatabaseServiceError>
-    func saveDownloadedSpell(_ spell: SpellDTO) -> AnyPublisher<Any, DatabaseServiceError>
+    func saveDownloadedSpellList(_ spellDTOs: [SpellDTO]) -> AnyPublisher<[SpellDTO], DatabaseServiceError>
+    func saveDownloadedSpell(_ spellDTO: SpellDTO) -> AnyPublisher<SpellDTO, DatabaseServiceError>
 }
 
 class DatabaseServiceImpl: DatabaseService {
@@ -80,31 +80,28 @@ class DatabaseServiceImpl: DatabaseService {
         }
     }
 
-    func saveDownloadedSpellList(_ spells: [SpellDTO]) -> AnyPublisher<Any, DatabaseServiceError> {
+    func saveDownloadedSpellList(_ spellDTOs: [SpellDTO]) -> AnyPublisher<[SpellDTO], DatabaseServiceError> {
         let managedContext = coreDataStack.persistentContainer.viewContext
-        var spells = [Spell]()
-        
-        spells.forEach { (spell) in
+        spellDTOs.forEach { (spell) in
             let entity = NSEntityDescription.entity(forEntityName: "Spell", in: managedContext)!
             let spellEntity = Spell(entity: entity, insertInto: managedContext)
             spellEntity.name = spell.name
             spellEntity.path = spell.path
-            spells.append(spellEntity)
         }
         
         do {
             try managedContext.save()
-            return Empty().eraseToAnyPublisher()
+            return Result.Publisher(spellDTOs).eraseToAnyPublisher()
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
             return Fail(error: .saveError).eraseToAnyPublisher()
         }
     }
 
-    func saveDownloadedSpell(_ spell: SpellDTO) -> AnyPublisher<Any, DatabaseServiceError> {
+    func saveDownloadedSpell(_ spellDTO: SpellDTO) -> AnyPublisher<SpellDTO, DatabaseServiceError> {
         let managedContext = coreDataStack.persistentContainer.viewContext
         let request: NSFetchRequest<Spell> = Spell.fetchRequest()
-        let predicate = NSPredicate(format: "name == %@", spell.name)
+        let predicate = NSPredicate(format: "name == %@", spellDTO.name)
         request.predicate = predicate
         request.returnsObjectsAsFaults = false
         
@@ -112,11 +109,11 @@ class DatabaseServiceImpl: DatabaseService {
             let result = try managedContext.fetch(request)
             guard !result.isEmpty else { return Fail(error: .fetchError).eraseToAnyPublisher() }
             guard let matchedSpell = result.first else { return Fail(error: .fetchError).eraseToAnyPublisher() }
-            translationService.populate(spell: matchedSpell, with: spell)
+            translationService.populate(spell: matchedSpell, with: spellDTO)
             
             do {
                 try managedContext.save()
-                return Empty().eraseToAnyPublisher()
+                return Result.Publisher(spellDTO).eraseToAnyPublisher()
             } catch let error as NSError {
                 print("Could not save. \(error), \(error.userInfo)")
                 return Fail(error: .saveError).eraseToAnyPublisher()

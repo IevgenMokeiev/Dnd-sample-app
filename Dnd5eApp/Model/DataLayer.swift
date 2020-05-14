@@ -11,13 +11,9 @@ import UIKit
 import CoreData
 import Combine
 
-public enum DataLayerError: Error {
-    case generalError
-}
-
 protocol DataLayer {
-    func retrieveSpellList() -> AnyPublisher<[SpellDTO], DataLayerError>
-    func retrieveSpellDetails(spell: SpellDTO) -> AnyPublisher<SpellDTO, DataLayerError>
+    func retrieveSpellList() -> AnyPublisher<[SpellDTO], Error>
+    func retrieveSpellDetails(spell: SpellDTO) -> AnyPublisher<SpellDTO, Error>
 }
 
 class DataLayerImpl: DataLayer {
@@ -29,35 +25,34 @@ class DataLayerImpl: DataLayer {
         self.networkService = networkService
     }
     
-    func retrieveSpellList() -> AnyPublisher<[SpellDTO], DataLayerError> {
-
+    func retrieveSpellList() -> AnyPublisher<[SpellDTO], Error> {
         let downloadPublisher = networkService.downloadSpellList()
-            .map{ self.sortedSpells(spells: $0) }
-//            .map { self.databaseService.saveDownloadedSpellList($0) }
-            .mapError { _ in DataLayerError.generalError
-            }
-            .eraseToAnyPublisher()
+            .mapError { $0 as Error }
+            .flatMap { self.databaseService.saveDownloadedSpellList($0)
+                .mapError { $0 as Error }
+                .eraseToAnyPublisher()
+
+        }
+        .eraseToAnyPublisher()
 
         return databaseService.fetchSpellList()
-        .map { self.sortedSpells(spells: $0) }
-        .mapError { _ in DataLayerError.generalError
-            }
-        .catch { _ in downloadPublisher }
-        .eraseToAnyPublisher()
+            .map { self.sortedSpells(spells: $0) }
+            .mapError { $0 as Error }
+            .catch { _ in downloadPublisher }
+            .map { self.sortedSpells(spells: $0) }
+            .eraseToAnyPublisher()
     }
 
-    func retrieveSpellDetails(spell: SpellDTO) -> AnyPublisher<SpellDTO, DataLayerError> {
+    func retrieveSpellDetails(spell: SpellDTO) -> AnyPublisher<SpellDTO, Error> {
         let downloadPublisher = networkService.downloadSpell(with: spell.path)
-        //            .map { self.databaseService.saveDownloadedSpell($0) }
-                    .mapError { _ in DataLayerError.generalError
-                    }
-                    .eraseToAnyPublisher()
+            .mapError { $0 as Error }
+            .flatMap { self.databaseService.saveDownloadedSpell($0).mapError { $0 as Error }.eraseToAnyPublisher() }
+            .eraseToAnyPublisher()
 
         return databaseService.fetchSpell(by: spell.name)
-        .mapError { _ in DataLayerError.generalError
-            }
-        .catch { _ in downloadPublisher }
-        .eraseToAnyPublisher()
+            .mapError { $0 as Error }
+            .catch { _ in downloadPublisher }
+            .eraseToAnyPublisher()
     }
 
     func sortedSpells(spells: [SpellDTO]) -> [SpellDTO] {

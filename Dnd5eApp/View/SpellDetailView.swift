@@ -46,7 +46,13 @@ struct SpellDetailView: View {
     // MARK: - Loading
     private func loadData() {
         dataLayer?.retrieveSpellDetails(spell: self.spell)
-        .sink(receiveCompletion: { _ in
+        .sink(receiveCompletion: { completion in
+            switch completion {
+            case .finished:
+                break
+            case .failure(_):
+                self.loading = false
+            }
         }, receiveValue: { spell in
             self.spell = spell
             self.loading = false
