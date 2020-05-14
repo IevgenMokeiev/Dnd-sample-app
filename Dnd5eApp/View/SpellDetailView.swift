@@ -11,30 +11,27 @@ import Combine
 
 struct SpellDetailView: View {
     
-    var dataLayer: DataLayer?
-    @State var spell: SpellDTO
+    @ObservedObject var viewModel: SpellDetailViewModel
     @State var loading: Bool = true
-
-    @State var bag = Set<AnyCancellable>()
 
     var body: some View {
         NavigationView {
             if self.loading {
                 ProgressView(isAnimating: $loading)
-                    .onAppear(perform: loadData)
+                    .onAppear(perform: viewModel.onAppear)
             } else {
                 VStack {
-                    Text("\(spell.name)")
+                    Text("\(viewModel.filledSpellDTO.name)")
                         .fontWeight(.bold)
                     Image("scroll").padding()
-                    Text("Level: \(spell.level ?? 0)")
+                    Text("Level: \(viewModel.filledSpellDTO.level ?? 0)")
                         .fontWeight(.bold)
                         .padding()
-                    Text("Description: \(spell.description ?? "")")
+                    Text("Description: \(viewModel.filledSpellDTO.description ?? "")")
                         .padding()
-                    Text("Casting time: \(spell.castingTime ?? "")")
+                    Text("Casting time: \(viewModel.filledSpellDTO.castingTime ?? "")")
                         .padding()
-                    Text("Concentration: \(spell.concentration ?? false ? "true" : "false")")
+                    Text("Concentration: \(viewModel.filledSpellDTO.concentration ?? false ? "true" : "false")")
                         .padding()
                 }
                 .padding()
@@ -42,27 +39,10 @@ struct SpellDetailView: View {
         }
         .navigationBarTitle("Spell Details", displayMode: .inline)
     }
-
-    // MARK: - Loading
-    private func loadData() {
-        dataLayer?.retrieveSpellDetails(spell: self.spell)
-        .sink(receiveCompletion: { completion in
-            switch completion {
-            case .finished:
-                break
-            case .failure(_):
-                self.loading = false
-            }
-        }, receiveValue: { spell in
-            self.spell = spell
-            self.loading = false
-        })
-        .store(in: &bag)
-    }
 }
 
 struct SpellDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SpellDetailView(spell: SpellDTO(name: "name", path: "path", level: 1, description: "description", castingTime: "1 action", concentration: false), loading: false)
+        SpellDetailView()
     }
 }

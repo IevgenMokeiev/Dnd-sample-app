@@ -11,39 +11,26 @@ import Combine
 
 struct SpellListView: View {
 
-    var dataLayer: DataLayer?
+    @ObservedObject var viewModel: SpellListViewModel
     var viewFactory: ViewFactory?
-    @State var spells: [SpellDTO] = []
-
-    @State var bag = Set<AnyCancellable>()
 
     var body: some View {
         NavigationView {
-            List(spells) { spell in
+            List(viewModel.spellDTOs) { spell in
                 NavigationLink(destination: self.viewFactory?.provideSpellDetailView(spell: spell)) {
                     Text(spell.name)
                 }
             }
             .accessibility(label: Text("Spell Table View"))
             .accessibility(identifier: "SpellTableView")
-            .onAppear(perform: loadData)
             .navigationBarTitle("Spell Book", displayMode: .inline)
+            .onAppear(perform: viewModel.onAppear)
         }
-    }
-
-    // MARK: - Loading
-    private func loadData() {
-        dataLayer?.retrieveSpellList()
-        .sink(receiveCompletion: { _ in
-        }, receiveValue: { spellList in
-            self.spells = spellList
-        })
-        .store(in: &bag)
     }
 }
 
 struct SpellListView_Previews: PreviewProvider {
     static var previews: some View {
-        return SpellListView(dataLayer: AppModule.provideDataLayer())
+        return SpellListView(viewModel: <#T##SpellListViewModel#>))
     }
 }
