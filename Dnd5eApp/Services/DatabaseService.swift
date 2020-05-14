@@ -18,27 +18,27 @@ enum DatabaseServiceError: Error {
 }
 
 protocol DatabaseService {
-    func fetchSpellList() -> AnyPublisher<[SpellDTO], DatabaseServiceError>
-    func fetchSpell(by name: String) -> AnyPublisher<SpellDTO, DatabaseServiceError>
-    func saveDownloadedSpellList(_ spellDTOs: [SpellDTO]) -> AnyPublisher<[SpellDTO], DatabaseServiceError>
-    func saveDownloadedSpell(_ spellDTO: SpellDTO) -> AnyPublisher<SpellDTO, DatabaseServiceError>
+    func spellListPublisher() -> AnyPublisher<[SpellDTO], DatabaseServiceError>
+    func spellDetailsPublisher(for name: String) -> AnyPublisher<SpellDTO, DatabaseServiceError>
+    func saveSpellListPublisher(for spellDTOs: [SpellDTO]) -> AnyPublisher<[SpellDTO], DatabaseServiceError>
+    func saveSpellDetailsPublisher(for spellDTO: SpellDTO) -> AnyPublisher<SpellDTO, DatabaseServiceError>
 }
 
 class DatabaseServiceImpl: DatabaseService {
     
     private var coreDataStack: CoreDataStack
     private var translationService: TranslationService
-    private var bag = Set<AnyCancellable>()
+    private var cancellableSet: Set<AnyCancellable> = []
 
     init(coreDataStack: CoreDataStack, translationService: TranslationService) {
         self.coreDataStack = coreDataStack
         self.translationService = translationService
         NotificationCenter.default.publisher(for: UIApplication.willTerminateNotification)
             .sink { _ in coreDataStack.saveContext() }
-            .store(in: &bag)
+            .store(in: &cancellableSet)
     }
     
-    func fetchSpellList() -> AnyPublisher<[SpellDTO], DatabaseServiceError> {
+    func spellListPublisher() -> AnyPublisher<[SpellDTO], DatabaseServiceError> {
         let context = coreDataStack.persistentContainer.viewContext
         let request: NSFetchRequest<Spell> = Spell.fetchRequest()
         request.returnsObjectsAsFaults = false
@@ -57,7 +57,7 @@ class DatabaseServiceImpl: DatabaseService {
         }
     }
     
-    func fetchSpell(by name: String) -> AnyPublisher<SpellDTO, DatabaseServiceError> {
+    func spellDetailsPublisher(for name: String) -> AnyPublisher<SpellDTO, DatabaseServiceError> {
         let managedContext = coreDataStack.persistentContainer.viewContext
         let request: NSFetchRequest<Spell> = Spell.fetchRequest()
         let predicate = NSPredicate(format: "name == %@", name)
@@ -80,7 +80,7 @@ class DatabaseServiceImpl: DatabaseService {
         }
     }
 
-    func saveDownloadedSpellList(_ spellDTOs: [SpellDTO]) -> AnyPublisher<[SpellDTO], DatabaseServiceError> {
+    func saveSpellListPublisher(for spellDTOs: [SpellDTO]) -> AnyPublisher<[SpellDTO], DatabaseServiceError> {
         let managedContext = coreDataStack.persistentContainer.viewContext
         spellDTOs.forEach { (spell) in
             let entity = NSEntityDescription.entity(forEntityName: "Spell", in: managedContext)!
@@ -98,7 +98,7 @@ class DatabaseServiceImpl: DatabaseService {
         }
     }
 
-    func saveDownloadedSpell(_ spellDTO: SpellDTO) -> AnyPublisher<SpellDTO, DatabaseServiceError> {
+    func saveSpellDetailsPublisher(for spellDTO: SpellDTO) -> AnyPublisher<SpellDTO, DatabaseServiceError> {
         let managedContext = coreDataStack.persistentContainer.viewContext
         let request: NSFetchRequest<Spell> = Spell.fetchRequest()
         let predicate = NSPredicate(format: "name == %@", spellDTO.name)

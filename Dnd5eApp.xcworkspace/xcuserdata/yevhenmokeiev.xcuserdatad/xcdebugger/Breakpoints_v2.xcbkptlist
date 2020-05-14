@@ -32,7 +32,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "97"
             endingLineNumber = "97"
-            landmarkName = "saveDownloadedSpellList(_:)"
+            landmarkName = "saveSpellListPublisher(for:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -48,7 +48,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "93"
             endingLineNumber = "93"
-            landmarkName = "saveDownloadedSpellList(_:)"
+            landmarkName = "saveSpellListPublisher(for:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

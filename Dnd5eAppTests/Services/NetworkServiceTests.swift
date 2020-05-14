@@ -12,7 +12,7 @@ import Combine
 
 class NetworkServiceTests: XCTestCase {
 
-    var bag = Set<AnyCancellable>()
+    private var cancellableSet: Set<AnyCancellable> = []
 
     func test_download_spellList() {
         let sut = makeSUT()
@@ -28,7 +28,7 @@ class NetworkServiceTests: XCTestCase {
 
         let networkExpectation = expectation(description: "wait for network call")
 
-        sut.downloadSpellList()
+        sut.spellListPublisher()
         .sink(receiveCompletion: { completion in
             networkExpectation.fulfill()
             switch completion {
@@ -40,7 +40,7 @@ class NetworkServiceTests: XCTestCase {
         }, receiveValue: { spellDTOs in
             XCTAssertTrue(spellDTOs == FakeDataFactory.provideEmptySpellListDTO())
         })
-        .store(in: &bag)
+        .store(in: &cancellableSet)
 
         waitForExpectations(timeout: 5)
     }
@@ -59,7 +59,7 @@ class NetworkServiceTests: XCTestCase {
 
         let networkExpectation = expectation(description: "wait for network call")
 
-        sut.downloadSpell(with: "/api/spells/acid-arrow")
+        sut.spellDetailPublisher(for: "/api/spells/acid-arrow")
         .sink(receiveCompletion: { completion in
             networkExpectation.fulfill()
             switch completion {
@@ -71,7 +71,7 @@ class NetworkServiceTests: XCTestCase {
         }, receiveValue: { spellDTO in
             XCTAssertTrue(spellDTO == FakeDataFactory.provideFakeSpellDTO())
         })
-        .store(in: &bag)
+        .store(in: &cancellableSet)
 
         waitForExpectations(timeout: 5)
     }

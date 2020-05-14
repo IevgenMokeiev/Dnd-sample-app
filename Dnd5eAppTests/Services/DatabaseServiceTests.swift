@@ -14,13 +14,13 @@ import Combine
 class DatabaseServiceTests: XCTestCase {
 
     var context: NSManagedObjectContext?
-    var bag = Set<AnyCancellable>()
+    private var cancellableSet: Set<AnyCancellable> = []
 
     func test_spellList_fetch() {
         let sut = makeSUT()
         guard let context = context else { XCTFail("no context"); return }
         _ = FakeDataFactory.provideFakeSpellList(context: context)
-        sut.fetchSpellList()
+        sut.spellListPublisher()
             .sink(receiveCompletion: { completion in
                 switch completion {
                 case .finished:
@@ -31,14 +31,14 @@ class DatabaseServiceTests: XCTestCase {
             }) { spellDTOs in
                 XCTAssertTrue(spellDTOs == FakeDataFactory.provideFakeSpellListDTO())
         }
-        .store(in: &bag)
+        .store(in: &cancellableSet)
     }
 
     func test_spell_fetch() {
         let sut = makeSUT()
         guard let context = context else { XCTFail("no context"); return }
         let spell = FakeDataFactory.provideFakeSpell(context: context)
-        sut.fetchSpell(by: spell.name!)
+        sut.spellDetailsPublisher(for: spell.name!)
             .sink(receiveCompletion: { completion in
                 switch completion {
                 case .finished:
@@ -49,12 +49,12 @@ class DatabaseServiceTests: XCTestCase {
             }) { spellDTO in
                 XCTAssertTrue(spellDTO == FakeDataFactory.provideFakeSpellDTO())
         }
-        .store(in: &bag)
+        .store(in: &cancellableSet)
     }
 
     func test_save_spellList() {
         let sut = makeSUT()
-        sut.saveDownloadedSpellList(FakeDataFactory.provideFakeSpellListDTO())
+        sut.saveSpellListPublisher(for: FakeDataFactory.provideFakeSpellListDTO())
             .sink(receiveCompletion: { completion in
                 switch completion {
                 case .finished:
@@ -65,14 +65,14 @@ class DatabaseServiceTests: XCTestCase {
             }) { spellDTOs in
                 XCTAssertTrue(spellDTOs == FakeDataFactory.provideFakeSpellListDTO())
         }
-        .store(in: &bag)
+        .store(in: &cancellableSet)
     }
 
     func test_save_spell() {
         let sut = makeSUT()
         guard let context = context else { XCTFail("no context"); return }
         _ = FakeDataFactory.provideFakeSpell(context: context)
-        sut.saveDownloadedSpell(FakeDataFactory.provideFakeSpellDTO())
+        sut.saveSpellDetailsPublisher(for: FakeDataFactory.provideFakeSpellDTO())
         .sink(receiveCompletion: { completion in
                 switch completion {
                 case .finished:
@@ -83,7 +83,7 @@ class DatabaseServiceTests: XCTestCase {
             }) { spellDTO in
                 XCTAssertTrue(spellDTO == FakeDataFactory.provideFakeSpellDTO())
         }
-        .store(in: &bag)
+        .store(in: &cancellableSet)
     }
 
     private func makeSUT() -> DatabaseService {

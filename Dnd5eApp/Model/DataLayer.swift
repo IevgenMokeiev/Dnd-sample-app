@@ -12,8 +12,8 @@ import CoreData
 import Combine
 
 protocol DataLayer {
-    func retrieveSpellList() -> AnyPublisher<[SpellDTO], Error>
-    func retrieveSpellDetails(spell: SpellDTO) -> AnyPublisher<SpellDTO, Error>
+    func spellListPublisher() -> AnyPublisher<[SpellDTO], Error>
+    func spellDetailsPublisher(for spell: SpellDTO) -> AnyPublisher<SpellDTO, Error>
 }
 
 class DataLayerImpl: DataLayer {
@@ -25,17 +25,17 @@ class DataLayerImpl: DataLayer {
         self.networkService = networkService
     }
     
-    func retrieveSpellList() -> AnyPublisher<[SpellDTO], Error> {
-        let downloadPublisher = networkService.downloadSpellList()
+    func spellListPublisher() -> AnyPublisher<[SpellDTO], Error> {
+        let downloadPublisher = networkService.spellListPublisher()
             .mapError { $0 as Error }
-            .flatMap { self.databaseService.saveDownloadedSpellList($0)
+            .flatMap { self.databaseService.saveSpellListPublisher(for: $0)
                 .mapError { $0 as Error }
                 .eraseToAnyPublisher()
 
         }
         .eraseToAnyPublisher()
 
-        return databaseService.fetchSpellList()
+        return databaseService.spellListPublisher()
             .map { self.sortedSpells(spells: $0) }
             .mapError { $0 as Error }
             .catch { _ in downloadPublisher }
@@ -43,13 +43,13 @@ class DataLayerImpl: DataLayer {
             .eraseToAnyPublisher()
     }
 
-    func retrieveSpellDetails(spell: SpellDTO) -> AnyPublisher<SpellDTO, Error> {
-        let downloadPublisher = networkService.downloadSpell(with: spell.path)
+    func spellDetailsPublisher(for spell: SpellDTO) -> AnyPublisher<SpellDTO, Error> {
+        let downloadPublisher = networkService.spellDetailPublisher(for: spell.path)
             .mapError { $0 as Error }
-            .flatMap { self.databaseService.saveDownloadedSpell($0).mapError { $0 as Error }.eraseToAnyPublisher() }
+            .flatMap { self.databaseService.saveSpellDetailsPublisher(for: $0).mapError { $0 as Error }.eraseToAnyPublisher() }
             .eraseToAnyPublisher()
 
-        return databaseService.fetchSpell(by: spell.name)
+        return databaseService.spellDetailsPublisher(for: spell.name)
             .mapError { $0 as Error }
             .catch { _ in downloadPublisher }
             .eraseToAnyPublisher()

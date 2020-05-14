@@ -26,32 +26,32 @@ public enum NetworkServiceError: Error {
 }
 
 protocol NetworkService {
-    func downloadSpellList() -> AnyPublisher<[SpellDTO], NetworkServiceError>
-    func downloadSpell(with path: String) -> AnyPublisher<SpellDTO, NetworkServiceError>
+    func spellListPublisher() -> AnyPublisher<[SpellDTO], NetworkServiceError>
+    func spellDetailPublisher(for path: String) -> AnyPublisher<SpellDTO, NetworkServiceError>
 }
 
 class NetworkServiceImpl: NetworkService {
     internal var urlSessionProtocolClasses: [AnyClass]?
     
-    func downloadSpellList() -> AnyPublisher<[SpellDTO], NetworkServiceError> {
+    func spellListPublisher() -> AnyPublisher<[SpellDTO], NetworkServiceError> {
         guard let url = URL(string: Endpoints.spellList.rawValue) else {
             return Fail(error: .invalidURL).eraseToAnyPublisher()
         }
 
-        return downloadContent(with: url, decodingType: Response.self)
+        return contentPublisher(for: url, decodingType: Response.self)
             .map { $0.results }
             .eraseToAnyPublisher()
     }
     
-    func downloadSpell(with path: String) -> AnyPublisher<SpellDTO, NetworkServiceError> {
+    func spellDetailPublisher(for path: String) -> AnyPublisher<SpellDTO, NetworkServiceError> {
         guard let url = URL(string: Endpoints.spellDetails.rawValue + path) else {
             return Fail(error: .invalidURL).eraseToAnyPublisher()
         }
 
-        return downloadContent(with: url, decodingType: SpellDTO.self)
+        return contentPublisher(for: url, decodingType: SpellDTO.self)
     }
     
-    func downloadContent<T: Decodable>(with url: URL, decodingType: T.Type) -> AnyPublisher<T, NetworkServiceError> {
+    func contentPublisher<T: Decodable>(for url: URL, decodingType: T.Type) -> AnyPublisher<T, NetworkServiceError> {
         let configuration = URLSessionConfiguration.default
         configuration.protocolClasses = urlSessionProtocolClasses
 
