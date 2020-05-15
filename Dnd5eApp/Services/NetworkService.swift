@@ -20,9 +20,10 @@ private enum Endpoints: String {
 
 public enum NetworkServiceError: Error {
     case invalidURL
-    case downloadFailed
+    case decodingFailed
     case invalidResponseStatusCode
-    case invalidResponseData
+    case sessionFailed(Error)
+    case other(Error)
 }
 
 protocol NetworkService {
@@ -57,9 +58,24 @@ class NetworkServiceImpl: NetworkService {
 
         return URLSession(configuration: configuration).dataTaskPublisher(for: url)
             .receive(on: RunLoop.main)
-            .map { $0.data }
-            .decode(type: decodingType.self , decoder: JSONDecoder())
-            .mapError { _ in NetworkServiceError.invalidResponseData }
+            .tryMap { data, response in
+                guard let httpResponse = response as? HTTPURLResponse,
+                    httpResponse.statusCode == 200 else {
+                        throw NetworkServiceError.invalidResponseStatusCode
+                }
+                return data
+        }
+        .decode(type: decodingType.self , decoder: JSONDecoder())
+        .mapError({ error in
+            switch error {
+            case is Swift.DecodingError:
+                return .decodingFailed
+            case is URLError:
+                return .sessionFailed(error)
+            default:
+                return .other(error)
+            }
+        })
             .eraseToAnyPublisher()
     }
 }

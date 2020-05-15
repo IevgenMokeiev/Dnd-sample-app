@@ -13,8 +13,10 @@ import Combine
 
 enum DatabaseServiceError: Error {
     case emptyStack
-    case fetchError
-    case saveError
+    case noMatchedEntity
+    case entityNotPopulated
+    case fetchFailed(Error)
+    case saveFailed(Error)
 }
 
 protocol DatabaseService {
@@ -53,7 +55,7 @@ class DatabaseServiceImpl: DatabaseService {
             }
         } catch let error as NSError {
             print("Could not retrieve. \(error), \(error.userInfo)")
-            return Fail(error: .fetchError).eraseToAnyPublisher()
+            return Fail(error: .fetchFailed(error)).eraseToAnyPublisher()
         }
     }
     
@@ -66,17 +68,17 @@ class DatabaseServiceImpl: DatabaseService {
         
         do {
             let result = try managedContext.fetch(request)
-            guard !result.isEmpty else { return Fail(error: .fetchError).eraseToAnyPublisher() }
-            guard let matchedSpell = result.first else { return Fail(error: .fetchError).eraseToAnyPublisher() }
+            guard !result.isEmpty else { return Fail(error: .noMatchedEntity).eraseToAnyPublisher() }
+            guard let matchedSpell = result.first else { return Fail(error: .noMatchedEntity).eraseToAnyPublisher() }
             
             if matchedSpell.desc != nil {
                 return Result.Publisher(translationService.convertToDTO(spell: matchedSpell)).eraseToAnyPublisher()
             } else {
-                return Fail(error: .fetchError).eraseToAnyPublisher()
+                return Fail(error: .entityNotPopulated).eraseToAnyPublisher()
             }
         } catch let error as NSError {
             print("Could not retrieve. \(error), \(error.userInfo)")
-            return Fail(error: .fetchError).eraseToAnyPublisher()
+            return Fail(error: .fetchFailed(error)).eraseToAnyPublisher()
         }
     }
 
@@ -94,7 +96,7 @@ class DatabaseServiceImpl: DatabaseService {
             return Result.Publisher(spellDTOs).eraseToAnyPublisher()
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
-            return Fail(error: .saveError).eraseToAnyPublisher()
+            return Fail(error: .saveFailed(error)).eraseToAnyPublisher()
         }
     }
 
@@ -107,8 +109,8 @@ class DatabaseServiceImpl: DatabaseService {
         
         do {
             let result = try managedContext.fetch(request)
-            guard !result.isEmpty else { return Fail(error: .fetchError).eraseToAnyPublisher() }
-            guard let matchedSpell = result.first else { return Fail(error: .fetchError).eraseToAnyPublisher() }
+            guard !result.isEmpty else { return Fail(error: .noMatchedEntity).eraseToAnyPublisher() }
+            guard let matchedSpell = result.first else { return Fail(error: .noMatchedEntity).eraseToAnyPublisher() }
             translationService.populate(spell: matchedSpell, with: spellDTO)
             
             do {
@@ -116,11 +118,11 @@ class DatabaseServiceImpl: DatabaseService {
                 return Result.Publisher(spellDTO).eraseToAnyPublisher()
             } catch let error as NSError {
                 print("Could not save. \(error), \(error.userInfo)")
-                return Fail(error: .saveError).eraseToAnyPublisher()
+                return Fail(error: .saveFailed(error)).eraseToAnyPublisher()
             }
         } catch let error as NSError {
             print("Could not retrieve. \(error), \(error.userInfo)")
-            return Fail(error: .fetchError).eraseToAnyPublisher()
+            return Fail(error: .fetchFailed(error)).eraseToAnyPublisher()
         }
     }
     
