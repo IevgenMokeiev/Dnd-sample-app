@@ -162,11 +162,11 @@
 				85B353ED2267B64200617C7E /* AppDelegate.swift */,
 				9F0C894D246A921C003592F5 /* SceneDelegate.swift */,
 				9F54AC27246C1150005B4849 /* AppCoordinator.swift */,
-				85B3545B2268BB4700617C7E /* View */,
+				85B3545B2268BB4700617C7E /* Views */,
 				9F0C894F246ACBE2003592F5 /* Services */,
 				9FD2744E246D422B009A9FBD /* ViewModels */,
 				9F54AC22246C0B6E005B4849 /* Factories */,
-				85B3545D2268BB6100617C7E /* Model */,
+				85B3545D2268BB6100617C7E /* Models */,
 				9F54AC14246BE60B005B4849 /* Helpers */,
 				85B3545F2268BB8A00617C7E /* Resources */,
 				85B353F92267B64A00617C7E /* Info.plist */,
@@ -192,17 +192,17 @@
 			path = Dnd5eAppUITests;
 			sourceTree = "<group>";
 		};
-		85B3545B2268BB4700617C7E /* View */ = {
+		85B3545B2268BB4700617C7E /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				9F6BD7BF2465905C001D8825 /* SpellListView.swift */,
 				9F0C894B246A885C003592F5 /* SpellDetailView.swift */,
 				9F0C8950246ACC92003592F5 /* ProgressView.swift */,
 			);
-			path = View;
+			path = Views;
 			sourceTree = "<group>";
 		};
-		85B3545D2268BB6100617C7E /* Model */ = {
+		85B3545D2268BB6100617C7E /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				85B354602268BCD400617C7E /* DataLayer.swift */,
@@ -211,7 +211,7 @@
 				9F6BD7C1246593CF001D8825 /* SpellDTO.swift */,
 				9F54AC29246C21D7005B4849 /* Spell+Equatable.swift */,
 			);
-			path = Model;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		85B3545F2268BB8A00617C7E /* Resources */ = {
