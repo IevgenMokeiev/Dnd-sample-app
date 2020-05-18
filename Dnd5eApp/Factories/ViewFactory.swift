@@ -23,10 +23,12 @@ class ViewFactoryImpl: ViewFactory {
     }
 
     func provideSpellListView() -> SpellListView {
-        return SpellListView(dataLayer: dataLayer, viewFactory: self)
+        let viewModel = SpellListViewModel(publisher: dataLayer.spellListPublisher())
+        return SpellListView(viewModel: viewModel, viewFactory: self)
     }
 
     func provideSpellDetailView(spell: SpellDTO) -> SpellDetailView {
-        return SpellDetailView(dataLayer: dataLayer, spell: spell)
+        let viewModel = SpellDetailViewModel(publisher: dataLayer.spellDetailsPublisher(for: spell))
+        return SpellDetailView(viewModel: viewModel)
     }
 }

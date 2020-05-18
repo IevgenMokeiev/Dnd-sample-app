@@ -18,6 +18,10 @@ struct SpellDTO: Equatable, Identifiable {
     let description: String?
     let castingTime: String?
     let concentration: Bool?
+
+    static var placeholder : Self {
+        return SpellDTO(name: "", path: "", level: nil, description: nil, castingTime: nil, concentration: nil)
+    }
 }
 
 extension SpellDTO: Codable {

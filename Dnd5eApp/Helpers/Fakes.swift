@@ -10,16 +10,6 @@ import Foundation
 import CoreData
 @testable import Dnd5eApp
 
-class FakeParsingService: ParsingService {
-    func parseFrom(spellListData: Data) -> Result<[SpellDTO], ParsingError> {
-        return .success(FakeDataFactory.provideFakeSpellListDTO())
-    }
-
-    func parseFrom(spellDetailData: Data) -> Result<SpellDTO, ParsingError> {
-        return .success(FakeDataFactory.provideFakeSpellDTO())
-    }
-}
-
 class FakeTranslationService: TranslationService {
     func populate(spell: Spell, with dto: SpellDTO) {
     }

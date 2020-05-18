@@ -9,34 +9,38 @@
 import Foundation
 import CoreData
 import UIKit
+import Combine
 
 enum DatabaseServiceError: Error {
     case emptyStack
-    case fetchError
-    case saveError
+    case noMatchedEntity
+    case entityNotPopulated
+    case fetchFailed(Error)
+    case saveFailed(Error)
 }
 
 protocol DatabaseService {
-    func fetchSpellList() -> Result<[SpellDTO], DatabaseServiceError>
-    func fetchSpell(by name: String) -> Result<SpellDTO, DatabaseServiceError>
-    @discardableResult
-    func saveDownloadedSpellList(_ spells: [SpellDTO]) -> DatabaseServiceError?
-    @discardableResult
-    func saveDownloadedSpell(_ spell: SpellDTO) -> DatabaseServiceError?
+    func spellListPublisher() -> AnyPublisher<[SpellDTO], DatabaseServiceError>
+    func spellDetailsPublisher(for name: String) -> AnyPublisher<SpellDTO, DatabaseServiceError>
+    func saveSpellListPublisher(for spellDTOs: [SpellDTO]) -> AnyPublisher<[SpellDTO], DatabaseServiceError>
+    func saveSpellDetailsPublisher(for spellDTO: SpellDTO) -> AnyPublisher<SpellDTO, DatabaseServiceError>
 }
 
 class DatabaseServiceImpl: DatabaseService {
     
     private var coreDataStack: CoreDataStack
     private var translationService: TranslationService
-    
+    private var cancellableSet: Set<AnyCancellable> = []
+
     init(coreDataStack: CoreDataStack, translationService: TranslationService) {
         self.coreDataStack = coreDataStack
         self.translationService = translationService
-        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillTerminate(notification:)), name: UIApplication.willTerminateNotification, object: nil)
+        NotificationCenter.default.publisher(for: UIApplication.willTerminateNotification)
+            .sink { _ in coreDataStack.saveContext() }
+            .store(in: &cancellableSet)
     }
     
-    func fetchSpellList() -> Result<[SpellDTO], DatabaseServiceError> {
+    func spellListPublisher() -> AnyPublisher<[SpellDTO], DatabaseServiceError> {
         let context = coreDataStack.persistentContainer.viewContext
         let request: NSFetchRequest<Spell> = Spell.fetchRequest()
         request.returnsObjectsAsFaults = false
@@ -44,18 +48,18 @@ class DatabaseServiceImpl: DatabaseService {
             let result = try context.fetch(request)
             
             if result.isEmpty {
-                return .failure(.emptyStack)
+                return Fail(error: .emptyStack).eraseToAnyPublisher()
             } else {
                 let spellDTOs = translationService.convertToDTO(spellList: result)
-                return .success(spellDTOs)
+                return Result.Publisher(spellDTOs).eraseToAnyPublisher()
             }
         } catch let error as NSError {
             print("Could not retrieve. \(error), \(error.userInfo)")
-            return .failure(.fetchError)
+            return Fail(error: .fetchFailed(error)).eraseToAnyPublisher()
         }
     }
     
-    func fetchSpell(by name:String) -> Result<SpellDTO, DatabaseServiceError> {
+    func spellDetailsPublisher(for name: String) -> AnyPublisher<SpellDTO, DatabaseServiceError> {
         let managedContext = coreDataStack.persistentContainer.viewContext
         let request: NSFetchRequest<Spell> = Spell.fetchRequest()
         let predicate = NSPredicate(format: "name == %@", name)
@@ -64,66 +68,61 @@ class DatabaseServiceImpl: DatabaseService {
         
         do {
             let result = try managedContext.fetch(request)
-            guard !result.isEmpty else { return .failure(.fetchError) }
-            guard let matchedSpell = result.first else { return .failure(.fetchError) }
+            guard !result.isEmpty else { return Fail(error: .noMatchedEntity).eraseToAnyPublisher() }
+            guard let matchedSpell = result.first else { return Fail(error: .noMatchedEntity).eraseToAnyPublisher() }
             
             if matchedSpell.desc != nil {
-                return .success(translationService.convertToDTO(spell: matchedSpell))
+                return Result.Publisher(translationService.convertToDTO(spell: matchedSpell)).eraseToAnyPublisher()
             } else {
-                return .failure(.fetchError)
+                return Fail(error: .entityNotPopulated).eraseToAnyPublisher()
             }
         } catch let error as NSError {
             print("Could not retrieve. \(error), \(error.userInfo)")
-            return .failure(.fetchError)
+            return Fail(error: .fetchFailed(error)).eraseToAnyPublisher()
         }
     }
-    
-    @discardableResult
-    func saveDownloadedSpellList(_ spells: [SpellDTO]) -> DatabaseServiceError? {
+
+    func saveSpellListPublisher(for spellDTOs: [SpellDTO]) -> AnyPublisher<[SpellDTO], DatabaseServiceError> {
         let managedContext = coreDataStack.persistentContainer.viewContext
-        var spells = [Spell]()
-        
-        spells.forEach { (spell) in
+        spellDTOs.forEach { (spell) in
             let entity = NSEntityDescription.entity(forEntityName: "Spell", in: managedContext)!
             let spellEntity = Spell(entity: entity, insertInto: managedContext)
             spellEntity.name = spell.name
             spellEntity.path = spell.path
-            spells.append(spellEntity)
         }
         
         do {
             try managedContext.save()
-            return nil
+            return Result.Publisher(spellDTOs).eraseToAnyPublisher()
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
-            return .saveError
+            return Fail(error: .saveFailed(error)).eraseToAnyPublisher()
         }
     }
-    
-    @discardableResult
-    func saveDownloadedSpell(_ spell: SpellDTO) -> DatabaseServiceError? {
+
+    func saveSpellDetailsPublisher(for spellDTO: SpellDTO) -> AnyPublisher<SpellDTO, DatabaseServiceError> {
         let managedContext = coreDataStack.persistentContainer.viewContext
         let request: NSFetchRequest<Spell> = Spell.fetchRequest()
-        let predicate = NSPredicate(format: "name == %@", spell.name)
+        let predicate = NSPredicate(format: "name == %@", spellDTO.name)
         request.predicate = predicate
         request.returnsObjectsAsFaults = false
         
         do {
             let result = try managedContext.fetch(request)
-            guard !result.isEmpty else { return .fetchError }
-            guard let matchedSpell = result.first else { return .fetchError }
-            translationService.populate(spell: matchedSpell, with: spell)
+            guard !result.isEmpty else { return Fail(error: .noMatchedEntity).eraseToAnyPublisher() }
+            guard let matchedSpell = result.first else { return Fail(error: .noMatchedEntity).eraseToAnyPublisher() }
+            translationService.populate(spell: matchedSpell, with: spellDTO)
             
             do {
                 try managedContext.save()
-                return nil
+                return Result.Publisher(spellDTO).eraseToAnyPublisher()
             } catch let error as NSError {
                 print("Could not save. \(error), \(error.userInfo)")
-                return .saveError
+                return Fail(error: .saveFailed(error)).eraseToAnyPublisher()
             }
         } catch let error as NSError {
             print("Could not retrieve. \(error), \(error.userInfo)")
-            return .fetchError
+            return Fail(error: .fetchFailed(error)).eraseToAnyPublisher()
         }
     }
     
@@ -136,9 +135,4 @@ class DatabaseServiceImpl: DatabaseService {
         try? fetchedResultsController.performFetch()
         return fetchedResultsController
     }()
-    
-    // MARK: - Notifications
-    @objc func applicationWillTerminate(notification: Notification) {
-        coreDataStack.saveContext()
-    }
 }

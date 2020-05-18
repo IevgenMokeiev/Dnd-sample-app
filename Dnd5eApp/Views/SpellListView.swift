@@ -7,39 +7,30 @@
 //
 
 import SwiftUI
+import Combine
 
 struct SpellListView: View {
 
-    var dataLayer: DataLayer?
+    @ObservedObject var viewModel: SpellListViewModel
     var viewFactory: ViewFactory?
-    @State var spells: [SpellDTO] = []
 
     var body: some View {
         NavigationView {
-            List(spells) { spell in
+            List(viewModel.spellDTOs) { spell in
                 NavigationLink(destination: self.viewFactory?.provideSpellDetailView(spell: spell)) {
                     Text(spell.name)
                 }
             }
             .accessibility(label: Text("Spell Table View"))
             .accessibility(identifier: "SpellTableView")
-            .onAppear(perform: loadData)
             .navigationBarTitle("Spell Book", displayMode: .inline)
-        }
-    }
-
-    // MARK: - Loading
-    private func loadData() {
-        dataLayer?.retrieveSpellList { result in
-            if case .success(let spellList) = result {
-                self.spells = spellList
-            }
+            .onAppear(perform: viewModel.onAppear)
         }
     }
 }
 
 struct SpellListView_Previews: PreviewProvider {
     static var previews: some View {
-        return SpellListView(dataLayer: AppModule.provideDataLayer())
+        return AppCoordinator().viewFactory.provideSpellListView()
     }
 }

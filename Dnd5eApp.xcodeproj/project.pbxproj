@@ -18,7 +18,6 @@
 		9F0C894C246A885C003592F5 /* SpellDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0C894B246A885C003592F5 /* SpellDetailView.swift */; };
 		9F0C894E246A921C003592F5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0C894D246A921C003592F5 /* SceneDelegate.swift */; };
 		9F0C8951246ACC92003592F5 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0C8950246ACC92003592F5 /* ProgressView.swift */; };
-		9F54AC11246BDF45005B4849 /* ParsingServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC10246BDF45005B4849 /* ParsingServiceTests.swift */; };
 		9F54AC13246BE47A005B4849 /* NetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC12246BE47A005B4849 /* NetworkServiceTests.swift */; };
 		9F54AC17246BE651005B4849 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC15246BE628005B4849 /* MockURLProtocol.swift */; };
 		9F54AC1A246BE721005B4849 /* Fakes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC18246BE71E005B4849 /* Fakes.swift */; };
@@ -26,13 +25,14 @@
 		9F54AC1F246BF023005B4849 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC1E246BF023005B4849 /* CoreDataStack.swift */; };
 		9F54AC21246BF86D005B4849 /* DatabaseServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC20246BF86D005B4849 /* DatabaseServiceTests.swift */; };
 		9F54AC24246C0B8C005B4849 /* ViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC23246C0B8C005B4849 /* ViewFactory.swift */; };
-		9F54AC28246C1150005B4849 /* AppModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC27246C1150005B4849 /* AppModule.swift */; };
+		9F54AC28246C1150005B4849 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC27246C1150005B4849 /* AppCoordinator.swift */; };
 		9F54AC2A246C21D7005B4849 /* Spell+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC29246C21D7005B4849 /* Spell+Equatable.swift */; };
 		9F6BD7C2246593CF001D8825 /* SpellDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6BD7C1246593CF001D8825 /* SpellDTO.swift */; };
 		9F6BD7C424659691001D8825 /* TranslationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6BD7C324659691001D8825 /* TranslationService.swift */; };
 		9F8CC71D2465A8CA00F35746 /* SpellListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6BD7BF2465905C001D8825 /* SpellListView.swift */; };
 		9FC14EAD246B3AC000428073 /* TranslationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC14EAC246B3AC000428073 /* TranslationServiceTests.swift */; };
-		9FD5C0AC246ADEA9006C7604 /* ParsingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD5C0AB246ADEA9006C7604 /* ParsingService.swift */; };
+		9FD27450246D4244009A9FBD /* SpellListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2744F246D4244009A9FBD /* SpellListViewModel.swift */; };
+		9FD27452246D44C9009A9FBD /* SpellDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD27451246D44C9009A9FBD /* SpellDetailViewModel.swift */; };
 		E40722631CD2960F1E0326AA /* Pods_Dnd5eApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D05E6B1516E140741ECBB23F /* Pods_Dnd5eApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -73,7 +73,6 @@
 		9F0C894B246A885C003592F5 /* SpellDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellDetailView.swift; sourceTree = "<group>"; };
 		9F0C894D246A921C003592F5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		9F0C8950246ACC92003592F5 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
-		9F54AC10246BDF45005B4849 /* ParsingServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingServiceTests.swift; sourceTree = "<group>"; };
 		9F54AC12246BE47A005B4849 /* NetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceTests.swift; sourceTree = "<group>"; };
 		9F54AC15246BE628005B4849 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 		9F54AC18246BE71E005B4849 /* Fakes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fakes.swift; sourceTree = "<group>"; };
@@ -81,13 +80,14 @@
 		9F54AC1E246BF023005B4849 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		9F54AC20246BF86D005B4849 /* DatabaseServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseServiceTests.swift; sourceTree = "<group>"; };
 		9F54AC23246C0B8C005B4849 /* ViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewFactory.swift; sourceTree = "<group>"; };
-		9F54AC27246C1150005B4849 /* AppModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModule.swift; sourceTree = "<group>"; };
+		9F54AC27246C1150005B4849 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		9F54AC29246C21D7005B4849 /* Spell+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Spell+Equatable.swift"; sourceTree = "<group>"; };
 		9F6BD7BF2465905C001D8825 /* SpellListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellListView.swift; sourceTree = "<group>"; };
 		9F6BD7C1246593CF001D8825 /* SpellDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellDTO.swift; sourceTree = "<group>"; };
 		9F6BD7C324659691001D8825 /* TranslationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationService.swift; sourceTree = "<group>"; };
 		9FC14EAC246B3AC000428073 /* TranslationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationServiceTests.swift; sourceTree = "<group>"; };
-		9FD5C0AB246ADEA9006C7604 /* ParsingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingService.swift; sourceTree = "<group>"; };
+		9FD2744F246D4244009A9FBD /* SpellListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellListViewModel.swift; sourceTree = "<group>"; };
+		9FD27451246D44C9009A9FBD /* SpellDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellDetailViewModel.swift; sourceTree = "<group>"; };
 		D05E6B1516E140741ECBB23F /* Pods_Dnd5eApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dnd5eApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -161,11 +161,12 @@
 			children = (
 				85B353ED2267B64200617C7E /* AppDelegate.swift */,
 				9F0C894D246A921C003592F5 /* SceneDelegate.swift */,
-				9F54AC27246C1150005B4849 /* AppModule.swift */,
-				85B3545B2268BB4700617C7E /* View */,
+				9F54AC27246C1150005B4849 /* AppCoordinator.swift */,
+				85B3545B2268BB4700617C7E /* Views */,
 				9F0C894F246ACBE2003592F5 /* Services */,
+				9FD2744E246D422B009A9FBD /* ViewModels */,
 				9F54AC22246C0B6E005B4849 /* Factories */,
-				85B3545D2268BB6100617C7E /* Model */,
+				85B3545D2268BB6100617C7E /* Models */,
 				9F54AC14246BE60B005B4849 /* Helpers */,
 				85B3545F2268BB8A00617C7E /* Resources */,
 				85B353F92267B64A00617C7E /* Info.plist */,
@@ -191,17 +192,17 @@
 			path = Dnd5eAppUITests;
 			sourceTree = "<group>";
 		};
-		85B3545B2268BB4700617C7E /* View */ = {
+		85B3545B2268BB4700617C7E /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				9F6BD7BF2465905C001D8825 /* SpellListView.swift */,
 				9F0C894B246A885C003592F5 /* SpellDetailView.swift */,
 				9F0C8950246ACC92003592F5 /* ProgressView.swift */,
 			);
-			path = View;
+			path = Views;
 			sourceTree = "<group>";
 		};
-		85B3545D2268BB6100617C7E /* Model */ = {
+		85B3545D2268BB6100617C7E /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				85B354602268BCD400617C7E /* DataLayer.swift */,
@@ -210,7 +211,7 @@
 				9F6BD7C1246593CF001D8825 /* SpellDTO.swift */,
 				9F54AC29246C21D7005B4849 /* Spell+Equatable.swift */,
 			);
-			path = Model;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		85B3545F2268BB8A00617C7E /* Resources */ = {
@@ -227,7 +228,6 @@
 			children = (
 				9F6BD7C324659691001D8825 /* TranslationService.swift */,
 				85B3547A2269AF3100617C7E /* DatabaseService.swift */,
-				9FD5C0AB246ADEA9006C7604 /* ParsingService.swift */,
 				85B354622268BD3A00617C7E /* NetworkService.swift */,
 			);
 			path = Services;
@@ -256,10 +256,18 @@
 			children = (
 				9FC14EAC246B3AC000428073 /* TranslationServiceTests.swift */,
 				9F54AC20246BF86D005B4849 /* DatabaseServiceTests.swift */,
-				9F54AC10246BDF45005B4849 /* ParsingServiceTests.swift */,
 				9F54AC12246BE47A005B4849 /* NetworkServiceTests.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		9FD2744E246D422B009A9FBD /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				9FD2744F246D4244009A9FBD /* SpellListViewModel.swift */,
+				9FD27451246D44C9009A9FBD /* SpellDetailViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -446,7 +454,7 @@
 				9F0C894C246A885C003592F5 /* SpellDetailView.swift in Sources */,
 				9F6BD7C424659691001D8825 /* TranslationService.swift in Sources */,
 				85B354612268BCD400617C7E /* DataLayer.swift in Sources */,
-				9FD5C0AC246ADEA9006C7604 /* ParsingService.swift in Sources */,
+				9FD27452246D44C9009A9FBD /* SpellDetailViewModel.swift in Sources */,
 				85B35479226912D300617C7E /* DnDModel.xcdatamodeld in Sources */,
 				9F54AC1F246BF023005B4849 /* CoreDataStack.swift in Sources */,
 				9F54AC24246C0B8C005B4849 /* ViewFactory.swift in Sources */,
@@ -454,7 +462,8 @@
 				85B353EE2267B64200617C7E /* AppDelegate.swift in Sources */,
 				85B354632268BD3A00617C7E /* NetworkService.swift in Sources */,
 				85B3547B2269AF3100617C7E /* DatabaseService.swift in Sources */,
-				9F54AC28246C1150005B4849 /* AppModule.swift in Sources */,
+				9FD27450246D4244009A9FBD /* SpellListViewModel.swift in Sources */,
+				9F54AC28246C1150005B4849 /* AppCoordinator.swift in Sources */,
 				9F0C894E246A921C003592F5 /* SceneDelegate.swift in Sources */,
 				9F0C8951246ACC92003592F5 /* ProgressView.swift in Sources */,
 				9F54AC2A246C21D7005B4849 /* Spell+Equatable.swift in Sources */,
@@ -465,7 +474,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9F54AC11246BDF45005B4849 /* ParsingServiceTests.swift in Sources */,
 				9F54AC1D246BE997005B4849 /* FakeDataFactory.swift in Sources */,
 				9F54AC1A246BE721005B4849 /* Fakes.swift in Sources */,
 				9F54AC13246BE47A005B4849 /* NetworkServiceTests.swift in Sources */,

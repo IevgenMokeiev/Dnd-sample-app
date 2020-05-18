@@ -8,51 +8,82 @@
 
 import XCTest
 import CoreData
+import Combine
 @testable import Dnd5eApp
 
 class DatabaseServiceTests: XCTestCase {
 
     var context: NSManagedObjectContext?
+    private var cancellableSet: Set<AnyCancellable> = []
 
     func test_spellList_fetch() {
         let sut = makeSUT()
         guard let context = context else { XCTFail("no context"); return }
         _ = FakeDataFactory.provideFakeSpellList(context: context)
-        let result = sut.fetchSpellList()
-
-        switch result {
-        case .success(let spellDTOs):
+        sut.spellListPublisher()
+        .sink(receiveCompletion: { completion in
+            switch completion {
+            case .finished:
+                break
+            case .failure(let error):
+                XCTFail("\(error)")
+            }
+        }) { spellDTOs in
             XCTAssertTrue(spellDTOs == FakeDataFactory.provideFakeSpellListDTO())
-        case .failure(let error):
-            XCTFail("\(error)")
         }
+        .store(in: &cancellableSet)
     }
 
     func test_spell_fetch() {
         let sut = makeSUT()
         guard let context = context else { XCTFail("no context"); return }
         let spell = FakeDataFactory.provideFakeSpell(context: context)
-        let result = sut.fetchSpell(by: spell.name!)
-
-        switch result {
-        case .success(let spellDTO):
+        sut.spellDetailsPublisher(for: spell.name!)
+        .sink(receiveCompletion: { completion in
+            switch completion {
+            case .finished:
+                break
+            case .failure(let error):
+                XCTFail("\(error)")
+            }
+        }) { spellDTO in
             XCTAssertTrue(spellDTO == FakeDataFactory.provideFakeSpellDTO())
-        case .failure(let error):
-            XCTFail("\(error)")
         }
+        .store(in: &cancellableSet)
     }
 
     func test_save_spellList() {
         let sut = makeSUT()
-        let result = sut.saveDownloadedSpellList(FakeDataFactory.provideFakeSpellListDTO())
-        XCTAssertNil(result)
+        sut.saveSpellListPublisher(for: FakeDataFactory.provideFakeSpellListDTO())
+        .sink(receiveCompletion: { completion in
+            switch completion {
+            case .finished:
+                break
+            case .failure(let error):
+                XCTFail("\(error)")
+            }
+        }) { spellDTOs in
+            XCTAssertTrue(spellDTOs == FakeDataFactory.provideFakeSpellListDTO())
+        }
+        .store(in: &cancellableSet)
     }
 
     func test_save_spell() {
         let sut = makeSUT()
         guard let context = context else { XCTFail("no context"); return }
         _ = FakeDataFactory.provideFakeSpell(context: context)
-        XCTAssertNil(sut.saveDownloadedSpell(FakeDataFactory.provideFakeSpellDTO()))
+        sut.saveSpellDetailsPublisher(for: FakeDataFactory.provideFakeSpellDTO())
+        .sink(receiveCompletion: { completion in
+            switch completion {
+            case .finished:
+                break
+            case .failure(let error):
+                XCTFail("\(error)")
+            }
+        }) { spellDTO in
+            XCTAssertTrue(spellDTO == FakeDataFactory.provideFakeSpellDTO())
+        }
+        .store(in: &cancellableSet)
     }
 
     private func makeSUT() -> DatabaseService {

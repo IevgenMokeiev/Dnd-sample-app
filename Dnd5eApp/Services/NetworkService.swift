@@ -9,90 +9,73 @@
 import Foundation
 import Combine
 
+struct Response: Codable {
+    public let results: [SpellDTO]
+}
+
 private enum Endpoints: String {
     case spellList = "http://dnd5eapi.co/api/spells"
     case spellDetails = "http://dnd5eapi.co"
 }
 
 public enum NetworkServiceError: Error {
-    case incorrectURL
-    case downloadFailed
+    case invalidURL
+    case decodingFailed
     case invalidResponseStatusCode
-    case invalidResponseData
+    case sessionFailed(Error)
+    case other(Error)
 }
 
 protocol NetworkService {
-    func downloadSpellList(_ completionHandler: @escaping (Result<[SpellDTO], NetworkServiceError>) -> Void)
-    func downloadSpell(with path: String, _ completionHandler: @escaping (Result<SpellDTO, NetworkServiceError>) -> Void)
+    func spellListPublisher() -> AnyPublisher<[SpellDTO], NetworkServiceError>
+    func spellDetailPublisher(for path: String) -> AnyPublisher<SpellDTO, NetworkServiceError>
 }
 
 class NetworkServiceImpl: NetworkService {
     internal var urlSessionProtocolClasses: [AnyClass]?
-
-    private let parsingService: ParsingService
-
-    init(parsingService: ParsingService) {
-        self.parsingService = parsingService
-    }
     
-    func downloadSpellList(_ completionHandler: @escaping (Result<[SpellDTO], NetworkServiceError>) -> Void) {
-
+    func spellListPublisher() -> AnyPublisher<[SpellDTO], NetworkServiceError> {
         guard let url = URL(string: Endpoints.spellList.rawValue) else {
-            completionHandler(.failure(.incorrectURL)); return
+            return Fail(error: .invalidURL).eraseToAnyPublisher()
         }
-        
-        downloadContent(with: url) { [weak self] result in
-            guard let self = self else { return }
 
-            switch result {
-            case .success(let rawData):
-                let result = self.parsingService.parseFrom(spellListData: rawData)
-                switch result {
-                case .success(let spellList):
-                    completionHandler(.success(spellList))
-                case .failure(_):
-                    completionHandler(.failure(.invalidResponseData))
-                }
-            case .failure(let error):
-                completionHandler(.failure(error))
-            }
-        }
+        return contentPublisher(for: url, decodingType: Response.self)
+            .map { $0.results }
+            .eraseToAnyPublisher()
     }
     
-    func downloadSpell(with path: String, _ completionHandler: @escaping (Result<SpellDTO, NetworkServiceError>) -> Void) {
-
+    func spellDetailPublisher(for path: String) -> AnyPublisher<SpellDTO, NetworkServiceError> {
         guard let url = URL(string: Endpoints.spellDetails.rawValue + path) else {
-            completionHandler(.failure(.incorrectURL)); return
+            return Fail(error: .invalidURL).eraseToAnyPublisher()
         }
 
-        downloadContent(with: url) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let rawData):
-                let result = self.parsingService.parseFrom(spellDetailData: rawData)
-                switch result {
-                case .success(let spell):
-                    completionHandler(.success(spell))
-                case .failure(_):
-                    completionHandler(.failure(.invalidResponseData))
-                }
-            case .failure(let error):
-                completionHandler(.failure(error))
-            }
-        }
+        return contentPublisher(for: url, decodingType: SpellDTO.self)
     }
     
-    func downloadContent(with url: URL, completionHandler: @escaping (Result<Data, NetworkServiceError>) -> Void) {
+    func contentPublisher<T: Decodable>(for url: URL, decodingType: T.Type) -> AnyPublisher<T, NetworkServiceError> {
         let configuration = URLSessionConfiguration.default
-        configuration.protocolClasses = self.urlSessionProtocolClasses
-        let session = URLSession(configuration: configuration, delegate: nil, delegateQueue: OperationQueue.main)
+        configuration.protocolClasses = urlSessionProtocolClasses
 
-        session.dataTask(with: url) { (data, _, _) in
-            if let jsonData = data {
-                completionHandler(.success(jsonData))
-            } else {
-                completionHandler(.failure(.invalidResponseData))
+        return URLSession(configuration: configuration).dataTaskPublisher(for: url)
+            .receive(on: RunLoop.main)
+            .tryMap { data, response in
+                guard let httpResponse = response as? HTTPURLResponse,
+                    httpResponse.statusCode == 200 else {
+                        throw NetworkServiceError.invalidResponseStatusCode
+                }
+                return data
             }
-        }.resume()
+            .decode(type: decodingType.self , decoder: JSONDecoder())
+            .mapError({ error in
+                switch error {
+                case is Swift.DecodingError:
+                    return .decodingFailed
+                case is URLError:
+                    return .sessionFailed(error)
+                default:
+                    return .other(error)
+                }
+            })
+            .eraseToAnyPublisher()
     }
 }
