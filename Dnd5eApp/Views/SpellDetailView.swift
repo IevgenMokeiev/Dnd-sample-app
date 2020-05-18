@@ -43,6 +43,7 @@ struct SpellDetailView: View {
             }
         }
         .padding(.top, 5)
+        .navigationBarTitle("Spell Detail")
     }
 }
 
