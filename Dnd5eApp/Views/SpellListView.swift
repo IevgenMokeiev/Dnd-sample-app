@@ -16,15 +16,19 @@ struct SpellListView: View {
 
     var body: some View {
         NavigationView {
-            List(viewModel.spellDTOs) { spell in
-                NavigationLink(destination: self.viewFactory?.provideSpellDetailView(spell: spell)) {
-                    Text(spell.name)
+            VStack {
+                TextField("Search:", text: $viewModel.searchTerm)
+                .padding()
+                List(viewModel.spellDTOs) { spell in
+                    NavigationLink(destination: self.viewFactory?.provideSpellDetailView(spell: spell)) {
+                        Text(spell.name)
+                    }
                 }
+                .accessibility(label: Text("Spell Table View"))
+                .accessibility(identifier: "SpellTableView")
+                .navigationBarTitle("Spell Book", displayMode: .inline)
+                .onAppear(perform: viewModel.onAppear)
             }
-            .accessibility(label: Text("Spell Table View"))
-            .accessibility(identifier: "SpellTableView")
-            .navigationBarTitle("Spell Book", displayMode: .inline)
-            .onAppear(perform: viewModel.onAppear)
         }
     }
 }

@@ -13,6 +13,8 @@ class SpellListViewModel: ObservableObject {
 
     @Published var spellDTOs: [SpellDTO] = []
 
+    @Published var searchTerm: String = ""
+
     private let publisher: AnyPublisher<[SpellDTO], Error>
     private var cancellableSet: Set<AnyCancellable> = []
 
