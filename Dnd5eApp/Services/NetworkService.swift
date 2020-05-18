@@ -64,18 +64,18 @@ class NetworkServiceImpl: NetworkService {
                         throw NetworkServiceError.invalidResponseStatusCode
                 }
                 return data
-        }
-        .decode(type: decodingType.self , decoder: JSONDecoder())
-        .mapError({ error in
-            switch error {
-            case is Swift.DecodingError:
-                return .decodingFailed
-            case is URLError:
-                return .sessionFailed(error)
-            default:
-                return .other(error)
             }
-        })
+            .decode(type: decodingType.self , decoder: JSONDecoder())
+            .mapError({ error in
+                switch error {
+                case is Swift.DecodingError:
+                    return .decodingFailed
+                case is URLError:
+                    return .sessionFailed(error)
+                default:
+                    return .other(error)
+                }
+            })
             .eraseToAnyPublisher()
     }
 }

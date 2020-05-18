@@ -28,12 +28,12 @@ class DataLayerImpl: DataLayer {
     func spellListPublisher() -> AnyPublisher<[SpellDTO], Error> {
         let downloadPublisher = networkService.spellListPublisher()
             .mapError { $0 as Error }
-            .flatMap { self.databaseService.saveSpellListPublisher(for: $0)
+            .flatMap {
+                self.databaseService.saveSpellListPublisher(for: $0)
                 .mapError { $0 as Error }
                 .eraseToAnyPublisher()
-
-        }
-        .eraseToAnyPublisher()
+            }
+            .eraseToAnyPublisher()
 
         return databaseService.spellListPublisher()
             .mapError { $0 as Error }
@@ -45,9 +45,11 @@ class DataLayerImpl: DataLayer {
     func spellDetailsPublisher(for spell: SpellDTO) -> AnyPublisher<SpellDTO, Error> {
         let downloadPublisher = networkService.spellDetailPublisher(for: spell.path)
             .mapError { $0 as Error }
-            .flatMap { self.databaseService.saveSpellDetailsPublisher(for: $0)
+            .flatMap {
+                self.databaseService.saveSpellDetailsPublisher(for: $0)
                 .mapError { $0 as Error }
-                .eraseToAnyPublisher() }
+                .eraseToAnyPublisher()
+            }
             .eraseToAnyPublisher()
 
         return databaseService.spellDetailsPublisher(for: spell.name)
