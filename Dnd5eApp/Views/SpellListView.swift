@@ -19,12 +19,12 @@ struct SpellListView: View {
             VStack {
                 HStack {
                     Image("search")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 25, height: 25)
-                    .padding(.trailing, 5)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 25, height: 25)
+                        .padding(.trailing, 5)
                     TextField("type spell here...", text: $viewModel.searchTerm)
-                    .accessibility(identifier: "SpellSearchView")
+                        .accessibility(identifier: "SpellSearchView")
                 }
                 .padding()
                 List(viewModel.spellDTOs) { spell in
