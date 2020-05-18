@@ -11,8 +11,10 @@ import UIKit
 import CoreData
 import Combine
 
+typealias SpellListPublisherConstructor = (String) -> AnyPublisher<[SpellDTO], Error>
+
 protocol DataLayer {
-    func spellListPublisher() -> AnyPublisher<[SpellDTO], Error>
+    func spellListPublisher(for searchTerm: String) -> AnyPublisher<[SpellDTO], Error>
     func spellDetailsPublisher(for spell: SpellDTO) -> AnyPublisher<SpellDTO, Error>
 }
 
@@ -25,7 +27,7 @@ class DataLayerImpl: DataLayer {
         self.networkService = networkService
     }
     
-    func spellListPublisher() -> AnyPublisher<[SpellDTO], Error> {
+    func spellListPublisher(for searchTerm: String) -> AnyPublisher<[SpellDTO], Error> {
         let downloadPublisher = networkService.spellListPublisher()
             .mapError { $0 as Error }
             .flatMap {
@@ -39,6 +41,7 @@ class DataLayerImpl: DataLayer {
             .mapError { $0 as Error }
             .catch { _ in downloadPublisher }
             .map { self.sortedSpells(spells: $0) }
+            .map { self.filteredSpells(spells: $0, by: searchTerm) }
             .eraseToAnyPublisher()
     }
 
@@ -58,7 +61,16 @@ class DataLayerImpl: DataLayer {
             .eraseToAnyPublisher()
     }
 
+    // MARK: - Private
     func sortedSpells(spells: [SpellDTO]) -> [SpellDTO] {
         return spells.sorted(by: { $0.name.caseInsensitiveCompare($1.name) == ComparisonResult.orderedAscending })
+    }
+
+    func filteredSpells(spells: [SpellDTO], by searchTerm: String) -> [SpellDTO] {
+        if searchTerm.isEmpty {
+            return spells
+        } else {
+            return spells.filter { $0.name.starts(with: searchTerm) }
+        }
     }
 }

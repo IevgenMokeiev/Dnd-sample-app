@@ -17,7 +17,7 @@ struct SpellListView: View {
     var body: some View {
         NavigationView {
             VStack {
-                TextField("Search:", text: $viewModel.searchTerm)
+                TextField("type spell here...", text: $viewModel.searchTerm)
                 .padding()
                 List(viewModel.spellDTOs) { spell in
                     NavigationLink(destination: self.viewFactory?.provideSpellDetailView(spell: spell)) {
