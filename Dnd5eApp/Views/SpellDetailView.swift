@@ -14,29 +14,31 @@ struct SpellDetailView: View {
     @ObservedObject var viewModel: SpellDetailViewModel
 
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack {
             if viewModel.loading {
                 ProgressView(isAnimating: $viewModel.loading)
                     .onAppear(perform: viewModel.onAppear)
             } else {
                 ScrollView {
-                    Text("\(viewModel.spellDTO.name)")
-                        .fontWeight(.bold)
-                        .font(.system(size: 30))
-                        .foregroundColor(Color.orange)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                    Image("scroll")
-                        .padding()
-                        .frame(maxWidth: .infinity, alignment: .center)
-                    Text("Level: \(viewModel.spellDTO.level ?? 0)")
-                        .fontWeight(.bold)
-                        .padding()
-                    Text("Description: \(viewModel.spellDTO.description ?? "")")
-                        .padding()
-                    Text("Casting time: \(viewModel.spellDTO.castingTime ?? "")")
-                        .padding()
-                    Text("Concentration: \(viewModel.spellDTO.concentration ?? false ? "true" : "false")")
-                        .padding()
+                    VStack(alignment: .leading) {
+                        Text("\(viewModel.spellDTO.name)")
+                            .fontWeight(.bold)
+                            .font(.system(size: 30))
+                            .foregroundColor(Color.orange)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                        Image("scroll")
+                            .padding()
+                            .frame(maxWidth: .infinity, alignment: .center)
+                        Text("Level: \(viewModel.spellDTO.level ?? 0)")
+                            .fontWeight(.bold)
+                            .padding()
+                        Text("Description: \(viewModel.spellDTO.description ?? "")")
+                            .padding()
+                        Text("Casting time: \(viewModel.spellDTO.castingTime ?? "")")
+                            .padding()
+                        Text("Concentration: \(viewModel.spellDTO.concentration ?? false ? "true" : "false")")
+                            .padding()
+                    }
                 }
             }
         }
