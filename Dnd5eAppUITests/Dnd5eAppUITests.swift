@@ -14,10 +14,24 @@ class Dnd5eAppUITests: XCTestCase {
         continueAfterFailure = false
     }
 
-    func testIntegration() {
+    func testSelection() {
         let app = XCUIApplication()
         app.launch()
         let tableView = app.otherElements["SpellTableView"]
+        let firstCell = tableView.cells.element(boundBy: 0)
+        firstCell.tap()
+
+        let spellLabel = app.staticTexts["Acid Arrow"]
+        XCTAssertTrue(spellLabel.waitForExistence(timeout: 3))
+    }
+
+    func testSearch() {
+        let app = XCUIApplication()
+        app.launch()
+        let tableView = app.otherElements["SpellTableView"]
+        let searchView = app.textFields["SpellSearchView"]
+        searchView.tap()
+        searchView.typeText("Acid Arrow")
         let firstCell = tableView.cells.element(boundBy: 0)
         firstCell.tap()
 

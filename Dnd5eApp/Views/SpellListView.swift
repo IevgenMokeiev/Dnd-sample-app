@@ -24,6 +24,7 @@ struct SpellListView: View {
                     .frame(width: 25, height: 25)
                     .padding(.trailing, 5)
                     TextField("type spell here...", text: $viewModel.searchTerm)
+                    .accessibility(identifier: "SpellSearchView")
                 }
                 .padding()
                 List(viewModel.spellDTOs) { spell in
