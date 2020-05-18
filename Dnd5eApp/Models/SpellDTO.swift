@@ -43,6 +43,6 @@ extension SpellDTO: Codable {
         castingTime = try values.decodeIfPresent(String.self, forKey: .castingTime)
         concentration = try values.decodeIfPresent(Bool.self, forKey: .concentration)
         let array = try values.decodeIfPresent([String].self, forKey: .description)
-        description = array?.first
+        description = array?.joined(separator: "\n\n")
     }
 }

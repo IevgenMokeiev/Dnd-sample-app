@@ -14,17 +14,20 @@ struct SpellDetailView: View {
     @ObservedObject var viewModel: SpellDetailViewModel
 
     var body: some View {
-        NavigationView {
+        VStack(alignment: .leading) {
             if viewModel.loading {
                 ProgressView(isAnimating: $viewModel.loading)
-                .onAppear(perform: viewModel.onAppear)
+                    .onAppear(perform: viewModel.onAppear)
             } else {
-                VStack {
+                ScrollView {
                     Text("\(viewModel.spellDTO.name)")
                         .fontWeight(.bold)
                         .font(.system(size: 30))
                         .foregroundColor(Color.orange)
-                    Image("scroll").padding()
+                        .frame(maxWidth: .infinity, alignment: .center)
+                    Image("scroll")
+                        .padding()
+                        .frame(maxWidth: .infinity, alignment: .center)
                     Text("Level: \(viewModel.spellDTO.level ?? 0)")
                         .fontWeight(.bold)
                         .padding()
@@ -35,10 +38,9 @@ struct SpellDetailView: View {
                     Text("Concentration: \(viewModel.spellDTO.concentration ?? false ? "true" : "false")")
                         .padding()
                 }
-                .padding()
             }
         }
-        .navigationBarTitle("Spell Details", displayMode: .inline)
+        .padding(.top, 5)
     }
 }
 
