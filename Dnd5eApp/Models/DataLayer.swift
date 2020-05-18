@@ -13,7 +13,7 @@ import Combine
 
 protocol DataLayer {
     func spellListPublisher(for searchTerm: String) -> SpellListPublisher
-    func spellDetailsPublisher(for spell: SpellDTO) -> SpellDetailPublisher
+    func spellDetailsPublisher(for path: String) -> SpellDetailPublisher
 }
 
 class DataLayerImpl: DataLayer {
@@ -43,8 +43,8 @@ class DataLayerImpl: DataLayer {
             .eraseToAnyPublisher()
     }
 
-    func spellDetailsPublisher(for spell: SpellDTO) -> SpellDetailPublisher {
-        let downloadPublisher = networkService.spellDetailPublisher(for: spell.path)
+    func spellDetailsPublisher(for path: String) -> SpellDetailPublisher {
+        let downloadPublisher = networkService.spellDetailPublisher(for: path)
             .mapError { $0 as Error }
             .flatMap {
                 self.databaseService.saveSpellDetailsPublisher(for: $0)
@@ -53,7 +53,7 @@ class DataLayerImpl: DataLayer {
             }
             .eraseToAnyPublisher()
 
-        return databaseService.spellDetailsPublisher(for: spell.name)
+        return databaseService.spellDetailsPublisher(for: path)
             .mapError { $0 as Error }
             .catch { _ in downloadPublisher }
             .eraseToAnyPublisher()

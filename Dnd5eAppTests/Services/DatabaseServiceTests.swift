@@ -38,7 +38,7 @@ class DatabaseServiceTests: XCTestCase {
         let sut = makeSUT()
         guard let context = context else { XCTFail("no context"); return }
         let spell = FakeDataFactory.provideFakeSpell(context: context)
-        sut.spellDetailsPublisher(for: spell.name!)
+        sut.spellDetailsPublisher(for: spell.path!)
         .sink(receiveCompletion: { completion in
             switch completion {
             case .finished:

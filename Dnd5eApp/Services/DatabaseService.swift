@@ -24,7 +24,7 @@ enum DatabaseServiceError: Error {
 
 protocol DatabaseService {
     func spellListPublisher() -> DatabaseSpellListPublisher
-    func spellDetailsPublisher(for name: String) -> DatabaseSpellDetailPublisher
+    func spellDetailsPublisher(for path: String) -> DatabaseSpellDetailPublisher
     func saveSpellListPublisher(for spellDTOs: [SpellDTO]) -> DatabaseSpellListPublisher
     func saveSpellDetailsPublisher(for spellDTO: SpellDTO) -> DatabaseSpellDetailPublisher
 }
@@ -49,7 +49,6 @@ class DatabaseServiceImpl: DatabaseService {
         request.returnsObjectsAsFaults = false
         do {
             let result = try context.fetch(request)
-            
             if result.isEmpty {
                 return Fail(error: .emptyStack).eraseToAnyPublisher()
             } else {
@@ -62,10 +61,10 @@ class DatabaseServiceImpl: DatabaseService {
         }
     }
     
-    func spellDetailsPublisher(for name: String) -> DatabaseSpellDetailPublisher {
+    func spellDetailsPublisher(for path: String) -> DatabaseSpellDetailPublisher {
         let managedContext = coreDataStack.persistentContainer.viewContext
         let request: NSFetchRequest<Spell> = Spell.fetchRequest()
-        let predicate = NSPredicate(format: "name == %@", name)
+        let predicate = NSPredicate(format: "path == %@", path)
         request.predicate = predicate
         request.returnsObjectsAsFaults = false
         

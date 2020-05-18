@@ -29,7 +29,7 @@ struct SpellListView: View {
                 Divider()
                     .background(Color.orange)
                 List(viewModel.spellDTOs) { spell in
-                    NavigationLink(destination: self.viewModel.spellDetailConstructor(spell)) {
+                    NavigationLink(destination: self.viewModel.spellDetailConstructor(spell.path)) {
                         Text(spell.name)
                     }
                 }
@@ -44,6 +44,6 @@ struct SpellListView: View {
 
 struct SpellListView_Previews: PreviewProvider {
     static var previews: some View {
-        return AppCoordinator().viewFactory.provideSpellListView()
+        return AppCoordinator().viewFactory.createSpellListView()
     }
 }

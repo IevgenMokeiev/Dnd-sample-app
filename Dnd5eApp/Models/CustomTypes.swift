@@ -8,7 +8,7 @@
 
 import Combine
 
-typealias SpellDetailConstructor = (SpellDTO) -> SpellDetailView
+typealias SpellDetailConstructor = (String) -> SpellDetailView
 typealias SpellListPublisherConstructor = (String) -> AnyPublisher<[SpellDTO], Error>
 typealias SpellListPublisher = AnyPublisher<[SpellDTO], Error>
 typealias SpellDetailPublisher = AnyPublisher<SpellDTO, Error>

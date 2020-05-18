@@ -10,8 +10,8 @@ import Foundation
 import SwiftUI
 
 protocol ViewFactory {
-    func provideSpellListView() -> SpellListView
-    func provideSpellDetailView(spell: SpellDTO) -> SpellDetailView
+    func createSpellListView() -> SpellListView
+    func createSpellDetailView(path: String) -> SpellDetailView
 }
 
 class ViewFactoryImpl: ViewFactory {
@@ -22,13 +22,13 @@ class ViewFactoryImpl: ViewFactory {
         self.dataLayer = dataLayer
     }
 
-    func provideSpellListView() -> SpellListView {
-        let viewModel = SpellListViewModel(publisherConstructor: { self.dataLayer.spellListPublisher(for: $0) }) { self.provideSpellDetailView(spell: $0) }
+    func createSpellListView() -> SpellListView {
+        let viewModel = SpellListViewModel(publisherConstructor: { self.dataLayer.spellListPublisher(for: $0) }) { self.createSpellDetailView(path: $0) }
         return SpellListView(viewModel: viewModel)
     }
 
-    func provideSpellDetailView(spell: SpellDTO) -> SpellDetailView {
-        let viewModel = SpellDetailViewModel(publisher: dataLayer.spellDetailsPublisher(for: spell))
+    func createSpellDetailView(path: String) -> SpellDetailView {
+        let viewModel = SpellDetailViewModel(publisher: dataLayer.spellDetailsPublisher(for: path))
         return SpellDetailView(viewModel: viewModel)
     }
 }
