@@ -24,7 +24,7 @@ struct SpellDetailView: View {
                         Text("\(viewModel.spellDTO.name)")
                             .fontWeight(.bold)
                             .font(.system(size: 30))
-                            .foregroundColor(Color.orange)
+                            .foregroundColor(.orange)
                             .frame(maxWidth: .infinity, alignment: .center)
                         Image("scroll")
                             .padding()

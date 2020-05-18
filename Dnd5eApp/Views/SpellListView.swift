@@ -25,16 +25,18 @@ struct SpellListView: View {
                     TextField("type spell here...", text: $viewModel.searchTerm)
                         .accessibility(identifier: "SpellSearchView")
                 }
-                .padding()
+                .padding([.horizontal, .top], 15)
+                Divider()
+                    .background(Color.orange)
                 List(viewModel.spellDTOs) { spell in
                     NavigationLink(destination: self.viewModel.spellDetailConstructor(spell)) {
                         Text(spell.name)
                     }
                 }
-                .accessibility(label: Text("Spell Table View"))
-                .accessibility(identifier: "SpellTableView")
-                .navigationBarTitle("Spell Book", displayMode: .inline)
-                .onAppear(perform: viewModel.onAppear)
+                    .accessibility(label: Text("Spell Table View"))
+                    .accessibility(identifier: "SpellTableView")
+                    .navigationBarTitle("Spell Book", displayMode: .inline)
+                    .onAppear(perform: viewModel.onAppear)
             }
         }
     }
