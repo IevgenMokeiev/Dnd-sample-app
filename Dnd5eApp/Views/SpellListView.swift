@@ -17,7 +17,14 @@ struct SpellListView: View {
     var body: some View {
         NavigationView {
             VStack {
-                TextField("type spell here...", text: $viewModel.searchTerm)
+                HStack {
+                    Image("search")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 25, height: 25)
+                    .padding(.trailing, 5)
+                    TextField("type spell here...", text: $viewModel.searchTerm)
+                }
                 .padding()
                 List(viewModel.spellDTOs) { spell in
                     NavigationLink(destination: self.viewFactory?.provideSpellDetailView(spell: spell)) {

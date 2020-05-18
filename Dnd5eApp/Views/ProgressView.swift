@@ -15,7 +15,9 @@ struct ProgressView: UIViewRepresentable {
     @Binding var isAnimating: Bool
 
     func makeUIView(context: UIViewRepresentableContext<ProgressView>) -> MBProgressHUD {
-        return MBProgressHUD()
+        let hud = MBProgressHUD()
+        hud.label.text = "Loading..."
+        return hud
     }
 
     func updateUIView(_ uiView: MBProgressHUD, context: UIViewRepresentableContext<ProgressView>) {
