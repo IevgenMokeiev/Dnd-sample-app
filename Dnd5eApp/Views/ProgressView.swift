@@ -12,7 +12,7 @@ import MBProgressHUD
 struct ProgressView: UIViewRepresentable {
     typealias UIViewType = MBProgressHUD
 
-    var isAnimating: Bool
+    @Binding var isAnimating: Bool
 
     func makeUIView(context: UIViewRepresentableContext<ProgressView>) -> MBProgressHUD {
         return MBProgressHUD()

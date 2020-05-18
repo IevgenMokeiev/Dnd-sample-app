@@ -16,7 +16,7 @@ struct SpellDetailView: View {
     var body: some View {
         NavigationView {
             if viewModel.loading {
-                ProgressView(isAnimating: viewModel.loading)
+                ProgressView(isAnimating: $viewModel.loading)
                     .onAppear(perform: viewModel.onAppear)
             } else {
                 VStack {
