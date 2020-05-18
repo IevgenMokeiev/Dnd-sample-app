@@ -23,8 +23,8 @@ class ViewFactoryImpl: ViewFactory {
     }
 
     func provideSpellListView() -> SpellListView {
-        let viewModel = SpellListViewModel { self.dataLayer.spellListPublisher(for: $0) }
-        return SpellListView(viewModel: viewModel, viewFactory: self)
+        let viewModel = SpellListViewModel(publisherConstructor: { self.dataLayer.spellListPublisher(for: $0) }) { self.provideSpellDetailView(spell: $0) }
+        return SpellListView(viewModel: viewModel)
     }
 
     func provideSpellDetailView(spell: SpellDTO) -> SpellDetailView {

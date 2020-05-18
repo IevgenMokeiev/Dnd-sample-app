@@ -12,7 +12,6 @@ import Combine
 struct SpellListView: View {
 
     @ObservedObject var viewModel: SpellListViewModel
-    var viewFactory: ViewFactory?
 
     var body: some View {
         NavigationView {
@@ -28,7 +27,7 @@ struct SpellListView: View {
                 }
                 .padding()
                 List(viewModel.spellDTOs) { spell in
-                    NavigationLink(destination: self.viewFactory?.provideSpellDetailView(spell: spell)) {
+                    NavigationLink(destination: self.viewModel.spellDetailConstructor(spell)) {
                         Text(spell.name)
                     }
                 }

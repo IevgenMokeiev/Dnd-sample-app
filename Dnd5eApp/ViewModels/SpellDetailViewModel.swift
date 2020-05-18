@@ -19,10 +19,10 @@ class SpellDetailViewModel: ObservableObject {
     }
     @Published var loading: Bool = true
 
-    private let publisher: AnyPublisher<SpellDTO, Error>
+    private let publisher: SpellDetailPublisher
     private var cancellableSet: Set<AnyCancellable> = []
 
-    init(publisher: AnyPublisher<SpellDTO, Error>) {
+    init(publisher: SpellDetailPublisher) {
         self.publisher = publisher
     }
 

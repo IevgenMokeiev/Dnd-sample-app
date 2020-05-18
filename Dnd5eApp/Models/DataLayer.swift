@@ -11,11 +11,9 @@ import UIKit
 import CoreData
 import Combine
 
-typealias SpellListPublisherConstructor = (String) -> AnyPublisher<[SpellDTO], Error>
-
 protocol DataLayer {
-    func spellListPublisher(for searchTerm: String) -> AnyPublisher<[SpellDTO], Error>
-    func spellDetailsPublisher(for spell: SpellDTO) -> AnyPublisher<SpellDTO, Error>
+    func spellListPublisher(for searchTerm: String) -> SpellListPublisher
+    func spellDetailsPublisher(for spell: SpellDTO) -> SpellDetailPublisher
 }
 
 class DataLayerImpl: DataLayer {
@@ -27,7 +25,7 @@ class DataLayerImpl: DataLayer {
         self.networkService = networkService
     }
     
-    func spellListPublisher(for searchTerm: String) -> AnyPublisher<[SpellDTO], Error> {
+    func spellListPublisher(for searchTerm: String) -> SpellListPublisher {
         let downloadPublisher = networkService.spellListPublisher()
             .mapError { $0 as Error }
             .flatMap {
@@ -45,7 +43,7 @@ class DataLayerImpl: DataLayer {
             .eraseToAnyPublisher()
     }
 
-    func spellDetailsPublisher(for spell: SpellDTO) -> AnyPublisher<SpellDTO, Error> {
+    func spellDetailsPublisher(for spell: SpellDTO) -> SpellDetailPublisher {
         let downloadPublisher = networkService.spellDetailPublisher(for: spell.path)
             .mapError { $0 as Error }
             .flatMap {

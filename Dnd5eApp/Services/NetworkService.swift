@@ -9,6 +9,9 @@
 import Foundation
 import Combine
 
+typealias NetworkSpellListPublisher = AnyPublisher<[SpellDTO], NetworkServiceError>
+typealias NetworkSpellDetailPublisher = AnyPublisher<SpellDTO, NetworkServiceError>
+
 struct Response: Codable {
     public let results: [SpellDTO]
 }
@@ -27,14 +30,14 @@ public enum NetworkServiceError: Error {
 }
 
 protocol NetworkService {
-    func spellListPublisher() -> AnyPublisher<[SpellDTO], NetworkServiceError>
-    func spellDetailPublisher(for path: String) -> AnyPublisher<SpellDTO, NetworkServiceError>
+    func spellListPublisher() -> NetworkSpellListPublisher
+    func spellDetailPublisher(for path: String) -> NetworkSpellDetailPublisher
 }
 
 class NetworkServiceImpl: NetworkService {
     internal var urlSessionProtocolClasses: [AnyClass]?
     
-    func spellListPublisher() -> AnyPublisher<[SpellDTO], NetworkServiceError> {
+    func spellListPublisher() -> NetworkSpellListPublisher {
         guard let url = URL(string: Endpoints.spellList.rawValue) else {
             return Fail(error: .invalidURL).eraseToAnyPublisher()
         }
@@ -44,7 +47,7 @@ class NetworkServiceImpl: NetworkService {
             .eraseToAnyPublisher()
     }
     
-    func spellDetailPublisher(for path: String) -> AnyPublisher<SpellDTO, NetworkServiceError> {
+    func spellDetailPublisher(for path: String) -> NetworkSpellDetailPublisher {
         guard let url = URL(string: Endpoints.spellDetails.rawValue + path) else {
             return Fail(error: .invalidURL).eraseToAnyPublisher()
         }

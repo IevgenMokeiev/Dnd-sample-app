@@ -11,6 +11,9 @@ import CoreData
 import UIKit
 import Combine
 
+typealias DatabaseSpellListPublisher = AnyPublisher<[SpellDTO], DatabaseServiceError>
+typealias DatabaseSpellDetailPublisher = AnyPublisher<SpellDTO, DatabaseServiceError>
+
 enum DatabaseServiceError: Error {
     case emptyStack
     case noMatchedEntity
@@ -20,10 +23,10 @@ enum DatabaseServiceError: Error {
 }
 
 protocol DatabaseService {
-    func spellListPublisher() -> AnyPublisher<[SpellDTO], DatabaseServiceError>
-    func spellDetailsPublisher(for name: String) -> AnyPublisher<SpellDTO, DatabaseServiceError>
-    func saveSpellListPublisher(for spellDTOs: [SpellDTO]) -> AnyPublisher<[SpellDTO], DatabaseServiceError>
-    func saveSpellDetailsPublisher(for spellDTO: SpellDTO) -> AnyPublisher<SpellDTO, DatabaseServiceError>
+    func spellListPublisher() -> DatabaseSpellListPublisher
+    func spellDetailsPublisher(for name: String) -> DatabaseSpellDetailPublisher
+    func saveSpellListPublisher(for spellDTOs: [SpellDTO]) -> DatabaseSpellListPublisher
+    func saveSpellDetailsPublisher(for spellDTO: SpellDTO) -> DatabaseSpellDetailPublisher
 }
 
 class DatabaseServiceImpl: DatabaseService {
@@ -40,7 +43,7 @@ class DatabaseServiceImpl: DatabaseService {
             .store(in: &cancellableSet)
     }
     
-    func spellListPublisher() -> AnyPublisher<[SpellDTO], DatabaseServiceError> {
+    func spellListPublisher() -> DatabaseSpellListPublisher {
         let context = coreDataStack.persistentContainer.viewContext
         let request: NSFetchRequest<Spell> = Spell.fetchRequest()
         request.returnsObjectsAsFaults = false
@@ -59,7 +62,7 @@ class DatabaseServiceImpl: DatabaseService {
         }
     }
     
-    func spellDetailsPublisher(for name: String) -> AnyPublisher<SpellDTO, DatabaseServiceError> {
+    func spellDetailsPublisher(for name: String) -> DatabaseSpellDetailPublisher {
         let managedContext = coreDataStack.persistentContainer.viewContext
         let request: NSFetchRequest<Spell> = Spell.fetchRequest()
         let predicate = NSPredicate(format: "name == %@", name)
@@ -82,7 +85,7 @@ class DatabaseServiceImpl: DatabaseService {
         }
     }
 
-    func saveSpellListPublisher(for spellDTOs: [SpellDTO]) -> AnyPublisher<[SpellDTO], DatabaseServiceError> {
+    func saveSpellListPublisher(for spellDTOs: [SpellDTO]) -> DatabaseSpellListPublisher {
         let managedContext = coreDataStack.persistentContainer.viewContext
         spellDTOs.forEach { (spell) in
             let entity = NSEntityDescription.entity(forEntityName: "Spell", in: managedContext)!
@@ -100,7 +103,7 @@ class DatabaseServiceImpl: DatabaseService {
         }
     }
 
-    func saveSpellDetailsPublisher(for spellDTO: SpellDTO) -> AnyPublisher<SpellDTO, DatabaseServiceError> {
+    func saveSpellDetailsPublisher(for spellDTO: SpellDTO) -> DatabaseSpellDetailPublisher {
         let managedContext = coreDataStack.persistentContainer.viewContext
         let request: NSFetchRequest<Spell> = Spell.fetchRequest()
         let predicate = NSPredicate(format: "name == %@", spellDTO.name)

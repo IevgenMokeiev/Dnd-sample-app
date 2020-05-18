@@ -19,12 +19,15 @@ class SpellListViewModel: ObservableObject {
         }
     }
 
+    let spellDetailConstructor: SpellDetailConstructor
+
     private let publisherConstructor: SpellListPublisherConstructor
-    private var activePublisher: AnyPublisher<[SpellDTO], Error>?
+    private var activePublisher: SpellListPublisher?
     private var cancellableSet: Set<AnyCancellable> = []
 
-    init(publisherConstructor: @escaping SpellListPublisherConstructor) {
+    init(publisherConstructor: @escaping SpellListPublisherConstructor, spellDetailConstructor: @escaping SpellDetailConstructor) {
         self.publisherConstructor = publisherConstructor
+        self.spellDetailConstructor = spellDetailConstructor
     }
 
     func onAppear() {
