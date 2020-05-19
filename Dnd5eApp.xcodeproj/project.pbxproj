@@ -29,6 +29,7 @@
 		9F54AC2A246C21D7005B4849 /* Spell+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC29246C21D7005B4849 /* Spell+Equatable.swift */; };
 		9F6BD7C2246593CF001D8825 /* SpellDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6BD7C1246593CF001D8825 /* SpellDTO.swift */; };
 		9F6BD7C424659691001D8825 /* TranslationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6BD7C324659691001D8825 /* TranslationService.swift */; };
+		9F70C4D0247404530080275E /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F70C4CF247404530080275E /* SearchView.swift */; };
 		9F8CC71D2465A8CA00F35746 /* SpellListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6BD7BF2465905C001D8825 /* SpellListView.swift */; };
 		9FC14EAD246B3AC000428073 /* TranslationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC14EAC246B3AC000428073 /* TranslationServiceTests.swift */; };
 		9FC3E0562472CCBA00C5AE17 /* CustomTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC3E0552472CCBA00C5AE17 /* CustomTypes.swift */; };
@@ -86,6 +87,7 @@
 		9F6BD7BF2465905C001D8825 /* SpellListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellListView.swift; sourceTree = "<group>"; };
 		9F6BD7C1246593CF001D8825 /* SpellDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellDTO.swift; sourceTree = "<group>"; };
 		9F6BD7C324659691001D8825 /* TranslationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationService.swift; sourceTree = "<group>"; };
+		9F70C4CF247404530080275E /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		9FC14EAC246B3AC000428073 /* TranslationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationServiceTests.swift; sourceTree = "<group>"; };
 		9FC3E0552472CCBA00C5AE17 /* CustomTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTypes.swift; sourceTree = "<group>"; };
 		9FD2744F246D4244009A9FBD /* SpellListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellListViewModel.swift; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 				9F6BD7BF2465905C001D8825 /* SpellListView.swift */,
 				9F0C894B246A885C003592F5 /* SpellDetailView.swift */,
 				9F0C8950246ACC92003592F5 /* ProgressView.swift */,
+				9F70C4CF247404530080275E /* SearchView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -454,6 +457,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9FC3E0562472CCBA00C5AE17 /* CustomTypes.swift in Sources */,
+				9F70C4D0247404530080275E /* SearchView.swift in Sources */,
 				9F8CC71D2465A8CA00F35746 /* SpellListView.swift in Sources */,
 				9F0C894C246A885C003592F5 /* SpellDetailView.swift in Sources */,
 				9F6BD7C424659691001D8825 /* TranslationService.swift in Sources */,

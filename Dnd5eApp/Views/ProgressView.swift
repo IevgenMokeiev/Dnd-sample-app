@@ -17,6 +17,7 @@ struct ProgressView: UIViewRepresentable {
     func makeUIView(context: UIViewRepresentableContext<ProgressView>) -> MBProgressHUD {
         let hud = MBProgressHUD()
         hud.label.text = "Loading..."
+        hud.contentColor = .orange
         return hud
     }
 

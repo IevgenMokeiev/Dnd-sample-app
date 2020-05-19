@@ -16,16 +16,7 @@ struct SpellListView: View {
     var body: some View {
         NavigationView {
             VStack {
-                HStack {
-                    Image("search")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 25, height: 25)
-                        .padding(.trailing, 5)
-                    TextField("type spell here...", text: $viewModel.searchTerm)
-                        .accessibility(identifier: "SpellSearchView")
-                }
-                .padding([.horizontal, .top], 15)
+                SearchView(searchTerm: $viewModel.searchTerm)
                 Divider()
                     .background(Color.orange)
                 List(viewModel.spellDTOs) { spell in
