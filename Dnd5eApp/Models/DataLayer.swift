@@ -64,7 +64,7 @@ class DataLayerImpl: DataLayer {
         let sortRule: (SpellDTO, SpellDTO) -> Bool = {
             switch sort {
             case .name:
-                return $0.name.caseInsensitiveCompare($1.name) == ComparisonResult.orderedAscending
+                return $0.name < $1.name
             case .level:
                 return ($0.level ?? 0) < ($1.level ?? 0)
             }
