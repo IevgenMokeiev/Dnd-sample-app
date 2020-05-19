@@ -60,7 +60,6 @@ class NetworkServiceImpl: NetworkService {
         configuration.protocolClasses = urlSessionProtocolClasses
 
         return URLSession(configuration: configuration).dataTaskPublisher(for: url)
-            .receive(on: RunLoop.main)
             .tryMap { data, response in
                 guard let httpResponse = response as? HTTPURLResponse,
                     httpResponse.statusCode == 200 else {

@@ -38,6 +38,7 @@ class DataLayerImpl: DataLayer {
         return databaseService.spellListPublisher()
             .mapError { $0 as Error }
             .catch { _ in downloadPublisher }
+            .receive(on: RunLoop.main)
             .map { self.sortedSpells(spells: $0, sort: sort) }
             .map { self.filteredSpells(spells: $0, by: searchTerm) }
             .eraseToAnyPublisher()
