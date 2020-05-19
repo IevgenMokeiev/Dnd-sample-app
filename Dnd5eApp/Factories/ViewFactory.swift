@@ -23,7 +23,7 @@ class ViewFactoryImpl: ViewFactory {
     }
 
     func createSpellListView() -> SpellListView {
-        let viewModel = SpellListViewModel(publisherConstructor: { self.dataLayer.spellListPublisher(for: $0) }) { self.createSpellDetailView(path: $0) }
+        let viewModel = SpellListViewModel(publisherConstructor: { self.dataLayer.spellListPublisher(for: $0, sort: $1) }) { self.createSpellDetailView(path: $0) }
         return SpellListView(viewModel: viewModel)
     }
 

@@ -19,6 +19,12 @@ class SpellListViewModel: ObservableObject {
         }
     }
 
+    @Published var selectedSort: Sort = .name {
+        didSet {
+            search()
+        }
+    }
+
     let spellDetailConstructor: SpellDetailConstructor
 
     private let publisherConstructor: SpellListPublisherConstructor
@@ -35,7 +41,7 @@ class SpellListViewModel: ObservableObject {
     }
 
     private func search() {
-        let publisher = publisherConstructor(searchTerm)
+        let publisher = publisherConstructor(searchTerm, selectedSort)
         activePublisher = publisher
         publisher
             .replaceError(with: [])

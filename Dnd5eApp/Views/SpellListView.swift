@@ -36,6 +36,12 @@ struct SpellListView: View {
                     .accessibility(label: Text("Spell Table View"))
                     .accessibility(identifier: "SpellTableView")
                     .navigationBarTitle("Spell Book", displayMode: .inline)
+                    .navigationBarItems(trailing:
+                        Button("Sort by Level") {
+                            self.viewModel.selectedSort = .level
+                        }
+                        .foregroundColor(.orange)
+                    )
                     .onAppear(perform: viewModel.onAppear)
             }
         }

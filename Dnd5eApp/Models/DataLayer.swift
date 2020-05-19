@@ -12,7 +12,7 @@ import CoreData
 import Combine
 
 protocol DataLayer {
-    func spellListPublisher(for searchTerm: String) -> SpellListPublisher
+    func spellListPublisher(for searchTerm: String, sort: Sort) -> SpellListPublisher
     func spellDetailsPublisher(for path: String) -> SpellDetailPublisher
 }
 
@@ -25,7 +25,7 @@ class DataLayerImpl: DataLayer {
         self.networkService = networkService
     }
     
-    func spellListPublisher(for searchTerm: String) -> SpellListPublisher {
+    func spellListPublisher(for searchTerm: String, sort: Sort) -> SpellListPublisher {
         let downloadPublisher = networkService.spellListPublisher()
             .mapError { $0 as Error }
             .flatMap {
@@ -38,7 +38,7 @@ class DataLayerImpl: DataLayer {
         return databaseService.spellListPublisher()
             .mapError { $0 as Error }
             .catch { _ in downloadPublisher }
-            .map { self.sortedSpells(spells: $0) }
+            .map { self.sortedSpells(spells: $0, sort: sort) }
             .map { self.filteredSpells(spells: $0, by: searchTerm) }
             .eraseToAnyPublisher()
     }
@@ -60,8 +60,17 @@ class DataLayerImpl: DataLayer {
     }
 
     // MARK: - Private
-    func sortedSpells(spells: [SpellDTO]) -> [SpellDTO] {
-        return spells.sorted(by: { $0.name.caseInsensitiveCompare($1.name) == ComparisonResult.orderedAscending })
+    func sortedSpells(spells: [SpellDTO], sort: Sort) -> [SpellDTO] {
+        let sortRule: (SpellDTO, SpellDTO) -> Bool = {
+            switch sort {
+            case .name:
+                return $0.name.caseInsensitiveCompare($1.name) == ComparisonResult.orderedAscending
+            case .level:
+                return ($0.level ?? 0) < ($1.level ?? 0)
+            }
+        }
+
+        return spells.sorted(by: sortRule)
     }
 
     func filteredSpells(spells: [SpellDTO], by searchTerm: String) -> [SpellDTO] {
