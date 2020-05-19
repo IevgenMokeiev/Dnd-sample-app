@@ -8,12 +8,6 @@
 
 import Combine
 
-enum Sort {
-    case name
-    case level
-}
-
 typealias SpellDetailViewConstructor = (_ path: String) -> SpellDetailView
-typealias SpellListPublisherConstructor = (_ searchTerm: String, _ sort: Sort) -> AnyPublisher<[SpellDTO], Error>
 typealias SpellListPublisher = AnyPublisher<[SpellDTO], Error>
 typealias SpellDetailPublisher = AnyPublisher<SpellDTO, Error>

@@ -14,15 +14,22 @@ import Combine
 protocol DataLayer {
     func spellListPublisher() -> SpellListPublisher
     func spellDetailsPublisher(for path: String) -> SpellDetailPublisher
+    func refineSpells(spells: [SpellDTO], sort: Sort, searchTerm: String) -> [SpellDTO]
 }
 
 class DataLayerImpl: DataLayer {
     private var databaseService: DatabaseService
     private var networkService: NetworkService
+    private var refinementsService: RefinementsService
 
-    init(databaseService: DatabaseService, networkService: NetworkService) {
+    init(databaseService: DatabaseService, networkService: NetworkService, refinementsService: RefinementsService) {
         self.databaseService = databaseService
         self.networkService = networkService
+        self.refinementsService = refinementsService
+    }
+
+    func refineSpells(spells: [SpellDTO], sort: Sort, searchTerm: String) -> [SpellDTO] {
+        return self.refinementsService.refineSpells(spells: spells, sort: sort, searchTerm: searchTerm)
     }
     
     func spellListPublisher() -> SpellListPublisher {
