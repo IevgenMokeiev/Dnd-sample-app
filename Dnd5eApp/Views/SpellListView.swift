@@ -19,7 +19,7 @@ struct SpellListView: View {
                 SearchView(searchTerm: $viewModel.searchTerm)
                 Divider()
                     .background(Color.orange)
-                List(viewModel.spellDTOs) { spell in
+                List(viewModel.publishedSpellDTOs) { spell in
                     NavigationLink(destination: self.viewModel.spellDetailViewConstructor(spell.path)) {
                         Text(spell.name)
                     }

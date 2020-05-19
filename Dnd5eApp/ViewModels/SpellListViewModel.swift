@@ -11,17 +11,25 @@ import Combine
 
 class SpellListViewModel: ObservableObject {
 
-    @Published var spellDTOs: [SpellDTO] = []
+    @Published var publishedSpellDTOs: [SpellDTO] = []
 
     var searchTerm: String = "" {
         didSet {
-            spellDTOs = filteredSpells(spells: spellDTOs, by: searchTerm)
+            publishedSpellDTOs = filteredSpells(spells: spellDTOs, by: searchTerm)
         }
     }
 
     var selectedSort: Sort = .name {
         didSet {
-            spellDTOs = sortedSpells(spells: spellDTOs, sort: selectedSort)
+            publishedSpellDTOs = sortedSpells(spells: spellDTOs, sort: selectedSort)
+        }
+    }
+
+    private var spellDTOs: [SpellDTO] = [] {
+        didSet {
+            let filteredDTOs = filteredSpells(spells: spellDTOs, by: searchTerm)
+            let sortedDTOs = sortedSpells(spells: filteredDTOs, sort: selectedSort)
+            publishedSpellDTOs = sortedDTOs
         }
     }
 
@@ -37,8 +45,6 @@ class SpellListViewModel: ObservableObject {
 
     func onAppear() {
         publisher
-            .map { self.sortedSpells(spells: $0, sort: self.selectedSort) }
-            .map { self.filteredSpells(spells: $0, by: self.searchTerm) }
             .replaceError(with: [])
             .assign(to: \.spellDTOs, on: self)
             .store(in: &cancellableSet)
