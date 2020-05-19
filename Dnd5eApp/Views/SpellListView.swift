@@ -20,7 +20,7 @@ struct SpellListView: View {
                 Divider()
                     .background(Color.orange)
                 List(viewModel.spellDTOs) { spell in
-                    NavigationLink(destination: self.viewModel.spellDetailConstructor(spell.path)) {
+                    NavigationLink(destination: self.viewModel.spellDetailViewConstructor(spell.path)) {
                         Text(spell.name)
                     }
                 }

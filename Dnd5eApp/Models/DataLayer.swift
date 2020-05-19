@@ -12,7 +12,7 @@ import CoreData
 import Combine
 
 protocol DataLayer {
-    func spellListPublisher(for searchTerm: String, sort: Sort) -> SpellListPublisher
+    func spellListPublisher() -> SpellListPublisher
     func spellDetailsPublisher(for path: String) -> SpellDetailPublisher
 }
 
@@ -25,7 +25,7 @@ class DataLayerImpl: DataLayer {
         self.networkService = networkService
     }
     
-    func spellListPublisher(for searchTerm: String, sort: Sort) -> SpellListPublisher {
+    func spellListPublisher() -> SpellListPublisher {
         let downloadPublisher = networkService.spellListPublisher()
             .mapError { $0 as Error }
             .flatMap {
@@ -39,8 +39,6 @@ class DataLayerImpl: DataLayer {
             .mapError { $0 as Error }
             .catch { _ in downloadPublisher }
             .receive(on: RunLoop.main)
-            .map { self.sortedSpells(spells: $0, sort: sort) }
-            .map { self.filteredSpells(spells: $0, by: searchTerm) }
             .eraseToAnyPublisher()
     }
 
@@ -58,27 +56,5 @@ class DataLayerImpl: DataLayer {
             .mapError { $0 as Error }
             .catch { _ in downloadPublisher }
             .eraseToAnyPublisher()
-    }
-
-    // MARK: - Private
-    func sortedSpells(spells: [SpellDTO], sort: Sort) -> [SpellDTO] {
-        let sortRule: (SpellDTO, SpellDTO) -> Bool = {
-            switch sort {
-            case .name:
-                return $0.name < $1.name
-            case .level:
-                return ($0.level ?? 0) < ($1.level ?? 0)
-            }
-        }
-
-        return spells.sorted(by: sortRule)
-    }
-
-    func filteredSpells(spells: [SpellDTO], by searchTerm: String) -> [SpellDTO] {
-        if searchTerm.isEmpty {
-            return spells
-        } else {
-            return spells.filter { $0.name.starts(with: searchTerm) }
-        }
     }
 }

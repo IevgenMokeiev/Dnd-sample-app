@@ -13,40 +13,57 @@ class SpellListViewModel: ObservableObject {
 
     @Published var spellDTOs: [SpellDTO] = []
 
-    @Published var searchTerm: String = "" {
+    var searchTerm: String = "" {
         didSet {
-            search()
+            spellDTOs = filteredSpells(spells: spellDTOs, by: searchTerm)
         }
     }
 
-    @Published var selectedSort: Sort = .name {
+    var selectedSort: Sort = .name {
         didSet {
-            search()
+            spellDTOs = sortedSpells(spells: spellDTOs, sort: selectedSort)
         }
     }
 
-    let spellDetailConstructor: SpellDetailConstructor
+    let spellDetailViewConstructor: SpellDetailViewConstructor
 
-    private let publisherConstructor: SpellListPublisherConstructor
-    private var activePublisher: SpellListPublisher?
+    private let publisher: SpellListPublisher
     private var cancellableSet: Set<AnyCancellable> = []
 
-    init(publisherConstructor: @escaping SpellListPublisherConstructor, spellDetailConstructor: @escaping SpellDetailConstructor) {
-        self.publisherConstructor = publisherConstructor
-        self.spellDetailConstructor = spellDetailConstructor
+    init(publisher: SpellListPublisher, spellDetailViewConstructor: @escaping SpellDetailViewConstructor) {
+        self.publisher = publisher
+        self.spellDetailViewConstructor = spellDetailViewConstructor
     }
 
     func onAppear() {
-        search()
-    }
-
-    private func search() {
-        let publisher = publisherConstructor(searchTerm, selectedSort)
-        activePublisher = publisher
         publisher
+            .map { self.sortedSpells(spells: $0, sort: self.selectedSort) }
+            .map { self.filteredSpells(spells: $0, by: self.searchTerm) }
             .replaceError(with: [])
             .assign(to: \.spellDTOs, on: self)
             .store(in: &cancellableSet)
+    }
+
+    // MARK: - Private
+    private func sortedSpells(spells: [SpellDTO], sort: Sort) -> [SpellDTO] {
+        let sortRule: (SpellDTO, SpellDTO) -> Bool = {
+            switch sort {
+            case .name:
+                return $0.name < $1.name
+            case .level:
+                return ($0.level ?? 0) < ($1.level ?? 0)
+            }
+        }
+
+        return spells.sorted(by: sortRule)
+    }
+
+    func filteredSpells(spells: [SpellDTO], by searchTerm: String) -> [SpellDTO] {
+        if searchTerm.isEmpty {
+            return spells
+        } else {
+            return spells.filter { $0.name.starts(with: searchTerm) }
+        }
     }
 }
 
