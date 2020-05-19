@@ -55,6 +55,7 @@ class DataLayerImpl: DataLayer {
         return databaseService.spellDetailsPublisher(for: path)
             .mapError { $0 as Error }
             .catch { _ in downloadPublisher }
+            .receive(on: RunLoop.main)
             .eraseToAnyPublisher()
     }
 }

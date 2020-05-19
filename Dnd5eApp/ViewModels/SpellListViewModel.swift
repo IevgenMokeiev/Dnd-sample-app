@@ -15,21 +15,19 @@ class SpellListViewModel: ObservableObject {
 
     var searchTerm: String = "" {
         didSet {
-            publishedSpellDTOs = filteredSpells(spells: spellDTOs, by: searchTerm)
+            refineSpells()
         }
     }
 
     var selectedSort: Sort = .name {
         didSet {
-            publishedSpellDTOs = sortedSpells(spells: spellDTOs, sort: selectedSort)
+            refineSpells()
         }
     }
 
     private var spellDTOs: [SpellDTO] = [] {
         didSet {
-            let filteredDTOs = filteredSpells(spells: spellDTOs, by: searchTerm)
-            let sortedDTOs = sortedSpells(spells: filteredDTOs, sort: selectedSort)
-            publishedSpellDTOs = sortedDTOs
+            refineSpells()
         }
     }
 
@@ -51,6 +49,14 @@ class SpellListViewModel: ObservableObject {
     }
 
     // MARK: - Private
+
+    private func refineSpells() {
+        let sortedDTOs = sortedSpells(spells: spellDTOs, sort: selectedSort)
+        let filteredDTOs = filteredSpells(spells: sortedDTOs, by: searchTerm)
+        
+        publishedSpellDTOs = filteredDTOs
+    }
+
     private func sortedSpells(spells: [SpellDTO], sort: Sort) -> [SpellDTO] {
         let sortRule: (SpellDTO, SpellDTO) -> Bool = {
             switch sort {
@@ -68,7 +74,7 @@ class SpellListViewModel: ObservableObject {
         if searchTerm.isEmpty {
             return spells
         } else {
-            return spells.filter { $0.name.starts(with: searchTerm) }
+            return spells.filter { $0.name.contains(searchTerm) }
         }
     }
 }
