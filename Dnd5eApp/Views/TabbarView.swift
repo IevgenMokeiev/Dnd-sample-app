@@ -16,10 +16,10 @@ struct TabbarView: View {
         TabView {
             viewModel.spellListConstructor()
                 .tabItem {
-                    Image(systemName: "book")
+                    Image(systemName: "book.fill")
                     Text("Spell Book")
             }
-            Text("Favorites")
+            viewModel.favoritesConstructor()
                 .tabItem {
                     Image(systemName: "bookmark.fill")
                     Text("Favorites")

@@ -10,8 +10,10 @@ import Foundation
 
 class TabbarViewModel {
     let spellListConstructor: SpellListViewConstructor
+    let favoritesConstructor: FavoritesViewConstructor
 
-    init(spellListConstructor: @escaping SpellListViewConstructor) {
+    init(spellListConstructor: @escaping SpellListViewConstructor, favoritesConstructor: @escaping FavoritesViewConstructor) {
         self.spellListConstructor = spellListConstructor
+        self.favoritesConstructor = favoritesConstructor
     }
 }

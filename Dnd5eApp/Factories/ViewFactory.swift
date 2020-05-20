@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 
 typealias SpellListViewConstructor = () -> SpellListView
+typealias FavoritesViewConstructor = () -> FavoritesView
 typealias SpellDetailViewConstructor = (_ path: String) -> SpellDetailView
 
 /// Factory to construct SwiftUI views
@@ -17,6 +18,7 @@ protocol ViewFactory {
     func createTabbarView() -> TabbarView
     func createSpellListView() -> SpellListView
     func createSpellDetailView(path: String) -> SpellDetailView
+    func createFavoritesView() -> FavoritesView
 }
 
 class ViewFactoryImpl: ViewFactory {
@@ -28,7 +30,9 @@ class ViewFactoryImpl: ViewFactory {
     }
 
     func createTabbarView() -> TabbarView {
-        let viewModel = TabbarViewModel { self.createSpellListView() }
+        let viewModel = TabbarViewModel(spellListConstructor: { self.createSpellListView()
+        }) { self.createFavoritesView()
+        }
         return TabbarView(viewModel: viewModel)
     }
 
@@ -41,5 +45,10 @@ class ViewFactoryImpl: ViewFactory {
     func createSpellDetailView(path: String) -> SpellDetailView {
         let viewModel = SpellDetailViewModel(publisher: dataLayer.spellDetailsPublisher(for: path))
         return SpellDetailView(viewModel: viewModel)
+    }
+
+    func createFavoritesView() -> FavoritesView {
+        let viewModel = FavoritesViewModel { self.createSpellDetailView(path: $0) }
+        return FavoritesView(viewModel: viewModel)
     }
 }

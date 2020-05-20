@@ -34,6 +34,8 @@
 		9F8CC71D2465A8CA00F35746 /* SpellListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6BD7BF2465905C001D8825 /* SpellListView.swift */; };
 		9F91A3A024756B2D0034642A /* TabbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F91A39F24756B2D0034642A /* TabbarView.swift */; };
 		9F91A3A224756BD60034642A /* TabbarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F91A3A124756BD60034642A /* TabbarViewModel.swift */; };
+		9F91A3A4247574020034642A /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F91A3A3247574020034642A /* FavoritesView.swift */; };
+		9F91A3A62475749B0034642A /* FavoritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F91A3A52475749B0034642A /* FavoritesViewModel.swift */; };
 		9FC14EAD246B3AC000428073 /* TranslationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC14EAC246B3AC000428073 /* TranslationServiceTests.swift */; };
 		9FC3E0562472CCBA00C5AE17 /* CustomTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC3E0552472CCBA00C5AE17 /* CustomTypes.swift */; };
 		9FD27450246D4244009A9FBD /* SpellListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2744F246D4244009A9FBD /* SpellListViewModel.swift */; };
@@ -94,6 +96,8 @@
 		9F70C4D124740F120080275E /* RefinementsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefinementsService.swift; sourceTree = "<group>"; };
 		9F91A39F24756B2D0034642A /* TabbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarView.swift; sourceTree = "<group>"; };
 		9F91A3A124756BD60034642A /* TabbarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarViewModel.swift; sourceTree = "<group>"; };
+		9F91A3A3247574020034642A /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
+		9F91A3A52475749B0034642A /* FavoritesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewModel.swift; sourceTree = "<group>"; };
 		9FC14EAC246B3AC000428073 /* TranslationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationServiceTests.swift; sourceTree = "<group>"; };
 		9FC3E0552472CCBA00C5AE17 /* CustomTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTypes.swift; sourceTree = "<group>"; };
 		9FD2744F246D4244009A9FBD /* SpellListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellListViewModel.swift; sourceTree = "<group>"; };
@@ -208,6 +212,7 @@
 				9F91A39F24756B2D0034642A /* TabbarView.swift */,
 				9F6BD7BF2465905C001D8825 /* SpellListView.swift */,
 				9F0C894B246A885C003592F5 /* SpellDetailView.swift */,
+				9F91A3A3247574020034642A /* FavoritesView.swift */,
 				9F70C4CF247404530080275E /* SearchView.swift */,
 				9F0C8950246ACC92003592F5 /* ProgressView.swift */,
 			);
@@ -281,6 +286,7 @@
 				9F91A3A124756BD60034642A /* TabbarViewModel.swift */,
 				9FD2744F246D4244009A9FBD /* SpellListViewModel.swift */,
 				9FD27451246D44C9009A9FBD /* SpellDetailViewModel.swift */,
+				9F91A3A52475749B0034642A /* FavoritesViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -476,12 +482,14 @@
 				85B35479226912D300617C7E /* DnDModel.xcdatamodeld in Sources */,
 				9F54AC1F246BF023005B4849 /* CoreDataStack.swift in Sources */,
 				9F54AC24246C0B8C005B4849 /* ViewFactory.swift in Sources */,
+				9F91A3A4247574020034642A /* FavoritesView.swift in Sources */,
 				9F6BD7C2246593CF001D8825 /* SpellDTO.swift in Sources */,
 				85B353EE2267B64200617C7E /* AppDelegate.swift in Sources */,
 				85B354632268BD3A00617C7E /* NetworkService.swift in Sources */,
 				85B3547B2269AF3100617C7E /* DatabaseService.swift in Sources */,
 				9F91A3A024756B2D0034642A /* TabbarView.swift in Sources */,
 				9FD27450246D4244009A9FBD /* SpellListViewModel.swift in Sources */,
+				9F91A3A62475749B0034642A /* FavoritesViewModel.swift in Sources */,
 				9F54AC28246C1150005B4849 /* AppCoordinator.swift in Sources */,
 				9F0C894E246A921C003592F5 /* SceneDelegate.swift in Sources */,
 				9F0C8951246ACC92003592F5 /* ProgressView.swift in Sources */,
