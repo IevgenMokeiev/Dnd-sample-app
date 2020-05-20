@@ -20,14 +20,17 @@ class SpellDetailViewModel: ObservableObject {
     @Published var loading: Bool = true
 
     private let publisher: SpellDetailPublisher
+    private let saveBlock: SaveBlock
     private var cancellableSet: Set<AnyCancellable> = []
 
-    init(publisher: SpellDetailPublisher) {
+    init(publisher: SpellDetailPublisher, saveBlock: @escaping SaveBlock) {
         self.publisher = publisher
+        self.saveBlock = saveBlock
     }
 
     func markFavorite() {
-        self.spellDTO.isFavorite = true
+        spellDTO.isFavorite = true
+        saveBlock(spellDTO)
     }
 
     func onAppear() {

@@ -19,7 +19,9 @@ protocol DataLayer {
     func spellListPublisher() -> SpellPublisher
     func spellDetailsPublisher(for path: String) -> SpellDetailPublisher
     func favoritesPublisher() -> SpellPublisher
-    func refineSpells(spells: [SpellDTO], sort: Sort, searchTerm: String) -> [SpellDTO]
+
+    func refine(spells: [SpellDTO], sort: Sort, searchTerm: String) -> [SpellDTO]
+    func saveSpell(_ spell: SpellDTO)
 }
 
 class DataLayerImpl: DataLayer {
@@ -32,19 +34,14 @@ class DataLayerImpl: DataLayer {
         self.networkService = networkService
         self.refinementsService = refinementsService
     }
-
-    func refineSpells(spells: [SpellDTO], sort: Sort, searchTerm: String) -> [SpellDTO] {
-        return self.refinementsService.refineSpells(spells: spells, sort: sort, searchTerm: searchTerm)
-    }
     
     func spellListPublisher() -> SpellPublisher {
         let downloadPublisher = networkService.spellListPublisher()
             .mapError { $0 as Error }
-            .flatMap {
-                self.databaseService.saveSpellListPublisher(for: $0)
-                .mapError { $0 as Error }
-                .eraseToAnyPublisher()
-            }
+            .map({ (spellDTOs) -> [SpellDTO] in
+                self.databaseService.saveSpellList(spellDTOs)
+                return spellDTOs
+            })
             .eraseToAnyPublisher()
 
         return databaseService.spellListPublisher()
@@ -60,11 +57,10 @@ class DataLayerImpl: DataLayer {
     func spellDetailsPublisher(for path: String) -> SpellDetailPublisher {
         let downloadPublisher = networkService.spellDetailPublisher(for: path)
             .mapError { $0 as Error }
-            .flatMap {
-                self.databaseService.saveSpellDetailsPublisher(for: $0)
-                .mapError { $0 as Error }
-                .eraseToAnyPublisher()
-            }
+            .map({ (spellDTO) -> SpellDTO in
+                self.databaseService.saveSpellDetails(spellDTO)
+                return spellDTO
+            })
             .eraseToAnyPublisher()
 
         return databaseService.spellDetailsPublisher(for: path)
@@ -82,5 +78,13 @@ class DataLayerImpl: DataLayer {
             .mapError { $0 as Error }
             .receive(on: RunLoop.main)
             .eraseToAnyPublisher()
+    }
+
+    func refine(spells: [SpellDTO], sort: Sort, searchTerm: String) -> [SpellDTO] {
+        return refinementsService.refineSpells(spells: spells, sort: sort, searchTerm: searchTerm)
+    }
+
+    func saveSpell(_ spell: SpellDTO) {
+        databaseService.saveSpellDetails(spell)
     }
 }

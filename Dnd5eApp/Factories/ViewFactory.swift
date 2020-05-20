@@ -37,13 +37,13 @@ class ViewFactoryImpl: ViewFactory {
     }
 
     func createSpellListView() -> SpellListView {
-        let viewModel = SpellListViewModel(publisher: dataLayer.spellListPublisher(), refinementsBlock: { self.dataLayer.refineSpells(spells: $0, sort: $1, searchTerm: $2)
+        let viewModel = SpellListViewModel(publisher: dataLayer.spellListPublisher(), refinementsBlock: { self.dataLayer.refine(spells: $0, sort: $1, searchTerm: $2)
         }) { self.createSpellDetailView(path: $0) }
         return SpellListView(viewModel: viewModel)
     }
 
     func createSpellDetailView(path: String) -> SpellDetailView {
-        let viewModel = SpellDetailViewModel(publisher: dataLayer.spellDetailsPublisher(for: path))
+        let viewModel = SpellDetailViewModel(publisher: dataLayer.spellDetailsPublisher(for: path), saveBlock: { self.dataLayer.saveSpell($0) })
         return SpellDetailView(viewModel: viewModel)
     }
 
