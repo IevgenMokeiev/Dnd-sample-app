@@ -9,7 +9,7 @@
 import Foundation
 import Combine
 
-typealias NetworkSpellListPublisher = AnyPublisher<[SpellDTO], NetworkServiceError>
+typealias NetworkSpellPublisher = AnyPublisher<[SpellDTO], NetworkServiceError>
 typealias NetworkSpellDetailPublisher = AnyPublisher<SpellDTO, NetworkServiceError>
 
 struct Response: Codable {
@@ -31,14 +31,14 @@ public enum NetworkServiceError: Error {
 
 /// Service responsible for network communication
 protocol NetworkService {
-    func spellListPublisher() -> NetworkSpellListPublisher
+    func spellListPublisher() -> NetworkSpellPublisher
     func spellDetailPublisher(for path: String) -> NetworkSpellDetailPublisher
 }
 
 class NetworkServiceImpl: NetworkService {
     internal var urlSessionProtocolClasses: [AnyClass]?
     
-    func spellListPublisher() -> NetworkSpellListPublisher {
+    func spellListPublisher() -> NetworkSpellPublisher {
         guard let url = URL(string: Endpoints.spellList.rawValue) else {
             return Fail(error: .invalidURL).eraseToAnyPublisher()
         }

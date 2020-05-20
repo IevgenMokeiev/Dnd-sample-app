@@ -9,5 +9,5 @@
 import Combine
 
 /// Custom typealiases which are commonly used in the project
-typealias SpellListPublisher = AnyPublisher<[SpellDTO], Error>
+typealias SpellPublisher = AnyPublisher<[SpellDTO], Error>
 typealias SpellDetailPublisher = AnyPublisher<SpellDTO, Error>

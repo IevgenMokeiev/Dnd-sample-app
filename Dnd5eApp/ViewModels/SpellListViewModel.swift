@@ -34,10 +34,10 @@ class SpellListViewModel: ObservableObject {
     let spellDetailViewConstructor: SpellDetailViewConstructor
 
     private let refinementsBlock: RefinementsBlock
-    private let publisher: SpellListPublisher
+    private let publisher: SpellPublisher
     private var cancellableSet: Set<AnyCancellable> = []
 
-    init(publisher: SpellListPublisher, refinementsBlock: @escaping RefinementsBlock, spellDetailViewConstructor: @escaping SpellDetailViewConstructor) {
+    init(publisher: SpellPublisher, refinementsBlock: @escaping RefinementsBlock, spellDetailViewConstructor: @escaping SpellDetailViewConstructor) {
         self.publisher = publisher
         self.refinementsBlock = refinementsBlock
         self.spellDetailViewConstructor = spellDetailViewConstructor

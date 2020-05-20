@@ -11,7 +11,7 @@ import CoreData
 import UIKit
 import Combine
 
-typealias DatabaseSpellListPublisher = AnyPublisher<[SpellDTO], DatabaseServiceError>
+typealias DatabaseSpellPublisher = AnyPublisher<[SpellDTO], DatabaseServiceError>
 typealias DatabaseSpellDetailPublisher = AnyPublisher<SpellDTO, DatabaseServiceError>
 
 enum DatabaseServiceError: Error {
@@ -24,10 +24,11 @@ enum DatabaseServiceError: Error {
 
 /// Service responsible for database communication
 protocol DatabaseService {
-    func spellListPublisher() -> DatabaseSpellListPublisher
+    func spellListPublisher() -> DatabaseSpellPublisher
     func spellDetailsPublisher(for path: String) -> DatabaseSpellDetailPublisher
-    func saveSpellListPublisher(for spellDTOs: [SpellDTO]) -> DatabaseSpellListPublisher
+    func saveSpellListPublisher(for spellDTOs: [SpellDTO]) -> DatabaseSpellPublisher
     func saveSpellDetailsPublisher(for spellDTO: SpellDTO) -> DatabaseSpellDetailPublisher
+    func favoritesPublisher() -> DatabaseSpellPublisher
 }
 
 class DatabaseServiceImpl: DatabaseService {
@@ -35,7 +36,7 @@ class DatabaseServiceImpl: DatabaseService {
     private var coreDataStack: CoreDataStack
     private var translationService: TranslationService
     private var cancellableSet: Set<AnyCancellable> = []
-
+    
     init(coreDataStack: CoreDataStack, translationService: TranslationService) {
         self.coreDataStack = coreDataStack
         self.translationService = translationService
@@ -44,7 +45,7 @@ class DatabaseServiceImpl: DatabaseService {
             .store(in: &cancellableSet)
     }
     
-    func spellListPublisher() -> DatabaseSpellListPublisher {
+    func spellListPublisher() -> DatabaseSpellPublisher {
         let context = coreDataStack.persistentContainer.viewContext
         let request: NSFetchRequest<Spell> = Spell.fetchRequest()
         request.returnsObjectsAsFaults = false
@@ -84,8 +85,8 @@ class DatabaseServiceImpl: DatabaseService {
             return Fail(error: .fetchFailed(error)).eraseToAnyPublisher()
         }
     }
-
-    func saveSpellListPublisher(for spellDTOs: [SpellDTO]) -> DatabaseSpellListPublisher {
+    
+    func saveSpellListPublisher(for spellDTOs: [SpellDTO]) -> DatabaseSpellPublisher {
         let managedContext = coreDataStack.persistentContainer.viewContext
         spellDTOs.forEach { (spell) in
             let entity = NSEntityDescription.entity(forEntityName: "Spell", in: managedContext)!
@@ -102,7 +103,7 @@ class DatabaseServiceImpl: DatabaseService {
             return Fail(error: .saveFailed(error)).eraseToAnyPublisher()
         }
     }
-
+    
     func saveSpellDetailsPublisher(for spellDTO: SpellDTO) -> DatabaseSpellDetailPublisher {
         let managedContext = coreDataStack.persistentContainer.viewContext
         let request: NSFetchRequest<Spell> = Spell.fetchRequest()
@@ -129,12 +130,35 @@ class DatabaseServiceImpl: DatabaseService {
         }
     }
     
+    func favoritesPublisher() -> DatabaseSpellPublisher {
+        let managedContext = coreDataStack.persistentContainer.viewContext
+        let request: NSFetchRequest<Spell> = Spell.fetchRequest()
+        let predicate = NSPredicate(format: "favorite == true")
+        request.predicate = predicate
+        request.returnsObjectsAsFaults = false
+        
+        do {
+            let result = try managedContext.fetch(request)
+            if result.isEmpty {
+                return Fail(error: .noMatchedEntity).eraseToAnyPublisher()
+            } else {
+                let spellDTOs = translationService.convertToDTO(spellList: result)
+                return Result.Publisher(spellDTOs).eraseToAnyPublisher()
+            }
+        }
+        catch let error as NSError {
+            print("Could not retrieve. \(error), \(error.userInfo)")
+            return Fail(error: .fetchFailed(error)).eraseToAnyPublisher()
+        }
+    }
+
+    // MARK: - Private
     private lazy var fetchedResultsController: NSFetchedResultsController<Spell> = {
         let fetchRequest: NSFetchRequest<Spell> = Spell.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        
+
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext:coreDataStack.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
-        
+
         try? fetchedResultsController.performFetch()
         return fetchedResultsController
     }()

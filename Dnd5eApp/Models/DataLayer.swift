@@ -16,7 +16,7 @@ import Combine
 /// If data is requested, tries to get it from the database service
 /// If it's not available, fallback to network service
 protocol DataLayer {
-    func spellListPublisher() -> SpellListPublisher
+    func spellListPublisher() -> SpellPublisher
     func spellDetailsPublisher(for path: String) -> SpellDetailPublisher
     func refineSpells(spells: [SpellDTO], sort: Sort, searchTerm: String) -> [SpellDTO]
 }
@@ -36,7 +36,7 @@ class DataLayerImpl: DataLayer {
         return self.refinementsService.refineSpells(spells: spells, sort: sort, searchTerm: searchTerm)
     }
     
-    func spellListPublisher() -> SpellListPublisher {
+    func spellListPublisher() -> SpellPublisher {
         let downloadPublisher = networkService.spellListPublisher()
             .mapError { $0 as Error }
             .flatMap {

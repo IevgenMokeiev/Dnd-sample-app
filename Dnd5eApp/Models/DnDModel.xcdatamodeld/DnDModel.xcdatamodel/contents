@@ -7,6 +7,7 @@
         <attribute name="concentration" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="desc" optional="YES" attributeType="String"/>
         <attribute name="duration" optional="YES" attributeType="String"/>
+        <attribute name="favorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="higherlevel" optional="YES" attributeType="String"/>
         <attribute name="level" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="material" optional="YES" attributeType="String"/>
@@ -19,6 +20,6 @@
         <attribute name="subclasses" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="Spell" positionX="-63" positionY="-18" width="128" height="283"/>
+        <element name="Spell" positionX="-63" positionY="-18" width="128" height="298"/>
     </elements>
 </model>
