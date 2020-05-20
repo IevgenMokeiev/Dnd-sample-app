@@ -17,9 +17,10 @@ struct SearchView: View {
 
     var body: some View {
         HStack {
-            Image("search")
+            Image(systemName: "magnifyingglass")
                 .resizable()
                 .scaledToFit()
+                .foregroundColor(.orange)
                 .frame(width: 25, height: 25)
                 .padding(.trailing, 5)
             TextField("type spell here...", text: $searchTerm)
