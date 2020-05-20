@@ -26,6 +26,10 @@ class SpellDetailViewModel: ObservableObject {
         self.publisher = publisher
     }
 
+    func markFavorite() {
+        self.spellDTO.isFavorite = true
+    }
+
     func onAppear() {
         publisher
             .replaceError(with: SpellDTO.placeholder)
