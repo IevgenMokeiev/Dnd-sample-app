@@ -14,20 +14,20 @@ import CoreData
 class FakeDataFactory {
 
     static func provideFakeSpellDTO() -> SpellDTO {
-        return SpellDTO(name: "fake", path: "/api/spells/fake", level: 1, description: "fake desc", castingTime: "fake time", concentration: true)
+        return SpellDTO(name: "fake", path: "/api/spells/fake", level: 1, description: "fake desc", castingTime: "fake time", concentration: true, isFavorite: false)
     }
 
     static func provideEmptySpellListDTO() -> [SpellDTO] {
         return [
-            SpellDTO(name: "fake1", path: "/api/spells/fake1", level: nil, description: nil, castingTime: nil, concentration: nil),
-            SpellDTO(name: "fake2", path: "/api/spells/fake2", level: nil, description: nil, castingTime: nil, concentration: nil)
+            SpellDTO(name: "fake1", path: "/api/spells/fake1", level: nil, description: nil, castingTime: nil, concentration: nil, isFavorite: false),
+            SpellDTO(name: "fake2", path: "/api/spells/fake2", level: nil, description: nil, castingTime: nil, concentration: nil, isFavorite: false)
         ]
     }
 
     static func provideFakeSpellListDTO() -> [SpellDTO] {
         return [
-            SpellDTO(name: "fake1", path: "/api/spells/fake1", level: 1, description: "fake desc 1", castingTime: "fake time 1", concentration: true),
-            SpellDTO(name: "fake2", path: "/api/spells/fake2", level: 0, description: "fake desc 2", castingTime: "fake time 2", concentration: false)
+            SpellDTO(name: "fake1", path: "/api/spells/fake1", level: 1, description: "fake desc 1", castingTime: "fake time 1", concentration: true, isFavorite: false),
+            SpellDTO(name: "fake2", path: "/api/spells/fake2", level: 0, description: "fake desc 2", castingTime: "fake time 2", concentration: false, isFavorite: false)
         ]
     }
 

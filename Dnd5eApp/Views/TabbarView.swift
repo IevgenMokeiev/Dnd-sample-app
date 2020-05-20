@@ -13,7 +13,7 @@ struct TabbarView: View {
     var viewModel: TabbarViewModel
     
     var body: some View {
-        TabView {
+        TabView() {
             viewModel.spellListConstructor()
                 .tabItem {
                     Image(systemName: "book.fill")

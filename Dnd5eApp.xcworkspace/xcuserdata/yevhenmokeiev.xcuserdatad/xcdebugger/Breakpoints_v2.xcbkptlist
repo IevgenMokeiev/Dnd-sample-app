@@ -7,80 +7,48 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "44096878-09C1-42FA-806F-B3D8307E123A"
+            uuid = "FF34C47D-BC89-4C8C-A0DF-1024A10B0068"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Dnd5eApp/Services/DatabaseService.swift"
+            filePath = "Dnd5eApp/Factories/ViewFactory.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
-            landmarkName = "spellListPublisher()"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
+            landmarkName = "createFavoritesView()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "8E45B6B7-CBBC-43D6-BCBB-3FCC6F62A09D"
+            uuid = "960E19AD-108D-47DC-96F9-DC7BEDEE515B"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Dnd5eApp/Services/DatabaseService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
-            landmarkName = "saveSpellList(_:)"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
+            landmarkName = "favoritesPublisher()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "06EFB447-73FD-4A73-8313-D9E9AD3B7F56"
+            uuid = "AA31C2F6-DD2E-4292-ACFB-E0918D34AA0C"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Dnd5eApp/Services/DatabaseService.swift"
+            filePath = "Dnd5eApp/Models/DataLayer.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
-            landmarkName = "spellListPublisher()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "0C217E3F-17ED-4516-A5D4-D42BD4745700"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Dnd5eApp/Services/DatabaseService.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
-            landmarkName = "spellListPublisher()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "DBA20359-4FEB-4569-A07C-5C84D8B35DBA"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Dnd5eApp/ViewModels/FavoritesViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "26"
-            endingLineNumber = "26"
-            landmarkName = "onAppear()"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
+            landmarkName = "favoritesPublisher()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

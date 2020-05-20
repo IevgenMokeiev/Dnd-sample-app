@@ -52,40 +52,6 @@ class DatabaseServiceTests: XCTestCase {
         .store(in: &cancellableSet)
     }
 
-    func test_save_spellList() {
-        let sut = makeSUT()
-        sut.saveSpellListPublisher(for: FakeDataFactory.provideFakeSpellListDTO())
-        .sink(receiveCompletion: { completion in
-            switch completion {
-            case .finished:
-                break
-            case .failure(let error):
-                XCTFail("\(error)")
-            }
-        }) { spellDTOs in
-            XCTAssertTrue(spellDTOs == FakeDataFactory.provideFakeSpellListDTO())
-        }
-        .store(in: &cancellableSet)
-    }
-
-    func test_save_spell() {
-        let sut = makeSUT()
-        guard let context = context else { XCTFail("no context"); return }
-        _ = FakeDataFactory.provideFakeSpell(context: context)
-        sut.saveSpellDetailsPublisher(for: FakeDataFactory.provideFakeSpellDTO())
-        .sink(receiveCompletion: { completion in
-            switch completion {
-            case .finished:
-                break
-            case .failure(let error):
-                XCTFail("\(error)")
-            }
-        }) { spellDTO in
-            XCTAssertTrue(spellDTO == FakeDataFactory.provideFakeSpellDTO())
-        }
-        .store(in: &cancellableSet)
-    }
-
     private func makeSUT() -> DatabaseService {
         let fakeStack = FakeCoreDataStack()
         context = fakeStack.persistentContainer.viewContext
