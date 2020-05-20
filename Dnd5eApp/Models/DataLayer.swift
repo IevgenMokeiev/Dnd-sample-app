@@ -49,7 +49,10 @@ class DataLayerImpl: DataLayer {
 
         return databaseService.spellListPublisher()
             .mapError { $0 as Error }
-            .catch { _ in downloadPublisher }
+            .catch { (error) -> SpellPublisher in
+                print("Could not retrieve. \(error)")
+                return downloadPublisher
+            }
             .receive(on: RunLoop.main)
             .eraseToAnyPublisher()
     }
@@ -66,7 +69,10 @@ class DataLayerImpl: DataLayer {
 
         return databaseService.spellDetailsPublisher(for: path)
             .mapError { $0 as Error }
-            .catch { _ in downloadPublisher }
+            .catch { (error) -> SpellDetailPublisher in
+                print("Could not retrieve. \(error)")
+                return downloadPublisher
+            }
             .receive(on: RunLoop.main)
             .eraseToAnyPublisher()
     }
