@@ -133,7 +133,7 @@ class DatabaseServiceImpl: DatabaseService {
     func favoritesPublisher() -> DatabaseSpellPublisher {
         let managedContext = coreDataStack.persistentContainer.viewContext
         let request: NSFetchRequest<Spell> = Spell.fetchRequest()
-        let predicate = NSPredicate(format: "favorite == true")
+        let predicate = NSPredicate(format: "favorite == 1")
         request.predicate = predicate
         request.returnsObjectsAsFaults = false
         

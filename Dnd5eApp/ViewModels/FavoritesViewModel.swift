@@ -14,11 +14,18 @@ class FavoritesViewModel: ObservableObject {
     @Published var spellDTOs: [SpellDTO] = []
 
     let spellDetailViewConstructor: SpellDetailViewConstructor
-    
-    func onAppear() {
+    private let publisher: SpellPublisher
+    private var cancellableSet: Set<AnyCancellable> = []
+
+    init(publisher: SpellPublisher, spellDetailViewConstructor: @escaping SpellDetailViewConstructor) {
+        self.publisher = publisher
+        self.spellDetailViewConstructor = spellDetailViewConstructor
     }
 
-    init(spellDetailViewConstructor: @escaping SpellDetailViewConstructor) {
-        self.spellDetailViewConstructor = spellDetailViewConstructor
+    func onAppear() {
+        publisher
+            .replaceError(with: [])
+            .assign(to: \.spellDTOs, on: self)
+            .store(in: &cancellableSet)
     }
 }

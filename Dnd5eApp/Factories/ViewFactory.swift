@@ -48,7 +48,7 @@ class ViewFactoryImpl: ViewFactory {
     }
 
     func createFavoritesView() -> FavoritesView {
-        let viewModel = FavoritesViewModel { self.createSpellDetailView(path: $0) }
+        let viewModel = FavoritesViewModel(publisher: dataLayer.favoritesPublisher()) { self.createSpellDetailView(path: $0) }
         return FavoritesView(viewModel: viewModel)
     }
 }

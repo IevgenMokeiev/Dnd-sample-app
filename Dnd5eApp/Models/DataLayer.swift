@@ -18,6 +18,7 @@ import Combine
 protocol DataLayer {
     func spellListPublisher() -> SpellPublisher
     func spellDetailsPublisher(for path: String) -> SpellDetailPublisher
+    func favoritesPublisher() -> SpellPublisher
     func refineSpells(spells: [SpellDTO], sort: Sort, searchTerm: String) -> [SpellDTO]
 }
 
@@ -66,6 +67,13 @@ class DataLayerImpl: DataLayer {
         return databaseService.spellDetailsPublisher(for: path)
             .mapError { $0 as Error }
             .catch { _ in downloadPublisher }
+            .receive(on: RunLoop.main)
+            .eraseToAnyPublisher()
+    }
+
+    func favoritesPublisher() -> SpellPublisher {
+        return databaseService.favoritesPublisher()
+            .mapError { $0 as Error }
             .receive(on: RunLoop.main)
             .eraseToAnyPublisher()
     }
