@@ -9,8 +9,12 @@
 import Foundation
 import SwiftUI
 
+typealias SpellListViewConstructor = () -> SpellListView
+typealias SpellDetailViewConstructor = (_ path: String) -> SpellDetailView
+
 /// Factory to construct SwiftUI views
 protocol ViewFactory {
+    func createTabbarView() -> TabbarView
     func createSpellListView() -> SpellListView
     func createSpellDetailView(path: String) -> SpellDetailView
 }
@@ -21,6 +25,11 @@ class ViewFactoryImpl: ViewFactory {
 
     init(dataLayer: DataLayer) {
         self.dataLayer = dataLayer
+    }
+
+    func createTabbarView() -> TabbarView {
+        let viewModel = TabbarViewModel { self.createSpellListView() }
+        return TabbarView(viewModel: viewModel)
     }
 
     func createSpellListView() -> SpellListView {
