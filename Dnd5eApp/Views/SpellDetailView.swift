@@ -44,6 +44,12 @@ struct SpellDetailView: View {
         }
         .padding(.top, 5)
         .navigationBarTitle("Spell Detail")
+        .navigationBarItems(trailing:
+            Button("Add to Favorites") {
+                self.viewModel.spellDTO.isFavorite = true
+            }
+            .foregroundColor(.orange)
+        )
     }
 }
 

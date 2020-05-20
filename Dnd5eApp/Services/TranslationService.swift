@@ -26,7 +26,7 @@ class TranslationServiceImpl: TranslationService {
     }
 
     func convertToDTO(spell: Spell) -> SpellDTO {
-        return SpellDTO(name: spell.name ?? "", path: spell.path ?? "", level: Int(spell.level), description: spell.desc, castingTime: spell.casting_time, concentration: spell.concentration)
+        return SpellDTO(name: spell.name ?? "", path: spell.path ?? "", level: Int(spell.level), description: spell.desc, castingTime: spell.casting_time, concentration: spell.concentration, isFavorite: spell.favorite)
     }
 
     func convertToDTO(spellList: [Spell]) -> [SpellDTO] {

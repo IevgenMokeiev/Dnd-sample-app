@@ -20,10 +20,11 @@ struct SpellDTO: Equatable, Identifiable {
     let description: String?
     let castingTime: String?
     let concentration: Bool?
+    var isFavorite: Bool
 
     /// placeholder spell to indicate empty object
     static var placeholder : Self {
-        return SpellDTO(name: "", path: "", level: nil, description: nil, castingTime: nil, concentration: nil)
+        return SpellDTO(name: "", path: "", level: nil, description: nil, castingTime: nil, concentration: nil, isFavorite: false)
     }
 }
 
@@ -47,5 +48,6 @@ extension SpellDTO: Codable {
         concentration = try values.decodeIfPresent(Bool.self, forKey: .concentration)
         let array = try values.decodeIfPresent([String].self, forKey: .description)
         description = array?.joined(separator: "\n\n")
+        isFavorite = false
     }
 }
