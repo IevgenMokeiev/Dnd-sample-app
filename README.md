@@ -1,7 +1,9 @@
 # Dnd-sample-app
 uses DnD 5th edition API from http://www.dnd5eapi.co/
-simple spell navigator to be used during games
-includes possibility to cache retrieved data, so can be used offline
+
+simple spell navigator to be used during games.
+
+includes possibility to cache retrieved data, so can be used offline.
 
 App heavily relies on SwiftUI and Combine. 
 
