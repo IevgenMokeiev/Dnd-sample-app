@@ -9,6 +9,7 @@
 import Foundation
 import SwiftUI
 
+/// Factory to construct SwiftUI views
 protocol ViewFactory {
     func createSpellListView() -> SpellListView
     func createSpellDetailView(path: String) -> SpellDetailView

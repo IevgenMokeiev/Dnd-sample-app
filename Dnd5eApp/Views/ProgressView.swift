@@ -9,6 +9,7 @@
 import SwiftUI
 import MBProgressHUD
 
+/// Simple progress view to be shown during data loading
 struct ProgressView: UIViewRepresentable {
     typealias UIViewType = MBProgressHUD
 

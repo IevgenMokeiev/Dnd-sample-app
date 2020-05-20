@@ -8,13 +8,9 @@
 
 import Foundation
 
+/// Protocol conformance to define equatable rule for spells
 extension Spell {
     static func == (lhs: Spell, rhs: Spell) -> Bool {
-        return lhs.name == rhs.name &&
-            lhs.path == rhs.path &&
-            lhs.level == rhs.level &&
-            lhs.desc == rhs.desc &&
-            lhs.casting_time == rhs.casting_time &&
-            lhs.concentration == rhs.concentration
+        return lhs.path == rhs.path
     }
 }

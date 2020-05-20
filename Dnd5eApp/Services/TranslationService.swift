@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Service responsible for translation between DTO's and CoreData generated models
 protocol TranslationService {
     func populate(spell: Spell, with dto: SpellDTO)
     func convertToDTO(spell: Spell) -> SpellDTO

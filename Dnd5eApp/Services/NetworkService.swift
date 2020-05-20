@@ -29,6 +29,7 @@ public enum NetworkServiceError: Error {
     case other(Error)
 }
 
+/// Service responsible for network communication
 protocol NetworkService {
     func spellListPublisher() -> NetworkSpellListPublisher
     func spellDetailPublisher(for path: String) -> NetworkSpellDetailPublisher

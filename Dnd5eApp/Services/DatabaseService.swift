@@ -22,6 +22,7 @@ enum DatabaseServiceError: Error {
     case saveFailed(Error)
 }
 
+/// Service responsible for database communication
 protocol DatabaseService {
     func spellListPublisher() -> DatabaseSpellListPublisher
     func spellDetailsPublisher(for path: String) -> DatabaseSpellDetailPublisher

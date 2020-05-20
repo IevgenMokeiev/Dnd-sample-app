@@ -10,6 +10,7 @@ import Foundation
 import CoreData
 @testable import Dnd5eApp
 
+/// A collection of fake services to be used during testing
 class FakeTranslationService: TranslationService {
     func populate(spell: Spell, with dto: SpellDTO) {
     }

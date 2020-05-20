@@ -8,6 +8,9 @@
 
 import Foundation
 
+/// URL protocol to feed mock data and receive it from the network calls
+/// - Properties:
+///     - requestHandler: A block property that provides control over returned data
 class MockURLProtocol: URLProtocol {
 
     static var requestHandler: ((URLRequest) throws -> (HTTPURLResponse, Data?))?
@@ -39,7 +42,5 @@ class MockURLProtocol: URLProtocol {
         }
     }
 
-    override func stopLoading() {
-        // This is called if the request gets canceled or completed.
-    }
+    override func stopLoading() {}
 }

@@ -8,8 +8,9 @@
 
 import Foundation
 
+/// Entry point for app's data layer and view factory
+/// Uses dependency injection to instantiate all services in a single place
 class AppCoordinator {
-
     let viewFactory: ViewFactory
 
     init() {

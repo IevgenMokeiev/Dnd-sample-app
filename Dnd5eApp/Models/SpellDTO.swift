@@ -8,6 +8,8 @@
 
 import Foundation
 
+/// Simple data transfer object for spells
+/// Has protocol conformances to wok with Combine as well as Codable implementation
 struct SpellDTO: Equatable, Identifiable {
     typealias ID = String
     var id: String { return name }
@@ -19,6 +21,7 @@ struct SpellDTO: Equatable, Identifiable {
     let castingTime: String?
     let concentration: Bool?
 
+    /// placeholder spell to indicate empty object
     static var placeholder : Self {
         return SpellDTO(name: "", path: "", level: nil, description: nil, castingTime: nil, concentration: nil)
     }

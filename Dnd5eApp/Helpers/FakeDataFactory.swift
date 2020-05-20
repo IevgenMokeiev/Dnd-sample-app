@@ -10,6 +10,7 @@ import Foundation
 import CoreData
 @testable import Dnd5eApp
 
+/// A collection of fake objects that can be used in the tests
 class FakeDataFactory {
 
     static func provideFakeSpellDTO() -> SpellDTO {

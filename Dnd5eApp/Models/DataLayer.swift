@@ -11,6 +11,10 @@ import UIKit
 import CoreData
 import Combine
 
+/// Responsible for communication between UI and Data layers.
+/// Uses services to provide requested data
+/// If data is requested, tries to get it from the database service
+/// If it's not available, fallback to network service
 protocol DataLayer {
     func spellListPublisher() -> SpellListPublisher
     func spellDetailsPublisher(for path: String) -> SpellDetailPublisher
