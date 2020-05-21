@@ -31,6 +31,12 @@ class FakeDataFactory {
         ]
     }
 
+    static func provideFakeFavoritesListDTO() -> [SpellDTO] {
+        return [
+            SpellDTO(name: "fake2", path: "/api/spells/fake2", level: 0, description: "fake desc 2", castingTime: "fake time 2", concentration: false, isFavorite: true)
+        ]
+    }
+
     static func provideEmptySpell(context: NSManagedObjectContext) -> Spell {
         let entity = NSEntityDescription.entity(forEntityName: "Spell", in: context)!
         let spell = Spell(entity: entity, insertInto: context)
@@ -72,6 +78,21 @@ class FakeDataFactory {
         try? context.save()
 
         return [spell1, spell2]
+    }
+
+    static func provideFakeFavoritesList(context: NSManagedObjectContext) -> [Spell] {
+        let entity = NSEntityDescription.entity(forEntityName: "Spell", in: context)!
+        let spell2 = Spell(entity: entity, insertInto: context)
+        spell2.name = "fake2"
+        spell2.path = "/api/spells/fake2"
+        spell2.level = 0
+        spell2.desc = "fake desc 2"
+        spell2.casting_time = "fake time 2"
+        spell2.concentration = false
+        spell2.isFavorite = true
+        try? context.save()
+
+        return [spell2]
     }
 
     static func provideFakeSpellDetailsRawData() -> Data {

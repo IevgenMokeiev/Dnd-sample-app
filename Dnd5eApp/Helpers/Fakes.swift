@@ -12,6 +12,13 @@ import CoreData
 
 /// A collection of fake services to be used during testing
 class FakeTranslationService: TranslationService {
+
+    let testFavorites: Bool
+
+    init(testFavorites: Bool) {
+        self.testFavorites = testFavorites
+    }
+
     func populate(spell: Spell, with dto: SpellDTO) {
     }
 
@@ -20,7 +27,7 @@ class FakeTranslationService: TranslationService {
     }
 
     func convertToDTO(spellList: [Spell]) -> [SpellDTO] {
-        return FakeDataFactory.provideFakeSpellListDTO()
+        return testFavorites ? FakeDataFactory.provideFakeFavoritesListDTO() : FakeDataFactory.provideFakeSpellListDTO()
     }
 }
 

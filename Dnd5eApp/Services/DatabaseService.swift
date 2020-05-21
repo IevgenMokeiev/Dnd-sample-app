@@ -136,7 +136,7 @@ class DatabaseServiceImpl: DatabaseService {
         do {
             let result = try managedContext.fetch(request)
             if result.isEmpty {
-                return Fail(error: .noMatchedEntity).eraseToAnyPublisher()
+                return Result.Publisher([]).eraseToAnyPublisher()
             } else {
                 let spellDTOs = translationService.convertToDTO(spellList: result)
                 return Result.Publisher(spellDTOs).eraseToAnyPublisher()

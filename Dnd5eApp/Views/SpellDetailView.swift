@@ -17,7 +17,6 @@ struct SpellDetailView: View {
         VStack {
             if viewModel.loading {
                 ProgressView(isAnimating: $viewModel.loading)
-                    .onAppear(perform: viewModel.onAppear)
             } else {
                 ScrollView {
                     VStack(alignment: .leading) {
@@ -40,10 +39,11 @@ struct SpellDetailView: View {
             }
         }
         .padding(.top, 5)
+        .onAppear(perform: viewModel.onAppear)
         .navigationBarTitle("Spell Detail")
         .navigationBarItems(trailing:
-            Button("Add to Favorites") {
-                self.viewModel.markFavorite()
+            Button(viewModel.favoriteButtonText) {
+                self.viewModel.toggleFavorite()
             }.foregroundColor(.orange)
         )
     }

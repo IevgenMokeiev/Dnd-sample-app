@@ -28,8 +28,12 @@ class SpellDetailViewModel: ObservableObject {
         self.saveBlock = saveBlock
     }
 
-    func markFavorite() {
-        spellDTO.isFavorite = true
+    var favoriteButtonText: String {
+        spellDTO.isFavorite ? "Remove from Favorites" : "Add to Favorites"
+    }
+
+    func toggleFavorite() {
+        spellDTO.isFavorite = !spellDTO.isFavorite
         saveBlock(spellDTO)
     }
 
