@@ -12,11 +12,12 @@ import Foundation
 extension Spell {
     func populate(with dto: SpellDTO) {
         name = dto.name
+        path = dto.path
         level = Int16(dto.level ?? 0)
-        desc = dto.description
         casting_time = dto.castingTime
         concentration = dto.concentration ?? false
-        path = dto.path
+        classes = dto.classes
+        desc = dto.description
         isFavorite = dto.isFavorite
     }
 }
