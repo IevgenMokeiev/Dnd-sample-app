@@ -34,17 +34,17 @@ class SpellListViewModel: ObservableObject {
     let spellDetailViewConstructor: SpellDetailViewConstructor
 
     private let refinementsBlock: RefinementsBlock
-    private let publisher: SpellPublisher
+    private let publisherConstructor: SpellPublisherConstructor
     private var cancellableSet: Set<AnyCancellable> = []
 
-    init(publisher: SpellPublisher, refinementsBlock: @escaping RefinementsBlock, spellDetailViewConstructor: @escaping SpellDetailViewConstructor) {
-        self.publisher = publisher
+    init(publisherConstructor: @escaping SpellPublisherConstructor, refinementsBlock: @escaping RefinementsBlock, spellDetailViewConstructor: @escaping SpellDetailViewConstructor) {
+        self.publisherConstructor = publisherConstructor
         self.refinementsBlock = refinementsBlock
         self.spellDetailViewConstructor = spellDetailViewConstructor
     }
 
     func onAppear() {
-        publisher
+        publisherConstructor()
             .replaceError(with: [])
             .assign(to: \.spellDTOs, on: self)
             .store(in: &cancellableSet)
