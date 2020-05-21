@@ -30,10 +30,16 @@ struct SpellDetailView: View {
                         .frame(maxWidth: .infinity, alignment: .center)
                         Text("Level: \(viewModel.spellDTO.level ?? 0)")
                         .fontWeight(.bold)
-                        .padding()
-                        Text("Description: \(viewModel.spellDTO.description ?? "")").padding()
-                        Text("Casting time: \(viewModel.spellDTO.castingTime ?? "")").padding()
-                        Text("Concentration: \(viewModel.spellDTO.concentration ?? false ? "true" : "false")").padding()
+                        .padding(.vertical, 5)
+                        .padding(.horizontal)
+                        Text("Casting time: \(viewModel.spellDTO.castingTime ?? "")")
+                        .padding(.vertical, 5)
+                        .padding(.horizontal)
+                        Text("Concentration: \(viewModel.spellDTO.concentration ?? false ? "true" : "false")")
+                        .padding(.vertical, 5)
+                        .padding(.horizontal)
+                        Divider().background(Color.orange)
+                        Text("\(viewModel.spellDTO.description ?? "")").padding()
                     }
                 }
             }
