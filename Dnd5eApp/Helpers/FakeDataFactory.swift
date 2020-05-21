@@ -14,26 +14,26 @@ import CoreData
 class FakeDataFactory {
 
     static func provideFakeSpellDTO() -> SpellDTO {
-        return SpellDTO(name: "fake", path: "/api/spells/fake", level: 1, description: "fake desc", castingTime: "fake time", concentration: true, isFavorite: false)
+        return SpellDTO(name: "fake", path: "/api/spells/fake", level: 1, castingTime: "fake time", concentration: true, classes: "fake class", description: "fake desc", isFavorite: false)
     }
 
     static func provideEmptySpellListDTO() -> [SpellDTO] {
         return [
-            SpellDTO(name: "fake1", path: "/api/spells/fake1", level: nil, description: nil, castingTime: nil, concentration: nil, isFavorite: false),
-            SpellDTO(name: "fake2", path: "/api/spells/fake2", level: nil, description: nil, castingTime: nil, concentration: nil, isFavorite: false)
+            SpellDTO(name: "fake1", path: "/api/spells/fake1", level: nil, castingTime: nil, concentration: nil, classes: nil, description: nil, isFavorite: false),
+            SpellDTO(name: "fake2", path: "/api/spells/fake2", level: nil, castingTime: nil, concentration: nil, classes: nil, description: nil, isFavorite: false)
         ]
     }
 
     static func provideFakeSpellListDTO() -> [SpellDTO] {
         return [
-            SpellDTO(name: "fake1", path: "/api/spells/fake1", level: 1, description: "fake desc 1", castingTime: "fake time 1", concentration: true, isFavorite: false),
-            SpellDTO(name: "fake2", path: "/api/spells/fake2", level: 0, description: "fake desc 2", castingTime: "fake time 2", concentration: false, isFavorite: false)
+            SpellDTO(name: "fake1", path: "/api/spells/fake1", level: 1, castingTime: "fake time 1", concentration: true, classes: "fake class 1", description: "fake desc 1", isFavorite: false),
+            SpellDTO(name: "fake2", path: "/api/spells/fake2", level: 0, castingTime: "fake time 2", concentration: false, classes: "fake class 2", description: "fake desc 2", isFavorite: false)
         ]
     }
 
     static func provideFakeFavoritesListDTO() -> [SpellDTO] {
         return [
-            SpellDTO(name: "fake2", path: "/api/spells/fake2", level: 0, description: "fake desc 2", castingTime: "fake time 2", concentration: false, isFavorite: true)
+            SpellDTO(name: "fake2", path: "/api/spells/fake2", level: 0, castingTime: "fake time 2", concentration: false, classes: "fake class 2", description: "fake desc 2", isFavorite: true)
         ]
     }
 
@@ -51,9 +51,10 @@ class FakeDataFactory {
         spell.name = "fake"
         spell.path = "/api/spells/fake"
         spell.level = 1
-        spell.desc = "fake desc"
         spell.casting_time = "fake time"
         spell.concentration = true
+        spell.classes = "fake class"
+        spell.desc = "fake desc"
         try? context.save()
 
         return spell
@@ -65,16 +66,18 @@ class FakeDataFactory {
         spell1.name = "fake1"
         spell1.path = "/api/spells/fake1"
         spell1.level = 1
-        spell1.desc = "fake desc 1"
         spell1.casting_time = "fake time 1"
         spell1.concentration = true
+        spell1.classes = "fake class 1"
+        spell1.desc = "fake desc 1"
         let spell2 = Spell(entity: entity, insertInto: context)
         spell2.name = "fake2"
         spell2.path = "/api/spells/fake2"
         spell2.level = 0
-        spell2.desc = "fake desc 2"
         spell2.casting_time = "fake time 2"
         spell2.concentration = false
+        spell2.classes = "fake class 2"
+        spell2.desc = "fake desc 2"
         try? context.save()
 
         return [spell1, spell2]
@@ -86,9 +89,10 @@ class FakeDataFactory {
         spell2.name = "fake2"
         spell2.path = "/api/spells/fake2"
         spell2.level = 0
-        spell2.desc = "fake desc 2"
         spell2.casting_time = "fake time 2"
         spell2.concentration = false
+        spell2.classes = "fake class 2"
+        spell2.desc = "fake desc 2"
         spell2.isFavorite = true
         try? context.save()
 
@@ -125,7 +129,7 @@ class FakeDataFactory {
             },
             "classes": [
                 {
-                    "name": "Wizard",
+                    "name": "fake class",
                     "url": "/api/classes/wizard"
                 }
             ],

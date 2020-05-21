@@ -17,25 +17,38 @@ struct SpellDTO: Equatable, Identifiable {
     let name: String
     let path: String
     let level: Int?
-    let description: String?
     let castingTime: String?
     let concentration: Bool?
+    let classes: String?
+    let description: String?
     var isFavorite: Bool
 
     /// placeholder spell to indicate empty object
     static var placeholder : Self {
-        return SpellDTO(name: "", path: "", level: nil, description: nil, castingTime: nil, concentration: nil, isFavorite: false)
+        return SpellDTO(name: "", path: "", level: nil, castingTime: nil, concentration: nil, classes: nil, description: nil, isFavorite: false)
     }
 }
 
 extension SpellDTO: Codable {
+
+    struct ClassObject: Codable {
+        let name: String
+        let url: String
+
+        enum CodingKeys: String, CodingKey {
+            case name
+            case url
+        }
+    }
+
     private enum CodingKeys: String, CodingKey {
         case name
         case path = "url"
         case level
-        case description = "desc"
         case castingTime = "casting_time"
         case concentration
+        case classes
+        case description = "desc"
     }
 
     init(from decoder: Decoder) throws {
@@ -46,8 +59,12 @@ extension SpellDTO: Codable {
         level = try values.decodeIfPresent(Int.self, forKey: .level)
         castingTime = try values.decodeIfPresent(String.self, forKey: .castingTime)
         concentration = try values.decodeIfPresent(Bool.self, forKey: .concentration)
-        let array = try values.decodeIfPresent([String].self, forKey: .description)
-        description = array?.joined(separator: "\n\n")
+        let descArray = try values.decodeIfPresent([String].self, forKey: .description)
+        description = descArray?.joined(separator: "\n\n")
+
+        let classesArray = try values.decodeIfPresent([ClassObject].self, forKey: .classes)
+        let namesArray = classesArray?.map { $0.name }
+        classes = namesArray?.joined(separator: ", ")
         isFavorite = false
     }
 }

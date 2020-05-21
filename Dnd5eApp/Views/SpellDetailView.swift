@@ -38,6 +38,9 @@ struct SpellDetailView: View {
                         Text("Concentration: \(viewModel.spellDTO.concentration ?? false ? "true" : "false")")
                         .padding(.vertical, 5)
                         .padding(.horizontal)
+                        Text("Classes: \(viewModel.spellDTO.classes ?? "")")
+                        .padding(.vertical, 5)
+                        .padding(.horizontal)
                         Divider().background(Color.orange)
                         Text("\(viewModel.spellDTO.description ?? "")").padding()
                     }
