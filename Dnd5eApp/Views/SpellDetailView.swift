@@ -22,22 +22,19 @@ struct SpellDetailView: View {
                 ScrollView {
                     VStack(alignment: .leading) {
                         Text("\(viewModel.spellDTO.name)")
-                            .fontWeight(.bold)
-                            .font(.system(size: 30))
-                            .foregroundColor(.orange)
-                            .frame(maxWidth: .infinity, alignment: .center)
+                        .fontWeight(.bold)
+                        .font(.system(size: 30))
+                        .foregroundColor(.orange)
+                        .frame(maxWidth: .infinity, alignment: .center)
                         Image("scroll")
-                            .padding()
-                            .frame(maxWidth: .infinity, alignment: .center)
+                        .padding()
+                        .frame(maxWidth: .infinity, alignment: .center)
                         Text("Level: \(viewModel.spellDTO.level ?? 0)")
-                            .fontWeight(.bold)
-                            .padding()
-                        Text("Description: \(viewModel.spellDTO.description ?? "")")
-                            .padding()
-                        Text("Casting time: \(viewModel.spellDTO.castingTime ?? "")")
-                            .padding()
-                        Text("Concentration: \(viewModel.spellDTO.concentration ?? false ? "true" : "false")")
-                            .padding()
+                        .fontWeight(.bold)
+                        .padding()
+                        Text("Description: \(viewModel.spellDTO.description ?? "")").padding()
+                        Text("Casting time: \(viewModel.spellDTO.castingTime ?? "")").padding()
+                        Text("Concentration: \(viewModel.spellDTO.concentration ?? false ? "true" : "false")").padding()
                     }
                 }
             }
@@ -47,8 +44,7 @@ struct SpellDetailView: View {
         .navigationBarItems(trailing:
             Button("Add to Favorites") {
                 self.viewModel.markFavorite()
-            }
-            .foregroundColor(.orange)
+            }.foregroundColor(.orange)
         )
     }
 }

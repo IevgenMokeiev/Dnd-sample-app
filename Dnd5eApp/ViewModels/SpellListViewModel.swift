@@ -12,6 +12,7 @@ import Combine
 class SpellListViewModel: ObservableObject {
 
     @Published var publishedSpellDTOs: [SpellDTO] = []
+    @Published var loading: Bool = true
 
     var searchTerm: String = "" {
         didSet {
@@ -28,6 +29,7 @@ class SpellListViewModel: ObservableObject {
     private var spellDTOs: [SpellDTO] = [] {
         didSet {
             refineSpells()
+            loading = false
         }
     }
 

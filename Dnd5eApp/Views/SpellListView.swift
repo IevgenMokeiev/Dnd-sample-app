@@ -16,25 +16,26 @@ struct SpellListView: View {
     var body: some View {
         NavigationView {
             VStack {
-                SearchView(searchTerm: $viewModel.searchTerm)
-                Divider()
-                    .background(Color.orange)
-                List(viewModel.publishedSpellDTOs) { spell in
-                    NavigationLink(destination: self.viewModel.spellDetailViewConstructor(spell.path)) {
-                        Text(spell.name)
+                if viewModel.loading {
+                    ProgressView(isAnimating: $viewModel.loading)
+                } else {
+                    SearchView(searchTerm: $viewModel.searchTerm)
+                    Divider().background(Color.orange)
+                    List(viewModel.publishedSpellDTOs) { spell in
+                        NavigationLink(destination: self.viewModel.spellDetailViewConstructor(spell.path)) {
+                            Text(spell.name)
+                        }
                     }
-                }
                     .accessibility(label: Text("Spell Table View"))
                     .accessibility(identifier: "SpellTableView")
                     .navigationBarTitle("Spell Book", displayMode: .inline)
                     .navigationBarItems(trailing:
                         Button("Sort by Level") {
                             self.viewModel.selectedSort = .level
-                        }
-                        .foregroundColor(.orange)
+                        }.foregroundColor(.orange)
                     )
-                    .onAppear(perform: viewModel.onAppear)
-            }
+                }
+            }.onAppear(perform: viewModel.onAppear)
         }
     }
 }
