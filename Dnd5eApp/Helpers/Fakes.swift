@@ -19,9 +19,6 @@ class FakeTranslationService: TranslationService {
         self.testFavorites = testFavorites
     }
 
-    func populate(spell: Spell, with dto: SpellDTO) {
-    }
-
     func convertToDTO(spell: Spell) -> SpellDTO {
         return FakeDataFactory.provideFakeSpellDTO()
     }

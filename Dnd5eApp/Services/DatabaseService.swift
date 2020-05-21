@@ -114,7 +114,7 @@ class DatabaseServiceImpl: DatabaseService {
             let result = try managedContext.fetch(request)
             guard !result.isEmpty else { return }
             guard let matchedSpell = result.first else { return }
-            translationService.populate(spell: matchedSpell, with: spellDTO)
+            matchedSpell.populate(with: spellDTO)
             
             do {
                 try managedContext.save()

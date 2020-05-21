@@ -14,16 +14,6 @@ class TranslationServiceTests: XCTestCase {
 
     var context: NSManagedObjectContext?
 
-    func test_spell_population() {
-        let sut = makeSUT()
-        guard let context = context else { XCTFail("no context"); return }
-        let spell = FakeDataFactory.provideEmptySpell(context: context)
-        let spellDTO = FakeDataFactory.provideFakeSpellDTO()
-        let expectedSpell = FakeDataFactory.provideFakeSpell(context: context)
-        sut.populate(spell: spell, with: spellDTO)
-        XCTAssertTrue(spell == expectedSpell)
-    }
-
     func test_spell_dto_conversion() {
         let sut = makeSUT()
         guard let context = context else { XCTFail("no context"); return }

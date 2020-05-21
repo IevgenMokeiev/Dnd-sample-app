@@ -10,21 +10,11 @@ import Foundation
 
 /// Service responsible for translation between DTO's and CoreData generated models
 protocol TranslationService {
-    func populate(spell: Spell, with dto: SpellDTO)
     func convertToDTO(spell: Spell) -> SpellDTO
     func convertToDTO(spellList: [Spell]) -> [SpellDTO]
 }
 
 class TranslationServiceImpl: TranslationService {
-    func populate(spell: Spell, with dto: SpellDTO) {
-        spell.name = dto.name
-        spell.level = Int16(dto.level ?? 0)
-        spell.desc = dto.description
-        spell.casting_time = dto.castingTime
-        spell.concentration = dto.concentration ?? false
-        spell.path = dto.path
-        spell.isFavorite = dto.isFavorite
-    }
 
     func convertToDTO(spell: Spell) -> SpellDTO {
         return SpellDTO(name: spell.name ?? "", path: spell.path ?? "", level: Int(spell.level), description: spell.desc, castingTime: spell.casting_time, concentration: spell.concentration, isFavorite: spell.isFavorite)
