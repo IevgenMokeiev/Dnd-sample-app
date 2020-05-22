@@ -1,5 +1,5 @@
 //
-//  DataLayer.swift
+//  Interactor.swift
 //  SpellBookApp
 //
 //  Created by Yevhen Mokeiev on 4/18/19.
@@ -11,11 +11,11 @@ import UIKit
 import CoreData
 import Combine
 
-/// Responsible for communication between UI and Data layers.
+/// Provides data to UI using services.
 /// Uses services to provide requested data
 /// If data is requested, tries to get it from the database service
 /// If it's not available, fallback to network service
-protocol DataLayer {
+protocol Interactor {
     func spellListPublisher() -> SpellPublisher
     func spellDetailsPublisher(for path: String) -> SpellDetailPublisher
     func favoritesPublisher() -> SpellPublisher
@@ -24,7 +24,7 @@ protocol DataLayer {
     func saveSpell(_ spell: SpellDTO)
 }
 
-class DataLayerImpl: DataLayer {
+class InteractorImpl: Interactor {
     private var databaseService: DatabaseService
     private var networkService: NetworkService
     private var refinementsService: RefinementsService

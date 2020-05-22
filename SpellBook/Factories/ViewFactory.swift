@@ -23,10 +23,10 @@ protocol ViewFactory {
 
 class ViewFactoryImpl: ViewFactory {
 
-    let dataLayer: DataLayer
+    let interactor: Interactor
 
-    init(dataLayer: DataLayer) {
-        self.dataLayer = dataLayer
+    init(interactor: Interactor) {
+        self.interactor = interactor
     }
 
     func createTabbarView() -> TabbarView {
@@ -37,18 +37,18 @@ class ViewFactoryImpl: ViewFactory {
     }
 
     func createSpellListView() -> SpellListView {
-        let viewModel = SpellListViewModel(publisherConstructor: { self.dataLayer.spellListPublisher() }, refinementsBlock: { self.dataLayer.refine(spells: $0, sort: $1, searchTerm: $2)
+        let viewModel = SpellListViewModel(publisherConstructor: { self.interactor.spellListPublisher() }, refinementsBlock: { self.interactor.refine(spells: $0, sort: $1, searchTerm: $2)
         }) { self.createSpellDetailView(path: $0) }
         return SpellListView(viewModel: viewModel)
     }
 
     func createSpellDetailView(path: String) -> SpellDetailView {
-        let viewModel = SpellDetailViewModel(publisher: dataLayer.spellDetailsPublisher(for: path), saveBlock: { self.dataLayer.saveSpell($0) })
+        let viewModel = SpellDetailViewModel(publisher: interactor.spellDetailsPublisher(for: path), saveBlock: { self.interactor.saveSpell($0) })
         return SpellDetailView(viewModel: viewModel)
     }
 
     func createFavoritesView() -> FavoritesView {
-        let viewModel = FavoritesViewModel(publisherConstructor: { self.dataLayer.favoritesPublisher()
+        let viewModel = FavoritesViewModel(publisherConstructor: { self.interactor.favoritesPublisher()
         }, spellDetailViewConstructor: { self.createSpellDetailView(path: $0)
         })
         return FavoritesView(viewModel: viewModel)

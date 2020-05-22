@@ -1,5 +1,5 @@
 //
-//  MockURLProtocol.swift
+//  FakeURLProtocol.swift
 //  SpellBookApp
 //
 //  Created by Yevhen Mokeiev on 13.05.2020.
@@ -11,7 +11,7 @@ import Foundation
 /// URL protocol to feed mock data and receive it from the network calls
 /// - Properties:
 ///     - requestHandler: A block property that provides control over returned data
-class MockURLProtocol: URLProtocol {
+class FakeURLProtocol: URLProtocol {
 
     static var requestHandler: ((URLRequest) throws -> (HTTPURLResponse, Data?))?
 
@@ -24,7 +24,7 @@ class MockURLProtocol: URLProtocol {
     }
 
     override func startLoading() {
-        guard let handler = MockURLProtocol.requestHandler else {
+        guard let handler = Self.requestHandler else {
             fatalError("Handler is unavailable.")
         }
 

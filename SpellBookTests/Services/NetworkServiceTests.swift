@@ -18,11 +18,11 @@ class NetworkServiceTests: XCTestCase {
         let sut = makeSUT()
 
         let apiURL = URL(string: "http://dnd5eapi.co/api/spells")!
+        let response = HTTPURLResponse(url: apiURL, statusCode: 200, httpVersion: nil, headerFields: nil)!
         let data = FakeDataFactory.provideFakeSpellListRawData()
 
-        MockURLProtocol.requestHandler = { request in
+        FakeURLProtocol.requestHandler = { request in
             XCTAssertTrue(request.url == apiURL)
-            let response = HTTPURLResponse(url: apiURL, statusCode: 200, httpVersion: nil, headerFields: nil)!
             return (response, data)
         }
 
@@ -51,7 +51,7 @@ class NetworkServiceTests: XCTestCase {
         let apiURL = URL(string: "http://dnd5eapi.co/api/spells/acid-arrow")!
         let data = FakeDataFactory.provideFakeSpellDetailsRawData()
 
-        MockURLProtocol.requestHandler = { request in
+        FakeURLProtocol.requestHandler = { request in
             XCTAssertTrue(request.url == apiURL)
             let response = HTTPURLResponse(url: apiURL, statusCode: 200, httpVersion: nil, headerFields: nil)!
             return (response, data)
@@ -78,7 +78,7 @@ class NetworkServiceTests: XCTestCase {
 
     private func makeSUT() -> NetworkService {
         let sut = NetworkServiceImpl()
-        sut.urlSessionProtocolClasses = [MockURLProtocol.self]
+        sut.urlSessionProtocolClasses = [FakeURLProtocol.self]
 
         return sut
     }

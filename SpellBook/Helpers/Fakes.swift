@@ -10,6 +10,72 @@ import Foundation
 import CoreData
 @testable import SpellBook
 
+class FakeRefinementsService: RefinementsService {
+    func refineSpells(spells: [SpellDTO], sort: Sort, searchTerm: String) -> [SpellDTO] {
+        return spells
+    }
+}
+
+class FakeDatabaseService: DatabaseService {
+
+    static var spellListHandler: (() -> Result<[SpellDTO], DatabaseServiceError>)?
+    static var spellDetailHandler: (() -> Result<SpellDTO, DatabaseServiceError>)?
+    static var favoritesHandler: (() -> Result<[SpellDTO], DatabaseServiceError>)?
+
+    func spellListPublisher() -> DatabaseSpellPublisher {
+        guard let handler = Self.spellListHandler else {
+            fatalError("Handler is unavailable.")
+        }
+        let result = handler()
+        return Result.Publisher(result).eraseToAnyPublisher()
+    }
+
+    func spellDetailsPublisher(for path: String) -> DatabaseSpellDetailPublisher {
+        guard let handler = Self.spellDetailHandler else {
+            fatalError("Handler is unavailable.")
+        }
+        let result = handler()
+        return Result.Publisher(result).eraseToAnyPublisher()
+    }
+
+    func favoritesPublisher() -> DatabaseSpellPublisher {
+        guard let handler = Self.favoritesHandler else {
+            fatalError("Handler is unavailable.")
+        }
+        let result = handler()
+        return Result.Publisher(result).eraseToAnyPublisher()
+    }
+
+    func saveSpellList(_ spellDTOs: [SpellDTO]) {
+    }
+
+    func saveSpellDetails(_ spellDTO: SpellDTO) {
+    }
+}
+
+class FakeNetworkService: NetworkService {
+
+    static var spellListHandler: (() -> Result<[SpellDTO], NetworkServiceError>)?
+
+    static var spellDetailHandler: (() -> Result<SpellDTO, NetworkServiceError>)?
+
+    func spellListPublisher() -> NetworkSpellPublisher {
+        guard let handler = Self.spellListHandler else {
+            fatalError("Handler is unavailable.")
+        }
+        let result = handler()
+        return Result.Publisher(result).eraseToAnyPublisher()
+    }
+
+    func spellDetailPublisher(for path: String) -> NetworkSpellDetailPublisher {
+        guard let handler = Self.spellDetailHandler else {
+            fatalError("Handler is unavailable.")
+        }
+        let result = handler()
+        return Result.Publisher(result).eraseToAnyPublisher()
+    }
+}
+
 /// A collection of fake services to be used during testing
 class FakeTranslationService: TranslationService {
 

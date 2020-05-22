@@ -19,7 +19,7 @@ class AppCoordinator {
         let databaseServiceImpl = DatabaseServiceImpl(coreDataStack: coreDataStackImpl, translationService: translationServiceImpl)
         let networkServiceImpl = NetworkServiceImpl()
         let refinementsServiceImpl = RefinementsServiceImpl()
-        let dataLayer = DataLayerImpl(databaseService: databaseServiceImpl, networkService: networkServiceImpl, refinementsService: refinementsServiceImpl)
-        self.viewFactory = ViewFactoryImpl(dataLayer: dataLayer)
+        let interactor = InteractorImpl(databaseService: databaseServiceImpl, networkService: networkServiceImpl, refinementsService: refinementsServiceImpl)
+        self.viewFactory = ViewFactoryImpl(interactor: interactor)
     }
 }
