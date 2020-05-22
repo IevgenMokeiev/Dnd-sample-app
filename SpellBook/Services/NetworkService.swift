@@ -9,8 +9,8 @@
 import Foundation
 import Combine
 
-typealias NetworkSpellPublisher = AnyPublisher<[SpellDTO], NetworkServiceError>
-typealias NetworkSpellDetailPublisher = AnyPublisher<SpellDTO, NetworkServiceError>
+typealias NetworkSpellPublisher = AnyPublisher<[SpellDTO], NetworkClientError>
+typealias NetworkSpellDetailPublisher = AnyPublisher<SpellDTO, NetworkClientError>
 
 struct Response: Codable {
     public let results: [SpellDTO]
@@ -19,14 +19,6 @@ struct Response: Codable {
 private enum Endpoints: String {
     case spellList = "http://dnd5eapi.co/api/spells"
     case spellDetails = "http://dnd5eapi.co"
-}
-
-public enum NetworkServiceError: Error {
-    case invalidURL
-    case decodingFailed
-    case invalidResponseStatusCode
-    case sessionFailed(Error)
-    case other(Error)
 }
 
 /// Service responsible for network communication

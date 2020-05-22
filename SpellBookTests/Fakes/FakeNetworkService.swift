@@ -10,9 +10,9 @@
 
 class FakeNetworkService: NetworkService {
 
-    static var spellListHandler: (() -> Result<[SpellDTO], NetworkServiceError>)?
+    static var spellListHandler: (() -> Result<[SpellDTO], NetworkClientError>)?
 
-    static var spellDetailHandler: (() -> Result<SpellDTO, NetworkServiceError>)?
+    static var spellDetailHandler: (() -> Result<SpellDTO, NetworkClientError>)?
 
     func spellListPublisher() -> NetworkSpellPublisher {
         guard let handler = Self.spellListHandler else {
