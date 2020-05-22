@@ -15,15 +15,15 @@ struct TabbarView: View {
     var body: some View {
         TabView() {
             viewModel.spellListConstructor()
-                .tabItem {
-                    Image(systemName: "book.fill")
-                    Text("Spell Book")
-            }
+            .tabItem {
+                Image(systemName: "book.fill")
+                Text("Spell Book")
+            }.accessibility(identifier: "SpellTab")
             viewModel.favoritesConstructor()
-                .tabItem {
-                    Image(systemName: "bookmark.fill")
-                    Text("Favorites")
-            }
+            .tabItem {
+                Image(systemName: "bookmark.fill")
+                Text("Favorites")
+            }.accessibility(identifier: "FavoritesTab")
         }
         .accentColor(.orange)
     }

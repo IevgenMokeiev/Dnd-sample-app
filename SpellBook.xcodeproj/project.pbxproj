@@ -11,7 +11,7 @@
 		85B353EE2267B64200617C7E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B353ED2267B64200617C7E /* AppDelegate.swift */; };
 		85B353F52267B64A00617C7E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85B353F42267B64A00617C7E /* Assets.xcassets */; };
 		85B353F82267B64A00617C7E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85B353F62267B64A00617C7E /* LaunchScreen.storyboard */; };
-		85B3540E2267B64A00617C7E /* Dnd5eAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B3540D2267B64A00617C7E /* Dnd5eAppUITests.swift */; };
+		85B3540E2267B64A00617C7E /* SpellBookUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B3540D2267B64A00617C7E /* SpellBookUITests.swift */; };
 		85B354612268BCD400617C7E /* Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B354602268BCD400617C7E /* Interactor.swift */; };
 		85B354632268BD3A00617C7E /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B354622268BD3A00617C7E /* NetworkService.swift */; };
 		85B35479226912D300617C7E /* DnDModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 85B354582268B49700617C7E /* DnDModel.xcdatamodeld */; };
@@ -78,7 +78,7 @@
 		85B353FE2267B64A00617C7E /* SpellBookTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpellBookTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		85B354042267B64A00617C7E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85B354092267B64A00617C7E /* SpellBookUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpellBookUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		85B3540D2267B64A00617C7E /* Dnd5eAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dnd5eAppUITests.swift; sourceTree = "<group>"; };
+		85B3540D2267B64A00617C7E /* SpellBookUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellBookUITests.swift; sourceTree = "<group>"; };
 		85B3540F2267B64A00617C7E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85B354592268B49700617C7E /* DnDModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DnDModel.xcdatamodel; sourceTree = "<group>"; };
 		85B354602268BCD400617C7E /* Interactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interactor.swift; sourceTree = "<group>"; };
@@ -222,7 +222,7 @@
 		85B3540C2267B64A00617C7E /* SpellBookUITests */ = {
 			isa = PBXGroup;
 			children = (
-				85B3540D2267B64A00617C7E /* Dnd5eAppUITests.swift */,
+				85B3540D2267B64A00617C7E /* SpellBookUITests.swift */,
 				85B3540F2267B64A00617C7E /* Info.plist */,
 			);
 			path = SpellBookUITests;
@@ -557,7 +557,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				85B3540E2267B64A00617C7E /* Dnd5eAppUITests.swift in Sources */,
+				85B3540E2267B64A00617C7E /* SpellBookUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

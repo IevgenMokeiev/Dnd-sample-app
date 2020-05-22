@@ -54,6 +54,7 @@ struct SpellDetailView: View {
             Button(viewModel.favoriteButtonText) {
                 self.viewModel.toggleFavorite()
             }.foregroundColor(.orange)
+            .accessibility(identifier: "FavoritesButton")
         )
     }
 }
