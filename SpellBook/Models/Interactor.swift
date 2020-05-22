@@ -36,18 +36,18 @@ class InteractorImpl: Interactor {
     }
     
     func spellListPublisher() -> SpellPublisher {
-        let downloadPublisher = networkService.spellListPublisher()
-            .mapError { $0 as Error }
-            .map({ (spellDTOs) -> [SpellDTO] in
-                self.databaseService.saveSpellList(spellDTOs)
-                return spellDTOs
-            })
-            .eraseToAnyPublisher()
-
         return databaseService.spellListPublisher()
             .mapError { $0 as Error }
             .catch { (error) -> SpellPublisher in
                 print("Could not retrieve. \(error)")
+                let downloadPublisher = self.networkService.spellListPublisher()
+                .mapError { $0 as Error }
+                .map({ (spellDTOs) -> [SpellDTO] in
+                    self.databaseService.saveSpellList(spellDTOs)
+                    return spellDTOs
+                })
+                .eraseToAnyPublisher()
+
                 return downloadPublisher
             }
             .receive(on: RunLoop.main)
@@ -55,18 +55,18 @@ class InteractorImpl: Interactor {
     }
 
     func spellDetailsPublisher(for path: String) -> SpellDetailPublisher {
-        let downloadPublisher = networkService.spellDetailPublisher(for: path)
-            .mapError { $0 as Error }
-            .map({ (spellDTO) -> SpellDTO in
-                self.databaseService.saveSpellDetails(spellDTO)
-                return spellDTO
-            })
-            .eraseToAnyPublisher()
-
         return databaseService.spellDetailsPublisher(for: path)
             .mapError { $0 as Error }
             .catch { (error) -> SpellDetailPublisher in
                 print("Could not retrieve. \(error)")
+                let downloadPublisher = self.networkService.spellDetailPublisher(for: path)
+                .mapError { $0 as Error }
+                .map({ (spellDTO) -> SpellDTO in
+                    self.databaseService.saveSpellDetails(spellDTO)
+                    return spellDTO
+                })
+                .eraseToAnyPublisher()
+
                 return downloadPublisher
             }
             .receive(on: RunLoop.main)
