@@ -42,7 +42,7 @@ class NetworkClientImpl: NetworkClient {
                 return data
             }
             .decode(type: expectedType.self , decoder: JSONDecoder())
-            .mapError({ error in
+            .mapError { error in
                 switch error {
                 case is DecodingError:
                     return .decodingFailed
@@ -51,7 +51,7 @@ class NetworkClientImpl: NetworkClient {
                 default:
                     return .other(error)
                 }
-            })
+            }
             .eraseToAnyPublisher()
     }
 }

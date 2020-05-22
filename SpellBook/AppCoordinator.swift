@@ -16,7 +16,7 @@ class AppCoordinator {
     init(configureForTesing: Bool = false) {
         let translationServiceImpl = TranslationServiceImpl()
         let coreDataStackImpl = CoreDataStackImpl()
-        let databaseClientImpl = DatabaseClientImpl.init(coreDataStack: coreDataStackImpl)
+        let databaseClientImpl = DatabaseClientImpl(coreDataStack: coreDataStackImpl)
         let databaseServiceImpl = DatabaseServiceImpl(databaseClient: databaseClientImpl, translationService: translationServiceImpl)
         let networkServiceImpl = NetworkServiceImpl(networkClient: NetworkClientImpl())
         let refinementsServiceImpl = RefinementsServiceImpl()

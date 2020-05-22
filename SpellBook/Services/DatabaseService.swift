@@ -13,12 +13,13 @@ import Combine
 typealias SaveBlock = (SpellDTO) -> Void
 typealias DatabaseSpellPublisher = AnyPublisher<[SpellDTO], DatabaseClientError>
 typealias DatabaseSpellDetailPublisher = AnyPublisher<SpellDTO, Error>
+typealias DatabaseFavoritesPublisher = AnyPublisher<[SpellDTO], Never>
 
 /// Service responsible for database communication
 protocol DatabaseService {
     func spellListPublisher() -> DatabaseSpellPublisher
     func spellDetailsPublisher(for path: String) -> DatabaseSpellDetailPublisher
-    func favoritesPublisher() -> DatabaseSpellPublisher
+    func favoritesPublisher() -> DatabaseFavoritesPublisher
     func saveSpellList(_ spellDTOs: [SpellDTO])
     func saveSpellDetails(_ spellDTO: SpellDTO)
 }
@@ -74,9 +75,10 @@ class DatabaseServiceImpl: DatabaseService {
         .store(in: &cancellableSet)
     }
     
-    func favoritesPublisher() -> DatabaseSpellPublisher {
+    func favoritesPublisher() -> DatabaseFavoritesPublisher {
         return databaseClient.fetchObjects(expectedType: Spell.self, predicate: NSPredicate(format: "isFavorite == true"))
             .map { self.translationService.convertToDTO(spellList: $0) }
+            .replaceError(with: [])
             .eraseToAnyPublisher()
     }
 }

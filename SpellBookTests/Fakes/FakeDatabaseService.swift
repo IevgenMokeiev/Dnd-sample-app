@@ -12,7 +12,7 @@ class FakeDatabaseService: DatabaseService {
 
     static var spellListHandler: (() -> Result<[SpellDTO], DatabaseClientError>)?
     static var spellDetailHandler: (() -> Result<SpellDTO, Error>)?
-    static var favoritesHandler: (() -> Result<[SpellDTO], DatabaseClientError>)?
+    static var favoritesHandler: (() -> Result<[SpellDTO], Never>)?
 
     func spellListPublisher() -> DatabaseSpellPublisher {
         guard let handler = Self.spellListHandler else {
@@ -30,7 +30,7 @@ class FakeDatabaseService: DatabaseService {
         return Result.Publisher(result).eraseToAnyPublisher()
     }
 
-    func favoritesPublisher() -> DatabaseSpellPublisher {
+    func favoritesPublisher() -> DatabaseFavoritesPublisher {
         guard let handler = Self.favoritesHandler else {
             fatalError("Handler is unavailable.")
         }

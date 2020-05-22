@@ -37,7 +37,7 @@ class DatabaseClientImpl: DatabaseClient {
 
     func fetchObjects<T: NSManagedObject>(expectedType: T.Type, predicate: NSPredicate?) -> AnyPublisher<[T], DatabaseClientError> {
         let context = coreDataStack.persistentContainer.viewContext
-        guard let request = T.fetchRequest() as? NSFetchRequest<T> else { return Fail(error: .wrongRequest).eraseToAnyPublisher() }
+        let request = NSFetchRequest<T>(entityName: String(describing: T.self))
         if let predicate = predicate {
             request.predicate = predicate
         }
