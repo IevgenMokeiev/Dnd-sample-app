@@ -48,6 +48,8 @@
 		9FFF78B42477E18F0068743F /* FakeNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFF78AC2477E1170068743F /* FakeNetworkService.swift */; };
 		9FFF78B52477E18F0068743F /* FakeRefinementsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFF78A82477E0D60068743F /* FakeRefinementsService.swift */; };
 		9FFF78B62477E18F0068743F /* FakeTranslationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFF78AE2477E1320068743F /* FakeTranslationService.swift */; };
+		9FFF78B9247821170068743F /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFF78B8247821170068743F /* NetworkClient.swift */; };
+		9FFF78BB247821390068743F /* DatabaseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFF78BA247821390068743F /* DatabaseClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,6 +118,8 @@
 		9FFF78AA2477E0FA0068743F /* FakeDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeDatabaseService.swift; sourceTree = "<group>"; };
 		9FFF78AC2477E1170068743F /* FakeNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeNetworkService.swift; sourceTree = "<group>"; };
 		9FFF78AE2477E1320068743F /* FakeTranslationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeTranslationService.swift; sourceTree = "<group>"; };
+		9FFF78B8247821170068743F /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
+		9FFF78BA247821390068743F /* DatabaseClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseClient.swift; sourceTree = "<group>"; };
 		BF06A7D58F74D8CD1588A792 /* Pods-SpellBook.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpellBook.debug.xcconfig"; path = "Target Support Files/Pods-SpellBook/Pods-SpellBook.debug.xcconfig"; sourceTree = "<group>"; };
 		D05E6B1516E140741ECBB23F /* Pods_Dnd5eApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dnd5eApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6D976ECE04481F6D97FC91F /* Pods-SpellBook.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpellBook.release.xcconfig"; path = "Target Support Files/Pods-SpellBook/Pods-SpellBook.release.xcconfig"; sourceTree = "<group>"; };
@@ -199,8 +203,9 @@
 				85B3545B2268BB4700617C7E /* Views */,
 				9FD2744E246D422B009A9FBD /* ViewModels */,
 				9F0C894F246ACBE2003592F5 /* Services */,
-				9F54AC22246C0B6E005B4849 /* Factories */,
 				85B3545D2268BB6100617C7E /* Models */,
+				9F54AC22246C0B6E005B4849 /* Factories */,
+				9FFF78B7247820FD0068743F /* Utilities */,
 				85B3545F2268BB8A00617C7E /* Resources */,
 				85B353F92267B64A00617C7E /* Info.plist */,
 			);
@@ -210,7 +215,7 @@
 		85B354012267B64A00617C7E /* SpellBookTests */ = {
 			isa = PBXGroup;
 			children = (
-				9F54AC14246BE60B005B4849 /* Helpers */,
+				9F54AC14246BE60B005B4849 /* Fakes */,
 				9FC14EAB246B3A8500428073 /* Services */,
 				9F0FF92D2477D66E00654865 /* InteractorTests.swift */,
 				9F109D8C2476B2320091B7E3 /* SpellDTOConversionTests.swift */,
@@ -283,7 +288,7 @@
 			path = CoreData;
 			sourceTree = "<group>";
 		};
-		9F54AC14246BE60B005B4849 /* Helpers */ = {
+		9F54AC14246BE60B005B4849 /* Fakes */ = {
 			isa = PBXGroup;
 			children = (
 				9FFF78AA2477E0FA0068743F /* FakeDatabaseService.swift */,
@@ -294,7 +299,7 @@
 				9F54AC18246BE71E005B4849 /* FakeCoreDataStack.swift */,
 				9F54AC1B246BE90E005B4849 /* FakeDataFactory.swift */,
 			);
-			path = Helpers;
+			path = Fakes;
 			sourceTree = "<group>";
 		};
 		9F54AC22246C0B6E005B4849 /* Factories */ = {
@@ -324,6 +329,15 @@
 				9F91A3A52475749B0034642A /* FavoritesViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		9FFF78B7247820FD0068743F /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				9FFF78B8247821170068743F /* NetworkClient.swift */,
+				9FFF78BA247821390068743F /* DatabaseClient.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -517,6 +531,7 @@
 				85B35479226912D300617C7E /* DnDModel.xcdatamodeld in Sources */,
 				9F54AC1F246BF023005B4849 /* CoreDataStack.swift in Sources */,
 				9F54AC24246C0B8C005B4849 /* ViewFactory.swift in Sources */,
+				9FFF78BB247821390068743F /* DatabaseClient.swift in Sources */,
 				9F91A3A4247574020034642A /* FavoritesView.swift in Sources */,
 				9F109D8B2476B1500091B7E3 /* Spell+Population.swift in Sources */,
 				9F6BD7C2246593CF001D8825 /* SpellDTO.swift in Sources */,
@@ -527,6 +542,7 @@
 				9FD27450246D4244009A9FBD /* SpellListViewModel.swift in Sources */,
 				9F91A3A62475749B0034642A /* FavoritesViewModel.swift in Sources */,
 				9F54AC28246C1150005B4849 /* AppCoordinator.swift in Sources */,
+				9FFF78B9247821170068743F /* NetworkClient.swift in Sources */,
 				9F0C894E246A921C003592F5 /* SceneDelegate.swift in Sources */,
 				9F0C8951246ACC92003592F5 /* ProgressView.swift in Sources */,
 				9F91A3A224756BD60034642A /* TabbarViewModel.swift in Sources */,

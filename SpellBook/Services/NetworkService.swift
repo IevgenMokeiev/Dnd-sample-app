@@ -36,14 +36,19 @@ protocol NetworkService {
 }
 
 class NetworkServiceImpl: NetworkService {
-    internal var urlSessionProtocolClasses: [AnyClass]?
+
+    let networkClient: NetworkClient
+
+    init(networkClient: NetworkClient) {
+        self.networkClient = networkClient
+    }
     
     func spellListPublisher() -> NetworkSpellPublisher {
         guard let url = URL(string: Endpoints.spellList.rawValue) else {
             return Fail(error: .invalidURL).eraseToAnyPublisher()
         }
 
-        return contentPublisher(for: url, decodingType: Response.self)
+        return networkClient.endpointPublisher(for: url, decodingType: Response.self)
             .map { $0.results }
             .eraseToAnyPublisher()
     }
@@ -53,32 +58,6 @@ class NetworkServiceImpl: NetworkService {
             return Fail(error: .invalidURL).eraseToAnyPublisher()
         }
 
-        return contentPublisher(for: url, decodingType: SpellDTO.self)
-    }
-    
-    func contentPublisher<T: Decodable>(for url: URL, decodingType: T.Type) -> AnyPublisher<T, NetworkServiceError> {
-        let configuration = URLSessionConfiguration.default
-        configuration.protocolClasses = urlSessionProtocolClasses
-
-        return URLSession(configuration: configuration).dataTaskPublisher(for: url)
-            .tryMap { data, response in
-                guard let httpResponse = response as? HTTPURLResponse,
-                    httpResponse.statusCode == 200 else {
-                        throw NetworkServiceError.invalidResponseStatusCode
-                }
-                return data
-            }
-            .decode(type: decodingType.self , decoder: JSONDecoder())
-            .mapError({ error in
-                switch error {
-                case is Swift.DecodingError:
-                    return .decodingFailed
-                case is URLError:
-                    return .sessionFailed(error)
-                default:
-                    return .other(error)
-                }
-            })
-            .eraseToAnyPublisher()
+        return networkClient.endpointPublisher(for: url, decodingType: SpellDTO.self)
     }
 }
