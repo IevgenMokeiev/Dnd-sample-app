@@ -201,7 +201,6 @@
 				9F0C894F246ACBE2003592F5 /* Services */,
 				9F54AC22246C0B6E005B4849 /* Factories */,
 				85B3545D2268BB6100617C7E /* Models */,
-				9F54AC14246BE60B005B4849 /* Helpers */,
 				85B3545F2268BB8A00617C7E /* Resources */,
 				85B353F92267B64A00617C7E /* Info.plist */,
 			);
@@ -211,6 +210,7 @@
 		85B354012267B64A00617C7E /* SpellBookTests */ = {
 			isa = PBXGroup;
 			children = (
+				9F54AC14246BE60B005B4849 /* Helpers */,
 				9FC14EAB246B3A8500428073 /* Services */,
 				9F0FF92D2477D66E00654865 /* InteractorTests.swift */,
 				9F109D8C2476B2320091B7E3 /* SpellDTOConversionTests.swift */,
