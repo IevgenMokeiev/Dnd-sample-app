@@ -77,8 +77,7 @@ class NetworkServiceTests: XCTestCase {
     }
 
     private func makeSUT() -> NetworkService {
-        let networkClient = NetworkClientImpl()
-        networkClient.urlSessionProtocolClasses = [FakeURLProtocol.self]
+        let networkClient = NetworkClientImpl(protocolClasses: [FakeURLProtocol.self])
         let sut = NetworkServiceImpl(networkClient: networkClient)
 
         return sut

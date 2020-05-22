@@ -10,9 +10,9 @@
 
 class FakeDatabaseService: DatabaseService {
 
-    static var spellListHandler: (() -> Result<[SpellDTO], DatabaseServiceError>)?
-    static var spellDetailHandler: (() -> Result<SpellDTO, DatabaseServiceError>)?
-    static var favoritesHandler: (() -> Result<[SpellDTO], DatabaseServiceError>)?
+    static var spellListHandler: (() -> Result<[SpellDTO], DatabaseClientError>)?
+    static var spellDetailHandler: (() -> Result<SpellDTO, Error>)?
+    static var favoritesHandler: (() -> Result<[SpellDTO], DatabaseClientError>)?
 
     func spellListPublisher() -> DatabaseSpellPublisher {
         guard let handler = Self.spellListHandler else {

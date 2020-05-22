@@ -40,7 +40,7 @@ class NetworkServiceImpl: NetworkService {
             return Fail(error: .invalidURL).eraseToAnyPublisher()
         }
 
-        return networkClient.endpointPublisher(for: url, decodingType: Response.self)
+        return networkClient.performRequest(to: url, expectedType: Response.self)
             .map { $0.results }
             .eraseToAnyPublisher()
     }
@@ -50,6 +50,6 @@ class NetworkServiceImpl: NetworkService {
             return Fail(error: .invalidURL).eraseToAnyPublisher()
         }
 
-        return networkClient.endpointPublisher(for: url, decodingType: SpellDTO.self)
+        return networkClient.performRequest(to: url, expectedType: SpellDTO.self)
     }
 }

@@ -18,16 +18,20 @@ public enum NetworkClientError: Error {
 }
 
 protocol NetworkClient {
-    func endpointPublisher<T: Decodable>(for url: URL, decodingType: T.Type) -> AnyPublisher<T, NetworkClientError>
+    func performRequest<T: Decodable>(to url: URL, expectedType: T.Type) -> AnyPublisher<T, NetworkClientError>
 }
 
 class NetworkClientImpl: NetworkClient {
 
-    internal var urlSessionProtocolClasses: [AnyClass]?
+    private var protocolClasses: [AnyClass]?
 
-    func endpointPublisher<T: Decodable>(for url: URL, decodingType: T.Type) -> AnyPublisher<T, NetworkClientError> {
+    init(protocolClasses: [AnyClass]? = nil) {
+        self.protocolClasses = protocolClasses
+    }
+
+    func performRequest<T: Decodable>(to url: URL, expectedType: T.Type) -> AnyPublisher<T, NetworkClientError> {
         let configuration = URLSessionConfiguration.default
-        configuration.protocolClasses = urlSessionProtocolClasses
+        configuration.protocolClasses = protocolClasses
 
         return URLSession(configuration: configuration).dataTaskPublisher(for: url)
             .tryMap { data, response in
@@ -37,7 +41,7 @@ class NetworkClientImpl: NetworkClient {
                 }
                 return data
             }
-            .decode(type: decodingType.self , decoder: JSONDecoder())
+            .decode(type: expectedType.self , decoder: JSONDecoder())
             .mapError({ error in
                 switch error {
                 case is DecodingError:

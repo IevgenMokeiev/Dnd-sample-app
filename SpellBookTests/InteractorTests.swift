@@ -25,7 +25,7 @@ class InteractorTests: XCTestCase {
         }
 
         FakeDatabaseService.spellListHandler = {
-            return Result.failure(DatabaseServiceError.emptyStack)
+            return Result.failure(DatabaseClientError.noData)
         }
 
         sut.spellListPublisher()
@@ -88,7 +88,7 @@ class InteractorTests: XCTestCase {
         }
 
         FakeDatabaseService.spellDetailHandler = {
-            return Result.failure(DatabaseServiceError.noMatchedEntity)
+            return Result.failure(DatabaseClientError.noMatchedEntity)
         }
 
         sut.spellDetailsPublisher(for: "/api/spells/fake")

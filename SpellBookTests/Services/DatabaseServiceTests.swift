@@ -91,6 +91,6 @@ class DatabaseServiceTests: XCTestCase {
     private func makeSUT(testFavorites: Bool = false) -> DatabaseService {
         let fakeStack = FakeCoreDataStack()
         context = fakeStack.persistentContainer.viewContext
-        return DatabaseServiceImpl(coreDataStack: fakeStack, translationService: FakeTranslationService(testFavorites: testFavorites))
+        return DatabaseServiceImpl(databaseClient: DatabaseClientImpl(coreDataStack: fakeStack), translationService: FakeTranslationService(testFavorites: testFavorites))
     }
 }

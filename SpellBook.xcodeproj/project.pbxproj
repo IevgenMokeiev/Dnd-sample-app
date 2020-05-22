@@ -270,8 +270,8 @@
 			isa = PBXGroup;
 			children = (
 				9F6BD7C324659691001D8825 /* TranslationService.swift */,
-				9F70C4D124740F120080275E /* RefinementsService.swift */,
 				85B3547A2269AF3100617C7E /* DatabaseService.swift */,
+				9F70C4D124740F120080275E /* RefinementsService.swift */,
 				85B354622268BD3A00617C7E /* NetworkService.swift */,
 			);
 			path = Services;
