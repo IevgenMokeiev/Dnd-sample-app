@@ -11,9 +11,11 @@ import CoreData
 
 /// Defines core data stack which is used in a Database service
 protocol CoreDataStack {
-    var persistentContainer: NSPersistentContainer! {get}
-    var managedObjectContext: NSManagedObjectContext! {get}
+    var persistentContainer: NSPersistentContainer! { get }
+    var managedObjectContext: NSManagedObjectContext! { get }
+
     func saveContext()
+    func cleanupStack()
 }
 
 class CoreDataStackImpl: CoreDataStack {
@@ -39,6 +41,17 @@ class CoreDataStackImpl: CoreDataStack {
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
+        }
+    }
+
+    func cleanupStack() {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = Spell.fetchRequest()
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+
+        do {
+            try persistentContainer.viewContext.execute(deleteRequest)
+        } catch let error as NSError {
+            print(error)
         }
     }
 }

@@ -26,4 +26,5 @@ class FakeCoreDataStack: CoreDataStack {
     }
 
     func saveContext() {}
+    func cleanupStack() {}
 }

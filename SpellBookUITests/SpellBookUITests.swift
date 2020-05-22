@@ -16,7 +16,7 @@ class SpellBookUITests: XCTestCase {
 
     func test_selection() {
         let app = XCUIApplication()
-        app.launch()
+        launchApp(app: app)
         let tableView = app.otherElements["SpellTableView"]
         tableView.cells.element(boundBy: 0).tap()
 
@@ -26,7 +26,7 @@ class SpellBookUITests: XCTestCase {
 
     func test_search() {
         let app = XCUIApplication()
-        app.launch()
+        launchApp(app: app)
         let tableView = app.otherElements["SpellTableView"]
         let searchView = app.textFields["SpellSearchView"]
         searchView.tap()
@@ -40,7 +40,7 @@ class SpellBookUITests: XCTestCase {
 
     func test_add_favorite() {
         let app = XCUIApplication()
-        app.launch()
+        launchApp(app: app)
         let tableView = app.otherElements["SpellTableView"]
         tableView.cells.element(boundBy: 0).tap()
 
@@ -54,8 +54,13 @@ class SpellBookUITests: XCTestCase {
 
         let favoritesTableView = app.otherElements["FavoritesTableView"]
         favoritesTableView.cells.element(boundBy: 0).tap()
-        
+
         let favoriteSpellLabel = app.staticTexts["Acid Arrow"]
         XCTAssertTrue(favoriteSpellLabel.waitForExistence(timeout: 3))
+    }
+
+    private func launchApp(app: XCUIApplication) {
+        app.launchArguments = ["enable-testing"]
+        app.launch()
     }
 }

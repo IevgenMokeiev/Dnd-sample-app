@@ -13,7 +13,7 @@ import Foundation
 class AppCoordinator {
     let viewFactory: ViewFactory
 
-    init() {
+    init(configureForTesing: Bool = false) {
         let translationServiceImpl = TranslationServiceImpl()
         let coreDataStackImpl = CoreDataStackImpl()
         let databaseServiceImpl = DatabaseServiceImpl(coreDataStack: coreDataStackImpl, translationService: translationServiceImpl)
@@ -21,5 +21,9 @@ class AppCoordinator {
         let refinementsServiceImpl = RefinementsServiceImpl()
         let interactor = InteractorImpl(databaseService: databaseServiceImpl, networkService: networkServiceImpl, refinementsService: refinementsServiceImpl)
         self.viewFactory = ViewFactoryImpl(interactor: interactor)
+
+        if configureForTesing {
+            coreDataStackImpl.cleanupStack()
+        }
     }
 }
