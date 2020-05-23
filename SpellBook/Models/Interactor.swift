@@ -42,6 +42,7 @@ class InteractorImpl: Interactor {
                 print("Could not retrieve. \(error)")
 
                 let downloadPublisher = self.networkService.spellListPublisher()
+                .receive(on: RunLoop.main)
                 .mapError { $0 as Error }
                 .map({ (spellDTOs) -> [SpellDTO] in
                     self.databaseService.saveSpellList(spellDTOs)
@@ -62,6 +63,7 @@ class InteractorImpl: Interactor {
                 print("Could not retrieve. \(error)")
 
                 let downloadPublisher = self.networkService.spellDetailPublisher(for: path)
+                .receive(on: RunLoop.main)
                 .mapError { $0 as Error }
                 .map({ (spellDTO) -> SpellDTO in
                     self.databaseService.saveSpellDetails(spellDTO)

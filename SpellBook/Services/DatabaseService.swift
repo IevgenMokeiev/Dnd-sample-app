@@ -66,6 +66,7 @@ class DatabaseServiceImpl: DatabaseService {
     func saveSpellDetails(_ spellDTO: SpellDTO) {
         let predicate = NSPredicate(format: "path == %@", spellDTO.path)
         databaseClient.fetchObjects(expectedType: Spell.self, predicate: predicate)
+        .receive(on: RunLoop.main)
         .sink(receiveCompletion: { completion in
         }, receiveValue: { spells in
             let matchedSpell = spells.first
