@@ -15,27 +15,41 @@ struct SpellListView: View {
 
     var body: some View {
         NavigationView {
-            VStack {
-                if viewModel.loading {
-                    ProgressView(isAnimating: $viewModel.loading)
-                } else {
-                    SearchView(searchTerm: $viewModel.searchTerm)
-                    Divider().background(Color.orange)
-                    List(viewModel.publishedSpellDTOs) { spell in
-                        NavigationLink(destination: self.viewModel.spellDetailViewConstructor(spell.path)) {
-                            Text(spell.name)
-                        }
-                    }
-                    .accessibility(label: Text("Spell Table View"))
-                    .accessibility(identifier: "SpellTableView")
-                    .navigationBarTitle("Spell Book", displayMode: .inline)
-                    .navigationBarItems(trailing:
-                        Button("Sort by Level") {
-                            self.viewModel.selectedSort = .level
-                        }.foregroundColor(.orange)
-                    )
-                }
+                self.content
+                .navigationBarTitle("Spell Book", displayMode: .inline)
+                .navigationBarItems(trailing:
+                    Button("Sort by Level") {
+                        self.viewModel.selectedSort = .level
+                    }.foregroundColor(.orange)
+                )
             }.onAppear(perform: viewModel.onAppear)
+        }
+    }
+
+    private var content: AnyView {
+        switch viewModel.state {
+        case .loading: return AnyView(ProgressView(isAnimating: true))
+        case .spells(let spellDTOs): return AnyView(SpellContentView)
+        }
+    }
+}
+
+struct SpellContentView: View {
+
+    @Binding var searchTerm: String
+    @Binding var spellDTOs: [SpellDTO]
+
+    var body: some View {
+        VStack {
+            SearchView(searchTerm: $searchTerm)
+            Divider().background(Color.orange)
+            List(spellDTOs) { spell in
+//                NavigationLink(destination: self.viewModel.spellDetailViewConstructor(spell.path)) {
+                    Text(spell.name)
+//                }
+            }
+            .accessibility(label: Text("Spell Table View"))
+            .accessibility(identifier: "SpellTableView")
         }
     }
 }

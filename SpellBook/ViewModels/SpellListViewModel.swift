@@ -9,10 +9,14 @@
 import Foundation
 import Combine
 
+enum State {
+    case loading
+    case spells([SpellDTO])
+}
+
 class SpellListViewModel: ObservableObject {
 
-    @Published var publishedSpellDTOs: [SpellDTO] = []
-    @Published var loading: Bool = true
+    @Published var state: State = .loading
 
     var searchTerm: String = "" {
         didSet {
@@ -29,7 +33,6 @@ class SpellListViewModel: ObservableObject {
     private var spellDTOs: [SpellDTO] = [] {
         didSet {
             refineSpells()
-            loading = false
         }
     }
 
@@ -53,7 +56,7 @@ class SpellListViewModel: ObservableObject {
     }
 
     private func refineSpells() {
-        publishedSpellDTOs = refinementsBlock(spellDTOs, selectedSort, searchTerm)
+        state = .spells(refinementsBlock(spellDTOs, selectedSort, searchTerm))
     }
 }
 
