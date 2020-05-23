@@ -15,38 +15,33 @@ struct SpellListView: View {
 
     var body: some View {
         NavigationView {
-                self.content
-                .navigationBarTitle("Spell Book", displayMode: .inline)
-                .navigationBarItems(trailing:
-                    Button("Sort by Level") {
-                        self.viewModel.selectedSort = .level
-                    }.foregroundColor(.orange)
-                )
-            }.onAppear(perform: viewModel.onAppear)
-        }
+            content
+            .navigationBarTitle("Spell Book", displayMode: .inline)
+            .navigationBarItems(trailing:
+                Button("Sort by Level") {
+                    self.viewModel.selectedSort = .level
+                }.foregroundColor(.orange)
+            )
+        }.onAppear(perform: viewModel.onAppear)
     }
 
     private var content: AnyView {
         switch viewModel.state {
         case .loading: return AnyView(ProgressView(isAnimating: true))
-        case .spells(let spellDTOs): return AnyView(SpellContentView)
+        case .spells(let spellDTOs): return AnyView(loadedView(spellDTOs, searchTerm: $viewModel.searchTerm))
         }
     }
 }
 
-struct SpellContentView: View {
-
-    @Binding var searchTerm: String
-    @Binding var spellDTOs: [SpellDTO]
-
-    var body: some View {
+extension SpellListView {
+   func loadedView(_ spellDTOs: [SpellDTO], searchTerm: Binding<String>) -> some View {
         VStack {
-            SearchView(searchTerm: $searchTerm)
+            SearchView(searchTerm: searchTerm)
             Divider().background(Color.orange)
             List(spellDTOs) { spell in
-//                NavigationLink(destination: self.viewModel.spellDetailViewConstructor(spell.path)) {
+                NavigationLink(destination: self.viewModel.spellDetailViewConstructor(spell.path)) {
                     Text(spell.name)
-//                }
+                }
             }
             .accessibility(label: Text("Spell Table View"))
             .accessibility(identifier: "SpellTableView")

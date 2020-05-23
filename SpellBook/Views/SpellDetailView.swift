@@ -14,39 +14,7 @@ struct SpellDetailView: View {
     @ObservedObject var viewModel: SpellDetailViewModel
 
     var body: some View {
-        VStack {
-            if viewModel.loading {
-                ProgressView(isAnimating: true)
-            } else {
-                ScrollView {
-                    VStack(alignment: .leading) {
-                        Text("\(viewModel.spellDTO.name)")
-                        .fontWeight(.bold)
-                        .font(.system(size: 30))
-                        .foregroundColor(.orange)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        Image("scroll")
-                        .padding()
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        Text("Level: \(viewModel.spellDTO.level ?? 0)")
-                        .fontWeight(.bold)
-                        .padding(.vertical, 5)
-                        .padding(.horizontal)
-                        Text("Casting time: \(viewModel.spellDTO.castingTime ?? "")")
-                        .padding(.vertical, 5)
-                        .padding(.horizontal)
-                        Text("Concentration: \(viewModel.spellDTO.concentration ?? false ? "true" : "false")")
-                        .padding(.vertical, 5)
-                        .padding(.horizontal)
-                        Text("Classes: \(viewModel.spellDTO.classes ?? "")")
-                        .padding(.vertical, 5)
-                        .padding(.horizontal)
-                        Divider().background(Color.orange)
-                        Text("\(viewModel.spellDTO.description ?? "")").padding()
-                    }
-                }
-            }
-        }
+        content
         .padding(.top, 5)
         .onAppear(perform: viewModel.onAppear)
         .navigationBarTitle("Spell Detail")
@@ -56,6 +24,45 @@ struct SpellDetailView: View {
             }.foregroundColor(.orange)
             .accessibility(identifier: "FavoritesButton")
         )
+    }
+
+    private var content: AnyView {
+        switch viewModel.state {
+        case .loading: return AnyView(ProgressView(isAnimating: true))
+        case .spell(let spellDTO): return AnyView(loadedView(spellDTO))
+        }
+    }
+}
+
+extension SpellDetailView {
+   func loadedView(_ spellDTO: SpellDTO) -> some View {
+        ScrollView {
+            VStack(alignment: .leading) {
+                Text("\(spellDTO.name)")
+                .fontWeight(.bold)
+                .font(.system(size: 30))
+                .foregroundColor(.orange)
+                .frame(maxWidth: .infinity, alignment: .center)
+                Image("scroll")
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .center)
+                Text("Level: \(spellDTO.level ?? 0)")
+                .fontWeight(.bold)
+                .padding(.vertical, 5)
+                .padding(.horizontal)
+                Text("Casting time: \(spellDTO.castingTime ?? "")")
+                .padding(.vertical, 5)
+                .padding(.horizontal)
+                Text("Concentration: \(spellDTO.concentration ?? false ? "true" : "false")")
+                .padding(.vertical, 5)
+                .padding(.horizontal)
+                Text("Classes: \(spellDTO.classes ?? "")")
+                .padding(.vertical, 5)
+                .padding(.horizontal)
+                Divider().background(Color.orange)
+                Text("\(spellDTO.description ?? "")").padding()
+            }
+        }
     }
 }
 

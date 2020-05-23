@@ -10,14 +10,14 @@ import Foundation
 import SwiftUI
 import Combine
 
+enum SpellDetailState {
+    case loading
+    case spell(SpellDTO)
+}
+
 class SpellDetailViewModel: ObservableObject {
 
-    @Published var spellDTO: SpellDTO = SpellDTO.placeholder {
-        didSet {
-            loading = false
-        }
-    }
-    @Published var loading: Bool = true
+    @Published var state: SpellDetailState = .loading
 
     private let publisher: SpellDetailPublisher
     private let saveBlock: SaveBlock
@@ -29,18 +29,34 @@ class SpellDetailViewModel: ObservableObject {
     }
 
     var favoriteButtonText: String {
-        spellDTO.isFavorite ? "Remove from Favorites" : "Add to Favorites"
+        if case .spell(let spellDTO) = state {
+            return spellDTO.isFavorite ? "Remove from Favorites" : "Add to Favorites"
+        } else {
+            return ""
+        }
     }
 
     func toggleFavorite() {
-        spellDTO.isFavorite = !spellDTO.isFavorite
-        saveBlock(spellDTO)
+        if case .spell(var spellDTO) = state {
+            spellDTO.isFavorite = !spellDTO.isFavorite
+            state = .spell(spellDTO)
+            saveBlock(spellDTO)
+        }
     }
 
     func onAppear() {
         publisher
             .replaceError(with: SpellDTO.placeholder)
-            .assign(to: \.spellDTO, on: self)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case.finished:
+                    break
+                case .failure(let error):
+                    print("\(error)")
+                }
+            }, receiveValue: { spellDTO in
+                self.state = .spell(spellDTO)
+            })
             .store(in: &cancellableSet)
     }
 }

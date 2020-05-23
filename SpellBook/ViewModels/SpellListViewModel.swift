@@ -9,14 +9,14 @@
 import Foundation
 import Combine
 
-enum State {
+enum SpellListState {
     case loading
     case spells([SpellDTO])
 }
 
 class SpellListViewModel: ObservableObject {
 
-    @Published var state: State = .loading
+    @Published var state: SpellListState = .loading
 
     var searchTerm: String = "" {
         didSet {
@@ -51,7 +51,16 @@ class SpellListViewModel: ObservableObject {
     func onAppear() {
         publisherConstructor()
             .replaceError(with: [])
-            .assign(to: \.spellDTOs, on: self)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case.finished:
+                    break
+                case .failure(let error):
+                    print("\(error)")
+                }
+            }, receiveValue: { spellDTOs in
+                self.spellDTOs = spellDTOs
+            })
             .store(in: &cancellableSet)
     }
 
