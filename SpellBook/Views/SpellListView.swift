@@ -29,6 +29,7 @@ struct SpellListView: View {
         switch viewModel.state {
         case .loading: return AnyView(ProgressView(isAnimating: true))
         case .spells(let spellDTOs): return AnyView(loadedView(spellDTOs, searchTerm: $viewModel.searchTerm))
+        case .error: return AnyView(ErrorView())
         }
     }
 }

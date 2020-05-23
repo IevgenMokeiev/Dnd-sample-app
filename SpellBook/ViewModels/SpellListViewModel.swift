@@ -12,6 +12,7 @@ import Combine
 enum SpellListState {
     case loading
     case spells([SpellDTO])
+    case error
 }
 
 class SpellListViewModel: ObservableObject {
@@ -50,13 +51,13 @@ class SpellListViewModel: ObservableObject {
 
     func onAppear() {
         publisherConstructor()
-            .replaceError(with: [])
             .sink(receiveCompletion: { completion in
                 switch completion {
                 case.finished:
                     break
                 case .failure(let error):
                     print("\(error)")
+                    self.state = .error
                 }
             }, receiveValue: { spellDTOs in
                 self.spellDTOs = spellDTOs

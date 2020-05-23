@@ -30,6 +30,7 @@ struct SpellDetailView: View {
         switch viewModel.state {
         case .loading: return AnyView(ProgressView(isAnimating: true))
         case .spell(let spellDTO): return AnyView(loadedView(spellDTO))
+        case .error: return AnyView(ErrorView())
         }
     }
 }

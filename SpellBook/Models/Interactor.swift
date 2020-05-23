@@ -40,6 +40,7 @@ class InteractorImpl: Interactor {
             .mapError { $0 as Error }
             .catch { (error) -> SpellPublisher in
                 print("Could not retrieve. \(error)")
+
                 let downloadPublisher = self.networkService.spellListPublisher()
                 .mapError { $0 as Error }
                 .map({ (spellDTOs) -> [SpellDTO] in
@@ -59,6 +60,7 @@ class InteractorImpl: Interactor {
             .mapError { $0 as Error }
             .catch { (error) -> SpellDetailPublisher in
                 print("Could not retrieve. \(error)")
+
                 let downloadPublisher = self.networkService.spellDetailPublisher(for: path)
                 .mapError { $0 as Error }
                 .map({ (spellDTO) -> SpellDTO in

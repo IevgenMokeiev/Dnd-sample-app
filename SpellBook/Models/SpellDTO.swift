@@ -22,11 +22,6 @@ struct SpellDTO: Equatable, Identifiable {
     let classes: String?
     let description: String?
     var isFavorite: Bool
-
-    /// placeholder spell to indicate empty object
-    static var placeholder : Self {
-        return SpellDTO(name: "", path: "", level: nil, castingTime: nil, concentration: nil, classes: nil, description: nil, isFavorite: false)
-    }
 }
 
 extension SpellDTO: Codable {
