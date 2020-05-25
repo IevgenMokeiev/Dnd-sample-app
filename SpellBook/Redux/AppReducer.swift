@@ -32,18 +32,20 @@ func appReducer(state: inout AppState, action: AppAction, environment: ServiceCo
             .catch { Just(AppAction.showError(error: $0)) }
             .eraseToAnyPublisher()
     case let .search(query):
-        state.refinedSpellList = environment.refinementsService.filteredSpells(spells: state.spellList, by: query)
+        state.displayedSpells = environment.refinementsService.filteredSpells(spells: state.allSpells, by: query)
     case let .sort(sort):
-        state.refinedSpellList = environment.refinementsService.sortedSpells(spells: state.spellList, sort: sort)
+        state.displayedSpells = environment.refinementsService.sortedSpells(spells: state.allSpells, sort: sort)
     case .toggleFavorite:
         guard var spellDTO = state.selectedSpell else { break }
         spellDTO.isFavorite = !spellDTO.isFavorite
         environment.databaseService.saveSpellDetails(spellDTO)
         state.selectedSpell = spellDTO
     case let .showSpellList(spells):
-        state.spellList = spells
+        let sortedSpells = environment.refinementsService.sortedSpells(spells: spells, sort: .name)
+        state.allSpells = sortedSpells
+        state.displayedSpells = sortedSpells
     case let .showFavorites(spells):
-        state.favorites = spells
+        state.favoriteSpells = spells
     case let .showSpell(spell):
         state.selectedSpell = spell
     case let .showError(error):

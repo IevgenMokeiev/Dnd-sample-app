@@ -11,9 +11,9 @@ import Combine
 typealias AppStore = Store<AppState, AppAction, ServiceContainer, ViewFactory>
 
 struct AppState {
-    var spellList: [SpellDTO] = []
-    var refinedSpellList: [SpellDTO] = []
-    var favorites: [SpellDTO] = []
+    var displayedSpells: [SpellDTO] = []
+    var allSpells: [SpellDTO] = []
+    var favoriteSpells: [SpellDTO] = []
     var selectedSpell: SpellDTO? = nil
     var error: Error? = nil
 }

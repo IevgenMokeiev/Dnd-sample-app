@@ -15,7 +15,7 @@ struct FavoritesView: View {
 
     var body: some View {
         NavigationView {
-            List(store.state.favorites) { spell in
+            List(store.state.favoriteSpells) { spell in
                 NavigationLink(destination: self.store.factory.createSpellDetailView(path: spell.path)) {
                     Text(spell.name)
                 }

@@ -31,10 +31,8 @@ struct SpellListView: View {
     }
 
     private var content: AnyView {
-        if !store.state.refinedSpellList.isEmpty {
-            return AnyView(loadedView(store.state.refinedSpellList, searchTerm: $searchTerm))
-        } else if !store.state.spellList.isEmpty {
-            return AnyView(loadedView(store.state.spellList, searchTerm: $searchTerm))
+        if !store.state.displayedSpells.isEmpty {
+            return AnyView(loadedView(store.state.displayedSpells, searchTerm: $searchTerm))
         } else if store.state.error != nil {
             return AnyView(ErrorView())
         } else {

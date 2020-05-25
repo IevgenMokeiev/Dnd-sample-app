@@ -12,7 +12,6 @@ import SwiftUI
 /// - Properties:
 ///     - searchTerm: A binding to sync with text field text
 struct SearchView: View {
-
     @Binding var searchTerm: String
 
     var body: some View {
