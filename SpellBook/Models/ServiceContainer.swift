@@ -18,10 +18,17 @@ struct ServiceContainer {
     let networkService: NetworkService
     let refinementsService: RefinementsService
 
-    init(databaseService: DatabaseService, networkService: NetworkService, refinementsService: RefinementsService) {
-        self.databaseService = databaseService
-        self.networkService = networkService
-        self.refinementsService = refinementsService
+    init() {
+        let translationServiceImpl = TranslationServiceImpl()
+        let coreDataStackImpl = CoreDataStackImpl()
+        let databaseClientImpl = DatabaseClientImpl(coreDataStack: coreDataStackImpl)
+        self.databaseService = DatabaseServiceImpl(databaseClient: databaseClientImpl, translationService: translationServiceImpl)
+        self.networkService = NetworkServiceImpl(networkClient: NetworkClientImpl())
+        self.refinementsService = RefinementsServiceImpl()
+
+        if CommandLine.arguments.contains("enable-testing") {
+            coreDataStackImpl.cleanupStack()
+        }
     }
     
     func spellListPublisher() -> SpellPublisher {

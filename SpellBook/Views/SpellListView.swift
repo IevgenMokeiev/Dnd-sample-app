@@ -11,8 +11,8 @@ import Combine
 
 struct SpellListView: View {
 
-    @ObservedObject var viewModel: SpellListViewModel
-    @EnvironmentObject var factory: ViewFactory
+    @EnvironmentObject var store: AppStore
+    @State private var searchTerm: String = ""
 
     var body: some View {
         NavigationView {
@@ -20,18 +20,24 @@ struct SpellListView: View {
             .navigationBarTitle("Spell Book", displayMode: .inline)
             .navigationBarItems(trailing:
                 Button("Sort by Level") {
-                    self.viewModel.selectedSort = .level
+                    self.store.send(.sort(by: .level))
                 }.foregroundColor(.orange)
             )
-        }.onAppear(perform: viewModel.onAppear)
+        }.onAppear(perform: fetch)
     }
 
     private var content: AnyView {
-        switch viewModel.state {
-        case .loading: return AnyView(ProgressView(isAnimating: true))
-        case .spells(let spellDTOs): return AnyView(loadedView(spellDTOs, searchTerm: $viewModel.searchTerm))
-        case .error: return AnyView(ErrorView())
+        if !store.state.spellList.isEmpty {
+            return AnyView(loadedView(store.state.spellList, searchTerm: $searchTerm))
+        } else if store.state.error != nil {
+            return AnyView(ErrorView())
+        } else {
+            return AnyView(ProgressView(isAnimating: true))
         }
+    }
+
+    private func fetch() {
+        store.send(.requestSpellList)
     }
 }
 
@@ -41,7 +47,7 @@ extension SpellListView {
             SearchView(searchTerm: searchTerm)
             Divider().background(Color.orange)
             List(spellDTOs) { spell in
-                NavigationLink(destination: self.factory.createSpellDetailView(path: spell.path)) {
+                NavigationLink(destination: self.store.factory.createSpellDetailView(path: spell.path)) {
                     Text(spell.name)
                 }
             }
@@ -53,6 +59,6 @@ extension SpellListView {
 
 struct SpellListView_Previews: PreviewProvider {
     static var previews: some View {
-        return AppCoordinator().viewFactory.createSpellListView()
+        return ViewFactory().createSpellListView()
     }
 }

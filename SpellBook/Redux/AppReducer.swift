@@ -17,19 +17,19 @@ func appReducer(state: inout AppState, action: AppAction, environment: ServiceCo
         return environment
             .spellListPublisher()
             .map { AppAction.showSpellList(spells: $0) }
-            .replaceError(with: AppAction.showError)
+            .catch { Just(AppAction.showError(error: $0)) }
             .eraseToAnyPublisher()
     case .requestFavorites:
         return environment
             .favoritesPublisher()
             .map { AppAction.showFavorites(spells: $0) }
-            .replaceError(with: AppAction.showError)
+            .catch { Just(AppAction.showError(error: $0)) }
             .eraseToAnyPublisher()
     case let .requestSpell(path):
         return environment
             .spellDetailsPublisher(for: path)
             .map { AppAction.showSpell(spell: $0) }
-            .replaceError(with: AppAction.showError)
+            .catch { Just(AppAction.showError(error: $0)) }
             .eraseToAnyPublisher()
     case let .search(query):
         state.refinedSpellList = environment.refinementsService.filteredSpells(spells: state.spellList, by: query)
@@ -41,8 +41,8 @@ func appReducer(state: inout AppState, action: AppAction, environment: ServiceCo
         state.favorites = spells
     case let .showSpell(spell):
         state.selectedSpell = spell
-    case .showError:
-        state.hasError = true
+    case let .showError(error):
+        state.error = error
     }
 
     return Empty().eraseToAnyPublisher()

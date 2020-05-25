@@ -11,27 +11,30 @@ import SwiftUI
 
 struct FavoritesView: View {
 
-    @ObservedObject var viewModel: FavoritesViewModel
-    @EnvironmentObject var factory: ViewFactory
+    @EnvironmentObject var store: AppStore
 
     var body: some View {
         NavigationView {
-            List(viewModel.spellDTOs) { spell in
-                NavigationLink(destination: self.factory.createSpellDetailView(path: spell.path)) {
+            List(store.state.favorites) { spell in
+                NavigationLink(destination: self.store.factory.createSpellDetailView(path: spell.path)) {
                     Text(spell.name)
                 }
             }
             .accessibility(label: Text("Favorites Table"))
             .accessibility(identifier: "FavoritesTableView")
             .navigationBarTitle("Favorites", displayMode: .inline)
-            .onAppear(perform: viewModel.onAppear)
+            .onAppear(perform: fetch)
         }
+    }
+
+    private func fetch() {
+        store.send(.requestFavorites)
     }
 }
 
 struct FavoritesView_Previews: PreviewProvider {
     static var previews: some View {
-        return AppCoordinator().viewFactory.createFavoritesView()
+        return ViewFactory().createFavoritesView()
     }
 }
 

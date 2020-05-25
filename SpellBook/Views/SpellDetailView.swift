@@ -11,27 +11,34 @@ import Combine
 
 struct SpellDetailView: View {
     
-    @ObservedObject var viewModel: SpellDetailViewModel
+    var spellPath: String
+    @EnvironmentObject var store: AppStore
 
     var body: some View {
         content
         .padding(.top, 5)
-        .onAppear(perform: viewModel.onAppear)
+        .onAppear(perform: fetch)
         .navigationBarTitle("Spell Detail")
         .navigationBarItems(trailing:
-            Button(viewModel.favoriteButtonText) {
-                self.viewModel.toggleFavorite()
+            Button("") {
+                //self.viewModel.toggleFavorite()
             }.foregroundColor(.orange)
             .accessibility(identifier: "FavoritesButton")
         )
     }
 
     private var content: AnyView {
-        switch viewModel.state {
-        case .loading: return AnyView(ProgressView(isAnimating: true))
-        case .spell(let spellDTO): return AnyView(loadedView(spellDTO))
-        case .error: return AnyView(ErrorView())
+        if let spellDTO = store.state.selectedSpell {
+            return AnyView(loadedView(spellDTO))
+        } else if store.state.error != nil {
+            return AnyView(ErrorView())
+        } else {
+            return AnyView(ProgressView(isAnimating: true))
         }
+    }
+
+    private func fetch() {
+        store.send(.requestSpell(path: spellPath))
     }
 }
 
@@ -69,6 +76,6 @@ extension SpellDetailView {
 
 struct SpellDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        return AppCoordinator().viewFactory.createSpellDetailView(path: "path")
+        return ViewFactory().createSpellDetailView(path: "path")
     }
 }

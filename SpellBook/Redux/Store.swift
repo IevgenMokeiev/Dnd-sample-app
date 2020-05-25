@@ -9,9 +9,10 @@
 import Foundation
 import Combine
 
-final class Store<State, Action, Environment>: ObservableObject {
+final class Store<State, Action, Environment, Factory>: ObservableObject {
     @Published private(set) var state: State
 
+    let factory: Factory
     private let environment: Environment
     private let reducer: Reducer<State, Action, Environment>
     private var effectCancellables: Set<AnyCancellable> = []
@@ -19,11 +20,13 @@ final class Store<State, Action, Environment>: ObservableObject {
     init(
         initialState: State,
         reducer: @escaping Reducer<State, Action, Environment>,
-        environment: Environment
+        environment: Environment,
+        factory: Factory
     ) {
         self.state = initialState
         self.reducer = reducer
         self.environment = environment
+        self.factory = factory
     }
 
     func send(_ action: Action) {

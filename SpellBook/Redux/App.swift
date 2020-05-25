@@ -8,14 +8,14 @@
 
 import Combine
 
-typealias AppStore = Store<AppState, AppAction, ServiceContainer>
+typealias AppStore = Store<AppState, AppAction, ServiceContainer, ViewFactory>
 
 struct AppState {
-    var spellList: [SpellDTO]
-    var refinedSpellList: [SpellDTO]
-    var favorites: [SpellDTO]
-    var selectedSpell: SpellDTO?
-    var hasError: Bool
+    var spellList: [SpellDTO] = []
+    var refinedSpellList: [SpellDTO] = []
+    var favorites: [SpellDTO] = []
+    var selectedSpell: SpellDTO? = nil
+    var error: Error? = nil
 }
 
 enum Sort {
@@ -32,5 +32,5 @@ enum AppAction {
     case showSpellList(spells: [SpellDTO])
     case showFavorites(spells: [SpellDTO])
     case showSpell(spell: SpellDTO)
-    case showError
+    case showError(error: Error)
 }

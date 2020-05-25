@@ -10,16 +10,16 @@ import SwiftUI
 
 struct TabbarView: View {
 
-    @EnvironmentObject var factory: ViewFactory
+    @EnvironmentObject var store: AppStore
     
     var body: some View {
         TabView() {
-            factory.createSpellListView()
+            store.factory.createSpellListView()
             .tabItem {
                 Image(systemName: "book.fill")
                 Text("Spell Book")
             }.accessibility(identifier: "SpellTab")
-            factory.createFavoritesView()
+            store.factory.createFavoritesView()
             .tabItem {
                 Image(systemName: "bookmark.fill")
                 Text("Favorites")
@@ -31,6 +31,6 @@ struct TabbarView: View {
 
 struct TabbarView_Previews: PreviewProvider {
     static var previews: some View {
-        return AppCoordinator().viewFactory.createTabbarView()
+        return ViewFactory().createTabbarView()
     }
 }
