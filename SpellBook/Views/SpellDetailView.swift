@@ -20,8 +20,8 @@ struct SpellDetailView: View {
         .onAppear(perform: fetch)
         .navigationBarTitle("Spell Detail")
         .navigationBarItems(trailing:
-            Button("") {
-                //self.viewModel.toggleFavorite()
+            Button(favoriteButtonText) {
+                self.store.send(.toggleFavorite)
             }.foregroundColor(.orange)
             .accessibility(identifier: "FavoritesButton")
         )
@@ -34,6 +34,14 @@ struct SpellDetailView: View {
             return AnyView(ErrorView())
         } else {
             return AnyView(ProgressView(isAnimating: true))
+        }
+    }
+
+    private var favoriteButtonText: String {
+        if let spellDTO = store.state.selectedSpell {
+            return spellDTO.isFavorite ? "Remove from Favorites" : "Add to Favorites"
+        } else {
+            return ""
         }
     }
 

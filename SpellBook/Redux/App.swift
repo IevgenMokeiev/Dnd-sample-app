@@ -29,6 +29,7 @@ enum AppAction {
     case requestSpell(path: String)
     case search(query: String)
     case sort(by: Sort)
+    case toggleFavorite
     case showSpellList(spells: [SpellDTO])
     case showFavorites(spells: [SpellDTO])
     case showSpell(spell: SpellDTO)

@@ -12,7 +12,11 @@ import Combine
 struct SpellListView: View {
 
     @EnvironmentObject var store: AppStore
-    @State private var searchTerm: String = ""
+    @State private var searchTerm: String = "" {
+        didSet {
+            store.send(.search(query: searchTerm))
+        }
+    }
 
     var body: some View {
         NavigationView {
@@ -27,7 +31,9 @@ struct SpellListView: View {
     }
 
     private var content: AnyView {
-        if !store.state.spellList.isEmpty {
+        if !store.state.refinedSpellList.isEmpty {
+            return AnyView(loadedView(store.state.refinedSpellList, searchTerm: $searchTerm))
+        } else if !store.state.spellList.isEmpty {
             return AnyView(loadedView(store.state.spellList, searchTerm: $searchTerm))
         } else if store.state.error != nil {
             return AnyView(ErrorView())

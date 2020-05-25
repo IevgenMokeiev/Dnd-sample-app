@@ -10,7 +10,6 @@ import Foundation
 import CoreData
 import Combine
 
-typealias SaveBlock = (SpellDTO) -> Void
 typealias DatabaseSpellPublisher = AnyPublisher<[SpellDTO], DatabaseClientError>
 typealias DatabaseSpellDetailPublisher = AnyPublisher<SpellDTO, Error>
 typealias DatabaseFavoritesPublisher = AnyPublisher<[SpellDTO], Never>

@@ -8,23 +8,13 @@
 
 import Foundation
 
-typealias RefinementsBlock = (_ spells: [SpellDTO], _ sort: Sort, _ searchTerm: String) -> [SpellDTO]
-
 /// Service responsible for refining arrays of DTOs using sort and search term
 protocol RefinementsService {
-    func refineSpells(spells: [SpellDTO], sort: Sort, searchTerm: String) -> [SpellDTO]
     func sortedSpells(spells: [SpellDTO], sort: Sort) -> [SpellDTO]
     func filteredSpells(spells: [SpellDTO], by searchTerm: String) -> [SpellDTO]
 }
 
 class RefinementsServiceImpl: RefinementsService {
-
-    func refineSpells(spells: [SpellDTO], sort: Sort, searchTerm: String) -> [SpellDTO] {
-        let sortedDTOs = sortedSpells(spells: spells, sort: sort)
-        let filteredDTOs = filteredSpells(spells: sortedDTOs, by: searchTerm)
-
-        return filteredDTOs
-    }
 
     func sortedSpells(spells: [SpellDTO], sort: Sort) -> [SpellDTO] {
         let sortRule: (SpellDTO, SpellDTO) -> Bool = {

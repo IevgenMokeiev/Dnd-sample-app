@@ -79,12 +79,4 @@ struct ServiceContainer {
             .receive(on: RunLoop.main)
             .eraseToAnyPublisher()
     }
-
-    func refine(spells: [SpellDTO], sort: Sort, searchTerm: String) -> [SpellDTO] {
-        return refinementsService.refineSpells(spells: spells, sort: sort, searchTerm: searchTerm)
-    }
-
-    func saveSpell(_ spell: SpellDTO) {
-        databaseService.saveSpellDetails(spell)
-    }
 }
