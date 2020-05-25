@@ -14,7 +14,7 @@ import Foundation
 protocol SpellProviderService {
     func spellListPublisher() -> SpellPublisher
     func spellDetailsPublisher(for path: String) -> SpellDetailPublisher
-    func favoritesPublisher() -> SpellPublisher
+    func favoritesPublisher() -> FavoritesPublisher
     func saveSpellDetails(_ spellDTO: SpellDTO)
 }
 
@@ -70,9 +70,8 @@ class SpellProviderServiceImpl: SpellProviderService {
             .eraseToAnyPublisher()
     }
 
-    func favoritesPublisher() -> SpellPublisher {
+    func favoritesPublisher() -> FavoritesPublisher {
         return databaseService.favoritesPublisher()
-            .mapError { $0 as Error }
             .receive(on: RunLoop.main)
             .eraseToAnyPublisher()
     }

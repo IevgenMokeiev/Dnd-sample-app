@@ -23,6 +23,9 @@
 		9F109D8B2476B1500091B7E3 /* Spell+Population.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F109D8A2476B1500091B7E3 /* Spell+Population.swift */; };
 		9F109D8D2476B2320091B7E3 /* SpellDTOConversionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F109D8C2476B2320091B7E3 /* SpellDTOConversionTests.swift */; };
 		9F21DEC1247C013C0026DE14 /* SpellProviderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21DEC0247C013C0026DE14 /* SpellProviderService.swift */; };
+		9F21DEC5247C0AC40026DE14 /* AppReducerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21DEC4247C0AC40026DE14 /* AppReducerTests.swift */; };
+		9F21DEC7247C0C3B0026DE14 /* FakeServiceContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21DEC6247C0C3B0026DE14 /* FakeServiceContainer.swift */; };
+		9F21DEC9247C0CBA0026DE14 /* FakeSpellProviderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21DEC8247C0CBA0026DE14 /* FakeSpellProviderService.swift */; };
 		9F54AC13246BE47A005B4849 /* NetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC12246BE47A005B4849 /* NetworkServiceTests.swift */; };
 		9F54AC17246BE651005B4849 /* FakeURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC15246BE628005B4849 /* FakeURLProtocol.swift */; };
 		9F54AC1A246BE721005B4849 /* FakeCoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC18246BE71E005B4849 /* FakeCoreDataStack.swift */; };
@@ -93,6 +96,9 @@
 		9F109D8A2476B1500091B7E3 /* Spell+Population.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Spell+Population.swift"; sourceTree = "<group>"; };
 		9F109D8C2476B2320091B7E3 /* SpellDTOConversionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellDTOConversionTests.swift; sourceTree = "<group>"; };
 		9F21DEC0247C013C0026DE14 /* SpellProviderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellProviderService.swift; sourceTree = "<group>"; };
+		9F21DEC4247C0AC40026DE14 /* AppReducerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReducerTests.swift; sourceTree = "<group>"; };
+		9F21DEC6247C0C3B0026DE14 /* FakeServiceContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeServiceContainer.swift; sourceTree = "<group>"; };
+		9F21DEC8247C0CBA0026DE14 /* FakeSpellProviderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeSpellProviderService.swift; sourceTree = "<group>"; };
 		9F54AC12246BE47A005B4849 /* NetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceTests.swift; sourceTree = "<group>"; };
 		9F54AC15246BE628005B4849 /* FakeURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeURLProtocol.swift; sourceTree = "<group>"; };
 		9F54AC18246BE71E005B4849 /* FakeCoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeCoreDataStack.swift; sourceTree = "<group>"; };
@@ -216,6 +222,7 @@
 			children = (
 				9F54AC14246BE60B005B4849 /* Fakes */,
 				9FC14EAB246B3A8500428073 /* Services */,
+				9F21DEC4247C0AC40026DE14 /* AppReducerTests.swift */,
 				9F109D8C2476B2320091B7E3 /* SpellDTOConversionTests.swift */,
 				85B354042267B64A00617C7E /* Info.plist */,
 			);
@@ -291,6 +298,8 @@
 		9F54AC14246BE60B005B4849 /* Fakes */ = {
 			isa = PBXGroup;
 			children = (
+				9F21DEC6247C0C3B0026DE14 /* FakeServiceContainer.swift */,
+				9F21DEC8247C0CBA0026DE14 /* FakeSpellProviderService.swift */,
 				9FFF78AA2477E0FA0068743F /* FakeDatabaseService.swift */,
 				9FFF78AC2477E1170068743F /* FakeNetworkService.swift */,
 				9FFF78A82477E0D60068743F /* FakeRefinementsService.swift */,
@@ -561,7 +570,10 @@
 				9F54AC21246BF86D005B4849 /* DatabaseServiceTests.swift in Sources */,
 				9FC14EAD246B3AC000428073 /* TranslationServiceTests.swift in Sources */,
 				9FFF78B62477E18F0068743F /* FakeTranslationService.swift in Sources */,
+				9F21DEC5247C0AC40026DE14 /* AppReducerTests.swift in Sources */,
 				9F109D8D2476B2320091B7E3 /* SpellDTOConversionTests.swift in Sources */,
+				9F21DEC7247C0C3B0026DE14 /* FakeServiceContainer.swift in Sources */,
+				9F21DEC9247C0CBA0026DE14 /* FakeSpellProviderService.swift in Sources */,
 				9F0FF92E2477D66E00654865 /* SpellProviderServiceTests.swift in Sources */,
 				9F54AC17246BE651005B4849 /* FakeURLProtocol.swift in Sources */,
 				9FFF78B32477E18F0068743F /* FakeDatabaseService.swift in Sources */,

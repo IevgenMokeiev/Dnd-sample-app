@@ -11,7 +11,12 @@ import UIKit
 import Combine
 
 /// Provides services
-struct ServiceContainer {
+protocol ServiceContainer {
+    var spellProviderService: SpellProviderService { get }
+    var refinementsService: RefinementsService { get }
+}
+
+struct ServiceContainerImpl: ServiceContainer {
     let spellProviderService: SpellProviderService
     let refinementsService: RefinementsService
 

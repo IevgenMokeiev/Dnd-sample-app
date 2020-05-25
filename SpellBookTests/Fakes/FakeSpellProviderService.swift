@@ -1,44 +1,41 @@
 //
-//  FakeDatabaseService.swift
-//  SpellBook
+//  FakeSpellProviderService.swift
+//  SpellBookTests
 //
-//  Created by Yevhen Mokeiev on 22.05.2020.
+//  Created by Yevhen Mokeiev on 25.05.2020.
 //  Copyright © 2020 Yevhen Mokeiev. All rights reserved.
 //
 
 @testable import SpellBook
 
-class FakeDatabaseService: DatabaseService {
+class FakeSpellProviderService: SpellProviderService {
 
-    static var spellListHandler: (() -> Result<[SpellDTO], DatabaseClientError>)?
+    static var spellListHandler: (() -> Result<[SpellDTO], Error>)?
     static var spellDetailHandler: (() -> Result<SpellDTO, Error>)?
     static var favoritesHandler: (() -> Result<[SpellDTO], Never>)?
 
-    func spellListPublisher() -> DatabaseSpellPublisher {
+
+    func spellListPublisher() -> SpellPublisher {
         guard let handler = Self.spellListHandler else {
             fatalError("Handler is unavailable.")
         }
         return Result.Publisher(handler()).eraseToAnyPublisher()
     }
 
-    func spellDetailsPublisher(for path: String) -> DatabaseSpellDetailPublisher {
+    func spellDetailsPublisher(for path: String) -> SpellDetailPublisher {
         guard let handler = Self.spellDetailHandler else {
             fatalError("Handler is unavailable.")
         }
         return Result.Publisher(handler()).eraseToAnyPublisher()
     }
 
-    func favoritesPublisher() -> DatabaseFavoritesPublisher {
+    func favoritesPublisher() -> FavoritesPublisher {
         guard let handler = Self.favoritesHandler else {
             fatalError("Handler is unavailable.")
         }
         return Result.Publisher(handler()).eraseToAnyPublisher()
     }
 
-    func saveSpellList(_ spellDTOs: [SpellDTO]) {
-    }
-
     func saveSpellDetails(_ spellDTO: SpellDTO) {
     }
 }
-
