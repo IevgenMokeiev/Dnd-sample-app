@@ -12,9 +12,9 @@ import SwiftUI
 /// Factory to construct SwiftUI views
 class ViewFactory: ObservableObject {
 
-    let interactor: Interactor
+    let interactor: ServiceContainer
 
-    init(interactor: Interactor) {
+    init(interactor: ServiceContainer) {
         self.interactor = interactor
     }
 

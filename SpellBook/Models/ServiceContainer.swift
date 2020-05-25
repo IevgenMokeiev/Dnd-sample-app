@@ -1,5 +1,5 @@
 //
-//  Interactor.swift
+//  ServiceContainer.swift
 //  SpellBookApp
 //
 //  Created by Yevhen Mokeiev on 4/18/19.
@@ -8,26 +8,15 @@
 
 import Foundation
 import UIKit
-import CoreData
 import Combine
 
-/// Provides data to UI using services.
-/// Uses services to provide requested data
+/// Provides services
 /// If data is requested, tries to get it from the database service
 /// If it's not available, fallback to network service
-protocol Interactor {
-    func spellListPublisher() -> SpellPublisher
-    func spellDetailsPublisher(for path: String) -> SpellDetailPublisher
-    func favoritesPublisher() -> SpellPublisher
-
-    func refine(spells: [SpellDTO], sort: Sort, searchTerm: String) -> [SpellDTO]
-    func saveSpell(_ spell: SpellDTO)
-}
-
-class InteractorImpl: Interactor {
-    private var databaseService: DatabaseService
-    private var networkService: NetworkService
-    private var refinementsService: RefinementsService
+struct ServiceContainer {
+    let databaseService: DatabaseService
+    let networkService: NetworkService
+    let refinementsService: RefinementsService
 
     init(databaseService: DatabaseService, networkService: NetworkService, refinementsService: RefinementsService) {
         self.databaseService = databaseService

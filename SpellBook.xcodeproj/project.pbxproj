@@ -12,7 +12,7 @@
 		85B353F52267B64A00617C7E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85B353F42267B64A00617C7E /* Assets.xcassets */; };
 		85B353F82267B64A00617C7E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85B353F62267B64A00617C7E /* LaunchScreen.storyboard */; };
 		85B3540E2267B64A00617C7E /* SpellBookUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B3540D2267B64A00617C7E /* SpellBookUITests.swift */; };
-		85B354612268BCD400617C7E /* Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B354602268BCD400617C7E /* Interactor.swift */; };
+		85B354612268BCD400617C7E /* ServiceContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B354602268BCD400617C7E /* ServiceContainer.swift */; };
 		85B354632268BD3A00617C7E /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B354622268BD3A00617C7E /* NetworkService.swift */; };
 		85B35479226912D300617C7E /* DnDModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 85B354582268B49700617C7E /* DnDModel.xcdatamodeld */; };
 		85B3547B2269AF3100617C7E /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B3547A2269AF3100617C7E /* DatabaseService.swift */; };
@@ -37,6 +37,7 @@
 		9F70C4D224740F120080275E /* RefinementsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F70C4D124740F120080275E /* RefinementsService.swift */; };
 		9F78FED2247BADDC005B0245 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F78FED1247BADDC005B0245 /* App.swift */; };
 		9F78FED4247BAEBE005B0245 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F78FED3247BAEBE005B0245 /* Store.swift */; };
+		9F78FED8247BC6D3005B0245 /* AppReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F78FED7247BC6D3005B0245 /* AppReducer.swift */; };
 		9F8CC71D2465A8CA00F35746 /* SpellListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6BD7BF2465905C001D8825 /* SpellListView.swift */; };
 		9F91A3A024756B2D0034642A /* TabbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F91A39F24756B2D0034642A /* TabbarView.swift */; };
 		9F91A3A4247574020034642A /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F91A3A3247574020034642A /* FavoritesView.swift */; };
@@ -85,7 +86,7 @@
 		85B3540D2267B64A00617C7E /* SpellBookUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellBookUITests.swift; sourceTree = "<group>"; };
 		85B3540F2267B64A00617C7E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85B354592268B49700617C7E /* DnDModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DnDModel.xcdatamodel; sourceTree = "<group>"; };
-		85B354602268BCD400617C7E /* Interactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interactor.swift; sourceTree = "<group>"; };
+		85B354602268BCD400617C7E /* ServiceContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceContainer.swift; sourceTree = "<group>"; };
 		85B354622268BD3A00617C7E /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		85B3547A2269AF3100617C7E /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
 		9F0C894B246A885C003592F5 /* SpellDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellDetailView.swift; sourceTree = "<group>"; };
@@ -110,6 +111,7 @@
 		9F70C4D124740F120080275E /* RefinementsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefinementsService.swift; sourceTree = "<group>"; };
 		9F78FED1247BADDC005B0245 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		9F78FED3247BAEBE005B0245 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		9F78FED7247BC6D3005B0245 /* AppReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReducer.swift; sourceTree = "<group>"; };
 		9F91A39F24756B2D0034642A /* TabbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarView.swift; sourceTree = "<group>"; };
 		9F91A3A3247574020034642A /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
 		9F91A3A52475749B0034642A /* FavoritesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewModel.swift; sourceTree = "<group>"; };
@@ -256,7 +258,7 @@
 			isa = PBXGroup;
 			children = (
 				9F109D8E2476B2EF0091B7E3 /* CoreData */,
-				85B354602268BCD400617C7E /* Interactor.swift */,
+				85B354602268BCD400617C7E /* ServiceContainer.swift */,
 				9FC3E0552472CCBA00C5AE17 /* CustomTypes.swift */,
 				9F6BD7C1246593CF001D8825 /* SpellDTO.swift */,
 			);
@@ -320,6 +322,7 @@
 			isa = PBXGroup;
 			children = (
 				9F78FED1247BADDC005B0245 /* App.swift */,
+				9F78FED7247BC6D3005B0245 /* AppReducer.swift */,
 				9F78FED3247BAEBE005B0245 /* Store.swift */,
 			);
 			path = Redux;
@@ -540,7 +543,7 @@
 				9F8CC71D2465A8CA00F35746 /* SpellListView.swift in Sources */,
 				9F0C894C246A885C003592F5 /* SpellDetailView.swift in Sources */,
 				9F6BD7C424659691001D8825 /* TranslationService.swift in Sources */,
-				85B354612268BCD400617C7E /* Interactor.swift in Sources */,
+				85B354612268BCD400617C7E /* ServiceContainer.swift in Sources */,
 				9FD27452246D44C9009A9FBD /* SpellDetailViewModel.swift in Sources */,
 				85B35479226912D300617C7E /* DnDModel.xcdatamodeld in Sources */,
 				9F54AC1F246BF023005B4849 /* CoreDataStack.swift in Sources */,
@@ -558,6 +561,7 @@
 				9F91A3A62475749B0034642A /* FavoritesViewModel.swift in Sources */,
 				9F54AC28246C1150005B4849 /* AppCoordinator.swift in Sources */,
 				9F78FED2247BADDC005B0245 /* App.swift in Sources */,
+				9F78FED8247BC6D3005B0245 /* AppReducer.swift in Sources */,
 				9FFF78B9247821170068743F /* NetworkClient.swift in Sources */,
 				9F0C894E246A921C003592F5 /* SceneDelegate.swift in Sources */,
 				9F0C8951246ACC92003592F5 /* ProgressView.swift in Sources */,

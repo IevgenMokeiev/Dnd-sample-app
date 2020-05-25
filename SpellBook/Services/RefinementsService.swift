@@ -13,6 +13,8 @@ typealias RefinementsBlock = (_ spells: [SpellDTO], _ sort: Sort, _ searchTerm: 
 /// Service responsible for refining arrays of DTOs using sort and search term
 protocol RefinementsService {
     func refineSpells(spells: [SpellDTO], sort: Sort, searchTerm: String) -> [SpellDTO]
+    func sortedSpells(spells: [SpellDTO], sort: Sort) -> [SpellDTO]
+    func filteredSpells(spells: [SpellDTO], by searchTerm: String) -> [SpellDTO]
 }
 
 class RefinementsServiceImpl: RefinementsService {
@@ -24,7 +26,7 @@ class RefinementsServiceImpl: RefinementsService {
         return filteredDTOs
     }
 
-    private func sortedSpells(spells: [SpellDTO], sort: Sort) -> [SpellDTO] {
+    func sortedSpells(spells: [SpellDTO], sort: Sort) -> [SpellDTO] {
         let sortRule: (SpellDTO, SpellDTO) -> Bool = {
             switch sort {
             case .name:
@@ -37,7 +39,7 @@ class RefinementsServiceImpl: RefinementsService {
         return spells.sorted(by: sortRule)
     }
 
-    private func filteredSpells(spells: [SpellDTO], by searchTerm: String) -> [SpellDTO] {
+    func filteredSpells(spells: [SpellDTO], by searchTerm: String) -> [SpellDTO] {
         if searchTerm.isEmpty {
             return spells
         } else {

@@ -9,9 +9,6 @@
 import Foundation
 import Combine
 
-typealias Reducer<State, Action, Environment> =
-(inout State, Action, Environment) -> AnyPublisher<Action, Never>?
-
 final class Store<State, Action, Environment>: ObservableObject {
     @Published private(set) var state: State
 

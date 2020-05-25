@@ -20,7 +20,7 @@ class AppCoordinator {
         let databaseServiceImpl = DatabaseServiceImpl(databaseClient: databaseClientImpl, translationService: translationServiceImpl)
         let networkServiceImpl = NetworkServiceImpl(networkClient: NetworkClientImpl())
         let refinementsServiceImpl = RefinementsServiceImpl()
-        let interactor = InteractorImpl(databaseService: databaseServiceImpl, networkService: networkServiceImpl, refinementsService: refinementsServiceImpl)
+        let interactor = ServiceContainer(databaseService: databaseServiceImpl, networkService: networkServiceImpl, refinementsService: refinementsServiceImpl)
         self.viewFactory = ViewFactory(interactor: interactor)
 
         if configureForTesing {

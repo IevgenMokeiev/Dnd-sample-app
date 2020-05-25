@@ -10,15 +10,12 @@ import Combine
 
 typealias AppStore = Store<AppState, AppAction, ServiceContainer>
 
-struct ServiceContainer {
-
-}
-
 struct AppState {
     var spellList: [SpellDTO]
     var refinedSpellList: [SpellDTO]
     var favorites: [SpellDTO]
     var selectedSpell: SpellDTO?
+    var hasError: Bool
 }
 
 enum Sort {
@@ -27,27 +24,13 @@ enum Sort {
 }
 
 enum AppAction {
-    case showSpellList
-    case showFavorites
-    case showDetails(path: String)
+    case requestSpellList
+    case requestFavorites
+    case requestSpell(path: String)
     case search(query: String)
     case sort(by: Sort)
+    case showSpellList(spells: [SpellDTO])
+    case showFavorites(spells: [SpellDTO])
+    case showSpell(spell: SpellDTO)
+    case showError
 }
-
-func appReducer(state: inout AppState, action: AppAction, environment: ServiceContainer) -> AnyPublisher<AppAction, Never> {
-    switch action {
-    case .showSpellList:
-        break
-    case .showFavorites:
-        break
-    case let .showDetails(path):
-        break
-    case let .search(query):
-        state.refinedSpellList = state.spellList
-    case let .sort(sort):
-        state.refinedSpellList = state.spellList
-    }
-
-    return Empty().eraseToAnyPublisher()
-}
-
