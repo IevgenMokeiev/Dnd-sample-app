@@ -19,7 +19,7 @@
 		9F0C894C246A885C003592F5 /* SpellDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0C894B246A885C003592F5 /* SpellDetailView.swift */; };
 		9F0C894E246A921C003592F5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0C894D246A921C003592F5 /* SceneDelegate.swift */; };
 		9F0C8951246ACC92003592F5 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0C8950246ACC92003592F5 /* ProgressView.swift */; };
-		9F0FF92E2477D66E00654865 /* InteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0FF92D2477D66E00654865 /* InteractorTests.swift */; };
+		9F0FF92E2477D66E00654865 /* SpellProviderServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0FF92D2477D66E00654865 /* SpellProviderServiceTests.swift */; };
 		9F109D8B2476B1500091B7E3 /* Spell+Population.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F109D8A2476B1500091B7E3 /* Spell+Population.swift */; };
 		9F109D8D2476B2320091B7E3 /* SpellDTOConversionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F109D8C2476B2320091B7E3 /* SpellDTOConversionTests.swift */; };
 		9F21DEC1247C013C0026DE14 /* SpellProviderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21DEC0247C013C0026DE14 /* SpellProviderService.swift */; };
@@ -89,7 +89,7 @@
 		9F0C894B246A885C003592F5 /* SpellDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellDetailView.swift; sourceTree = "<group>"; };
 		9F0C894D246A921C003592F5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		9F0C8950246ACC92003592F5 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
-		9F0FF92D2477D66E00654865 /* InteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractorTests.swift; sourceTree = "<group>"; };
+		9F0FF92D2477D66E00654865 /* SpellProviderServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellProviderServiceTests.swift; sourceTree = "<group>"; };
 		9F109D8A2476B1500091B7E3 /* Spell+Population.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Spell+Population.swift"; sourceTree = "<group>"; };
 		9F109D8C2476B2320091B7E3 /* SpellDTOConversionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellDTOConversionTests.swift; sourceTree = "<group>"; };
 		9F21DEC0247C013C0026DE14 /* SpellProviderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellProviderService.swift; sourceTree = "<group>"; };
@@ -216,7 +216,6 @@
 			children = (
 				9F54AC14246BE60B005B4849 /* Fakes */,
 				9FC14EAB246B3A8500428073 /* Services */,
-				9F0FF92D2477D66E00654865 /* InteractorTests.swift */,
 				9F109D8C2476B2320091B7E3 /* SpellDTOConversionTests.swift */,
 				85B354042267B64A00617C7E /* Info.plist */,
 			);
@@ -327,6 +326,7 @@
 				9FC14EAC246B3AC000428073 /* TranslationServiceTests.swift */,
 				9F54AC20246BF86D005B4849 /* DatabaseServiceTests.swift */,
 				9F54AC12246BE47A005B4849 /* NetworkServiceTests.swift */,
+				9F0FF92D2477D66E00654865 /* SpellProviderServiceTests.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -562,7 +562,7 @@
 				9FC14EAD246B3AC000428073 /* TranslationServiceTests.swift in Sources */,
 				9FFF78B62477E18F0068743F /* FakeTranslationService.swift in Sources */,
 				9F109D8D2476B2320091B7E3 /* SpellDTOConversionTests.swift in Sources */,
-				9F0FF92E2477D66E00654865 /* InteractorTests.swift in Sources */,
+				9F0FF92E2477D66E00654865 /* SpellProviderServiceTests.swift in Sources */,
 				9F54AC17246BE651005B4849 /* FakeURLProtocol.swift in Sources */,
 				9FFF78B32477E18F0068743F /* FakeDatabaseService.swift in Sources */,
 				9FFF78B42477E18F0068743F /* FakeNetworkService.swift in Sources */,
