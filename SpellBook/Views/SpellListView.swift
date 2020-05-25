@@ -9,14 +9,9 @@
 import SwiftUI
 import Combine
 
-class SearchStore: ObservableObject {
-    @Published var query: String = ""
-}
-
 struct SpellListView: View {
 
     @EnvironmentObject var store: AppStore
-    @ObservedObject var searchStore = SearchStore()
 
     var body: some View {
         NavigationView {
@@ -29,16 +24,11 @@ struct SpellListView: View {
             )
         }
         .onAppear(perform: fetch)
-        .onReceive(searchStore.$query) { query in
-            if !query.isEmpty {
-                self.store.send(.search(query: query))
-            }
-        }
     }
 
     private var content: AnyView {
         if !store.state.displayedSpells.isEmpty {
-            return AnyView(loadedView(store.state.displayedSpells, searchTerm: $searchStore.query))
+            return AnyView(loadedView(store.state.displayedSpells, onReceive: search(query:)))
         } else if store.state.error != nil {
             return AnyView(ErrorView())
         } else {
@@ -49,12 +39,18 @@ struct SpellListView: View {
     private func fetch() {
         store.send(.requestSpellList)
     }
+
+    private func search(query: String) {
+        if !query.isEmpty {
+            store.send(.search(query: query))
+        }
+    }
 }
 
 extension SpellListView {
-   func loadedView(_ spellDTOs: [SpellDTO], searchTerm: Binding<String>) -> some View {
+    func loadedView(_ spellDTOs: [SpellDTO], onReceive: @escaping (String) -> Void) -> some View {
         VStack {
-            SearchView(searchTerm: searchTerm)
+            SearchView(onReceive: onReceive)
             Divider().background(Color.orange)
             List(spellDTOs) { spell in
                 NavigationLink(destination: self.store.factory.createSpellDetailView(path: spell.path)) {

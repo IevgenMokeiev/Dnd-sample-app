@@ -17,12 +17,7 @@ final class Store<State, Action, Environment, Factory>: ObservableObject {
     private let reducer: Reducer<State, Action, Environment>
     private var effectCancellables: Set<AnyCancellable> = []
 
-    init(
-        initialState: State,
-        reducer: @escaping Reducer<State, Action, Environment>,
-        environment: Environment,
-        factory: Factory
-    ) {
+    init(initialState: State, reducer: @escaping Reducer<State, Action, Environment>, environment: Environment, factory: Factory) {
         self.state = initialState
         self.reducer = reducer
         self.environment = environment
