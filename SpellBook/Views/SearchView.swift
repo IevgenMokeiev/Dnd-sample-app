@@ -8,16 +8,12 @@
 
 import SwiftUI
 
-class SearchStore: ObservableObject {
-    @Published var query: String = ""
-}
-
 /// Search view which consists of image and text field
 /// - Properties:
 ///     - searchTerm: A binding to sync with text field text
 struct SearchView: View {
-    @ObservedObject var searchStore = SearchStore()
-    let onReceive: (String) -> Void
+
+    @Binding var query: String
 
     var body: some View {
         HStack {
@@ -27,9 +23,8 @@ struct SearchView: View {
             .foregroundColor(.orange)
             .frame(width: 25, height: 25)
             .padding(.trailing, 5)
-            TextField("type spell here...", text: $searchStore.query)
+            TextField("type spell here...", text: $query)
             .accessibility(identifier: "SpellSearchView")
-            .onReceive(searchStore.$query.removeDuplicates(), perform: onReceive)
         }.padding([.horizontal, .top], 15)
     }
 }

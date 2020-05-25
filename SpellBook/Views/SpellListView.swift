@@ -9,9 +9,13 @@
 import SwiftUI
 import Combine
 
-struct SpellListView: View {
+class SearchStore: ObservableObject {
+    @Published var query: String = ""
+}
 
+struct SpellListView: View {
     @EnvironmentObject var store: AppStore
+    @ObservedObject var searchStore = SearchStore()
 
     var body: some View {
         NavigationView {
@@ -24,11 +28,12 @@ struct SpellListView: View {
             )
         }
         .onAppear(perform: fetch)
+        .onReceive(searchStore.$query.removeDuplicates(), perform: search)
     }
 
     private var content: AnyView {
         if !store.state.displayedSpells.isEmpty {
-            return AnyView(loadedView(store.state.displayedSpells, onReceive: search(query:)))
+            return AnyView(loadedView(store.state.displayedSpells, query: $searchStore.query))
         } else if store.state.error != nil {
             return AnyView(ErrorView())
         } else {
@@ -48,9 +53,9 @@ struct SpellListView: View {
 }
 
 extension SpellListView {
-    func loadedView(_ spellDTOs: [SpellDTO], onReceive: @escaping (String) -> Void) -> some View {
+    func loadedView(_ spellDTOs: [SpellDTO], query: Binding<String>) -> some View {
         VStack {
-            SearchView(onReceive: onReceive)
+            SearchView(query: query)
             Divider().background(Color.orange)
             List(spellDTOs) { spell in
                 NavigationLink(destination: self.store.factory.createSpellDetailView(path: spell.path)) {
