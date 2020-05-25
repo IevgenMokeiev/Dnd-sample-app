@@ -36,10 +36,10 @@ func appReducer(state: inout AppState, action: AppAction, environment: ServiceCo
     case let .sort(sort):
         state.displayedSpells = environment.refinementsService.sortedSpells(spells: state.allSpells, sort: sort)
     case .toggleFavorite:
-        guard var spellDTO = state.selectedSpell else { break }
-        spellDTO.isFavorite = !spellDTO.isFavorite
-        environment.spellProviderService.saveSpellDetails(spellDTO)
-        state.selectedSpell = spellDTO
+        guard let spellDTO = state.selectedSpell else { break }
+        let newSpellDTO = spellDTO.toggleFavorite(value: !spellDTO.isFavorite)
+        environment.spellProviderService.saveSpellDetails(newSpellDTO)
+        state.selectedSpell = newSpellDTO
     case let .showSpellList(spells):
         let sortedSpells = environment.refinementsService.sortedSpells(spells: spells, sort: .name)
         state.allSpells = sortedSpells

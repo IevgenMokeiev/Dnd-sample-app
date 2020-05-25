@@ -12,7 +12,7 @@ import Foundation
 /// Has protocol conformances to wok with Combine as well as Codable implementation
 struct SpellDTO: Equatable, Identifiable {
     typealias ID = String
-    var id: String { return name }
+    var id: String { path }
 
     let name: String
     let path: String
@@ -21,7 +21,11 @@ struct SpellDTO: Equatable, Identifiable {
     let concentration: Bool?
     let classes: String?
     let description: String?
-    var isFavorite: Bool
+    let isFavorite: Bool
+
+    func toggleFavorite(value: Bool) -> SpellDTO {
+        return SpellDTO(name: self.name, path: self.path, level: self.level, castingTime: self.castingTime, concentration: self.concentration, classes: self.classes, description: self.description, isFavorite: value)
+    }
 }
 
 extension SpellDTO: Codable {
