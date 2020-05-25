@@ -11,20 +11,11 @@ import SwiftUI
 
 /// Factory to construct SwiftUI views
 class ViewFactory {
-
-    func createTabbarView() -> TabbarView {
-        return TabbarView()
-    }
-
-    func createSpellListView() -> SpellListView {
-        return SpellListView()
-    }
+    let tabbarView = TabbarView()
+    let spellListView = SpellListView()
+    let favoritesView = FavoritesView()
 
     func createSpellDetailView(path: String) -> SpellDetailView {
         return SpellDetailView(spellPath: path)
-    }
-
-    func createFavoritesView() -> FavoritesView {
-        return FavoritesView()
     }
 }

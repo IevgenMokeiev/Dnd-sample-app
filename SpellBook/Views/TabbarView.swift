@@ -14,12 +14,12 @@ struct TabbarView: View {
     
     var body: some View {
         TabView() {
-            store.factory.createSpellListView()
+            store.factory.spellListView
             .tabItem {
                 Image(systemName: "book.fill")
                 Text("Spell Book")
             }.accessibility(identifier: "SpellTab")
-            store.factory.createFavoritesView()
+            store.factory.favoritesView
             .tabItem {
                 Image(systemName: "bookmark.fill")
                 Text("Favorites")
@@ -31,6 +31,6 @@ struct TabbarView: View {
 
 struct TabbarView_Previews: PreviewProvider {
     static var previews: some View {
-        return ViewFactory().createTabbarView()
+        return ViewFactory().tabbarView
     }
 }

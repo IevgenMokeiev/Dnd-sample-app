@@ -15,7 +15,7 @@ class SearchStore: ObservableObject {
 
 struct SpellListView: View {
     @EnvironmentObject var store: AppStore
-    @ObservedObject var searchStore = SearchStore()
+    @ObservedObject private var searchStore = SearchStore()
 
     var body: some View {
         NavigationView {
@@ -28,16 +28,16 @@ struct SpellListView: View {
             )
         }
         .onAppear(perform: fetch)
-        .onReceive(searchStore.$query.removeDuplicates(), perform: search)
+        .onReceive(searchStore.$query) { self.search(query: $0) }
     }
 
     private var content: AnyView {
-        if !store.state.displayedSpells.isEmpty {
-            return AnyView(loadedView(store.state.displayedSpells, query: $searchStore.query))
+        if store.state.allSpells.isEmpty {
+            return AnyView(ProgressView(isAnimating: true))
         } else if store.state.error != nil {
             return AnyView(ErrorView())
         } else {
-            return AnyView(ProgressView(isAnimating: true))
+            return AnyView(loadedView(store.state.displayedSpells))
         }
     }
 
@@ -46,16 +46,14 @@ struct SpellListView: View {
     }
 
     private func search(query: String) {
-        if !query.isEmpty {
-            store.send(.search(query: query))
-        }
+        store.send(.search(query: query))
     }
 }
 
 extension SpellListView {
-    func loadedView(_ spellDTOs: [SpellDTO], query: Binding<String>) -> some View {
+    func loadedView(_ spellDTOs: [SpellDTO]) -> some View {
         VStack {
-            SearchView(query: query)
+            SearchView(query: $searchStore.query)
             Divider().background(Color.orange)
             List(spellDTOs) { spell in
                 NavigationLink(destination: self.store.factory.createSpellDetailView(path: spell.path)) {
@@ -70,6 +68,6 @@ extension SpellListView {
 
 struct SpellListView_Previews: PreviewProvider {
     static var previews: some View {
-        return ViewFactory().createSpellListView()
+        return ViewFactory().spellListView
     }
 }
