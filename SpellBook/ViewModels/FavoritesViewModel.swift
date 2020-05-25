@@ -13,13 +13,11 @@ class FavoritesViewModel: ObservableObject {
 
     @Published var spellDTOs: [SpellDTO] = []
 
-    let spellDetailViewConstructor: SpellDetailViewConstructor
     private let publisherConstructor: SpellPublisherConstructor
     private var cancellableSet: Set<AnyCancellable> = []
 
-    init(publisherConstructor: @escaping SpellPublisherConstructor, spellDetailViewConstructor: @escaping SpellDetailViewConstructor) {
+    init(publisherConstructor: @escaping SpellPublisherConstructor) {
         self.publisherConstructor = publisherConstructor
-        self.spellDetailViewConstructor = spellDetailViewConstructor
     }
 
     func onAppear() {

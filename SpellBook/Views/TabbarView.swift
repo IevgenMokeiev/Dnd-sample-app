@@ -10,16 +10,16 @@ import SwiftUI
 
 struct TabbarView: View {
 
-    var viewModel: TabbarViewModel
+    @EnvironmentObject var factory: ViewFactory
     
     var body: some View {
         TabView() {
-            viewModel.spellListConstructor()
+            factory.createSpellListView()
             .tabItem {
                 Image(systemName: "book.fill")
                 Text("Spell Book")
             }.accessibility(identifier: "SpellTab")
-            viewModel.favoritesConstructor()
+            factory.createFavoritesView()
             .tabItem {
                 Image(systemName: "bookmark.fill")
                 Text("Favorites")

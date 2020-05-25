@@ -12,6 +12,7 @@ import Combine
 struct SpellListView: View {
 
     @ObservedObject var viewModel: SpellListViewModel
+    @EnvironmentObject var factory: ViewFactory
 
     var body: some View {
         NavigationView {
@@ -40,7 +41,7 @@ extension SpellListView {
             SearchView(searchTerm: searchTerm)
             Divider().background(Color.orange)
             List(spellDTOs) { spell in
-                NavigationLink(destination: self.viewModel.spellDetailViewConstructor(spell.path)) {
+                NavigationLink(destination: self.factory.createSpellDetailView(path: spell.path)) {
                     Text(spell.name)
                 }
             }

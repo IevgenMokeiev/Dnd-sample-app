@@ -21,7 +21,7 @@ class AppCoordinator {
         let networkServiceImpl = NetworkServiceImpl(networkClient: NetworkClientImpl())
         let refinementsServiceImpl = RefinementsServiceImpl()
         let interactor = InteractorImpl(databaseService: databaseServiceImpl, networkService: networkServiceImpl, refinementsService: refinementsServiceImpl)
-        self.viewFactory = ViewFactoryImpl(interactor: interactor)
+        self.viewFactory = ViewFactory(interactor: interactor)
 
         if configureForTesing {
             coreDataStackImpl.cleanupStack()

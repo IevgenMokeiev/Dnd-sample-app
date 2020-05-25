@@ -12,11 +12,12 @@ import SwiftUI
 struct FavoritesView: View {
 
     @ObservedObject var viewModel: FavoritesViewModel
+    @EnvironmentObject var factory: ViewFactory
 
     var body: some View {
         NavigationView {
             List(viewModel.spellDTOs) { spell in
-                NavigationLink(destination: self.viewModel.spellDetailViewConstructor(spell.path)) {
+                NavigationLink(destination: self.factory.createSpellDetailView(path: spell.path)) {
                     Text(spell.name)
                 }
             }

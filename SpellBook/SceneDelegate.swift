@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Use a UIHostingController as window root view controller.
 
-        appCoordinator = {
+        let coordinator: AppCoordinator = {
             if CommandLine.arguments.contains("enable-testing") {
                 return AppCoordinator(configureForTesing: true)
             } else {
@@ -30,10 +30,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
         }()
 
+        appCoordinator = coordinator
+
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             window.rootViewController = UIHostingController(rootView:
-                appCoordinator?.viewFactory.createTabbarView())
+                appCoordinator?.viewFactory.createTabbarView().environmentObject(coordinator.viewFactory))
             self.window = window
             window.makeKeyAndVisible()
         }
