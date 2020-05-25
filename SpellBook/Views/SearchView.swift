@@ -22,7 +22,8 @@ struct SearchView: View {
             .foregroundColor(.orange)
             .frame(width: 25, height: 25)
             .padding(.trailing, 5)
-            TextField("type spell here...", text: $searchTerm).accessibility(identifier: "SpellSearchView")
+            TextField("type spell here...", text: $searchTerm)
+            .accessibility(identifier: "SpellSearchView")
         }.padding([.horizontal, .top], 15)
     }
 }

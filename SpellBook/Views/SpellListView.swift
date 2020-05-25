@@ -9,14 +9,14 @@
 import SwiftUI
 import Combine
 
+class SearchStore: ObservableObject {
+    @Published var query: String = ""
+}
+
 struct SpellListView: View {
 
     @EnvironmentObject var store: AppStore
-    @State private var searchTerm: String = "" {
-        didSet {
-            store.send(.search(query: searchTerm))
-        }
-    }
+    @ObservedObject var searchStore = SearchStore()
 
     var body: some View {
         NavigationView {
@@ -27,12 +27,18 @@ struct SpellListView: View {
                     self.store.send(.sort(by: .level))
                 }.foregroundColor(.orange)
             )
-        }.onAppear(perform: fetch)
+        }
+        .onAppear(perform: fetch)
+        .onReceive(searchStore.$query) { query in
+            if !query.isEmpty {
+                self.store.send(.search(query: query))
+            }
+        }
     }
 
     private var content: AnyView {
         if !store.state.displayedSpells.isEmpty {
-            return AnyView(loadedView(store.state.displayedSpells, searchTerm: $searchTerm))
+            return AnyView(loadedView(store.state.displayedSpells, searchTerm: $searchStore.query))
         } else if store.state.error != nil {
             return AnyView(ErrorView())
         } else {
