@@ -14,19 +14,19 @@ typealias Reducer<State, Action, Environment> = (inout State, Action, Environmen
 func appReducer(state: inout AppState, action: AppAction, environment: ServiceContainer) -> AnyPublisher<AppAction, Never> {
     switch action {
     case .requestSpellList:
-        return environment
+        return environment.spellProviderService
             .spellListPublisher()
             .map { AppAction.showSpellList(spells: $0) }
             .catch { Just(AppAction.showError(error: $0)) }
             .eraseToAnyPublisher()
     case .requestFavorites:
-        return environment
+        return environment.spellProviderService
             .favoritesPublisher()
             .map { AppAction.showFavorites(spells: $0) }
             .catch { Just(AppAction.showError(error: $0)) }
             .eraseToAnyPublisher()
     case let .requestSpell(path):
-        return environment
+        return environment.spellProviderService
             .spellDetailsPublisher(for: path)
             .map { AppAction.showSpell(spell: $0) }
             .catch { Just(AppAction.showError(error: $0)) }
@@ -38,7 +38,7 @@ func appReducer(state: inout AppState, action: AppAction, environment: ServiceCo
     case .toggleFavorite:
         guard var spellDTO = state.selectedSpell else { break }
         spellDTO.isFavorite = !spellDTO.isFavorite
-        environment.databaseService.saveSpellDetails(spellDTO)
+        environment.spellProviderService.saveSpellDetails(spellDTO)
         state.selectedSpell = spellDTO
     case let .showSpellList(spells):
         let sortedSpells = environment.refinementsService.sortedSpells(spells: spells, sort: .name)

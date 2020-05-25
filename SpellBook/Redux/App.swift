@@ -18,11 +18,6 @@ struct AppState {
     var error: Error? = nil
 }
 
-enum Sort {
-    case name
-    case level
-}
-
 enum AppAction {
     case requestSpellList
     case requestFavorites
@@ -34,4 +29,9 @@ enum AppAction {
     case showFavorites(spells: [SpellDTO])
     case showSpell(spell: SpellDTO)
     case showError(error: Error)
+}
+
+enum Sort {
+    case name
+    case level
 }
