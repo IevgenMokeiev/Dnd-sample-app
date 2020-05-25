@@ -57,14 +57,12 @@ class DatabaseClientImpl: DatabaseClient {
     }
 
     func createObject<T: NSManagedObject>(expectedType: T.Type) -> T {
-        let managedContext = coreDataStack.persistentContainer.viewContext
-        return T(context: managedContext)
+        return T(context: coreDataStack.persistentContainer.viewContext)
     }
 
     func saveChanges() {
-        let managedContext = coreDataStack.persistentContainer.viewContext
         do {
-            try managedContext.save()
+            try coreDataStack.persistentContainer.viewContext.save()
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
