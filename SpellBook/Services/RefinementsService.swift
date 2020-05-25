@@ -10,11 +10,6 @@ import Foundation
 
 typealias RefinementsBlock = (_ spells: [SpellDTO], _ sort: Sort, _ searchTerm: String) -> [SpellDTO]
 
-enum Sort {
-    case name
-    case level
-}
-
 /// Service responsible for refining arrays of DTOs using sort and search term
 protocol RefinementsService {
     func refineSpells(spells: [SpellDTO], sort: Sort, searchTerm: String) -> [SpellDTO]
