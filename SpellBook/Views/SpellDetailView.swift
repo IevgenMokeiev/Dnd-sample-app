@@ -10,7 +10,6 @@ import SwiftUI
 import Combine
 
 struct SpellDetailView: View {
-    
     var spellPath: String
     @EnvironmentObject var store: AppStore
 

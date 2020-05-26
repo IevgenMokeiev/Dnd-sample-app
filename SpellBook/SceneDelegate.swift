@@ -25,7 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             window.rootViewController = UIHostingController(rootView:
-                store.factory.tabbarView.environmentObject(store))
+                store.factory.createTabbarView(factory: store.factory).environmentObject(store))
             self.window = window
             window.makeKeyAndVisible()
         }

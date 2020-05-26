@@ -10,7 +10,6 @@ import Foundation
 import SwiftUI
 
 struct FavoritesView: View {
-
     @EnvironmentObject var store: AppStore
 
     var body: some View {
@@ -34,7 +33,7 @@ struct FavoritesView: View {
 
 struct FavoritesView_Previews: PreviewProvider {
     static var previews: some View {
-        return ViewFactory().favoritesView
+        return ViewFactory().createFavoritesView()
     }
 }
 

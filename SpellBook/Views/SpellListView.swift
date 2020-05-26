@@ -68,6 +68,6 @@ extension SpellListView {
 
 struct SpellListView_Previews: PreviewProvider {
     static var previews: some View {
-        return ViewFactory().spellListView
+        return ViewFactory().createSpellListView()
     }
 }
