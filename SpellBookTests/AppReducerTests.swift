@@ -45,6 +45,15 @@ class AppReducerTests: XCTestCase {
         }
     }
 
+    func test_reduce_toggle_favorite() {
+        let store = makeSUT()
+        let spell = FakeDataFactory.provideFakeSpellDTO()
+        XCTAssertTrue(spell.isFavorite == false)
+        store.send(.showSpell(spell: spell))
+        store.send(.toggleFavorite)
+        XCTAssertTrue(store.state.selectedSpell?.isFavorite == true)
+    }
+
     private func makeSUT() -> AppStore {
         return AppStore(initialState: .init(), reducer: appReducer, environment: FakeServiceContainer(), factory: ViewFactory())
     }
