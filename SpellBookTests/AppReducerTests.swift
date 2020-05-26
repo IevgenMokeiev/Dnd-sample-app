@@ -7,9 +7,12 @@
 //
 
 import XCTest
+import Combine
 @testable import SpellBook
 
 class AppReducerTests: XCTestCase {
+
+    private var cancellableSet: Set<AnyCancellable> = []
 
     func test_reduce_to_spell_list() {
         let store = makeSUT()
@@ -52,6 +55,67 @@ class AppReducerTests: XCTestCase {
         store.send(.showSpell(spell: spell))
         store.send(.toggleFavorite)
         XCTAssertTrue(store.state.selectedSpell?.isFavorite == true)
+    }
+
+    func test_request_spell_list(){
+        let store = makeSUT()
+        let complationExpectation = expectation(description: "wait for sink")
+        let fakeData = FakeDataFactory.provideFakeSpellListDTO()
+
+        FakeSpellProviderService.spellListHandler = {
+            return Result.success(fakeData)
+        }
+
+        store.$state
+        .dropFirst(2)
+        .sink { appState in
+            complationExpectation.fulfill()
+            XCTAssertTrue(appState.allSpells == fakeData)
+            XCTAssertTrue(appState.displayedSpells == fakeData)
+        }.store(in: &cancellableSet)
+
+        store.send(.requestSpellList)
+        waitForExpectations(timeout: 3)
+    }
+
+    func test_request_spell(){
+        let store = makeSUT()
+        let complationExpectation = expectation(description: "wait for sink")
+        let fakeData = FakeDataFactory.provideFakeSpellDTO()
+
+        FakeSpellProviderService.spellDetailHandler = {
+            return Result.success(fakeData)
+        }
+
+        store.$state
+        .dropFirst(2)
+        .sink { appState in
+            complationExpectation.fulfill()
+            XCTAssertTrue(appState.selectedSpell == fakeData)
+        }.store(in: &cancellableSet)
+
+        store.send(.requestSpell(path: "/api/spells/fake"))
+        waitForExpectations(timeout: 3)
+    }
+
+    func test_request_favorites(){
+        let store = makeSUT()
+        let complationExpectation = expectation(description: "wait for sink")
+        let fakeData = FakeDataFactory.provideFakeFavoritesListDTO()
+
+        FakeSpellProviderService.favoritesHandler = {
+            return Result.success(fakeData)
+        }
+
+        store.$state
+        .dropFirst(2)
+        .sink { appState in
+            complationExpectation.fulfill()
+            XCTAssertTrue(appState.favoriteSpells == fakeData)
+        }.store(in: &cancellableSet)
+
+        store.send(.requestFavorites)
+        waitForExpectations(timeout: 3)
     }
 
     private func makeSUT() -> AppStore {

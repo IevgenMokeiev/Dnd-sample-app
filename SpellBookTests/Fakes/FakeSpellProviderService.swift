@@ -14,7 +14,6 @@ class FakeSpellProviderService: SpellProviderService {
     static var spellDetailHandler: (() -> Result<SpellDTO, Error>)?
     static var favoritesHandler: (() -> Result<[SpellDTO], Never>)?
 
-
     func spellListPublisher() -> SpellPublisher {
         guard let handler = Self.spellListHandler else {
             fatalError("Handler is unavailable.")

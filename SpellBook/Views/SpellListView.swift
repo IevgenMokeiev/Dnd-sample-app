@@ -28,7 +28,7 @@ struct SpellListView: View {
             )
         }
         .onAppear(perform: fetch)
-        .onReceive(searchStore.$query) { self.search(query: $0) }
+        .onReceive(searchStore.$query.dropFirst()) { self.search(query: $0) }
     }
 
     private var content: AnyView {
