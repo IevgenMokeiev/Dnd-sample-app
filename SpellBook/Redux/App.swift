@@ -8,7 +8,7 @@
 
 import Combine
 
-typealias AppStore = Store<AppState, AppAction, ServiceContainer, ViewFactory>
+typealias AppStore = Store<AppState, AppAction, ServiceContainer>
 
 struct AppState {
     var displayedSpells: [SpellDTO] = []

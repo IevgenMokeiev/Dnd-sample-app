@@ -9,7 +9,8 @@
 import SwiftUI
 
 struct TabbarView: View {
-    var factory: ViewFactory
+
+    @EnvironmentObject var factory: ViewFactory
 
     var body: some View {
         TabView() {
@@ -30,6 +31,6 @@ struct TabbarView: View {
 
 struct TabbarView_Previews: PreviewProvider {
     static var previews: some View {
-        return ViewFactory().createTabbarView(factory: ViewFactory())
+        return ViewFactory().createTabbarView()
     }
 }

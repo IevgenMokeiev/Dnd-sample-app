@@ -7,12 +7,13 @@
 //
 
 import Foundation
+import Combine
 import SwiftUI
 
 /// Factory to construct SwiftUI views
-class ViewFactory {
-    func createTabbarView(factory: ViewFactory) -> TabbarView {
-        return TabbarView(factory: factory)
+class ViewFactory: ObservableObject {
+    func createTabbarView() -> TabbarView {
+        return TabbarView()
     }
 
     func createSpellListView() -> SpellListView {

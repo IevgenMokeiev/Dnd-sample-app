@@ -15,6 +15,7 @@ class SearchStore: ObservableObject {
 
 struct SpellListView: View {
     @EnvironmentObject var store: AppStore
+    @EnvironmentObject var factory: ViewFactory
     @ObservedObject private var searchStore = SearchStore()
 
     var body: some View {
@@ -56,7 +57,7 @@ extension SpellListView {
             SearchView(query: $searchStore.query)
             Divider().background(Color.orange)
             List(spellDTOs) { spell in
-                NavigationLink(destination: self.store.factory.createSpellDetailView(path: spell.path)) {
+                NavigationLink(destination: self.factory.createSpellDetailView(path: spell.path)) {
                     Text(spell.name)
                 }
             }

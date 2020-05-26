@@ -11,11 +11,12 @@ import SwiftUI
 
 struct FavoritesView: View {
     @EnvironmentObject var store: AppStore
+    @EnvironmentObject var factory: ViewFactory
 
     var body: some View {
         NavigationView {
             List(store.state.favoriteSpells) { spell in
-                NavigationLink(destination: self.store.factory.createSpellDetailView(path: spell.path)) {
+                NavigationLink(destination: self.factory.createSpellDetailView(path: spell.path)) {
                     Text(spell.name)
                 }
             }

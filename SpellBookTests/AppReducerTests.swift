@@ -119,6 +119,6 @@ class AppReducerTests: XCTestCase {
     }
 
     private func makeSUT() -> AppStore {
-        return AppStore(initialState: .init(), reducer: appReducer, environment: FakeServiceContainer(), factory: ViewFactory())
+        return AppStore(initialState: .init(), reducer: appReducer, environment: FakeServiceContainer())
     }
 }

@@ -9,27 +9,21 @@
 import Foundation
 import Combine
 
-final class Store<State, Action, Environment, Factory>: ObservableObject {
+final class Store<State, Action, Environment>: ObservableObject {
     @Published private(set) var state: State
 
-    let factory: Factory
     private let environment: Environment
     private let reducer: Reducer<State, Action, Environment>
     private var effectCancellables: Set<AnyCancellable> = []
 
-    init(initialState: State, reducer: @escaping Reducer<State, Action, Environment>, environment: Environment, factory: Factory) {
+    init(initialState: State, reducer: @escaping Reducer<State, Action, Environment>, environment: Environment) {
         self.state = initialState
         self.reducer = reducer
         self.environment = environment
-        self.factory = factory
     }
 
     func send(_ action: Action) {
-        guard let effect = reducer(&state, action, environment) else {
-            return
-        }
-
-        effect
+        reducer(&state, action, environment)
             .receive(on: RunLoop.main)
             .sink(receiveValue: send)
             .store(in: &effectCancellables)

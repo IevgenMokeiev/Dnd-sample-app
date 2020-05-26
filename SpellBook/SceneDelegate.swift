@@ -13,7 +13,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-    let store = AppStore(initialState: .init(), reducer: appReducer, environment: ServiceContainerImpl(), factory: ViewFactory())
+    let store = AppStore(initialState: .init(), reducer: appReducer, environment: ServiceContainerImpl())
+    let factory = ViewFactory()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -25,7 +26,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             window.rootViewController = UIHostingController(rootView:
-                store.factory.createTabbarView(factory: store.factory).environmentObject(store))
+                factory.createTabbarView().environmentObject(store).environmentObject(factory))
             self.window = window
             window.makeKeyAndVisible()
         }
