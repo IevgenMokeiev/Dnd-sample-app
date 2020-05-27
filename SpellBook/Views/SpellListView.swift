@@ -33,12 +33,13 @@ struct SpellListView: View {
     }
 
     private var content: AnyView {
-        if store.state.allSpells.isEmpty {
-            return AnyView(ProgressView(isAnimating: true))
-        } else if store.state.error != nil {
+        switch store.state.spellListState {
+        case let .spellList(displayedSpells, _):
+            return AnyView(loadedView(displayedSpells))
+        case .error(_):
             return AnyView(ErrorView())
-        } else {
-            return AnyView(loadedView(store.state.displayedSpells))
+        case .initial:
+            return AnyView(ProgressView(isAnimating: true))
         }
     }
 

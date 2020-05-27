@@ -11,11 +11,9 @@ import Combine
 typealias AppStore = Store<AppState, AppAction, ServiceContainer>
 
 struct AppState {
-    var displayedSpells: [SpellDTO] = []
-    var allSpells: [SpellDTO] = []
+    var spellListState: SpellListState
+    var spellDetailState: SpellDetailState
     var favoriteSpells: [SpellDTO] = []
-    var selectedSpell: SpellDTO? = nil
-    var error: Error? = nil
 }
 
 enum AppAction {
@@ -25,10 +23,23 @@ enum AppAction {
     case search(query: String)
     case sort(by: Sort)
     case toggleFavorite
-    case showSpellList(spells: [SpellDTO])
-    case showFavorites(spells: [SpellDTO])
-    case showSpell(spell: SpellDTO)
-    case showError(error: Error)
+    case showSpellList([SpellDTO])
+    case showFavorites([SpellDTO])
+    case showSpell(SpellDTO)
+    case showSpellListLoadError(Error)
+    case showSpellLoadError(Error)
+}
+
+enum SpellListState {
+    case initial
+    case spellList(displayedSpells: [SpellDTO], allSpells: [SpellDTO])
+    case error(Error)
+}
+
+enum SpellDetailState {
+    case initial
+    case selectedSpell(SpellDTO)
+    case error(Error)
 }
 
 enum Sort {

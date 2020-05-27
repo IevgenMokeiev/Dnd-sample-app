@@ -27,17 +27,18 @@ struct SpellDetailView: View {
     }
 
     private var content: AnyView {
-        if let spellDTO = store.state.selectedSpell {
+        switch store.state.spellDetailState {
+        case let .selectedSpell(spellDTO):
             return AnyView(loadedView(spellDTO))
-        } else if store.state.error != nil {
+        case .error(_):
             return AnyView(ErrorView())
-        } else {
+        case .initial:
             return AnyView(ProgressView(isAnimating: true))
         }
     }
 
     private var favoriteButtonText: String {
-        if let spellDTO = store.state.selectedSpell {
+        if case let .selectedSpell(spellDTO) = store.state.spellDetailState {
             return spellDTO.isFavorite ? "Remove from Favorites" : "Add to Favorites"
         } else {
             return ""
