@@ -72,7 +72,7 @@ class AppReducerTests: XCTestCase {
         }
 
         store.$state
-        .dropFirst(2)
+        .dropFirst(1)
         .sink { appState in
             complationExpectation.fulfill()
             guard case let .spellList(displayedSpells, allSpells)  = appState.spellListState else { XCTFail("wrong state"); return }
@@ -94,7 +94,7 @@ class AppReducerTests: XCTestCase {
         }
 
         store.$state
-        .dropFirst(2)
+        .dropFirst(1)
         .sink { appState in
             complationExpectation.fulfill()
             guard case let .selectedSpell(spell) = appState.spellDetailState else { XCTFail("wrong state"); return }
@@ -115,7 +115,7 @@ class AppReducerTests: XCTestCase {
         }
 
         store.$state
-        .dropFirst(2)
+        .dropFirst(1)
         .sink { appState in
             complationExpectation.fulfill()
             XCTAssertTrue(appState.favoriteSpells == fakeData)
