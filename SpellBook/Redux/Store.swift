@@ -23,9 +23,11 @@ final class Store<State, Action, Environment>: ObservableObject {
     }
 
     func send(_ action: Action) {
-        if let newState = reducer(state, action, environment).state {
+        let (newState, effect) = reducer(state, action, environment)
+
+        if let newState = newState {
             state = newState
-        } else if let effect = reducer(state, action, environment).effect {
+        } else if let effect = effect {
             effect
             .receive(on: RunLoop.main)
             .sink(receiveValue: send)
