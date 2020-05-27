@@ -24,7 +24,7 @@ struct SpellListView: View {
             .navigationBarTitle("Spell Book", displayMode: .inline)
             .navigationBarItems(trailing:
                 Button("Sort by Level") {
-                    self.store.send(.sort(by: .level))
+                    self.store.send(.spellList(.sort(by: .level)))
                 }.foregroundColor(.orange)
             )
         }
@@ -44,11 +44,11 @@ struct SpellListView: View {
     }
 
     private func fetch() {
-        store.send(.requestSpellList)
+        store.send(.spellList(.requestSpellList))
     }
 
     private func search(query: String) {
-        store.send(.search(query: query))
+        store.send(.spellList(.search(query: query)))
     }
 }
 

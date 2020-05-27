@@ -15,20 +15,35 @@ struct FavoritesView: View {
 
     var body: some View {
         NavigationView {
-            List(store.state.favoriteSpells) { spell in
-                NavigationLink(destination: self.factory.createSpellDetailView(path: spell.path)) {
-                    Text(spell.name)
-                }
-            }
-            .accessibility(label: Text("Favorites Table"))
-            .accessibility(identifier: "FavoritesTableView")
-            .navigationBarTitle("Favorites", displayMode: .inline)
-            .onAppear(perform: fetch)
+            content
+        }
+        .onAppear(perform: fetch)
+    }
+
+    private var content: AnyView {
+        switch store.state.favoritesState {
+        case let .favorites(spells):
+            return AnyView(loadedView(spells))
+        case .initial:
+            return AnyView(Text("No Favorites Yet").foregroundColor(.orange))
         }
     }
 
     private func fetch() {
-        store.send(.requestFavorites)
+        store.send(.favorites(.requestFavorites))
+    }
+}
+
+extension FavoritesView {
+    func loadedView(_ spellDTOs: [SpellDTO]) -> some View {
+        List(spellDTOs) { spell in
+            NavigationLink(destination: self.factory.createSpellDetailView(path: spell.path)) {
+                Text(spell.name)
+            }
+        }
+        .accessibility(label: Text("Favorites Table"))
+        .accessibility(identifier: "FavoritesTableView")
+        .navigationBarTitle("Favorites", displayMode: .inline)
     }
 }
 

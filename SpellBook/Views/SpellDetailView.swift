@@ -20,7 +20,7 @@ struct SpellDetailView: View {
         .navigationBarTitle("Spell Detail")
         .navigationBarItems(trailing:
             Button(favoriteButtonText) {
-                self.store.send(.toggleFavorite)
+                self.store.send(.spellDetail(.toggleFavorite))
             }.foregroundColor(.orange)
             .accessibility(identifier: "FavoritesButton")
         )
@@ -43,7 +43,7 @@ struct SpellDetailView: View {
     }
 
     private func fetch() {
-        store.send(.requestSpell(path: spellPath))
+        store.send(.spellDetail(.requestSpell(path: spellPath)))
     }
 }
 

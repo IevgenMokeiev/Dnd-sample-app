@@ -27,7 +27,9 @@ final class Store<State, Action, Environment>: ObservableObject {
 
         if let newState = newState {
             state = newState
-        } else if let effect = effect {
+        }
+
+        if let effect = effect {
             effect
             .receive(on: RunLoop.main)
             .sink(receiveValue: send)

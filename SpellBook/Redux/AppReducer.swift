@@ -12,62 +12,30 @@ import Combine
 typealias Reducer<State, Action, Environment> = (State, Action, Environment) -> (state: State?, effect: AnyPublisher<Action, Never>?)
 
 func appReducer(state: AppState, action: AppAction, environment: ServiceContainer) -> (state: AppState?, effect: AnyPublisher<AppAction, Never>?) {
+
     switch action {
-    case .requestSpellList:
-        return (nil, environment.spellProviderService
-            .spellListPublisher()
-            .map { AppAction.showSpellList($0) }
-            .catch { Just(AppAction.showSpellListLoadError($0)) }
-            .eraseToAnyPublisher())
-    case .requestFavorites:
-        return (nil, environment.spellProviderService
-            .favoritesPublisher()
-            .map { AppAction.showFavorites($0) }
-            .catch { _ in Just(AppAction.showFavorites([])) }
-            .eraseToAnyPublisher())
-    case let .requestSpell(path):
-        return (nil, environment.spellProviderService
-            .spellDetailsPublisher(for: path)
-            .map { AppAction.showSpell($0) }
-            .catch { Just(AppAction.showSpellLoadError($0)) }
-            .eraseToAnyPublisher())
-    case let .search(query):
-        guard case let .spellList(_, allSpells) = state.spellListState else { break }
-
-        let refinedSpells = environment.refinementsService.filteredSpells(spells: allSpells, by: query)
-        let spellListState: SpellListState = .spellList(displayedSpells: refinedSpells, allSpells: allSpells)
-
-        return (AppState(spellListState: spellListState, spellDetailState: state.spellDetailState, favoriteSpells: state.favoriteSpells), nil)
-    case let .sort(sort):
-        guard case let .spellList(_, allSpells) = state.spellListState else { break }
-
-        let refinedSpells = environment.refinementsService.sortedSpells(spells: allSpells, sort: sort)
-        let spellListState: SpellListState = .spellList(displayedSpells: refinedSpells, allSpells: allSpells)
-
-        return (AppState(spellListState: spellListState, spellDetailState: state.spellDetailState, favoriteSpells: state.favoriteSpells), nil)
-    case .toggleFavorite:
-        guard case let .selectedSpell(spell) = state.spellDetailState else { break }
-
-        let newSpell = spell.toggleFavorite(value: !spell.isFavorite)
-        environment.spellProviderService.saveSpellDetails(newSpell)
-        let spellDetailState: SpellDetailState = .selectedSpell(newSpell)
-
-        return (AppState(spellListState: state.spellListState, spellDetailState: spellDetailState, favoriteSpells: state.favoriteSpells), nil)
-    case let .showSpellList(spells):
-        let sortedSpells = environment.refinementsService.sortedSpells(spells: spells, sort: .name)
-        let spellListState: SpellListState = .spellList(displayedSpells: sortedSpells, allSpells: sortedSpells)
-
-        return (AppState(spellListState: spellListState, spellDetailState: state.spellDetailState, favoriteSpells: state.favoriteSpells), nil)
-    case let .showFavorites(spells):
-        return (AppState(spellListState: state.spellListState, spellDetailState: state.spellDetailState, favoriteSpells: spells), nil)
-    case let .showSpell(spell):
-        return (AppState(spellListState: state.spellListState, spellDetailState: .selectedSpell(spell), favoriteSpells: state.favoriteSpells), nil)
-    case let .showSpellListLoadError(error):
-        return (AppState(spellListState: .error(error), spellDetailState: state.spellDetailState, favoriteSpells: state.favoriteSpells), nil)
-    case let .showSpellLoadError(error):
-        return (AppState(spellListState: state.spellListState, spellDetailState: .error(error), favoriteSpells: state.favoriteSpells), nil)
+    case let .spellList(action):
+        let (newState, effect) = spellListReducer(state: state.spellListState, action: action, environment: environment)
+        if let newState = newState {
+            return (AppState(spellListState: newState, spellDetailState: state.spellDetailState, favoritesState: state.favoritesState), nil)
+        } else if let effect = effect {
+            return (nil, effect.map { AppAction.spellList($0) }.eraseToAnyPublisher())
+        }
+    case let .spellDetail(action):
+        let (newState, effect) = spellDetailReducer(state: state.spellDetailState, action: action, environment: environment)
+        if let newState = newState {
+            return (AppState(spellListState: state.spellListState, spellDetailState: newState, favoritesState: state.favoritesState), nil)
+        } else if let effect = effect {
+            return (nil, effect.map { AppAction.spellDetail($0) }.eraseToAnyPublisher())
+        }
+    case let .favorites(action):
+        let (newState, effect) = favoritesReducer(state: state.favoritesState, action: action, environment: environment)
+        if let newState = newState {
+            return (AppState(spellListState: state.spellListState, spellDetailState: state.spellDetailState, favoritesState: newState), nil)
+        } else if let effect = effect {
+            return (nil, effect.map { AppAction.favorites($0) }.eraseToAnyPublisher())
+        }
     }
 
     return (nil, nil)
 }
-
