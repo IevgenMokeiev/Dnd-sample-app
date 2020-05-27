@@ -7,24 +7,23 @@
 //
 
 import Foundation
-import Combine
 import SwiftUI
 
 /// Factory to construct SwiftUI views
 class ViewFactory: ObservableObject {
-    func createTabbarView() -> TabbarView {
-        return TabbarView()
+    func createTabbarView() -> AnyView {
+        return AnyView(TabbarView())
     }
 
-    func createSpellListView() -> SpellListView {
-        return SpellListView()
+    func createSpellListView() -> AnyView {
+        return AnyView(SpellListView())
     }
 
-    func createSpellDetailView(path: String) -> SpellDetailView {
-        return SpellDetailView(spellPath: path)
+    func createSpellDetailView(path: String) -> AnyView {
+        return AnyView(SpellDetailView(spellPath: path))
     }
 
-    func createFavoritesView() -> FavoritesView {
-        return FavoritesView()
+    func createFavoritesView() -> AnyView {
+        return AnyView(FavoritesView())
     }
 }
