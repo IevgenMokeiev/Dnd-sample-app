@@ -38,11 +38,8 @@ struct SpellDetailView: View {
     }
 
     private var favoriteButtonText: String {
-        if case let .selectedSpell(spellDTO) = store.state.spellDetailState {
-            return spellDTO.isFavorite ? "Remove from Favorites" : "Add to Favorites"
-        } else {
-            return ""
-        }
+        guard case let .selectedSpell(spellDTO) = store.state.spellDetailState else { return "" }
+        return spellDTO.isFavorite ? "Remove from Favorites" : "Add to Favorites"
     }
 
     private func fetch() {
