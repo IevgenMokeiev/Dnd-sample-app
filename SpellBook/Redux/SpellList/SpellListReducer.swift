@@ -9,7 +9,7 @@
 import Foundation
 import Combine
 
-func spellListReducer(state: SpellListState, action: SpellListAction, environment: ServiceContainer) -> (state: SpellListState?, effect: AnyPublisher<SpellListAction, Never>?) {
+func spellListReducer(state: SpellListState, action: SpellListAction, environment: ServiceContainer) -> ReducerResult<SpellListState, SpellListAction> {
     switch action {
     case .requestSpellList:
         return (nil, environment.spellProviderService

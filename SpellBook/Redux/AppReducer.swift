@@ -12,8 +12,7 @@ import Combine
 typealias ReducerResult<State, Action> = (state: State?, effect: AnyPublisher<Action, Never>?)
 typealias Reducer<State, Action, Environment> = (State, Action, Environment) -> ReducerResult<State, Action>
 
-func appReducer(state: AppState, action: AppAction, environment: ServiceContainer) -> (state: AppState?, effect: AnyPublisher<AppAction, Never>?) {
-
+func appReducer(state: AppState, action: AppAction, environment: ServiceContainer) -> ReducerResult<AppState, AppAction> {
     switch action {
     case let .spellList(action):
         let output = spellListReducer(state: state.spellListState, action: action, environment: environment)

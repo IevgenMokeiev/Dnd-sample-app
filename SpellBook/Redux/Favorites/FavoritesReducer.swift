@@ -9,7 +9,7 @@
 import Foundation
 import Combine
 
-func favoritesReducer(state: FavoritesState, action: FavoritesAction, environment: ServiceContainer) -> (state: FavoritesState?, effect: AnyPublisher<FavoritesAction, Never>?) {
+func favoritesReducer(state: FavoritesState, action: FavoritesAction, environment: ServiceContainer) -> ReducerResult<FavoritesState, FavoritesAction> {
     switch action {
     case .requestFavorites:
         return (nil, environment.spellProviderService

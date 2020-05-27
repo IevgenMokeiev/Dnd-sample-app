@@ -9,7 +9,7 @@
 import Foundation
 import Combine
 
-func spellDetailReducer(state: SpellDetailState, action: SpellDetaiAction, environment: ServiceContainer) -> (state: SpellDetailState?, effect: AnyPublisher<SpellDetaiAction, Never>?) {
+func spellDetailReducer(state: SpellDetailState, action: SpellDetaiAction, environment: ServiceContainer) -> ReducerResult<SpellDetailState, SpellDetaiAction> {
     switch action {
     case let .requestSpell(path: path):
         return (.initial, environment.spellProviderService
