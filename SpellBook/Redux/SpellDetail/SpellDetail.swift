@@ -18,6 +18,5 @@ enum SpellDetaiAction {
     case requestSpell(path: String)
     case showSpell(SpellDTO)
     case showSpellLoadError(Error)
-    case toggleFavorite
 }
 

@@ -21,11 +21,5 @@ func spellDetailReducer(state: SpellDetailState, action: SpellDetaiAction, envir
         return (.selectedSpell(spell), nil)
     case let .showSpellLoadError(error):
         return (.error(error), nil)
-    case .toggleFavorite:
-        guard case let .selectedSpell(spell) = state else { return (nil, nil) }
-        let newSpell = spell.toggleFavorite(value: !spell.isFavorite)
-        // TODO: - Remove side effect
-        environment.spellProviderService.saveSpellDetails(newSpell)
-        return (.selectedSpell(newSpell), nil)
-    }    
+    }
 }

@@ -58,7 +58,7 @@ class AppReducerTests: XCTestCase {
         let fakeData = FakeDataFactory.provideFakeSpellDTO()
         XCTAssertTrue(fakeData.isFavorite == false)
         store.send(.spellDetail(.showSpell(fakeData)))
-        store.send(.spellDetail(.toggleFavorite))
+        store.send(.toggleFavorite)
         guard case let .selectedSpell(spell) = store.state.spellDetailState else { XCTFail("wrong state"); return }
         XCTAssertTrue(spell.isFavorite == true)
     }

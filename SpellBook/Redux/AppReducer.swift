@@ -21,11 +21,16 @@ func appReducer(state: AppState, action: AppAction, environment: ServiceContaine
     case let .spellDetail(action):
         let output = spellDetailReducer(state: state.spellDetailState, action: action, environment: environment)
         return mapReducerOutput(output: output, stateMapper: { AppState(spellListState: state.spellListState, spellDetailState: $0, favoritesState: state.favoritesState)
-               }) { AppAction.spellDetail($0) }
+        }) { AppAction.spellDetail($0) }
     case let .favorites(action):
         let output = favoritesReducer(state: state.favoritesState, action: action, environment: environment)
         return mapReducerOutput(output: output, stateMapper: { AppState(spellListState: state.spellListState, spellDetailState: state.spellDetailState, favoritesState: $0)
         }) { AppAction.favorites($0) }
+    case .toggleFavorite:
+        guard case let .selectedSpell(spell) = state.spellDetailState else { return (nil, nil) }
+        let newSpell = spell.toggleFavorite(value: !spell.isFavorite)
+        environment.spellProviderService.saveSpellDetails(newSpell)
+        return (AppState(spellListState: state.spellListState, spellDetailState: .selectedSpell(newSpell), favoritesState: state.favoritesState), Just(AppAction.favorites(.requestFavorites)).eraseToAnyPublisher())
     }
 }
 
@@ -42,8 +47,8 @@ func mapReducerOutput<InputState, InputAction, OutputState, OutputAction>(output
     let resultEffect = output.effect?
         .map { inputAction -> OutputAction in
             actionMapper(inputAction)
-        }
-        .eraseToAnyPublisher()
+    }
+    .eraseToAnyPublisher()
 
     return (resultState, resultEffect)
 }

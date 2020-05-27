@@ -20,7 +20,7 @@ struct SpellDetailView: View {
         .navigationBarTitle("Spell Detail")
         .navigationBarItems(trailing:
             Button(favoriteButtonText) {
-                self.store.send(.spellDetail(.toggleFavorite))
+                self.store.send(.toggleFavorite)
             }.foregroundColor(.orange)
             .accessibility(identifier: "FavoritesButton")
         )

@@ -20,4 +20,5 @@ enum AppAction {
     case spellList(SpellListAction)
     case spellDetail(SpellDetaiAction)
     case favorites(FavoritesAction)
+    case toggleFavorite
 }
