@@ -12,7 +12,7 @@ import Combine
 func spellDetailReducer(state: SpellDetailState, action: SpellDetaiAction, environment: ServiceContainer) -> (state: SpellDetailState?, effect: AnyPublisher<SpellDetaiAction, Never>?) {
     switch action {
     case let .requestSpell(path: path):
-        return (nil, environment.spellProviderService
+        return (.initial, environment.spellProviderService
             .spellDetailsPublisher(for: path)
             .map { SpellDetaiAction.showSpell($0) }
             .catch { Just(SpellDetaiAction.showSpellLoadError($0)) }
@@ -22,11 +22,9 @@ func spellDetailReducer(state: SpellDetailState, action: SpellDetaiAction, envir
     case let .showSpellLoadError(error):
         return (.error(error), nil)
     case .toggleFavorite:
-        guard case let .selectedSpell(spell) = state else { break }
+        guard case let .selectedSpell(spell) = state else { return (nil, nil) }
         let newSpell = spell.toggleFavorite(value: !spell.isFavorite)
         environment.spellProviderService.saveSpellDetails(newSpell)
         return (.selectedSpell(newSpell), nil)
-    }
-    
-    return (nil, nil)
+    }    
 }

@@ -17,7 +17,7 @@ class AppReducerTests: XCTestCase {
     func test_reduce_to_spell_list() {
         let store = makeSUT()
         let fakeData = FakeDataFactory.provideFakeSpellListDTO()
-        store.send(.showSpellList(fakeData))
+        store.send(.spellList(.showSpellList(fakeData)))
         guard case let .spellList(displayedSpells, allSpells) = store.state.spellListState else { XCTFail("wrong state"); return }
         XCTAssertTrue(displayedSpells == fakeData)
         XCTAssertTrue(allSpells == fakeData)
@@ -26,7 +26,7 @@ class AppReducerTests: XCTestCase {
     func test_reduce_to_spell() {
         let store = makeSUT()
         let fakeData = FakeDataFactory.provideFakeSpellDTO()
-        store.send(.showSpell(fakeData))
+        store.send(.spellDetail(.showSpell(fakeData)))
         guard case let .selectedSpell(spell) = store.state.spellDetailState else { XCTFail("wrong state"); return }
         XCTAssertTrue(spell == fakeData)
     }
@@ -34,14 +34,15 @@ class AppReducerTests: XCTestCase {
     func test_reduce_to_favorites() {
         let store = makeSUT()
         let fakeData = FakeDataFactory.provideFakeFavoritesListDTO()
-        store.send(.showFavorites(fakeData))
-        XCTAssertTrue(store.state.favoriteSpells == fakeData)
+        store.send(.favorites(.showFavorites(fakeData)))
+        guard case let .favorites(spells) = store.state.favoritesState else { XCTFail("wrong state"); return }
+        XCTAssertTrue(spells == fakeData)
     }
 
     func test_reduce_to_error() {
         let store = makeSUT()
         let error = NetworkClientError.invalidURL as Error
-        store.send(.showSpellListLoadError(error))
+        store.send(.spellList(.showSpellListLoadError(error)))
         guard case let .error(loadError) = store.state.spellListState else { XCTFail("wrong state"); return }
         guard let convertedError = loadError as? NetworkClientError else { XCTFail("wrong error"); return }
         switch convertedError {
@@ -56,8 +57,8 @@ class AppReducerTests: XCTestCase {
         let store = makeSUT()
         let fakeData = FakeDataFactory.provideFakeSpellDTO()
         XCTAssertTrue(fakeData.isFavorite == false)
-        store.send(.showSpell(fakeData))
-        store.send(.toggleFavorite)
+        store.send(.spellDetail(.showSpell(fakeData)))
+        store.send(.spellDetail(.toggleFavorite))
         guard case let .selectedSpell(spell) = store.state.spellDetailState else { XCTFail("wrong state"); return }
         XCTAssertTrue(spell.isFavorite == true)
     }
@@ -80,7 +81,7 @@ class AppReducerTests: XCTestCase {
             XCTAssertTrue(displayedSpells == fakeData)
         }.store(in: &cancellableSet)
 
-        store.send(.requestSpellList)
+        store.send(.spellList(.requestSpellList))
         waitForExpectations(timeout: 3)
     }
 
@@ -94,14 +95,14 @@ class AppReducerTests: XCTestCase {
         }
 
         store.$state
-        .dropFirst(1)
+        .dropFirst(2)
         .sink { appState in
             complationExpectation.fulfill()
             guard case let .selectedSpell(spell) = appState.spellDetailState else { XCTFail("wrong state"); return }
             XCTAssertTrue(spell == fakeData)
         }.store(in: &cancellableSet)
 
-        store.send(.requestSpell(path: "/api/spells/fake"))
+        store.send(.spellDetail(.requestSpell(path: "/api/spells/fake")))
         waitForExpectations(timeout: 3)
     }
 
@@ -118,14 +119,15 @@ class AppReducerTests: XCTestCase {
         .dropFirst(1)
         .sink { appState in
             complationExpectation.fulfill()
-            XCTAssertTrue(appState.favoriteSpells == fakeData)
+            guard case let .favorites(spells) = appState.favoritesState else { XCTFail("wrong state"); return }
+            XCTAssertTrue(spells == fakeData)
         }.store(in: &cancellableSet)
 
-        store.send(.requestFavorites)
+        store.send(.favorites(.requestFavorites))
         waitForExpectations(timeout: 3)
     }
 
     private func makeSUT() -> AppStore {
-        return AppStore(initialState: .init(spellListState: .initial, spellDetailState: .initial), reducer: appReducer, environment: FakeServiceContainer())
+        return AppStore(initialState: .init(spellListState: .initial, spellDetailState: .initial, favoritesState: .initial), reducer: appReducer, environment: FakeServiceContainer())
     }
 }

@@ -23,14 +23,12 @@ func spellListReducer(state: SpellListState, action: SpellListAction, environmen
     case let .showSpellListLoadError(error):
         return (.error(error), nil)
     case let .search(query):
-        guard case let .spellList(_, allSpells) = state else { break }
+        guard case let .spellList(_, allSpells) = state else { return (nil, nil) }
         let refinedSpells = environment.refinementsService.filteredSpells(spells: allSpells, by: query)
         return (.spellList(displayedSpells: refinedSpells, allSpells: allSpells), nil)
     case let .sort(by: sort):
-        guard case let .spellList(_, allSpells) = state else { break }
+        guard case let .spellList(_, allSpells) = state else { return (nil, nil) }
         let refinedSpells = environment.refinementsService.sortedSpells(spells: allSpells, sort: sort)
         return (.spellList(displayedSpells: refinedSpells, allSpells: allSpells), nil)
     }
-
-    return (nil, nil)
 }
