@@ -12,12 +12,12 @@ import Combine
 func favoritesReducer(state: FavoritesState, action: FavoritesAction, environment: ServiceContainer) -> ReducerResult<FavoritesState, FavoritesAction> {
     switch action {
     case .requestFavorites:
-        return (nil, environment.spellProviderService
+        return ReducerResult(effect: environment.spellProviderService
             .favoritesPublisher()
             .map { FavoritesAction.showFavorites($0) }
             .catch { _ in Just(FavoritesAction.showFavorites([])) }
             .eraseToAnyPublisher())
     case let .showFavorites(spells):
-        return (.favorites(spells), nil)
+        return ReducerResult(state: .favorites(spells))
     }
 }

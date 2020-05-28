@@ -12,14 +12,14 @@ import Combine
 func spellDetailReducer(state: SpellDetailState, action: SpellDetaiAction, environment: ServiceContainer) -> ReducerResult<SpellDetailState, SpellDetaiAction> {
     switch action {
     case let .requestSpell(path: path):
-        return (.initial, environment.spellProviderService
+        return ReducerResult(state: .initial, effect: environment.spellProviderService
             .spellDetailsPublisher(for: path)
             .map { SpellDetaiAction.showSpell($0) }
             .catch { Just(SpellDetaiAction.showSpellLoadError($0)) }
             .eraseToAnyPublisher())
     case let .showSpell(spell):
-        return (.selectedSpell(spell), nil)
+        return ReducerResult(state: .selectedSpell(spell))
     case let .showSpellLoadError(error):
-        return (.error(error), nil)
+        return ReducerResult(state: .error(error))
     }
 }

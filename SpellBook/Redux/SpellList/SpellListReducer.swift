@@ -12,23 +12,23 @@ import Combine
 func spellListReducer(state: SpellListState, action: SpellListAction, environment: ServiceContainer) -> ReducerResult<SpellListState, SpellListAction> {
     switch action {
     case .requestSpellList:
-        return (nil, environment.spellProviderService
+        return ReducerResult(effect: environment.spellProviderService
             .spellListPublisher()
             .map { SpellListAction.showSpellList($0) }
             .catch { Just(SpellListAction.showSpellListLoadError($0)) }
             .eraseToAnyPublisher())
     case let .showSpellList(spells):
         let sortedSpells = environment.refinementsService.sortedSpells(spells: spells, sort: .name)
-        return (.spellList(displayedSpells: sortedSpells, allSpells: sortedSpells), nil)
+        return ReducerResult(state: .spellList(displayedSpells: sortedSpells, allSpells: sortedSpells))
     case let .showSpellListLoadError(error):
-        return (.error(error), nil)
+        return ReducerResult(state: .error(error))
     case let .search(query):
-        guard case let .spellList(_, allSpells) = state else { return (nil, nil) }
+        guard case let .spellList(_, allSpells) = state else { return ReducerResult() }
         let refinedSpells = environment.refinementsService.filteredSpells(spells: allSpells, by: query)
-        return (.spellList(displayedSpells: refinedSpells, allSpells: allSpells), nil)
+        return ReducerResult(state: .spellList(displayedSpells: refinedSpells, allSpells: allSpells))
     case let .sort(by: sort):
-        guard case let .spellList(_, allSpells) = state else { return (nil, nil) }
+        guard case let .spellList(_, allSpells) = state else { return ReducerResult() }
         let refinedSpells = environment.refinementsService.sortedSpells(spells: allSpells, sort: sort)
-        return (.spellList(displayedSpells: refinedSpells, allSpells: allSpells), nil)
+        return ReducerResult(state:  .spellList(displayedSpells: refinedSpells, allSpells: allSpells))
     }
 }

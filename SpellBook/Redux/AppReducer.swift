@@ -9,46 +9,55 @@
 import Foundation
 import Combine
 
-typealias ReducerResult<State, Action> = (state: State?, effect: AnyPublisher<Action, Never>?)
+struct ReducerResult<State, Action> {
+    let state: State?
+    let effect: AnyPublisher<Action, Never>?
+
+    init(state: State? = nil, effect: AnyPublisher<Action, Never>? = nil) {
+        self.state = state
+        self.effect = effect
+    }
+}
+
 typealias Reducer<State, Action, Environment> = (State, Action, Environment) -> ReducerResult<State, Action>
 
 func appReducer(state: AppState, action: AppAction, environment: ServiceContainer) -> ReducerResult<AppState, AppAction> {
     switch action {
     case let .spellList(action):
-        let output = spellListReducer(state: state.spellListState, action: action, environment: environment)
-        return mapReducerOutput(output: output, stateMapper: { AppState(spellListState: $0, spellDetailState: state.spellDetailState, favoritesState: state.favoritesState)
+        let result = spellListReducer(state: state.spellListState, action: action, environment: environment)
+        return mapReducerResult(result, stateMap: { AppState(spellListState: $0, spellDetailState: state.spellDetailState, favoritesState: state.favoritesState)
         }) { AppAction.spellList($0) }
     case let .spellDetail(action):
-        let output = spellDetailReducer(state: state.spellDetailState, action: action, environment: environment)
-        return mapReducerOutput(output: output, stateMapper: { AppState(spellListState: state.spellListState, spellDetailState: $0, favoritesState: state.favoritesState)
+        let result = spellDetailReducer(state: state.spellDetailState, action: action, environment: environment)
+        return mapReducerResult(result, stateMap: { AppState(spellListState: state.spellListState, spellDetailState: $0, favoritesState: state.favoritesState)
         }) { AppAction.spellDetail($0) }
     case let .favorites(action):
-        let output = favoritesReducer(state: state.favoritesState, action: action, environment: environment)
-        return mapReducerOutput(output: output, stateMapper: { AppState(spellListState: state.spellListState, spellDetailState: state.spellDetailState, favoritesState: $0)
+        let result = favoritesReducer(state: state.favoritesState, action: action, environment: environment)
+        return mapReducerResult(result, stateMap: { AppState(spellListState: state.spellListState, spellDetailState: state.spellDetailState, favoritesState: $0)
         }) { AppAction.favorites($0) }
     case .toggleFavorite:
-        guard case let .selectedSpell(spell) = state.spellDetailState else { return (nil, nil) }
+        guard case let .selectedSpell(spell) = state.spellDetailState else { return ReducerResult() }
         let newSpell = spell.toggleFavorite(value: !spell.isFavorite)
         environment.spellProviderService.saveSpellDetails(newSpell)
-        return (AppState(spellListState: state.spellListState, spellDetailState: .selectedSpell(newSpell), favoritesState: state.favoritesState), Just(AppAction.favorites(.requestFavorites)).eraseToAnyPublisher())
+        return ReducerResult(state: AppState(spellListState: state.spellListState, spellDetailState: .selectedSpell(newSpell), favoritesState: state.favoritesState), effect: Just(AppAction.favorites(.requestFavorites)).eraseToAnyPublisher())
     }
 }
 
-func mapReducerOutput<InputState, InputAction, OutputState, OutputAction>(output: ReducerResult<InputState, InputAction>, stateMapper: (InputState) -> OutputState, actionMapper: @escaping (InputAction) -> OutputAction) -> ReducerResult<OutputState, OutputAction> {
+private func mapReducerResult<InputState, InputAction, OutputState, OutputAction>(_ result: ReducerResult<InputState, InputAction>, stateMap: (InputState) -> OutputState, actionMap: @escaping (InputAction) -> OutputAction) -> ReducerResult<OutputState, OutputAction> {
 
     let resultState: OutputState? = {
-        if let state = output.state {
-            return stateMapper(state)
+        if let state = result.state {
+            return stateMap(state)
         } else {
             return nil
         }
     }()
 
-    let resultEffect = output.effect?
+    let resultEffect = result.effect?
         .map { inputAction -> OutputAction in
-            actionMapper(inputAction)
+            actionMap(inputAction)
     }
     .eraseToAnyPublisher()
 
-    return (resultState, resultEffect)
+    return ReducerResult(state: resultState, effect: resultEffect)
 }
