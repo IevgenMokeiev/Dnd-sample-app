@@ -31,6 +31,8 @@ struct TabbarView: View {
 
 struct TabbarView_Previews: PreviewProvider {
     static var previews: some View {
-        return ViewFactory().createTabbarView()
+        let store = AppStore(initialState: AppState(spellListState: .initial, spellDetailState: .initial, favoritesState: .initial), reducer: appReducer, environment: ServiceContainerImpl())
+        let factory = ViewFactory()
+        return factory.createTabbarView().environmentObject(store).environmentObject(factory)
     }
 }

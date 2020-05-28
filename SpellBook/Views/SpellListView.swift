@@ -70,6 +70,8 @@ extension SpellListView {
 
 struct SpellListView_Previews: PreviewProvider {
     static var previews: some View {
-        return ViewFactory().createSpellListView()
+        let store = AppStore(initialState: AppState(spellListState: .initial, spellDetailState: .initial, favoritesState: .initial), reducer: appReducer, environment: ServiceContainerImpl())
+        let factory = ViewFactory()
+        return factory.createSpellListView().environmentObject(store).environmentObject(factory)
     }
 }
