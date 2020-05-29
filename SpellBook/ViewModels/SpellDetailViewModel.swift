@@ -38,10 +38,10 @@ class SpellDetailViewModel: ObservableObject {
     }
 
     func toggleFavorite() {
-        if case .spell(var spellDTO) = state {
-            spellDTO.isFavorite = !spellDTO.isFavorite
-            state = .spell(spellDTO)
-            saveBlock(spellDTO)
+        if case .spell(let spellDTO) = state {
+            let newDTO = spellDTO.toggleFavorite(value: !spellDTO.isFavorite)
+            state = .spell(newDTO)
+            saveBlock(newDTO)
         }
     }
 
