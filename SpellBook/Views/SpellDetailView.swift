@@ -74,6 +74,10 @@ extension SpellDetailView {
                 .padding(.horizontal)
                 Divider().background(Color.orange)
                 Text("\(spellDTO.description ?? "")").padding()
+                if spellDTO.higherLevel != nil {
+                    Divider().background(Color.orange)
+                    Text("At Higher Levels: \(spellDTO.higherLevel ?? "")").padding()
+                }
             }
         }
     }

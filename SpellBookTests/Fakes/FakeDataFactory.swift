@@ -14,89 +14,44 @@ import CoreData
 class FakeDataFactory {
 
     static func provideFakeSpellDTO() -> SpellDTO {
-        return SpellDTO(name: "fake", path: "/api/spells/fake", level: 1, castingTime: "fake time", concentration: true, classes: "fake class", description: "fake desc", isFavorite: false)
+        return fakeSpellDTO(name: "fake", path: "/api/spells/fake")
     }
 
     static func provideEmptySpellListDTO() -> [SpellDTO] {
         return [
-            SpellDTO(name: "fake1", path: "/api/spells/fake1", level: nil, castingTime: nil, concentration: nil, classes: nil, description: nil, isFavorite: false),
-            SpellDTO(name: "fake2", path: "/api/spells/fake2", level: nil, castingTime: nil, concentration: nil, classes: nil, description: nil, isFavorite: false)
+            fakeSpellDTO(name: "fake1", path: "/api/spells/fake1", isEmpty: true),
+            fakeSpellDTO(name: "fake2", path: "/api/spells/fake2", isEmpty: true)
         ]
     }
 
     static func provideFakeSpellListDTO() -> [SpellDTO] {
         return [
-            SpellDTO(name: "fake1", path: "/api/spells/fake1", level: 1, castingTime: "fake time 1", concentration: true, classes: "fake class 1", description: "fake desc 1", isFavorite: false),
-            SpellDTO(name: "fake2", path: "/api/spells/fake2", level: 0, castingTime: "fake time 2", concentration: false, classes: "fake class 2", description: "fake desc 2", isFavorite: false)
+            fakeSpellDTO(name: "fake1", path: "/api/spells/fake1"),
+            fakeSpellDTO(name: "fake2", path: "/api/spells/fake2")
         ]
     }
 
     static func provideFakeFavoritesListDTO() -> [SpellDTO] {
-        return [
-            SpellDTO(name: "fake2", path: "/api/spells/fake2", level: 0, castingTime: "fake time 2", concentration: false, classes: "fake class 2", description: "fake desc 2", isFavorite: true)
-        ]
+        return [fakeSpellDTO(name: "fake", path: "/api/spells/fake", isFavorite: true)]
     }
 
     static func provideEmptySpell(context: NSManagedObjectContext) -> Spell {
-        let entity = NSEntityDescription.entity(forEntityName: "Spell", in: context)!
-        let spell = Spell(entity: entity, insertInto: context)
-        try? context.save()
-
-        return spell
+        return fakeSpell(isEmpty: true, context: context)
     }
 
     static func provideFakeSpell(context: NSManagedObjectContext) -> Spell {
-        let entity = NSEntityDescription.entity(forEntityName: "Spell", in: context)!
-        let spell = Spell(entity: entity, insertInto: context)
-        spell.name = "fake"
-        spell.path = "/api/spells/fake"
-        spell.level = 1
-        spell.casting_time = "fake time"
-        spell.concentration = true
-        spell.classes = "fake class"
-        spell.desc = "fake desc"
-        try? context.save()
-
-        return spell
+        return fakeSpell(name: "fake", path: "/api/spells/fake", context: context)
     }
 
     static func provideFakeSpellList(context: NSManagedObjectContext) -> [Spell] {
-        let entity = NSEntityDescription.entity(forEntityName: "Spell", in: context)!
-        let spell1 = Spell(entity: entity, insertInto: context)
-        spell1.name = "fake1"
-        spell1.path = "/api/spells/fake1"
-        spell1.level = 1
-        spell1.casting_time = "fake time 1"
-        spell1.concentration = true
-        spell1.classes = "fake class 1"
-        spell1.desc = "fake desc 1"
-        let spell2 = Spell(entity: entity, insertInto: context)
-        spell2.name = "fake2"
-        spell2.path = "/api/spells/fake2"
-        spell2.level = 0
-        spell2.casting_time = "fake time 2"
-        spell2.concentration = false
-        spell2.classes = "fake class 2"
-        spell2.desc = "fake desc 2"
-        try? context.save()
-
-        return [spell1, spell2]
+        return [
+            fakeSpell(name: "fake1", path: "/api/spells/fake1", context: context),
+            fakeSpell(name: "fake2", path: "/api/spells/fake2", context: context)
+        ]
     }
 
     static func provideFakeFavoritesList(context: NSManagedObjectContext) -> [Spell] {
-        let entity = NSEntityDescription.entity(forEntityName: "Spell", in: context)!
-        let spell2 = Spell(entity: entity, insertInto: context)
-        spell2.name = "fake2"
-        spell2.path = "/api/spells/fake2"
-        spell2.level = 0
-        spell2.casting_time = "fake time 2"
-        spell2.concentration = false
-        spell2.classes = "fake class 2"
-        spell2.desc = "fake desc 2"
-        spell2.isFavorite = true
-        try? context.save()
-
-        return [spell2]
+        return [fakeSpell(name: "fake", path: "/api/spells/fake", isFavorite: true, context: context)]
     }
 
     static func provideFakeSpellDetailsRawData() -> Data {
@@ -106,10 +61,10 @@ class FakeDataFactory {
             "index": "acid-arrow",
             "name": "fake",
             "desc": [
-                "fake desc"
+                "fake description"
             ],
             "higher_level": [
-                "When you cast this spell using a spell slot of 3rd level or higher, the damage (both initial and later) increases by 1d4 for each slot level above 2nd."
+                "fake higher level"
             ],
             "range": "90 feet",
             "components": [
@@ -120,7 +75,7 @@ class FakeDataFactory {
             "material": "Powdered rhubarb leaf and an adder's stomach.",
             "ritual": false,
             "duration": "Instantaneous",
-            "concentration": true,
+            "concentration": false,
             "casting_time": "fake time",
             "level": 1,
             "school": {
@@ -129,7 +84,7 @@ class FakeDataFactory {
             },
             "classes": [
                 {
-                    "name": "fake class",
+                    "name": "fake classes",
                     "url": "/api/classes/wizard"
                 }
             ],
@@ -166,5 +121,29 @@ class FakeDataFactory {
             ]
         }
         """.data(using: .utf8)!
+    }
+
+    // MARK: - Private
+    private static func fakeSpellDTO(name: String, path: String, isFavorite: Bool = false, isEmpty: Bool = false) -> SpellDTO {
+        return SpellDTO(name: name, path: path, level: !isEmpty ? 1: nil, castingTime: !isEmpty ? "fake time" : nil, concentration: !isEmpty ? false : nil, classes: !isEmpty ? "fake classes" : nil, description: !isEmpty ? "fake description" : nil, higherLevel: !isEmpty ? "fake higher level" : nil, isFavorite: isFavorite)
+    }
+
+    private static func fakeSpell(name: String = "", path: String = "", isFavorite: Bool = false, isEmpty: Bool = false, context: NSManagedObjectContext) -> Spell {
+        let entity = NSEntityDescription.entity(forEntityName: String(describing: Spell.self), in: context)!
+        let spell = Spell(entity: entity, insertInto: context)
+        guard !isEmpty else { try? context.save(); return spell }
+
+        spell.name = name
+        spell.path = path
+        spell.level = 1
+        spell.casting_time = "fake time"
+        spell.concentration = false
+        spell.classes = "fake classes"
+        spell.desc = "fake description"
+        spell.higherLevel = "fake higher level"
+        spell.isFavorite = isFavorite
+        try? context.save()
+
+        return spell
     }
 }
