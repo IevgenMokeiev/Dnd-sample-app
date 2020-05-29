@@ -16,14 +16,21 @@ struct FavoritesView: View {
     var body: some View {
         NavigationView {
             content
+            .navigationBarTitle("Favorites", displayMode: .inline)
         }
         .onAppear(perform: fetch)
     }
 
     private var content: AnyView {
         switch store.state.favoritesState {
-        case let .favorites(spells):
+        case let .favorites(spells) where spells.count > 0:
             return AnyView(loadedView(spells))
+        case .favorites(_):
+            return AnyView(
+                Image("no-spells")
+                    .resizable()
+                    .padding()
+            )
         case .initial:
             return AnyView(Text("No Favorites Yet").foregroundColor(.orange))
         }
@@ -43,7 +50,6 @@ extension FavoritesView {
         }
         .accessibility(label: Text("Favorites Table"))
         .accessibility(identifier: "FavoritesTableView")
-        .navigationBarTitle("Favorites", displayMode: .inline)
     }
 }
 
