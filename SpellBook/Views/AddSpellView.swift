@@ -40,6 +40,11 @@ struct AddSpellView: View {
             )
         }
     }
+
+    private func add() {
+        let spellDTO = SpellDTO(name: name, path: "api/spells/" + name, level: Int(level), castingTime: castingTime, concentration: concentration == "true" ? true : false, classes: classes, description: description, higherLevel: higherLevel, isFavorite: false)
+        store.send(.addSpell(spellDTO))
+    }
 }
 
 struct AddSpellEntry: View {

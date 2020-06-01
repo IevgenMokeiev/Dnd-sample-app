@@ -21,4 +21,5 @@ enum AppAction {
     case spellDetail(SpellDetaiAction)
     case favorites(FavoritesAction)
     case toggleFavorite
+    case addSpell(SpellDTO)
 }
