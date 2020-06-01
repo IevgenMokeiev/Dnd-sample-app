@@ -15,6 +15,7 @@ struct AddSpellView: View {
 
     @ObservedObject var viewModel: AddSpellViewModel = AddSpellViewModel()
     @State var addDisabled: Bool = true
+    @State private var showingAlert = false
 
     var body: some View {
         NavigationView {
@@ -26,16 +27,20 @@ struct AddSpellView: View {
                 AddSpellEntry(title: "Level: ", enteredText: $viewModel.level)
                 AddSpellEntry(title: "Casting Time: ", enteredText: $viewModel.castingTime)
                 AddSpellEntry(title: "Concentration: ", enteredText: $viewModel.concentration)
-                AddSpellEntry(title: "Classes: ", enteredText: $viewModel.classes)
                 AddSpellEntry(title: "Description: ", enteredText: $viewModel.description)
+                AddSpellEntry(title: "Classes: ", enteredText: $viewModel.classes)
                 AddSpellEntry(title: "Higher Level: ", enteredText: $viewModel.higherLevel)
             }
             .navigationBarTitle("Add Spell", displayMode: .inline)
             .navigationBarItems(trailing:
                 Button("Add") {
                     self.add()
-                }.foregroundColor(addDisabled ? .red : .orange)
+                }
+                .foregroundColor(addDisabled ? .red : .orange)
                 .disabled(addDisabled)
+                .alert(isPresented: $showingAlert) {
+                    Alert(title: Text("Message"), message: Text("Spell Added"), dismissButton: .default(Text("Got it!")))
+                }
             )
             .onReceive(viewModel.buttonEnabled, perform: validateButton)
         }
@@ -43,6 +48,7 @@ struct AddSpellView: View {
 
     private func add() {
         store.send(.addSpell(viewModel.spellDTO))
+        showingAlert = true
     }
 
     private func validateButton(_ value: Bool) {
