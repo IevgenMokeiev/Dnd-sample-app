@@ -37,4 +37,7 @@ class FakeSpellProviderService: SpellProviderService {
 
     func saveSpellDetails(_ spellDTO: SpellDTO) {
     }
+
+    func createSpell(_ spellDTO: SpellDTO) {
+    }
 }

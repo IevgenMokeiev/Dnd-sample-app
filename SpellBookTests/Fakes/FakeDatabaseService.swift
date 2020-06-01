@@ -9,7 +9,6 @@
 @testable import SpellBook
 
 class FakeDatabaseService: DatabaseService {
-
     static var spellListHandler: (() -> Result<[SpellDTO], DatabaseClientError>)?
     static var spellDetailHandler: (() -> Result<SpellDTO, Error>)?
     static var favoritesHandler: (() -> Result<[SpellDTO], Never>)?
@@ -39,6 +38,9 @@ class FakeDatabaseService: DatabaseService {
     }
 
     func saveSpellDetails(_ spellDTO: SpellDTO) {
+    }
+
+    func createSpell(_ spellDTO: SpellDTO) {
     }
 }
 
