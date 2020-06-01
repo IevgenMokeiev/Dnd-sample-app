@@ -26,4 +26,8 @@ class ViewFactory: ObservableObject {
     func createFavoritesView() -> AnyView {
         return AnyView(FavoritesView())
     }
+
+    func createAddSpellView() -> AnyView {
+        return AnyView(AddSpellView())
+    }
 }
