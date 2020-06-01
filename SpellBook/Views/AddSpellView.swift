@@ -35,7 +35,7 @@ struct AddSpellView: View {
             .navigationBarTitle("Add Spell", displayMode: .inline)
             .navigationBarItems(trailing:
                 Button("Add") {
-
+                    self.add()
                 }.foregroundColor(.orange)
             )
         }

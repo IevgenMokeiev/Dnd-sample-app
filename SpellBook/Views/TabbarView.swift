@@ -18,12 +18,17 @@ struct TabbarView: View {
             .tabItem {
                 Image(systemName: "book.fill")
                 Text("Spell Book")
-            }.accessibility(identifier: "SpellTab")
+            }.accessibility(identifier: "SpellsTab")
             factory.createFavoritesView()
             .tabItem {
                 Image(systemName: "bookmark.fill")
                 Text("Favorites")
             }.accessibility(identifier: "FavoritesTab")
+            factory.createAddSpellView()
+            .tabItem {
+                Image(systemName: "plus.circle.fill")
+                Text("Add Spell")
+            }.accessibility(identifier: "AddSpellTab")
         }
         .accentColor(.orange)
     }

@@ -21,6 +21,7 @@ protocol DatabaseService {
     func favoritesPublisher() -> DatabaseFavoritesPublisher
     func saveSpellList(_ spellDTOs: [SpellDTO])
     func saveSpellDetails(_ spellDTO: SpellDTO)
+    func createSpell(_ spellDTO: SpellDTO)
 }
 
 class DatabaseServiceImpl: DatabaseService {
@@ -52,6 +53,13 @@ class DatabaseServiceImpl: DatabaseService {
             }
             .eraseToAnyPublisher()
     }
+
+    func favoritesPublisher() -> DatabaseFavoritesPublisher {
+        return databaseClient.fetchRecords(expectedType: Spell.self, predicate: NSPredicate(format: "isFavorite == true"))
+            .map { self.translationService.convertToDTO(spellList: $0) }
+            .replaceError(with: [])
+            .eraseToAnyPublisher()
+    }
     
     func saveSpellList(_ spellDTOs: [SpellDTO]) {
         spellDTOs.forEach { (spell) in
@@ -74,11 +82,10 @@ class DatabaseServiceImpl: DatabaseService {
         })
         .store(in: &cancellableSet)
     }
-    
-    func favoritesPublisher() -> DatabaseFavoritesPublisher {
-        return databaseClient.fetchRecords(expectedType: Spell.self, predicate: NSPredicate(format: "isFavorite == true"))
-            .map { self.translationService.convertToDTO(spellList: $0) }
-            .replaceError(with: [])
-            .eraseToAnyPublisher()
+
+    func createSpell(_ spellDTO: SpellDTO) {
+        let spellEntity = databaseClient.createRecord(expectedType: Spell.self)
+        spellEntity.populate(with: spellDTO)
+        databaseClient.save()
     }
 }

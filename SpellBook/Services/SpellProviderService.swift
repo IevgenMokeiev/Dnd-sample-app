@@ -16,6 +16,7 @@ protocol SpellProviderService {
     func spellDetailsPublisher(for path: String) -> SpellDetailPublisher
     func favoritesPublisher() -> FavoritesPublisher
     func saveSpellDetails(_ spellDTO: SpellDTO)
+    func createSpell(_ spellDTO: SpellDTO)
 }
 
 class SpellProviderServiceImpl: SpellProviderService {
@@ -78,5 +79,9 @@ class SpellProviderServiceImpl: SpellProviderService {
 
     func saveSpellDetails(_ spellDTO: SpellDTO) {
         self.databaseService.saveSpellDetails(spellDTO)
+    }
+
+    func createSpell(_ spellDTO: SpellDTO) {
+        self.databaseService.createSpell(spellDTO)
     }
 }

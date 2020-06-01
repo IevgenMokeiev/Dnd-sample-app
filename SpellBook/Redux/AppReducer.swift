@@ -41,7 +41,7 @@ func appReducer(state: AppState, action: AppAction, environment: ServiceContaine
         environment.spellProviderService.saveSpellDetails(newSpell)
         return ReducerResult(state: AppState(spellListState: state.spellListState, spellDetailState: .selectedSpell(newSpell), favoritesState: state.favoritesState), effect: Just(AppAction.favorites(.requestFavorites)).eraseToAnyPublisher())
     case let .addSpell(spell):
-        environment.spellProviderService.saveSpellDetails(spell)
+        environment.spellProviderService.createSpell(spell)
         return ReducerResult(state: AppState(spellListState: .initial, spellDetailState: state.spellDetailState, favoritesState: state.favoritesState), effect: Just(AppAction.spellList(.requestSpellList)).eraseToAnyPublisher())
     }
 }
