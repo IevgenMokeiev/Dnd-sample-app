@@ -13,24 +13,21 @@ struct AddSpellView: View {
     @EnvironmentObject var store: AppStore
     @EnvironmentObject var factory: ViewFactory
 
-    @State var name: String = ""
-    @State var level: String = ""
-    @State var castingTime: String = ""
-    @State var concentration: String = ""
-    @State var classes: String = ""
-    @State var description: String = ""
-    @State var higherLevel: String = ""
+    @ObservedObject var viewModel: AddSpellViewModel = AddSpellViewModel()
 
     var body: some View {
         NavigationView {
             VStack {
-                AddSpellEntry(title: "Name: ", enteredText: $name)
-                AddSpellEntry(title: "Level: ", enteredText: $level)
-                AddSpellEntry(title: "Casting Time: ", enteredText: $castingTime)
-                AddSpellEntry(title: "Concentration: ", enteredText: $concentration)
-                AddSpellEntry(title: "Classes: ", enteredText: $classes)
-                AddSpellEntry(title: "Description: ", enteredText: $description)
-                AddSpellEntry(title: "Higher Level: ", enteredText: $higherLevel)
+                Image("scroll-add")
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding()
+                AddSpellEntry(title: "Name: ", enteredText: $viewModel.name)
+                AddSpellEntry(title: "Level: ", enteredText: $viewModel.level)
+                AddSpellEntry(title: "Casting Time: ", enteredText: $viewModel.castingTime)
+                AddSpellEntry(title: "Concentration: ", enteredText: $viewModel.concentration)
+                AddSpellEntry(title: "Classes: ", enteredText: $viewModel.classes)
+                AddSpellEntry(title: "Description: ", enteredText: $viewModel.description)
+                AddSpellEntry(title: "Higher Level: ", enteredText: $viewModel.higherLevel)
             }
             .navigationBarTitle("Add Spell", displayMode: .inline)
             .navigationBarItems(trailing:
@@ -42,8 +39,7 @@ struct AddSpellView: View {
     }
 
     private func add() {
-        let spellDTO = SpellDTO(name: name, path: "api/spells/" + name, level: Int(level), castingTime: castingTime, concentration: concentration == "true" ? true : false, classes: classes, description: description, higherLevel: higherLevel, isFavorite: false)
-        store.send(.addSpell(spellDTO))
+        store.send(.addSpell(viewModel.spellDTO))
     }
 }
 

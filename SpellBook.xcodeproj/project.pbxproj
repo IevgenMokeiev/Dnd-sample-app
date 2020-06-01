@@ -43,6 +43,7 @@
 		9F78FED8247BC6D3005B0245 /* AppReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F78FED7247BC6D3005B0245 /* AppReducer.swift */; };
 		9F8CC71D2465A8CA00F35746 /* SpellListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6BD7BF2465905C001D8825 /* SpellListView.swift */; };
 		9F8D854E24850F5500518006 /* AddSpellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F8D854D24850F5500518006 /* AddSpellView.swift */; };
+		9F8D8550248520E600518006 /* AddSpellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F8D854F248520E600518006 /* AddSpellViewModel.swift */; };
 		9F91A3A024756B2D0034642A /* TabbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F91A39F24756B2D0034642A /* TabbarView.swift */; };
 		9F91A3A4247574020034642A /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F91A3A3247574020034642A /* FavoritesView.swift */; };
 		9F9A533C247E973300F65809 /* SpellList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9A533B247E973300F65809 /* SpellList.swift */; };
@@ -123,6 +124,7 @@
 		9F78FED3247BAEBE005B0245 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		9F78FED7247BC6D3005B0245 /* AppReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReducer.swift; sourceTree = "<group>"; };
 		9F8D854D24850F5500518006 /* AddSpellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSpellView.swift; sourceTree = "<group>"; };
+		9F8D854F248520E600518006 /* AddSpellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSpellViewModel.swift; sourceTree = "<group>"; };
 		9F91A39F24756B2D0034642A /* TabbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarView.swift; sourceTree = "<group>"; };
 		9F91A3A3247574020034642A /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
 		9F9A533B247E973300F65809 /* SpellList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellList.swift; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 				9F6BD7BF2465905C001D8825 /* SpellListView.swift */,
 				9F0C894B246A885C003592F5 /* SpellDetailView.swift */,
 				9F91A3A3247574020034642A /* FavoritesView.swift */,
+				9F8D854F248520E600518006 /* AddSpellViewModel.swift */,
 				9F8D854D24850F5500518006 /* AddSpellView.swift */,
 				9F70C4CF247404530080275E /* SearchView.swift */,
 				9F0C8950246ACC92003592F5 /* ProgressView.swift */,
@@ -576,6 +579,7 @@
 			files = (
 				9F70C4D224740F120080275E /* RefinementsService.swift in Sources */,
 				9FC3E0562472CCBA00C5AE17 /* CustomTypes.swift in Sources */,
+				9F8D8550248520E600518006 /* AddSpellViewModel.swift in Sources */,
 				9F70C4D0247404530080275E /* SearchView.swift in Sources */,
 				9F8CC71D2465A8CA00F35746 /* SpellListView.swift in Sources */,
 				9F0C894C246A885C003592F5 /* SpellDetailView.swift in Sources */,
