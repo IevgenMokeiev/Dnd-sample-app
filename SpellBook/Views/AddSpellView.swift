@@ -14,6 +14,7 @@ struct AddSpellView: View {
     @EnvironmentObject var factory: ViewFactory
 
     @ObservedObject var viewModel: AddSpellViewModel = AddSpellViewModel()
+    @State var addDisabled: Bool = true
 
     var body: some View {
         NavigationView {
@@ -33,13 +34,19 @@ struct AddSpellView: View {
             .navigationBarItems(trailing:
                 Button("Add") {
                     self.add()
-                }.foregroundColor(.orange)
+                }.foregroundColor(addDisabled ? .red : .orange)
+                .disabled(addDisabled)
             )
+            .onReceive(viewModel.buttonEnabled, perform: validateButton)
         }
     }
 
     private func add() {
         store.send(.addSpell(viewModel.spellDTO))
+    }
+
+    private func validateButton(_ value: Bool) {
+        addDisabled = !value
     }
 }
 
