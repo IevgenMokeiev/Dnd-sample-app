@@ -14,7 +14,7 @@ struct AddSpellView: View {
     @EnvironmentObject var factory: ViewFactory
 
     @ObservedObject var viewModel: AddSpellViewModel = AddSpellViewModel()
-    @State var addButtonDisabled: Bool = true
+    @State private var addButtonDisabled: Bool = true
     @State private var showingAlert = false
 
     var body: some View {
