@@ -14,30 +14,30 @@ struct AddSpellView: View {
     @EnvironmentObject var factory: ViewFactory
 
     @ObservedObject var viewModel: AddSpellViewModel = AddSpellViewModel()
-    @State var addDisabled: Bool = true
+    @State var addButtonDisabled: Bool = true
     @State private var showingAlert = false
 
     var body: some View {
         NavigationView {
-            VStack {
+            VStack(alignment: .leading) {
                 Image("scroll-add")
                 .frame(maxWidth: .infinity, alignment: .center)
                 .padding()
-                AddSpellEntry(title: "Name: ", enteredText: $viewModel.name)
-                AddSpellEntry(title: "Level: ", enteredText: $viewModel.level)
-                AddSpellEntry(title: "Casting Time: ", enteredText: $viewModel.castingTime)
-                AddSpellEntry(title: "Concentration: ", enteredText: $viewModel.concentration)
-                AddSpellEntry(title: "Description: ", enteredText: $viewModel.description)
-                AddSpellEntry(title: "Classes: ", enteredText: $viewModel.classes)
-                AddSpellEntry(title: "Higher Level: ", enteredText: $viewModel.higherLevel)
+                AddSpellEntryView(title: "Name: ", enteredText: $viewModel.name)
+                AddSpellEntryView(title: "Level: ", enteredText: $viewModel.level)
+                AddSpellEntryView(title: "Casting Time: ", enteredText: $viewModel.castingTime)
+                CheckMarkEntryView(title: "Concentration: ", isChecked: $viewModel.concentration)
+                AddSpellEntryView(title: "Description: ", enteredText: $viewModel.description)
+                AddSpellEntryView(title: "Classes: ", enteredText: $viewModel.classes)
+                AddSpellEntryView(title: "Higher Level: ", enteredText: $viewModel.higherLevel)
             }
             .navigationBarTitle("Add Spell", displayMode: .inline)
             .navigationBarItems(trailing:
                 Button("Add") {
                     self.add()
                 }
-                .foregroundColor(addDisabled ? .red : .orange)
-                .disabled(addDisabled)
+                .foregroundColor(addButtonDisabled ? .red : .orange)
+                .disabled(addButtonDisabled)
                 .alert(isPresented: $showingAlert) {
                     Alert(title: Text("Message"), message: Text("Spell Added"), dismissButton: .default(Text("Got it!")))
                 }
@@ -46,23 +46,46 @@ struct AddSpellView: View {
         }
     }
 
+    private func toggleCheckmark() {
+        viewModel.concentration = !viewModel.concentration
+    }
+
     private func add() {
         store.send(.addSpell(viewModel.spellDTO))
         showingAlert = true
     }
 
     private func validateButton(_ value: Bool) {
-        addDisabled = !value
+        addButtonDisabled = !value
     }
 }
 
-struct AddSpellEntry: View {
+struct AddSpellEntryView: View {
     let title: String
     @Binding var enteredText: String
+
     var body: some View {
         HStack {
             Text(title)
             TextField("enter text...", text: $enteredText)
+        }.padding()
+    }
+}
+
+struct CheckMarkEntryView: View {
+    let title: String
+    @Binding var isChecked: Bool
+    @State private var isEnabled: Bool = false
+
+    var body: some View {
+        HStack {
+            Text(title)
+            Button(action: {
+                self.isEnabled = !self.isEnabled
+                self.isChecked = !self.isChecked
+            }){
+                Image(systemName: isEnabled ? "checkmark.square.fill" : "square").foregroundColor(.orange)
+            }
         }.padding()
     }
 }
