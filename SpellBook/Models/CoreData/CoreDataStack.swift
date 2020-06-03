@@ -19,8 +19,8 @@ protocol CoreDataStack {
 }
 
 class CoreDataStackImpl: CoreDataStack {
-    var persistentContainer: NSPersistentContainer!
-    var managedObjectContext: NSManagedObjectContext!
+    let persistentContainer: NSPersistentContainer!
+    let managedObjectContext: NSManagedObjectContext!
 
     init() {
         persistentContainer = NSPersistentContainer(name: "DnDModel")

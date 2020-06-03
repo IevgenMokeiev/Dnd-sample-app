@@ -26,8 +26,8 @@ protocol DatabaseService {
 
 class DatabaseServiceImpl: DatabaseService {
     
-    private var databaseClient: DatabaseClient
-    private var translationService: TranslationService
+    private let databaseClient: DatabaseClient
+    private let translationService: TranslationService
     private var cancellableSet: Set<AnyCancellable> = []
     
     init(databaseClient: DatabaseClient, translationService: TranslationService) {

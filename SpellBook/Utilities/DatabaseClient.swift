@@ -25,7 +25,7 @@ protocol DatabaseClient {
 
 class DatabaseClientImpl: DatabaseClient {
 
-    private var coreDataStack: CoreDataStack
+    private let coreDataStack: CoreDataStack
     private var cancellableSet: Set<AnyCancellable> = []
 
     init(coreDataStack: CoreDataStack) {

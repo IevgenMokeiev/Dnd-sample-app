@@ -23,7 +23,7 @@ protocol NetworkClient {
 
 class NetworkClientImpl: NetworkClient {
 
-    private var protocolClasses: [AnyClass]?
+    private let protocolClasses: [AnyClass]?
 
     init(protocolClasses: [AnyClass]? = nil) {
         self.protocolClasses = protocolClasses
