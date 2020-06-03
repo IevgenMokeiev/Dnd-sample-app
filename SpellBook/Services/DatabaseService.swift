@@ -10,7 +10,6 @@ import Foundation
 import CoreData
 import Combine
 
-typealias SaveBlock = (SpellDTO) -> Void
 typealias DatabaseSpellPublisher = AnyPublisher<[SpellDTO], DatabaseClientError>
 typealias DatabaseSpellDetailPublisher = AnyPublisher<SpellDTO, Error>
 typealias DatabaseFavoritesPublisher = AnyPublisher<[SpellDTO], Never>
@@ -22,6 +21,7 @@ protocol DatabaseService {
     func favoritesPublisher() -> DatabaseFavoritesPublisher
     func saveSpellList(_ spellDTOs: [SpellDTO])
     func saveSpellDetails(_ spellDTO: SpellDTO)
+    func createSpell(_ spellDTO: SpellDTO)
 }
 
 class DatabaseServiceImpl: DatabaseService {
@@ -36,14 +36,14 @@ class DatabaseServiceImpl: DatabaseService {
     }
     
     func spellListPublisher() -> DatabaseSpellPublisher {
-        return databaseClient.fetchObjects(expectedType: Spell.self, predicate: nil)
+        return databaseClient.fetchRecords(expectedType: Spell.self, predicate: nil)
             .map { self.translationService.convertToDTO(spellList: $0) }
             .eraseToAnyPublisher()
     }
     
     func spellDetailsPublisher(for path: String) -> DatabaseSpellDetailPublisher {
         let predicate = NSPredicate(format: "path == %@", path)
-        return databaseClient.fetchObjects(expectedType: Spell.self, predicate: predicate)
+        return databaseClient.fetchRecords(expectedType: Spell.self, predicate: predicate)
             .tryMap { spells in
                 if let spell = spells.first, spell.desc != nil {
                     return self.translationService.convertToDTO(spell: spell)
@@ -53,33 +53,39 @@ class DatabaseServiceImpl: DatabaseService {
             }
             .eraseToAnyPublisher()
     }
+
+    func favoritesPublisher() -> DatabaseFavoritesPublisher {
+        return databaseClient.fetchRecords(expectedType: Spell.self, predicate: NSPredicate(format: "isFavorite == true"))
+            .map { self.translationService.convertToDTO(spellList: $0) }
+            .replaceError(with: [])
+            .eraseToAnyPublisher()
+    }
     
     func saveSpellList(_ spellDTOs: [SpellDTO]) {
         spellDTOs.forEach { (spell) in
-            let spellEntity = databaseClient.createObject(expectedType: Spell.self)
+            let spellEntity = databaseClient.createRecord(expectedType: Spell.self)
             spellEntity.name = spell.name
             spellEntity.path = spell.path
         }
-        databaseClient.saveChanges()
+        databaseClient.save()
     }
     
     func saveSpellDetails(_ spellDTO: SpellDTO) {
         let predicate = NSPredicate(format: "path == %@", spellDTO.path)
-        databaseClient.fetchObjects(expectedType: Spell.self, predicate: predicate)
+        databaseClient.fetchRecords(expectedType: Spell.self, predicate: predicate)
         .receive(on: RunLoop.main)
         .sink(receiveCompletion: { completion in
         }, receiveValue: { spells in
             let matchedSpell = spells.first
             matchedSpell?.populate(with: spellDTO)
-            self.databaseClient.saveChanges()
+            self.databaseClient.save()
         })
         .store(in: &cancellableSet)
     }
-    
-    func favoritesPublisher() -> DatabaseFavoritesPublisher {
-        return databaseClient.fetchObjects(expectedType: Spell.self, predicate: NSPredicate(format: "isFavorite == true"))
-            .map { self.translationService.convertToDTO(spellList: $0) }
-            .replaceError(with: [])
-            .eraseToAnyPublisher()
+
+    func createSpell(_ spellDTO: SpellDTO) {
+        let spellEntity = databaseClient.createRecord(expectedType: Spell.self)
+        spellEntity.populate(with: spellDTO)
+        databaseClient.save()
     }
 }

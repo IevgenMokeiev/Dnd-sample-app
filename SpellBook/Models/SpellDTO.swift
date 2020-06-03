@@ -12,7 +12,7 @@ import Foundation
 /// Has protocol conformances to wok with Combine as well as Codable implementation
 struct SpellDTO: Equatable, Identifiable {
     typealias ID = String
-    var id: String { return name }
+    var id: String { path }
 
     let name: String
     let path: String
@@ -21,10 +21,11 @@ struct SpellDTO: Equatable, Identifiable {
     let concentration: Bool?
     let classes: String?
     let description: String?
+    let higherLevel: String?
     let isFavorite: Bool
 
     func toggleFavorite(value: Bool) -> SpellDTO {
-        return SpellDTO(name: self.name, path: self.path, level: self.level, castingTime: self.castingTime, concentration: self.concentration, classes: self.classes, description: self.description, isFavorite: value)
+        return SpellDTO(name: self.name, path: self.path, level: self.level, castingTime: self.castingTime, concentration: self.concentration, classes: self.classes, description: self.description, higherLevel: self.higherLevel, isFavorite: value)
     }
 }
 
@@ -48,6 +49,7 @@ extension SpellDTO: Codable {
         case concentration
         case classes
         case description = "desc"
+        case higherLevel = "higher_level"
     }
 
     init(from decoder: Decoder) throws {
@@ -64,6 +66,8 @@ extension SpellDTO: Codable {
         let classesArray = try values.decodeIfPresent([ClassObject].self, forKey: .classes)
         let namesArray = classesArray?.map { $0.name }
         classes = namesArray?.joined(separator: ", ")
+        let higherLevelArray = try values.decodeIfPresent([String].self, forKey: .higherLevel)
+        higherLevel = higherLevelArray?.joined(separator: "\n\n")
         isFavorite = false
     }
 }

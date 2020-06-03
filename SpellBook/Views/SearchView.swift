@@ -13,7 +13,7 @@ import SwiftUI
 ///     - searchTerm: A binding to sync with text field text
 struct SearchView: View {
 
-    @Binding var searchTerm: String
+    @Binding var query: String
 
     var body: some View {
         HStack {
@@ -23,7 +23,8 @@ struct SearchView: View {
             .foregroundColor(.orange)
             .frame(width: 25, height: 25)
             .padding(.trailing, 5)
-            TextField("type spell here...", text: $searchTerm).accessibility(identifier: "SpellSearchView")
+            TextField("type spell here...", text: $query)
+            .accessibility(identifier: "SpellSearchView")
         }.padding([.horizontal, .top], 15)
     }
 }

@@ -1,5 +1,5 @@
 //
-//  InteractorTests.swift
+//  SpellProviderService.swift
 //  SpellBookTests
 //
 //  Created by Yevhen Mokeiev on 22.05.2020.
@@ -10,7 +10,7 @@ import XCTest
 import Combine
 @testable import SpellBook
 
-class InteractorTests: XCTestCase {
+class SpellProviderServiceTests: XCTestCase {
 
     private var cancellableSet: Set<AnyCancellable> = []
 
@@ -140,10 +140,9 @@ class InteractorTests: XCTestCase {
         waitForExpectations(timeout: 5)
     }
     
-    private func makeSUT() -> Interactor {
+    private func makeSUT() -> SpellProviderService {
         let fakeDatabaseService = FakeDatabaseService()
         let fakeNetworkService = FakeNetworkService()
-        let fakeRefinementsService = FakeRefinementsService()
-        return InteractorImpl(databaseService: fakeDatabaseService, networkService: fakeNetworkService, refinementsService: fakeRefinementsService)
+        return SpellProviderServiceImpl(databaseService: fakeDatabaseService, networkService: fakeNetworkService)
     }
 }

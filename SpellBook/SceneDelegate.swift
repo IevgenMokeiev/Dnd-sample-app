@@ -13,7 +13,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-    var appCoordinator: AppCoordinator?
+    let store = AppStore(initialState: AppState(spellListState: .initial, spellDetailState: .initial, favoritesState: .initial), reducer: appReducer, environment: ServiceContainerImpl())
+    let factory = ViewFactory()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -22,20 +23,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Use a UIHostingController as window root view controller.
 
-        let coordinator: AppCoordinator = {
-            if CommandLine.arguments.contains("enable-testing") {
-                return AppCoordinator(configureForTesing: true)
-            } else {
-                return AppCoordinator()
-            }
-        }()
-
-        appCoordinator = coordinator
-
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             window.rootViewController = UIHostingController(rootView:
-                appCoordinator?.viewFactory.createTabbarView().environmentObject(coordinator.viewFactory))
+                factory.createTabbarView().environmentObject(store).environmentObject(factory))
             self.window = window
             window.makeKeyAndVisible()
         }

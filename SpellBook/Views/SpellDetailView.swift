@@ -10,28 +10,40 @@ import SwiftUI
 import Combine
 
 struct SpellDetailView: View {
-    
-    @ObservedObject var viewModel: SpellDetailViewModel
+    var spellPath: String
+    @EnvironmentObject var store: AppStore
 
     var body: some View {
         content
         .padding(.top, 5)
-        .onAppear(perform: viewModel.onAppear)
+        .onAppear(perform: fetch)
         .navigationBarTitle("Spell Detail")
         .navigationBarItems(trailing:
-            Button(viewModel.favoriteButtonText) {
-                self.viewModel.toggleFavorite()
+            Button(favoriteButtonText) {
+                self.store.send(.toggleFavorite)
             }.foregroundColor(.orange)
             .accessibility(identifier: "FavoritesButton")
         )
     }
 
     private var content: AnyView {
-        switch viewModel.state {
-        case .loading: return AnyView(ProgressView(isAnimating: true))
-        case .spell(let spellDTO): return AnyView(loadedView(spellDTO))
-        case .error: return AnyView(ErrorView())
+        switch store.state.spellDetailState {
+        case let .selectedSpell(spellDTO):
+            return AnyView(loadedView(spellDTO))
+        case .error(_):
+            return AnyView(ErrorView())
+        case .initial:
+            return AnyView(ProgressView(isAnimating: true))
         }
+    }
+
+    private var favoriteButtonText: String {
+        guard case let .selectedSpell(spellDTO) = store.state.spellDetailState else { return "" }
+        return spellDTO.isFavorite ? "Remove from Favorites" : "Add to Favorites"
+    }
+
+    private func fetch() {
+        store.send(.spellDetail(.requestSpell(path: spellPath)))
     }
 }
 
@@ -62,6 +74,10 @@ extension SpellDetailView {
                 .padding(.horizontal)
                 Divider().background(Color.orange)
                 Text("\(spellDTO.description ?? "")").padding()
+                if spellDTO.higherLevel != nil {
+                    Divider().background(Color.orange)
+                    Text("At Higher Levels: \(spellDTO.higherLevel ?? "")").padding()
+                }
             }
         }
     }
@@ -69,6 +85,8 @@ extension SpellDetailView {
 
 struct SpellDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        return AppCoordinator().viewFactory.createSpellDetailView(path: "path")
+        let store = AppStore(initialState: AppState(spellListState: .initial, spellDetailState: .initial, favoritesState: .initial), reducer: appReducer, environment: ServiceContainerImpl())
+        let factory = ViewFactory()
+        return factory.createSpellDetailView(path: "path").environmentObject(store).environmentObject(factory)
     }
 }

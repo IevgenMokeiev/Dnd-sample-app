@@ -18,9 +18,9 @@ enum DatabaseClientError: Error {
 }
 
 protocol DatabaseClient {
-    func fetchObjects<T: NSManagedObject>(expectedType: T.Type, predicate: NSPredicate?) -> AnyPublisher<[T], DatabaseClientError>
-    func createObject<T: NSManagedObject>(expectedType: T.Type) -> T
-    func saveChanges()
+    func fetchRecords<T: NSManagedObject>(expectedType: T.Type, predicate: NSPredicate?) -> AnyPublisher<[T], DatabaseClientError>
+    func createRecord<T: NSManagedObject>(expectedType: T.Type) -> T
+    func save()
 }
 
 class DatabaseClientImpl: DatabaseClient {
@@ -35,7 +35,7 @@ class DatabaseClientImpl: DatabaseClient {
             .store(in: &cancellableSet)
     }
 
-    func fetchObjects<T: NSManagedObject>(expectedType: T.Type, predicate: NSPredicate?) -> AnyPublisher<[T], DatabaseClientError> {
+    func fetchRecords<T: NSManagedObject>(expectedType: T.Type, predicate: NSPredicate?) -> AnyPublisher<[T], DatabaseClientError> {
         let context = coreDataStack.persistentContainer.viewContext
         let request = NSFetchRequest<T>(entityName: String(describing: T.self))
         if let predicate = predicate {
@@ -56,11 +56,11 @@ class DatabaseClientImpl: DatabaseClient {
         }
     }
 
-    func createObject<T: NSManagedObject>(expectedType: T.Type) -> T {
+    func createRecord<T: NSManagedObject>(expectedType: T.Type) -> T {
         return T(context: coreDataStack.persistentContainer.viewContext)
     }
 
-    func saveChanges() {
+    func save() {
         do {
             try coreDataStack.persistentContainer.viewContext.save()
         } catch let error as NSError {

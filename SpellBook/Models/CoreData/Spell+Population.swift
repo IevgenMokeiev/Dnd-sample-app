@@ -18,6 +18,7 @@ extension Spell {
         concentration = dto.concentration ?? false
         classes = dto.classes
         desc = dto.description
+        higherLevel = dto.higherLevel
         isFavorite = dto.isFavorite
     }
 }

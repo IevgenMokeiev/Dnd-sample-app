@@ -12,16 +12,20 @@
 		85B353F52267B64A00617C7E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85B353F42267B64A00617C7E /* Assets.xcassets */; };
 		85B353F82267B64A00617C7E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85B353F62267B64A00617C7E /* LaunchScreen.storyboard */; };
 		85B3540E2267B64A00617C7E /* SpellBookUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B3540D2267B64A00617C7E /* SpellBookUITests.swift */; };
-		85B354612268BCD400617C7E /* Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B354602268BCD400617C7E /* Interactor.swift */; };
+		85B354612268BCD400617C7E /* ServiceContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B354602268BCD400617C7E /* ServiceContainer.swift */; };
 		85B354632268BD3A00617C7E /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B354622268BD3A00617C7E /* NetworkService.swift */; };
 		85B35479226912D300617C7E /* DnDModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 85B354582268B49700617C7E /* DnDModel.xcdatamodeld */; };
 		85B3547B2269AF3100617C7E /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B3547A2269AF3100617C7E /* DatabaseService.swift */; };
 		9F0C894C246A885C003592F5 /* SpellDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0C894B246A885C003592F5 /* SpellDetailView.swift */; };
 		9F0C894E246A921C003592F5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0C894D246A921C003592F5 /* SceneDelegate.swift */; };
 		9F0C8951246ACC92003592F5 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0C8950246ACC92003592F5 /* ProgressView.swift */; };
-		9F0FF92E2477D66E00654865 /* InteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0FF92D2477D66E00654865 /* InteractorTests.swift */; };
+		9F0FF92E2477D66E00654865 /* SpellProviderServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0FF92D2477D66E00654865 /* SpellProviderServiceTests.swift */; };
 		9F109D8B2476B1500091B7E3 /* Spell+Population.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F109D8A2476B1500091B7E3 /* Spell+Population.swift */; };
 		9F109D8D2476B2320091B7E3 /* SpellDTOConversionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F109D8C2476B2320091B7E3 /* SpellDTOConversionTests.swift */; };
+		9F21DEC1247C013C0026DE14 /* SpellProviderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21DEC0247C013C0026DE14 /* SpellProviderService.swift */; };
+		9F21DEC5247C0AC40026DE14 /* AppReducerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21DEC4247C0AC40026DE14 /* AppReducerTests.swift */; };
+		9F21DEC7247C0C3B0026DE14 /* FakeServiceContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21DEC6247C0C3B0026DE14 /* FakeServiceContainer.swift */; };
+		9F21DEC9247C0CBA0026DE14 /* FakeSpellProviderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21DEC8247C0CBA0026DE14 /* FakeSpellProviderService.swift */; };
 		9F54AC13246BE47A005B4849 /* NetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC12246BE47A005B4849 /* NetworkServiceTests.swift */; };
 		9F54AC17246BE651005B4849 /* FakeURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC15246BE628005B4849 /* FakeURLProtocol.swift */; };
 		9F54AC1A246BE721005B4849 /* FakeCoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC18246BE71E005B4849 /* FakeCoreDataStack.swift */; };
@@ -29,20 +33,27 @@
 		9F54AC1F246BF023005B4849 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC1E246BF023005B4849 /* CoreDataStack.swift */; };
 		9F54AC21246BF86D005B4849 /* DatabaseServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC20246BF86D005B4849 /* DatabaseServiceTests.swift */; };
 		9F54AC24246C0B8C005B4849 /* ViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC23246C0B8C005B4849 /* ViewFactory.swift */; };
-		9F54AC28246C1150005B4849 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC27246C1150005B4849 /* AppCoordinator.swift */; };
 		9F54AC2A246C21D7005B4849 /* Spell+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC29246C21D7005B4849 /* Spell+Equatable.swift */; };
 		9F6BD7C2246593CF001D8825 /* SpellDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6BD7C1246593CF001D8825 /* SpellDTO.swift */; };
 		9F6BD7C424659691001D8825 /* TranslationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6BD7C324659691001D8825 /* TranslationService.swift */; };
 		9F70C4D0247404530080275E /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F70C4CF247404530080275E /* SearchView.swift */; };
 		9F70C4D224740F120080275E /* RefinementsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F70C4D124740F120080275E /* RefinementsService.swift */; };
+		9F78FED2247BADDC005B0245 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F78FED1247BADDC005B0245 /* App.swift */; };
+		9F78FED4247BAEBE005B0245 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F78FED3247BAEBE005B0245 /* Store.swift */; };
+		9F78FED8247BC6D3005B0245 /* AppReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F78FED7247BC6D3005B0245 /* AppReducer.swift */; };
 		9F8CC71D2465A8CA00F35746 /* SpellListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6BD7BF2465905C001D8825 /* SpellListView.swift */; };
+		9F8D854E24850F5500518006 /* AddSpellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F8D854D24850F5500518006 /* AddSpellView.swift */; };
+		9F8D8550248520E600518006 /* AddSpellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F8D854F248520E600518006 /* AddSpellViewModel.swift */; };
 		9F91A3A024756B2D0034642A /* TabbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F91A39F24756B2D0034642A /* TabbarView.swift */; };
 		9F91A3A4247574020034642A /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F91A3A3247574020034642A /* FavoritesView.swift */; };
-		9F91A3A62475749B0034642A /* FavoritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F91A3A52475749B0034642A /* FavoritesViewModel.swift */; };
+		9F9A533C247E973300F65809 /* SpellList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9A533B247E973300F65809 /* SpellList.swift */; };
+		9F9A533E247E973F00F65809 /* SpellListReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9A533D247E973F00F65809 /* SpellListReducer.swift */; };
+		9F9A5340247E975400F65809 /* SpellDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9A533F247E975400F65809 /* SpellDetail.swift */; };
+		9F9A5342247E976200F65809 /* SpellDetailReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9A5341247E976200F65809 /* SpellDetailReducer.swift */; };
+		9F9A5344247E976C00F65809 /* Favorites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9A5343247E976C00F65809 /* Favorites.swift */; };
+		9F9A5346247E977900F65809 /* FavoritesReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9A5345247E977900F65809 /* FavoritesReducer.swift */; };
 		9FC14EAD246B3AC000428073 /* TranslationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC14EAC246B3AC000428073 /* TranslationServiceTests.swift */; };
 		9FC3E0562472CCBA00C5AE17 /* CustomTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC3E0552472CCBA00C5AE17 /* CustomTypes.swift */; };
-		9FD27450246D4244009A9FBD /* SpellListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2744F246D4244009A9FBD /* SpellListViewModel.swift */; };
-		9FD27452246D44C9009A9FBD /* SpellDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD27451246D44C9009A9FBD /* SpellDetailViewModel.swift */; };
 		9FDC20CF2479280800D87439 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDC20CE2479280800D87439 /* ErrorView.swift */; };
 		9FFF78B32477E18F0068743F /* FakeDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFF78AA2477E0FA0068743F /* FakeDatabaseService.swift */; };
 		9FFF78B42477E18F0068743F /* FakeNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFF78AC2477E1170068743F /* FakeNetworkService.swift */; };
@@ -83,15 +94,19 @@
 		85B3540D2267B64A00617C7E /* SpellBookUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellBookUITests.swift; sourceTree = "<group>"; };
 		85B3540F2267B64A00617C7E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85B354592268B49700617C7E /* DnDModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DnDModel.xcdatamodel; sourceTree = "<group>"; };
-		85B354602268BCD400617C7E /* Interactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interactor.swift; sourceTree = "<group>"; };
+		85B354602268BCD400617C7E /* ServiceContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceContainer.swift; sourceTree = "<group>"; };
 		85B354622268BD3A00617C7E /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		85B3547A2269AF3100617C7E /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
 		9F0C894B246A885C003592F5 /* SpellDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellDetailView.swift; sourceTree = "<group>"; };
 		9F0C894D246A921C003592F5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		9F0C8950246ACC92003592F5 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
-		9F0FF92D2477D66E00654865 /* InteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractorTests.swift; sourceTree = "<group>"; };
+		9F0FF92D2477D66E00654865 /* SpellProviderServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellProviderServiceTests.swift; sourceTree = "<group>"; };
 		9F109D8A2476B1500091B7E3 /* Spell+Population.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Spell+Population.swift"; sourceTree = "<group>"; };
 		9F109D8C2476B2320091B7E3 /* SpellDTOConversionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellDTOConversionTests.swift; sourceTree = "<group>"; };
+		9F21DEC0247C013C0026DE14 /* SpellProviderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellProviderService.swift; sourceTree = "<group>"; };
+		9F21DEC4247C0AC40026DE14 /* AppReducerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReducerTests.swift; sourceTree = "<group>"; };
+		9F21DEC6247C0C3B0026DE14 /* FakeServiceContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeServiceContainer.swift; sourceTree = "<group>"; };
+		9F21DEC8247C0CBA0026DE14 /* FakeSpellProviderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeSpellProviderService.swift; sourceTree = "<group>"; };
 		9F54AC12246BE47A005B4849 /* NetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceTests.swift; sourceTree = "<group>"; };
 		9F54AC15246BE628005B4849 /* FakeURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeURLProtocol.swift; sourceTree = "<group>"; };
 		9F54AC18246BE71E005B4849 /* FakeCoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeCoreDataStack.swift; sourceTree = "<group>"; };
@@ -99,20 +114,27 @@
 		9F54AC1E246BF023005B4849 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		9F54AC20246BF86D005B4849 /* DatabaseServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseServiceTests.swift; sourceTree = "<group>"; };
 		9F54AC23246C0B8C005B4849 /* ViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewFactory.swift; sourceTree = "<group>"; };
-		9F54AC27246C1150005B4849 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		9F54AC29246C21D7005B4849 /* Spell+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Spell+Equatable.swift"; sourceTree = "<group>"; };
 		9F6BD7BF2465905C001D8825 /* SpellListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellListView.swift; sourceTree = "<group>"; };
 		9F6BD7C1246593CF001D8825 /* SpellDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellDTO.swift; sourceTree = "<group>"; };
 		9F6BD7C324659691001D8825 /* TranslationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationService.swift; sourceTree = "<group>"; };
 		9F70C4CF247404530080275E /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		9F70C4D124740F120080275E /* RefinementsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefinementsService.swift; sourceTree = "<group>"; };
+		9F78FED1247BADDC005B0245 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		9F78FED3247BAEBE005B0245 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		9F78FED7247BC6D3005B0245 /* AppReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReducer.swift; sourceTree = "<group>"; };
+		9F8D854D24850F5500518006 /* AddSpellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSpellView.swift; sourceTree = "<group>"; };
+		9F8D854F248520E600518006 /* AddSpellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSpellViewModel.swift; sourceTree = "<group>"; };
 		9F91A39F24756B2D0034642A /* TabbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarView.swift; sourceTree = "<group>"; };
 		9F91A3A3247574020034642A /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
-		9F91A3A52475749B0034642A /* FavoritesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewModel.swift; sourceTree = "<group>"; };
+		9F9A533B247E973300F65809 /* SpellList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellList.swift; sourceTree = "<group>"; };
+		9F9A533D247E973F00F65809 /* SpellListReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellListReducer.swift; sourceTree = "<group>"; };
+		9F9A533F247E975400F65809 /* SpellDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellDetail.swift; sourceTree = "<group>"; };
+		9F9A5341247E976200F65809 /* SpellDetailReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellDetailReducer.swift; sourceTree = "<group>"; };
+		9F9A5343247E976C00F65809 /* Favorites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Favorites.swift; sourceTree = "<group>"; };
+		9F9A5345247E977900F65809 /* FavoritesReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesReducer.swift; sourceTree = "<group>"; };
 		9FC14EAC246B3AC000428073 /* TranslationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationServiceTests.swift; sourceTree = "<group>"; };
 		9FC3E0552472CCBA00C5AE17 /* CustomTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTypes.swift; sourceTree = "<group>"; };
-		9FD2744F246D4244009A9FBD /* SpellListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellListViewModel.swift; sourceTree = "<group>"; };
-		9FD27451246D44C9009A9FBD /* SpellDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellDetailViewModel.swift; sourceTree = "<group>"; };
 		9FDC20CE2479280800D87439 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		9FFF78A82477E0D60068743F /* FakeRefinementsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeRefinementsService.swift; sourceTree = "<group>"; };
 		9FFF78AA2477E0FA0068743F /* FakeDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeDatabaseService.swift; sourceTree = "<group>"; };
@@ -199,9 +221,8 @@
 			children = (
 				85B353ED2267B64200617C7E /* AppDelegate.swift */,
 				9F0C894D246A921C003592F5 /* SceneDelegate.swift */,
-				9F54AC27246C1150005B4849 /* AppCoordinator.swift */,
+				9F78FED0247BADCC005B0245 /* Redux */,
 				85B3545B2268BB4700617C7E /* Views */,
-				9FD2744E246D422B009A9FBD /* ViewModels */,
 				9F0C894F246ACBE2003592F5 /* Services */,
 				85B3545D2268BB6100617C7E /* Models */,
 				9F54AC22246C0B6E005B4849 /* Factories */,
@@ -217,7 +238,7 @@
 			children = (
 				9F54AC14246BE60B005B4849 /* Fakes */,
 				9FC14EAB246B3A8500428073 /* Services */,
-				9F0FF92D2477D66E00654865 /* InteractorTests.swift */,
+				9F21DEC4247C0AC40026DE14 /* AppReducerTests.swift */,
 				9F109D8C2476B2320091B7E3 /* SpellDTOConversionTests.swift */,
 				85B354042267B64A00617C7E /* Info.plist */,
 			);
@@ -240,6 +261,8 @@
 				9F6BD7BF2465905C001D8825 /* SpellListView.swift */,
 				9F0C894B246A885C003592F5 /* SpellDetailView.swift */,
 				9F91A3A3247574020034642A /* FavoritesView.swift */,
+				9F8D854F248520E600518006 /* AddSpellViewModel.swift */,
+				9F8D854D24850F5500518006 /* AddSpellView.swift */,
 				9F70C4CF247404530080275E /* SearchView.swift */,
 				9F0C8950246ACC92003592F5 /* ProgressView.swift */,
 				9FDC20CE2479280800D87439 /* ErrorView.swift */,
@@ -251,7 +274,7 @@
 			isa = PBXGroup;
 			children = (
 				9F109D8E2476B2EF0091B7E3 /* CoreData */,
-				85B354602268BCD400617C7E /* Interactor.swift */,
+				85B354602268BCD400617C7E /* ServiceContainer.swift */,
 				9FC3E0552472CCBA00C5AE17 /* CustomTypes.swift */,
 				9F6BD7C1246593CF001D8825 /* SpellDTO.swift */,
 			);
@@ -272,8 +295,9 @@
 			children = (
 				9F6BD7C324659691001D8825 /* TranslationService.swift */,
 				85B3547A2269AF3100617C7E /* DatabaseService.swift */,
-				9F70C4D124740F120080275E /* RefinementsService.swift */,
 				85B354622268BD3A00617C7E /* NetworkService.swift */,
+				9F21DEC0247C013C0026DE14 /* SpellProviderService.swift */,
+				9F70C4D124740F120080275E /* RefinementsService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -292,6 +316,8 @@
 		9F54AC14246BE60B005B4849 /* Fakes */ = {
 			isa = PBXGroup;
 			children = (
+				9F21DEC6247C0C3B0026DE14 /* FakeServiceContainer.swift */,
+				9F21DEC8247C0CBA0026DE14 /* FakeSpellProviderService.swift */,
 				9FFF78AA2477E0FA0068743F /* FakeDatabaseService.swift */,
 				9FFF78AC2477E1170068743F /* FakeNetworkService.swift */,
 				9FFF78A82477E0D60068743F /* FakeRefinementsService.swift */,
@@ -311,24 +337,55 @@
 			path = Factories;
 			sourceTree = "<group>";
 		};
+		9F78FED0247BADCC005B0245 /* Redux */ = {
+			isa = PBXGroup;
+			children = (
+				9F9A5338247E970100F65809 /* SpellList */,
+				9F9A5339247E970D00F65809 /* SpellDetail */,
+				9F9A533A247E971A00F65809 /* Favorites */,
+				9F78FED1247BADDC005B0245 /* App.swift */,
+				9F78FED7247BC6D3005B0245 /* AppReducer.swift */,
+				9F78FED3247BAEBE005B0245 /* Store.swift */,
+			);
+			path = Redux;
+			sourceTree = "<group>";
+		};
+		9F9A5338247E970100F65809 /* SpellList */ = {
+			isa = PBXGroup;
+			children = (
+				9F9A533B247E973300F65809 /* SpellList.swift */,
+				9F9A533D247E973F00F65809 /* SpellListReducer.swift */,
+			);
+			path = SpellList;
+			sourceTree = "<group>";
+		};
+		9F9A5339247E970D00F65809 /* SpellDetail */ = {
+			isa = PBXGroup;
+			children = (
+				9F9A533F247E975400F65809 /* SpellDetail.swift */,
+				9F9A5341247E976200F65809 /* SpellDetailReducer.swift */,
+			);
+			path = SpellDetail;
+			sourceTree = "<group>";
+		};
+		9F9A533A247E971A00F65809 /* Favorites */ = {
+			isa = PBXGroup;
+			children = (
+				9F9A5343247E976C00F65809 /* Favorites.swift */,
+				9F9A5345247E977900F65809 /* FavoritesReducer.swift */,
+			);
+			path = Favorites;
+			sourceTree = "<group>";
+		};
 		9FC14EAB246B3A8500428073 /* Services */ = {
 			isa = PBXGroup;
 			children = (
 				9FC14EAC246B3AC000428073 /* TranslationServiceTests.swift */,
 				9F54AC20246BF86D005B4849 /* DatabaseServiceTests.swift */,
 				9F54AC12246BE47A005B4849 /* NetworkServiceTests.swift */,
+				9F0FF92D2477D66E00654865 /* SpellProviderServiceTests.swift */,
 			);
 			path = Services;
-			sourceTree = "<group>";
-		};
-		9FD2744E246D422B009A9FBD /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				9FD2744F246D4244009A9FBD /* SpellListViewModel.swift */,
-				9FD27451246D44C9009A9FBD /* SpellDetailViewModel.swift */,
-				9F91A3A52475749B0034642A /* FavoritesViewModel.swift */,
-			);
-			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		9FFF78B7247820FD0068743F /* Utilities */ = {
@@ -522,31 +579,39 @@
 			files = (
 				9F70C4D224740F120080275E /* RefinementsService.swift in Sources */,
 				9FC3E0562472CCBA00C5AE17 /* CustomTypes.swift in Sources */,
+				9F8D8550248520E600518006 /* AddSpellViewModel.swift in Sources */,
 				9F70C4D0247404530080275E /* SearchView.swift in Sources */,
 				9F8CC71D2465A8CA00F35746 /* SpellListView.swift in Sources */,
 				9F0C894C246A885C003592F5 /* SpellDetailView.swift in Sources */,
 				9F6BD7C424659691001D8825 /* TranslationService.swift in Sources */,
-				85B354612268BCD400617C7E /* Interactor.swift in Sources */,
-				9FD27452246D44C9009A9FBD /* SpellDetailViewModel.swift in Sources */,
+				85B354612268BCD400617C7E /* ServiceContainer.swift in Sources */,
 				85B35479226912D300617C7E /* DnDModel.xcdatamodeld in Sources */,
 				9F54AC1F246BF023005B4849 /* CoreDataStack.swift in Sources */,
+				9F21DEC1247C013C0026DE14 /* SpellProviderService.swift in Sources */,
 				9F54AC24246C0B8C005B4849 /* ViewFactory.swift in Sources */,
 				9FDC20CF2479280800D87439 /* ErrorView.swift in Sources */,
 				9FFF78BB247821390068743F /* DatabaseClient.swift in Sources */,
 				9F91A3A4247574020034642A /* FavoritesView.swift in Sources */,
+				9F9A533C247E973300F65809 /* SpellList.swift in Sources */,
+				9F8D854E24850F5500518006 /* AddSpellView.swift in Sources */,
 				9F109D8B2476B1500091B7E3 /* Spell+Population.swift in Sources */,
 				9F6BD7C2246593CF001D8825 /* SpellDTO.swift in Sources */,
+				9F9A533E247E973F00F65809 /* SpellListReducer.swift in Sources */,
 				85B353EE2267B64200617C7E /* AppDelegate.swift in Sources */,
 				85B354632268BD3A00617C7E /* NetworkService.swift in Sources */,
 				85B3547B2269AF3100617C7E /* DatabaseService.swift in Sources */,
 				9F91A3A024756B2D0034642A /* TabbarView.swift in Sources */,
-				9FD27450246D4244009A9FBD /* SpellListViewModel.swift in Sources */,
-				9F91A3A62475749B0034642A /* FavoritesViewModel.swift in Sources */,
-				9F54AC28246C1150005B4849 /* AppCoordinator.swift in Sources */,
+				9F78FED2247BADDC005B0245 /* App.swift in Sources */,
+				9F78FED8247BC6D3005B0245 /* AppReducer.swift in Sources */,
 				9FFF78B9247821170068743F /* NetworkClient.swift in Sources */,
+				9F9A5340247E975400F65809 /* SpellDetail.swift in Sources */,
+				9F9A5342247E976200F65809 /* SpellDetailReducer.swift in Sources */,
 				9F0C894E246A921C003592F5 /* SceneDelegate.swift in Sources */,
 				9F0C8951246ACC92003592F5 /* ProgressView.swift in Sources */,
+				9F9A5344247E976C00F65809 /* Favorites.swift in Sources */,
+				9F78FED4247BAEBE005B0245 /* Store.swift in Sources */,
 				9F54AC2A246C21D7005B4849 /* Spell+Equatable.swift in Sources */,
+				9F9A5346247E977900F65809 /* FavoritesReducer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -561,8 +626,11 @@
 				9F54AC21246BF86D005B4849 /* DatabaseServiceTests.swift in Sources */,
 				9FC14EAD246B3AC000428073 /* TranslationServiceTests.swift in Sources */,
 				9FFF78B62477E18F0068743F /* FakeTranslationService.swift in Sources */,
+				9F21DEC5247C0AC40026DE14 /* AppReducerTests.swift in Sources */,
 				9F109D8D2476B2320091B7E3 /* SpellDTOConversionTests.swift in Sources */,
-				9F0FF92E2477D66E00654865 /* InteractorTests.swift in Sources */,
+				9F21DEC7247C0C3B0026DE14 /* FakeServiceContainer.swift in Sources */,
+				9F21DEC9247C0CBA0026DE14 /* FakeSpellProviderService.swift in Sources */,
+				9F0FF92E2477D66E00654865 /* SpellProviderServiceTests.swift in Sources */,
 				9F54AC17246BE651005B4849 /* FakeURLProtocol.swift in Sources */,
 				9FFF78B32477E18F0068743F /* FakeDatabaseService.swift in Sources */,
 				9FFF78B42477E18F0068743F /* FakeNetworkService.swift in Sources */,

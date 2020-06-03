@@ -11,31 +11,23 @@ import SwiftUI
 
 /// Factory to construct SwiftUI views
 class ViewFactory: ObservableObject {
-
-    let interactor: Interactor
-
-    init(interactor: Interactor) {
-        self.interactor = interactor
+    func createTabbarView() -> AnyView {
+        return AnyView(TabbarView())
     }
 
-    func createTabbarView() -> TabbarView {
-        return TabbarView()
+    func createSpellListView() -> AnyView {
+        return AnyView(SpellListView())
     }
 
-    func createSpellListView() -> SpellListView {
-        let viewModel = SpellListViewModel(publisherConstructor: { self.interactor.spellListPublisher() }, refinementsBlock: { self.interactor.refine(spells: $0, sort: $1, searchTerm: $2)
-        })
-        return SpellListView(viewModel: viewModel)
+    func createSpellDetailView(path: String) -> AnyView {
+        return AnyView(SpellDetailView(spellPath: path))
     }
 
-    func createSpellDetailView(path: String) -> SpellDetailView {
-        let viewModel = SpellDetailViewModel(publisher: interactor.spellDetailsPublisher(for: path), saveBlock: { self.interactor.saveSpell($0) })
-        return SpellDetailView(viewModel: viewModel)
+    func createFavoritesView() -> AnyView {
+        return AnyView(FavoritesView())
     }
 
-    func createFavoritesView() -> FavoritesView {
-        let viewModel = FavoritesViewModel(publisherConstructor: { self.interactor.favoritesPublisher()
-        })
-        return FavoritesView(viewModel: viewModel)
+    func createAddSpellView() -> AnyView {
+        return AnyView(AddSpellView())
     }
 }

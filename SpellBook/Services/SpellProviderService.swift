@@ -1,40 +1,34 @@
 //
-//  Interactor.swift
-//  SpellBookApp
+//  SpellProviderService.swift
+//  SpellBook
 //
-//  Created by Yevhen Mokeiev on 4/18/19.
-//  Copyright © 2019 Yevhen Mokeiev. All rights reserved.
+//  Created by Yevhen Mokeiev on 25.05.2020.
+//  Copyright © 2020 Yevhen Mokeiev. All rights reserved.
 //
 
 import Foundation
-import UIKit
-import CoreData
-import Combine
 
-/// Provides data to UI using services.
-/// Uses services to provide requested data
+/// Service responsible for data providing
 /// If data is requested, tries to get it from the database service
 /// If it's not available, fallback to network service
-protocol Interactor {
+protocol SpellProviderService {
     func spellListPublisher() -> SpellPublisher
     func spellDetailsPublisher(for path: String) -> SpellDetailPublisher
-    func favoritesPublisher() -> SpellPublisher
-
-    func refine(spells: [SpellDTO], sort: Sort, searchTerm: String) -> [SpellDTO]
-    func saveSpell(_ spell: SpellDTO)
+    func favoritesPublisher() -> FavoritesPublisher
+    func saveSpellDetails(_ spellDTO: SpellDTO)
+    func createSpell(_ spellDTO: SpellDTO)
 }
 
-class InteractorImpl: Interactor {
-    private var databaseService: DatabaseService
-    private var networkService: NetworkService
-    private var refinementsService: RefinementsService
+class SpellProviderServiceImpl: SpellProviderService {
 
-    init(databaseService: DatabaseService, networkService: NetworkService, refinementsService: RefinementsService) {
+    let databaseService: DatabaseService
+    let networkService: NetworkService
+
+    init(databaseService: DatabaseService, networkService: NetworkService) {
         self.databaseService = databaseService
         self.networkService = networkService
-        self.refinementsService = refinementsService
     }
-    
+
     func spellListPublisher() -> SpellPublisher {
         return databaseService.spellListPublisher()
             .mapError { $0 as Error }
@@ -44,10 +38,10 @@ class InteractorImpl: Interactor {
                 let downloadPublisher = self.networkService.spellListPublisher()
                 .receive(on: RunLoop.main)
                 .mapError { $0 as Error }
-                .map({ (spellDTOs) -> [SpellDTO] in
+                .map { (spellDTOs) -> [SpellDTO] in
                     self.databaseService.saveSpellList(spellDTOs)
                     return spellDTOs
-                })
+                }
                 .eraseToAnyPublisher()
 
                 return downloadPublisher
@@ -65,10 +59,10 @@ class InteractorImpl: Interactor {
                 let downloadPublisher = self.networkService.spellDetailPublisher(for: path)
                 .receive(on: RunLoop.main)
                 .mapError { $0 as Error }
-                .map({ (spellDTO) -> SpellDTO in
+                .map { (spellDTO) -> SpellDTO in
                     self.databaseService.saveSpellDetails(spellDTO)
                     return spellDTO
-                })
+                }
                 .eraseToAnyPublisher()
 
                 return downloadPublisher
@@ -77,18 +71,17 @@ class InteractorImpl: Interactor {
             .eraseToAnyPublisher()
     }
 
-    func favoritesPublisher() -> SpellPublisher {
+    func favoritesPublisher() -> FavoritesPublisher {
         return databaseService.favoritesPublisher()
-            .mapError { $0 as Error }
             .receive(on: RunLoop.main)
             .eraseToAnyPublisher()
     }
 
-    func refine(spells: [SpellDTO], sort: Sort, searchTerm: String) -> [SpellDTO] {
-        return refinementsService.refineSpells(spells: spells, sort: sort, searchTerm: searchTerm)
+    func saveSpellDetails(_ spellDTO: SpellDTO) {
+        self.databaseService.saveSpellDetails(spellDTO)
     }
 
-    func saveSpell(_ spell: SpellDTO) {
-        databaseService.saveSpellDetails(spell)
+    func createSpell(_ spellDTO: SpellDTO) {
+        self.databaseService.createSpell(spellDTO)
     }
 }
