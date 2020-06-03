@@ -78,10 +78,10 @@ class SpellProviderServiceImpl: SpellProviderService {
     }
 
     func saveSpellDetails(_ spellDTO: SpellDTO) {
-        self.databaseService.saveSpellDetails(spellDTO)
+        databaseService.saveSpellDetails(spellDTO)
     }
 
     func createSpell(_ spellDTO: SpellDTO) {
-        self.databaseService.createSpell(spellDTO)
+        databaseService.createSpell(spellDTO)
     }
 }
