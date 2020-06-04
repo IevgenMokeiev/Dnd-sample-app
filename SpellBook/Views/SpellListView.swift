@@ -36,7 +36,7 @@ struct SpellListView: View {
         switch store.state.spellListState {
         case let .spellList(displayedSpells, _):
             return AnyView(loadedView(displayedSpells))
-        case .error(_):
+        case .error:
             return AnyView(ErrorView())
         case .initial:
             return AnyView(ProgressView(isAnimating: true))

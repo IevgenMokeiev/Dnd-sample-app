@@ -25,7 +25,7 @@ struct FavoritesView: View {
         switch store.state.favoritesState {
         case let .favorites(spells) where spells.count > 0:
             return AnyView(loadedView(spells))
-        case .favorites(_):
+        case .favorites:
             return AnyView(
                 Image("no-spells")
                     .resizable()

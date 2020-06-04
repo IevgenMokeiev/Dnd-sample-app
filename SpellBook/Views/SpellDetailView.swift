@@ -30,7 +30,7 @@ struct SpellDetailView: View {
         switch store.state.spellDetailState {
         case let .selectedSpell(spellDTO):
             return AnyView(loadedView(spellDTO))
-        case .error(_):
+        case .error:
             return AnyView(ErrorView())
         case .initial:
             return AnyView(ProgressView(isAnimating: true))
