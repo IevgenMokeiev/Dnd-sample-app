@@ -23,8 +23,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Use a UIHostingController as window root view controller.
 
-        if let windowScene = scene as? UIWindowScene {
-            let window = UIWindow(windowScene: windowScene)
+        if let scene = scene as? UIWindowScene {
+            let window = UIWindow(windowScene: scene)
             window.rootViewController = UIHostingController(rootView:
                 factory.createTabbarView().environmentObject(store).environmentObject(factory))
             self.window = window
