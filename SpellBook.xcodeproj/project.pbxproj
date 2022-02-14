@@ -16,6 +16,7 @@
 		85B354632268BD3A00617C7E /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B354622268BD3A00617C7E /* NetworkService.swift */; };
 		85B35479226912D300617C7E /* DnDModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 85B354582268B49700617C7E /* DnDModel.xcdatamodeld */; };
 		85B3547B2269AF3100617C7E /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B3547A2269AF3100617C7E /* DatabaseService.swift */; };
+		9F09B2A727BA5E95002AB9EE /* PublisherExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F09B2A627BA5E95002AB9EE /* PublisherExtensions.swift */; };
 		9F0C894C246A885C003592F5 /* SpellDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0C894B246A885C003592F5 /* SpellDetailView.swift */; };
 		9F0C894E246A921C003592F5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0C894D246A921C003592F5 /* SceneDelegate.swift */; };
 		9F0C8951246ACC92003592F5 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0C8950246ACC92003592F5 /* ProgressView.swift */; };
@@ -97,6 +98,7 @@
 		85B354602268BCD400617C7E /* ServiceContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceContainer.swift; sourceTree = "<group>"; };
 		85B354622268BD3A00617C7E /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		85B3547A2269AF3100617C7E /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
+		9F09B2A627BA5E95002AB9EE /* PublisherExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherExtensions.swift; sourceTree = "<group>"; };
 		9F0C894B246A885C003592F5 /* SpellDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellDetailView.swift; sourceTree = "<group>"; };
 		9F0C894D246A921C003592F5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		9F0C8950246ACC92003592F5 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
@@ -393,6 +395,7 @@
 			children = (
 				9FFF78B8247821170068743F /* NetworkClient.swift */,
 				9FFF78BA247821390068743F /* DatabaseClient.swift */,
+				9F09B2A627BA5E95002AB9EE /* PublisherExtensions.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -591,6 +594,7 @@
 				9F54AC24246C0B8C005B4849 /* ViewFactory.swift in Sources */,
 				9FDC20CF2479280800D87439 /* ErrorView.swift in Sources */,
 				9FFF78BB247821390068743F /* DatabaseClient.swift in Sources */,
+				9F09B2A727BA5E95002AB9EE /* PublisherExtensions.swift in Sources */,
 				9F91A3A4247574020034642A /* FavoritesView.swift in Sources */,
 				9F9A533C247E973300F65809 /* SpellList.swift in Sources */,
 				9F8D854E24850F5500518006 /* AddSpellView.swift in Sources */,
@@ -796,6 +800,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7FA4YF49TS;
 				INFOPLIST_FILE = SpellBook/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -815,6 +820,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7FA4YF49TS;
 				INFOPLIST_FILE = SpellBook/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
