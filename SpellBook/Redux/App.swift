@@ -11,15 +11,15 @@ import Combine
 typealias AppStore = Store<AppState, AppAction, ServiceContainer>
 
 struct AppState {
-    let spellListState: SpellListState
-    let spellDetailState: SpellDetailState
-    let favoritesState: FavoritesState
+  let spellListState: SpellListState
+  let spellDetailState: SpellDetailState
+  let favoritesState: FavoritesState
 }
 
 enum AppAction {
-    case spellList(SpellListAction)
-    case spellDetail(SpellDetaiAction)
-    case favorites(FavoritesAction)
-    case toggleFavorite
-    case addSpell(SpellDTO)
+  case spellList(SpellListAction)
+  case spellDetail(SpellDetaiAction)
+  case favorites(FavoritesAction)
+  case toggleFavorite
+  case addSpell(SpellDTO)
 }

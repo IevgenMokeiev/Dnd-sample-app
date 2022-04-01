@@ -12,25 +12,25 @@ import Combine
 
 /// Provides services
 protocol ServiceContainer {
-    var spellProviderService: SpellProviderService { get }
-    var refinementsService: RefinementsService { get }
+  var spellProviderService: SpellProviderService { get }
+  var refinementsService: RefinementsService { get }
 }
 
 struct ServiceContainerImpl: ServiceContainer {
-    let spellProviderService: SpellProviderService
-    let refinementsService: RefinementsService
-
-    init() {
-        let translationService = TranslationServiceImpl()
-        let coreDataStack = CoreDataStackImpl()
-        let databaseClient = DatabaseClientImpl(coreDataStack: coreDataStack)
-        let databaseService = DatabaseServiceImpl(databaseClient: databaseClient, translationService: translationService)
-        let networkService = NetworkServiceImpl(networkClient: NetworkClientImpl())
-        self.spellProviderService = SpellProviderServiceImpl(databaseService: databaseService, networkService: networkService)
-        self.refinementsService = RefinementsServiceImpl()
-
-        if CommandLine.arguments.contains("enable-testing") {
-            coreDataStack.cleanupStack()
-        }
+  let spellProviderService: SpellProviderService
+  let refinementsService: RefinementsService
+  
+  init() {
+    let translationService = TranslationServiceImpl()
+    let coreDataStack = CoreDataStackImpl()
+    let databaseClient = DatabaseClientImpl(coreDataStack: coreDataStack)
+    let databaseService = DatabaseServiceImpl(databaseClient: databaseClient, translationService: translationService)
+    let networkService = NetworkServiceImpl(networkClient: NetworkClientImpl())
+    self.spellProviderService = SpellProviderServiceImpl(databaseService: databaseService, networkService: networkService)
+    self.refinementsService = RefinementsServiceImpl()
+    
+    if CommandLine.arguments.contains("enable-testing") {
+      coreDataStack.cleanupStack()
     }
+  }
 }

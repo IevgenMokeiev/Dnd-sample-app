@@ -13,18 +13,18 @@ import SwiftUI
 ///     - searchTerm: A binding to sync with text field text
 struct SearchView: View {
 
-    @Binding var query: String
+  @Binding var query: String
 
-    var body: some View {
-        HStack {
-            Image(systemName: "magnifyingglass")
-            .resizable()
-            .scaledToFit()
-            .foregroundColor(.orange)
-            .frame(width: 25, height: 25)
-            .padding(.trailing, 5)
-            TextField("type spell here...", text: $query)
-            .accessibility(identifier: "SpellSearchView")
-        }.padding([.horizontal, .top], 15)
-    }
+  var body: some View {
+    HStack {
+      Image(systemName: "magnifyingglass")
+        .resizable()
+        .scaledToFit()
+        .foregroundColor(.orange)
+        .frame(width: 25, height: 25)
+        .padding(.trailing, 5)
+      TextField("type spell here...", text: $query)
+        .accessibility(identifier: "SpellSearchView")
+    }.padding([.horizontal, .top], 15)
+  }
 }

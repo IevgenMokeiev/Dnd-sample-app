@@ -9,11 +9,11 @@
 @testable import SpellBook
 
 class FakeRefinementsService: RefinementsService {
-    func sortedSpells(spells: [SpellDTO], sort: Sort) -> [SpellDTO] {
-        return spells
-    }
-
-    func filteredSpells(spells: [SpellDTO], by searchTerm: String) -> [SpellDTO] {
-        return spells
-    }
+  func sortedSpells(spells: [SpellDTO], sort: Sort) -> [SpellDTO] {
+    return spells
+  }
+  
+  func filteredSpells(spells: [SpellDTO], by searchTerm: String) -> [SpellDTO] {
+    return spells
+  }
 }

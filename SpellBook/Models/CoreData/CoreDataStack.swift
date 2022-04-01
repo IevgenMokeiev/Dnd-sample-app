@@ -11,47 +11,47 @@ import CoreData
 
 /// Defines core data stack which is used in a Database service
 protocol CoreDataStack {
-    var persistentContainer: NSPersistentContainer! { get }
-    var managedObjectContext: NSManagedObjectContext! { get }
-
-    func saveContext()
-    func cleanupStack()
+  var persistentContainer: NSPersistentContainer! { get }
+  var managedObjectContext: NSManagedObjectContext! { get }
+  
+  func saveContext()
+  func cleanupStack()
 }
 
 class CoreDataStackImpl: CoreDataStack {
-    let persistentContainer: NSPersistentContainer!
-    let managedObjectContext: NSManagedObjectContext!
-
-    init() {
-        persistentContainer = NSPersistentContainer(name: "DnDModel")
-        persistentContainer.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
-            }
-        })
-        managedObjectContext = persistentContainer.viewContext
+  let persistentContainer: NSPersistentContainer!
+  let managedObjectContext: NSManagedObjectContext!
+  
+  init() {
+    persistentContainer = NSPersistentContainer(name: "DnDModel")
+    persistentContainer.loadPersistentStores(completionHandler: { (storeDescription, error) in
+      if let error = error as NSError? {
+        fatalError("Unresolved error \(error), \(error.userInfo)")
+      }
+    })
+    managedObjectContext = persistentContainer.viewContext
+  }
+  
+  func saveContext() {
+    let context = persistentContainer.viewContext
+    if context.hasChanges {
+      do {
+        try context.save()
+      } catch {
+        let nserror = error as NSError
+        fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+      }
     }
-
-    func saveContext() {
-        let context = persistentContainer.viewContext
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-            }
-        }
+  }
+  
+  func cleanupStack() {
+    let fetchRequest: NSFetchRequest<NSFetchRequestResult> = Spell.fetchRequest()
+    let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+    
+    do {
+      try persistentContainer.viewContext.execute(deleteRequest)
+    } catch let error as NSError {
+      print(error)
     }
-
-    func cleanupStack() {
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = Spell.fetchRequest()
-        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-
-        do {
-            try persistentContainer.viewContext.execute(deleteRequest)
-        } catch let error as NSError {
-            print(error)
-        }
-    }
+  }
 }

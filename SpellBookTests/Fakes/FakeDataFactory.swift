@@ -13,49 +13,49 @@ import CoreData
 /// A collection of fake objects that can be used in the tests
 class FakeDataFactory {
 
-    static func provideFakeSpellDTO() -> SpellDTO {
-        return fakeSpellDTO(name: "fake", path: "/api/spells/fake")
-    }
+  static func provideFakeSpellDTO() -> SpellDTO {
+    return fakeSpellDTO(name: "fake", path: "/api/spells/fake")
+  }
 
-    static func provideEmptySpellListDTO() -> [SpellDTO] {
-        return [
-            fakeSpellDTO(name: "fake1", path: "/api/spells/fake1", isEmpty: true),
-            fakeSpellDTO(name: "fake2", path: "/api/spells/fake2", isEmpty: true)
-        ]
-    }
+  static func provideEmptySpellListDTO() -> [SpellDTO] {
+    return [
+      fakeSpellDTO(name: "fake1", path: "/api/spells/fake1", isEmpty: true),
+      fakeSpellDTO(name: "fake2", path: "/api/spells/fake2", isEmpty: true)
+    ]
+  }
 
-    static func provideFakeSpellListDTO() -> [SpellDTO] {
-        return [
-            fakeSpellDTO(name: "fake1", path: "/api/spells/fake1"),
-            fakeSpellDTO(name: "fake2", path: "/api/spells/fake2")
-        ]
-    }
+  static func provideFakeSpellListDTO() -> [SpellDTO] {
+    return [
+      fakeSpellDTO(name: "fake1", path: "/api/spells/fake1"),
+      fakeSpellDTO(name: "fake2", path: "/api/spells/fake2")
+    ]
+  }
 
-    static func provideFakeFavoritesListDTO() -> [SpellDTO] {
-        return [fakeSpellDTO(name: "fake", path: "/api/spells/fake", isFavorite: true)]
-    }
+  static func provideFakeFavoritesListDTO() -> [SpellDTO] {
+    return [fakeSpellDTO(name: "fake", path: "/api/spells/fake", isFavorite: true)]
+  }
 
-    static func provideEmptySpell(context: NSManagedObjectContext) -> Spell {
-        return fakeSpell(isEmpty: true, context: context)
-    }
+  static func provideEmptySpell(context: NSManagedObjectContext) -> Spell {
+    return fakeSpell(isEmpty: true, context: context)
+  }
 
-    static func provideFakeSpell(context: NSManagedObjectContext) -> Spell {
-        return fakeSpell(name: "fake", path: "/api/spells/fake", context: context)
-    }
+  static func provideFakeSpell(context: NSManagedObjectContext) -> Spell {
+    return fakeSpell(name: "fake", path: "/api/spells/fake", context: context)
+  }
 
-    static func provideFakeSpellList(context: NSManagedObjectContext) -> [Spell] {
-        return [
-            fakeSpell(name: "fake1", path: "/api/spells/fake1", context: context),
-            fakeSpell(name: "fake2", path: "/api/spells/fake2", context: context)
-        ]
-    }
+  static func provideFakeSpellList(context: NSManagedObjectContext) -> [Spell] {
+    return [
+      fakeSpell(name: "fake1", path: "/api/spells/fake1", context: context),
+      fakeSpell(name: "fake2", path: "/api/spells/fake2", context: context)
+    ]
+  }
 
-    static func provideFakeFavoritesList(context: NSManagedObjectContext) -> [Spell] {
-        return [fakeSpell(name: "fake", path: "/api/spells/fake", isFavorite: true, context: context)]
-    }
+  static func provideFakeFavoritesList(context: NSManagedObjectContext) -> [Spell] {
+    return [fakeSpell(name: "fake", path: "/api/spells/fake", isFavorite: true, context: context)]
+  }
 
-    static func provideFakeSpellDetailsRawData() -> Data {
-        return """
+  static func provideFakeSpellDetailsRawData() -> Data {
+    return """
         {
             "_id": "5eb89d6c0b1bb138c5676654",
             "index": "acid-arrow",
@@ -101,10 +101,10 @@ class FakeDataFactory {
             "url": "/api/spells/fake"
         }
         """.data(using: .utf8)!
-    }
+  }
 
-    static func provideFakeSpellListRawData() -> Data {
-        return """
+  static func provideFakeSpellListRawData() -> Data {
+    return """
         {
             "count": 2,
             "results": [
@@ -121,29 +121,29 @@ class FakeDataFactory {
             ]
         }
         """.data(using: .utf8)!
-    }
+  }
 
-    // MARK: - Private
-    private static func fakeSpellDTO(name: String, path: String, isFavorite: Bool = false, isEmpty: Bool = false) -> SpellDTO {
-        return SpellDTO(name: name, path: path, level: !isEmpty ? 1: nil, castingTime: !isEmpty ? "fake time" : nil, concentration: !isEmpty ? false : nil, classes: !isEmpty ? "fake classes" : nil, description: !isEmpty ? "fake description" : nil, higherLevel: !isEmpty ? "fake higher level" : nil, isFavorite: isFavorite)
-    }
+  // MARK: - Private
+  private static func fakeSpellDTO(name: String, path: String, isFavorite: Bool = false, isEmpty: Bool = false) -> SpellDTO {
+    return SpellDTO(name: name, path: path, level: !isEmpty ? 1: nil, castingTime: !isEmpty ? "fake time" : nil, concentration: !isEmpty ? false : nil, classes: !isEmpty ? "fake classes" : nil, description: !isEmpty ? "fake description" : nil, higherLevel: !isEmpty ? "fake higher level" : nil, isFavorite: isFavorite)
+  }
 
-    private static func fakeSpell(name: String = "", path: String = "", isFavorite: Bool = false, isEmpty: Bool = false, context: NSManagedObjectContext) -> Spell {
-        let entity = NSEntityDescription.entity(forEntityName: String(describing: Spell.self), in: context)!
-        let spell = Spell(entity: entity, insertInto: context)
-        guard !isEmpty else { try? context.save(); return spell }
+  private static func fakeSpell(name: String = "", path: String = "", isFavorite: Bool = false, isEmpty: Bool = false, context: NSManagedObjectContext) -> Spell {
+    let entity = NSEntityDescription.entity(forEntityName: String(describing: Spell.self), in: context)!
+    let spell = Spell(entity: entity, insertInto: context)
+    guard !isEmpty else { try? context.save(); return spell }
 
-        spell.name = name
-        spell.path = path
-        spell.level = 1
-        spell.casting_time = "fake time"
-        spell.concentration = false
-        spell.classes = "fake classes"
-        spell.desc = "fake description"
-        spell.higherLevel = "fake higher level"
-        spell.isFavorite = isFavorite
-        try? context.save()
+    spell.name = name
+    spell.path = path
+    spell.level = 1
+    spell.casting_time = "fake time"
+    spell.concentration = false
+    spell.classes = "fake classes"
+    spell.desc = "fake description"
+    spell.higherLevel = "fake higher level"
+    spell.isFavorite = isFavorite
+    try? context.save()
 
-        return spell
-    }
+    return spell
+  }
 }

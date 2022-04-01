@@ -11,23 +11,23 @@ import SwiftUI
 
 /// Factory to construct SwiftUI views
 class ViewFactory: ObservableObject {
-    func createTabbarView() -> AnyView {
-        return AnyView(TabbarView())
-    }
+  func createTabbarView() -> AnyView {
+    return AnyView(TabbarView())
+  }
 
-    func createSpellListView() -> AnyView {
-        return AnyView(SpellListView())
-    }
+  func createSpellListView() -> AnyView {
+    return AnyView(SpellListView())
+  }
 
-    func createSpellDetailView(path: String) -> AnyView {
-        return AnyView(SpellDetailView(spellPath: path))
-    }
+  func createSpellDetailView(path: String) -> AnyView {
+    return AnyView(SpellDetailView(spellPath: path))
+  }
 
-    func createFavoritesView() -> AnyView {
-        return AnyView(FavoritesView())
-    }
+  func createFavoritesView() -> AnyView {
+    return AnyView(FavoritesView())
+  }
 
-    func createAddSpellView() -> AnyView {
-        return AnyView(AddSpellView())
-    }
+  func createAddSpellView() -> AnyView {
+    return AnyView(AddSpellView())
+  }
 }

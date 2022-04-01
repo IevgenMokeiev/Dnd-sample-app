@@ -11,18 +11,18 @@ import MBProgressHUD
 
 /// Simple progress view to be shown during data loading
 struct ProgressView: UIViewRepresentable {
-    typealias UIViewType = MBProgressHUD
+  typealias UIViewType = MBProgressHUD
 
-    var isAnimating: Bool
+  var isAnimating: Bool
 
-    func makeUIView(context: UIViewRepresentableContext<ProgressView>) -> MBProgressHUD {
-        let hud = MBProgressHUD()
-        hud.label.text = "Loading..."
-        hud.contentColor = .orange
-        return hud
-    }
+  func makeUIView(context: UIViewRepresentableContext<ProgressView>) -> MBProgressHUD {
+    let hud = MBProgressHUD()
+    hud.label.text = "Loading..."
+    hud.contentColor = .orange
+    return hud
+  }
 
-    func updateUIView(_ uiView: MBProgressHUD, context: UIViewRepresentableContext<ProgressView>) {
-        isAnimating ? uiView.show(animated: true) : uiView.hide(animated: true)
-    }
+  func updateUIView(_ uiView: MBProgressHUD, context: UIViewRepresentableContext<ProgressView>) {
+    isAnimating ? uiView.show(animated: true) : uiView.hide(animated: true)
+  }
 }
