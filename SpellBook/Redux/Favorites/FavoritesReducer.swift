@@ -15,7 +15,6 @@ func favoritesReducer(state: FavoritesState, action: FavoritesAction, environmen
         return ReducerResult(effect: environment.spellProviderService
             .favoritesPublisher()
             .map { FavoritesAction.showFavorites($0) }
-            .catch { _ in Just(FavoritesAction.showFavorites([])) }
             .eraseToAnyPublisher())
     case let .showFavorites(spells):
         return ReducerResult(state: .favorites(spells))

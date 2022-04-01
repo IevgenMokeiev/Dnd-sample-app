@@ -10,11 +10,11 @@
 
 class FakeSpellProviderService: SpellProviderService {
   
-  static var spellListHandler: (() -> Result<[SpellDTO], Error>)?
-  static var spellDetailHandler: (() -> Result<SpellDTO, Error>)?
+  static var spellListHandler: (() -> Result<[SpellDTO], CustomError>)?
+  static var spellDetailHandler: (() -> Result<SpellDTO, CustomError>)?
   static var favoritesHandler: (() -> Result<[SpellDTO], Never>)?
   
-  func spellListPublisher() -> SpellPublisher {
+  func spellListPublisher() -> SpellListPublisher {
     guard let handler = Self.spellListHandler else {
       fatalError("Handler is unavailable.")
     }
@@ -28,7 +28,7 @@ class FakeSpellProviderService: SpellProviderService {
     return Result.Publisher(handler()).eraseToAnyPublisher()
   }
   
-  func favoritesPublisher() -> FavoritesPublisher {
+  func favoritesPublisher() -> NoErrorSpellListPublisher {
     guard let handler = Self.favoritesHandler else {
       fatalError("Handler is unavailable.")
     }

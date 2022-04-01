@@ -25,7 +25,7 @@ class SpellProviderServiceTests: XCTestCase {
     }
     
     FakeDatabaseService.spellListHandler = {
-      return Result.failure(DatabaseClientError.noData)
+      return Result.failure(.database(.noData))
     }
     
     sut.spellListPublisher()
@@ -88,7 +88,7 @@ class SpellProviderServiceTests: XCTestCase {
     }
     
     FakeDatabaseService.spellDetailHandler = {
-      return Result.failure(DatabaseClientError.noMatchedEntity)
+      return Result.failure(.database(.noMatchedEntity))
     }
     
     sut.spellDetailsPublisher(for: "/api/spells/fake")

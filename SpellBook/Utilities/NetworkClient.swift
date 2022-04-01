@@ -18,7 +18,7 @@ public enum NetworkClientError: Error {
 }
 
 protocol NetworkClient {
-  func performRequest<T: Decodable>(to url: URL, expectedType: T.Type) -> AnyPublisher<T, NetworkClientError>
+  func performRequest<T: Decodable>(to url: URL, expectedType: T.Type) -> AnyPublisher<T, CustomError>
 }
 
 class NetworkClientImpl: NetworkClient {
@@ -29,7 +29,7 @@ class NetworkClientImpl: NetworkClient {
     self.protocolClasses = protocolClasses
   }
 
-  func performRequest<T: Decodable>(to url: URL, expectedType: T.Type) -> AnyPublisher<T, NetworkClientError> {
+  func performRequest<T: Decodable>(to url: URL, expectedType: T.Type) -> AnyPublisher<T, CustomError> {
     let configuration = URLSessionConfiguration.default
     configuration.protocolClasses = protocolClasses
 
@@ -45,11 +45,11 @@ class NetworkClientImpl: NetworkClient {
       .mapError { error in
         switch error {
         case is DecodingError:
-          return .decodingFailed
+          return .network(.decodingFailed)
         case is URLError:
-          return .sessionFailed(error)
+          return .network(.sessionFailed(error))
         default:
-          return .other(error)
+          return .network(.other(error))
         }
       }
       .eraseToAnyPublisher()

@@ -12,9 +12,9 @@ import Foundation
 /// If data is requested, tries to get it from the database service
 /// If it's not available, fallback to network service
 protocol SpellProviderService {
-  func spellListPublisher() -> SpellPublisher
+  func spellListPublisher() -> SpellListPublisher
   func spellDetailsPublisher(for path: String) -> SpellDetailPublisher
-  func favoritesPublisher() -> FavoritesPublisher
+  func favoritesPublisher() -> NoErrorSpellListPublisher
   func saveSpellDetails(_ spellDTO: SpellDTO)
   func createSpell(_ spellDTO: SpellDTO)
 }
@@ -29,15 +29,13 @@ class SpellProviderServiceImpl: SpellProviderService {
     self.networkService = networkService
   }
   
-  func spellListPublisher() -> SpellPublisher {
+  func spellListPublisher() -> SpellListPublisher {
     return databaseService.spellListPublisher()
-      .mapError { $0 as Error }
-      .catch { (error) -> SpellPublisher in
+      .catch { (error) -> SpellListPublisher in
         print("Could not retrieve. \(error)")
         
         let downloadPublisher = self.networkService.spellListPublisher()
           .receive(on: RunLoop.main)
-          .mapError { $0 as Error }
           .map { (spellDTOs) -> [SpellDTO] in
             self.databaseService.saveSpellList(spellDTOs)
             return spellDTOs
@@ -52,13 +50,10 @@ class SpellProviderServiceImpl: SpellProviderService {
   
   func spellDetailsPublisher(for path: String) -> SpellDetailPublisher {
     return databaseService.spellDetailsPublisher(for: path)
-      .mapError { $0 as Error }
-      .catch { (error) -> SpellDetailPublisher in
+      .catch { error -> SpellDetailPublisher in
         print("Could not retrieve. \(error)")
-        
         let downloadPublisher = self.networkService.spellDetailPublisher(for: path)
           .receive(on: RunLoop.main)
-          .mapError { $0 as Error }
           .map { (spellDTO) -> SpellDTO in
             self.databaseService.saveSpellDetails(spellDTO)
             return spellDTO
@@ -71,7 +66,7 @@ class SpellProviderServiceImpl: SpellProviderService {
       .eraseToAnyPublisher()
   }
   
-  func favoritesPublisher() -> FavoritesPublisher {
+  func favoritesPublisher() -> NoErrorSpellListPublisher {
     return databaseService.favoritesPublisher()
       .receive(on: RunLoop.main)
       .eraseToAnyPublisher()

@@ -55,6 +55,7 @@
 		9FC14EAD246B3AC000428073 /* TranslationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC14EAC246B3AC000428073 /* TranslationServiceTests.swift */; };
 		9FC3E0562472CCBA00C5AE17 /* CustomTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC3E0552472CCBA00C5AE17 /* CustomTypes.swift */; };
 		9FDC20CF2479280800D87439 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDC20CE2479280800D87439 /* ErrorView.swift */; };
+		9FF18B1127F789500072A849 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF18B1027F789500072A849 /* CustomError.swift */; };
 		9FFF78B32477E18F0068743F /* FakeDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFF78AA2477E0FA0068743F /* FakeDatabaseService.swift */; };
 		9FFF78B42477E18F0068743F /* FakeNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFF78AC2477E1170068743F /* FakeNetworkService.swift */; };
 		9FFF78B52477E18F0068743F /* FakeRefinementsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFF78A82477E0D60068743F /* FakeRefinementsService.swift */; };
@@ -136,6 +137,7 @@
 		9FC14EAC246B3AC000428073 /* TranslationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationServiceTests.swift; sourceTree = "<group>"; };
 		9FC3E0552472CCBA00C5AE17 /* CustomTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTypes.swift; sourceTree = "<group>"; };
 		9FDC20CE2479280800D87439 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		9FF18B1027F789500072A849 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
 		9FFF78A82477E0D60068743F /* FakeRefinementsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeRefinementsService.swift; sourceTree = "<group>"; };
 		9FFF78AA2477E0FA0068743F /* FakeDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeDatabaseService.swift; sourceTree = "<group>"; };
 		9FFF78AC2477E1170068743F /* FakeNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeNetworkService.swift; sourceTree = "<group>"; };
@@ -276,6 +278,7 @@
 				9F109D8E2476B2EF0091B7E3 /* CoreData */,
 				85B354602268BCD400617C7E /* ServiceContainer.swift */,
 				9FC3E0552472CCBA00C5AE17 /* CustomTypes.swift */,
+				9FF18B1027F789500072A849 /* CustomError.swift */,
 				9F6BD7C1246593CF001D8825 /* SpellDTO.swift */,
 			);
 			path = Models;
@@ -582,6 +585,7 @@
 				9F8D8550248520E600518006 /* AddSpellViewModel.swift in Sources */,
 				9F70C4D0247404530080275E /* SearchView.swift in Sources */,
 				9F8CC71D2465A8CA00F35746 /* SpellListView.swift in Sources */,
+				9FF18B1127F789500072A849 /* CustomError.swift in Sources */,
 				9F0C894C246A885C003592F5 /* SpellDetailView.swift in Sources */,
 				9F6BD7C424659691001D8825 /* TranslationService.swift in Sources */,
 				85B354612268BCD400617C7E /* ServiceContainer.swift in Sources */,
