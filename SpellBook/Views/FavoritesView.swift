@@ -21,18 +21,16 @@ struct FavoritesView: View {
     .onAppear(perform: fetch)
   }
   
-  private var content: AnyView {
+  @ViewBuilder private var content: some View {
     switch store.state.favoritesState {
     case let .favorites(spells) where spells.count > 0:
-      return AnyView(loadedView(spells))
+      loadedView(spells)
     case .favorites:
-      return AnyView(
-        Image("no-spells")
-          .resizable()
-          .padding()
-      )
+      Image("no-spells")
+        .resizable()
+        .padding()
     case .initial:
-      return AnyView(Text("No Favorites Yet").foregroundColor(.orange))
+      Text("No Favorites Yet").foregroundColor(.orange)
     }
   }
   

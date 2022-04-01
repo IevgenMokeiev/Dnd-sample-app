@@ -26,14 +26,14 @@ struct SpellDetailView: View {
       )
   }
 
-  private var content: AnyView {
+  @ViewBuilder private var content: some View {
     switch store.state.spellDetailState {
     case let .selectedSpell(spellDTO):
-      return AnyView(loadedView(spellDTO))
+      loadedView(spellDTO)
     case .error:
-      return AnyView(ErrorView())
+      ErrorView()
     case .initial:
-      return AnyView(ProgressView(isAnimating: true))
+      ProgressView(isAnimating: true)
     }
   }
 

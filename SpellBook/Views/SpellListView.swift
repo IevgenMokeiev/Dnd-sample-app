@@ -32,14 +32,14 @@ struct SpellListView: View {
     .onReceive(searchStore.$query.dropFirst()) { self.search(query: $0) }
   }
   
-  private var content: AnyView {
+  @ViewBuilder private var content: some View {
     switch store.state.spellListState {
     case let .spellList(displayedSpells, _):
-      return AnyView(loadedView(displayedSpells))
+      loadedView(displayedSpells)
     case .error:
-      return AnyView(ErrorView())
+      ErrorView()
     case .initial:
-      return AnyView(ProgressView(isAnimating: true))
+      ProgressView(isAnimating: true)
     }
   }
   
