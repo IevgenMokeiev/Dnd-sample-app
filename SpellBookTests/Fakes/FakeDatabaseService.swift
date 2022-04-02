@@ -13,8 +13,15 @@ class FakeDatabaseService: DatabaseService {
   static var spellDetailHandler: (() -> Result<SpellDTO, CustomError>)?
   static var favoritesHandler: (() -> Result<[SpellDTO], Never>)?
   
-  func spellListPublisher() -> SpellListPublisher {
+  var spellListPublisher: SpellListPublisher {
     guard let handler = Self.spellListHandler else {
+      fatalError("Handler is unavailable.")
+    }
+    return Result.Publisher(handler()).eraseToAnyPublisher()
+  }
+
+  var favoritesPublisher: NoErrorSpellListPublisher {
+    guard let handler = Self.favoritesHandler else {
       fatalError("Handler is unavailable.")
     }
     return Result.Publisher(handler()).eraseToAnyPublisher()
@@ -22,13 +29,6 @@ class FakeDatabaseService: DatabaseService {
   
   func spellDetailsPublisher(for path: String) -> SpellDetailPublisher {
     guard let handler = Self.spellDetailHandler else {
-      fatalError("Handler is unavailable.")
-    }
-    return Result.Publisher(handler()).eraseToAnyPublisher()
-  }
-  
-  func favoritesPublisher() -> NoErrorSpellListPublisher {
-    guard let handler = Self.favoritesHandler else {
       fatalError("Handler is unavailable.")
     }
     return Result.Publisher(handler()).eraseToAnyPublisher()

@@ -38,7 +38,10 @@ class DatabaseServiceImpl: DatabaseService {
   }
 
   var favoritesPublisher: NoErrorSpellListPublisher {
-    databaseClient.fetchRecords(expectedType: Spell.self, predicate: NSPredicate(format: "isFavorite == true"))
+    databaseClient.fetchRecords(
+      expectedType: Spell.self,
+      predicate: NSPredicate(format: "isFavorite == true")
+    )
       .map { self.translationService.convertToDTO(spellList: $0) }
       .replaceError(with: [])
       .eraseToAnyPublisher()
@@ -58,7 +61,7 @@ class DatabaseServiceImpl: DatabaseService {
       .mapError {
         switch ($0) {
         case let error as CustomError:
-            return error
+          return error
         default:
           return CustomError.other($0)
         }

@@ -13,7 +13,7 @@ class FakeNetworkService: NetworkService {
   static var spellListHandler: (() -> Result<[SpellDTO], CustomError>)?
   static var spellDetailHandler: (() -> Result<SpellDTO, CustomError>)?
   
-  func spellListPublisher() -> SpellListPublisher {
+  var spellListPublisher: SpellListPublisher {
     guard let handler = Self.spellListHandler else {
       fatalError("Handler is unavailable.")
     }

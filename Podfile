@@ -1,8 +1,8 @@
 
-platform :ios, '12.0'
+platform :ios, '15.0'
 
 target 'SpellBook' do
   use_frameworks!
-    pod 'MBProgressHUD', '~> 1.0'
+    pod 'MBProgressHUD', '1.2.0'
 
 end

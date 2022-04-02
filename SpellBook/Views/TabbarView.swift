@@ -42,6 +42,9 @@ struct TabbarView_Previews: PreviewProvider {
       favoritesState: .initial
     ), reducer: appReducer, environment: ServiceContainerImpl())
     let factory = ViewFactory()
-    return factory.createTabbarView().environmentObject(store).environmentObject(factory)
+    return factory
+      .createTabbarView()
+      .environmentObject(store)
+      .environmentObject(factory)
   }
 }

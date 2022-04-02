@@ -130,22 +130,38 @@
             endingLineNumber = "86"
             landmarkName = "test_favorites_fetch_has_favorites()"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "06D19F28-7CE4-42D4-8B95-3F68A614B4FF"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SpellBookTests/Services/NetworkServiceTests.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
-            landmarkName = "test_download_spellList()"
-            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "01B8B28D-4F7E-4B15-9697-0BF7E1772261 - 741992b0ba9ccf32"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Swift.Array&lt;SpellBook.SpellDTO&gt;) -&gt; () in SpellBookTests.DatabaseServiceTests.test_favorites_fetch_has_favorites() -&gt; ()"
+                  moduleName = "SpellBookTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yevhenmokeiev/Documents/Personal/Dnd-sample-app/SpellBookTests/Services/DatabaseServiceTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "86"
+                  endingLineNumber = "86"
+                  offsetFromSymbolStart = "75">
+               </Location>
+               <Location
+                  uuid = "01B8B28D-4F7E-4B15-9697-0BF7E1772261 - 741992b0ba9ccf32"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Swift.Array&lt;SpellBook.SpellDTO&gt;) -&gt; () in SpellBookTests.DatabaseServiceTests.test_favorites_fetch_has_favorites() -&gt; ()"
+                  moduleName = "SpellBookTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yevhenmokeiev/Documents/Personal/Dnd-sample-app/SpellBookTests/Services/DatabaseServiceTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "86"
+                  endingLineNumber = "86"
+                  offsetFromSymbolStart = "124">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -21,14 +21,14 @@ class SpellProviderServiceTests: XCTestCase {
     let fakeData = FakeDataFactory.provideFakeSpellListDTO()
     
     FakeNetworkService.spellListHandler = {
-      return Result.success(fakeData)
+      Result.success(fakeData)
     }
     
     FakeDatabaseService.spellListHandler = {
-      return Result.failure(.database(.noData))
+      Result.failure(.database(.noData))
     }
     
-    sut.spellListPublisher()
+    sut.spellListPublisher
       .sink(receiveCompletion: { completion in
         interactorExpectation.fulfill()
         switch completion {
@@ -38,7 +38,7 @@ class SpellProviderServiceTests: XCTestCase {
           XCTFail("\(error)")
         }
       }) { spellDTOs in
-        XCTAssertTrue(spellDTOs == fakeData)
+        XCTAssertEqual(spellDTOs, fakeData)
       }
       .store(in: &cancellableSet)
     
@@ -52,15 +52,14 @@ class SpellProviderServiceTests: XCTestCase {
     let fakeData = FakeDataFactory.provideFakeSpellListDTO()
     
     FakeNetworkService.spellListHandler = {
-      XCTFail("Should't call network in thic case")
-      return Result.success(fakeData)
+      Result.failure(.network(.decodingFailed))
     }
     
     FakeDatabaseService.spellListHandler = {
-      return Result.success(fakeData)
+      Result.success(fakeData)
     }
     
-    sut.spellListPublisher()
+    sut.spellListPublisher
       .sink(receiveCompletion: { completion in
         interactorExpectation.fulfill()
         switch completion {
@@ -70,7 +69,7 @@ class SpellProviderServiceTests: XCTestCase {
           XCTFail("\(error)")
         }
       }) { spellDTOs in
-        XCTAssertTrue(spellDTOs == fakeData)
+        XCTAssertEqual(spellDTOs, fakeData)
       }
       .store(in: &cancellableSet)
     
@@ -84,11 +83,11 @@ class SpellProviderServiceTests: XCTestCase {
     let fakeData = FakeDataFactory.provideFakeSpellDTO()
     
     FakeNetworkService.spellDetailHandler = {
-      return Result.success(fakeData)
+      Result.success(fakeData)
     }
     
     FakeDatabaseService.spellDetailHandler = {
-      return Result.failure(.database(.noMatchedEntity))
+      Result.failure(.database(.noMatchedEntity))
     }
     
     sut.spellDetailsPublisher(for: "/api/spells/fake")
@@ -101,7 +100,7 @@ class SpellProviderServiceTests: XCTestCase {
           XCTFail("\(error)")
         }
       }) { spellDTO in
-        XCTAssertTrue(spellDTO == fakeData)
+        XCTAssertEqual(spellDTO, fakeData)
       }
       .store(in: &cancellableSet)
     
@@ -115,8 +114,7 @@ class SpellProviderServiceTests: XCTestCase {
     let fakeData = FakeDataFactory.provideFakeSpellDTO()
     
     FakeNetworkService.spellDetailHandler = {
-      XCTFail("Should't call network in thic case")
-      return Result.success(fakeData)
+      Result.failure(.network(.decodingFailed))
     }
     
     FakeDatabaseService.spellDetailHandler = {
@@ -133,7 +131,7 @@ class SpellProviderServiceTests: XCTestCase {
           XCTFail("\(error)")
         }
       }) { spellDTO in
-        XCTAssertTrue(spellDTO == fakeData)
+        XCTAssertEqual(spellDTO, fakeData)
       }
       .store(in: &cancellableSet)
     

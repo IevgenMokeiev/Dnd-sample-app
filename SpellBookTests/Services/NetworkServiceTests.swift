@@ -28,7 +28,7 @@ class NetworkServiceTests: XCTestCase {
     
     let networkExpectation = expectation(description: "wait for network call")
     
-    sut.spellListPublisher()
+    sut.spellListPublisher
       .sink(receiveCompletion: { completion in
         networkExpectation.fulfill()
         switch completion {
@@ -38,7 +38,7 @@ class NetworkServiceTests: XCTestCase {
           XCTFail("\(error)")
         }
       }, receiveValue: { spellDTOs in
-        XCTAssertTrue(spellDTOs == FakeDataFactory.provideEmptySpellListDTO())
+        XCTAssertEqual(spellDTOs, FakeDataFactory.provideEmptySpellListDTO())
       })
       .store(in: &cancellableSet)
     
@@ -69,7 +69,7 @@ class NetworkServiceTests: XCTestCase {
           XCTFail("\(error)")
         }
       }, receiveValue: { spellDTO in
-        XCTAssertTrue(spellDTO == FakeDataFactory.provideFakeSpellDTO())
+        XCTAssertEqual(spellDTO, FakeDataFactory.provideFakeSpellDTO())
       })
       .store(in: &cancellableSet)
     

@@ -10,57 +10,57 @@ import XCTest
 
 class SpellBookUITests: XCTestCase {
 
-    override func setUp() {
-        continueAfterFailure = false
-    }
+  override func setUp() {
+    continueAfterFailure = false
+  }
 
-    func test_selection() {
-        let app = XCUIApplication()
-        launchApp(app: app)
-        let tableView = app.otherElements["SpellTableView"]
-        tableView.cells.element(boundBy: 0).tap()
+  func test_selection() {
+    let app = XCUIApplication()
+    launchApp(app: app)
+    let tableView = app.tables["SpellTableView"]
+    tableView.cells.element(boundBy: 0).tap()
 
-        let spellLabel = app.staticTexts["Acid Arrow"]
-        XCTAssertTrue(spellLabel.waitForExistence(timeout: 3))
-    }
+    let spellLabel = app.staticTexts["Acid Arrow"]
+    XCTAssertTrue(spellLabel.waitForExistence(timeout: 3))
+  }
 
-    func test_search() {
-        let app = XCUIApplication()
-        launchApp(app: app)
-        let tableView = app.otherElements["SpellTableView"]
-        let searchView = app.textFields["SpellSearchView"]
-        searchView.tap()
-        searchView.typeText("Acid Arrow")
+  func test_search() {
+    let app = XCUIApplication()
+    launchApp(app: app)
+    let tableView = app.tables["SpellTableView"]
+    let searchView = app.textFields["SpellSearchView"]
+    searchView.tap()
+    searchView.typeText("Acid Arrow")
 
-        tableView.cells.element(boundBy: 0).tap()
+    tableView.cells.element(boundBy: 0).tap()
 
-        let spellLabel = app.staticTexts["Acid Arrow"]
-        XCTAssertTrue(spellLabel.waitForExistence(timeout: 3))
-    }
+    let spellLabel = app.staticTexts["Acid Arrow"]
+    XCTAssertTrue(spellLabel.waitForExistence(timeout: 3))
+  }
 
-    func test_add_favorite() {
-        let app = XCUIApplication()
-        launchApp(app: app)
-        let tableView = app.otherElements["SpellTableView"]
-        tableView.cells.element(boundBy: 0).tap()
+  func test_add_favorite() {
+    let app = XCUIApplication()
+    launchApp(app: app)
+    let tableView = app.tables["SpellTableView"]
+    tableView.cells.element(boundBy: 0).tap()
 
-        let spellLabel = app.staticTexts["Acid Arrow"]
-        XCTAssertTrue(spellLabel.waitForExistence(timeout: 3))
+    let spellLabel = app.staticTexts["Acid Arrow"]
+    XCTAssertTrue(spellLabel.waitForExistence(timeout: 3))
 
-        app.buttons["FavoritesButton"].tap()
-        app.navigationBars.buttons.element(boundBy: 0).tap()
+    app.buttons["FavoritesButton"].tap()
+    app.navigationBars.buttons.element(boundBy: 0).tap()
 
-        app.tabBars.buttons.element(boundBy: 1).tap()
+    app.tabBars.buttons.element(boundBy: 1).tap()
 
-        let favoritesTableView = app.otherElements["FavoritesTableView"]
-        favoritesTableView.cells.element(boundBy: 0).tap()
+    let favoritesTableView = app.tables["FavoritesTableView"]
+    favoritesTableView.cells.element(boundBy: 0).tap()
 
-        let favoriteSpellLabel = app.staticTexts["Acid Arrow"]
-        XCTAssertTrue(favoriteSpellLabel.waitForExistence(timeout: 3))
-    }
+    let favoriteSpellLabel = app.staticTexts["Acid Arrow"]
+    XCTAssertTrue(favoriteSpellLabel.waitForExistence(timeout: 3))
+  }
 
-    private func launchApp(app: XCUIApplication) {
-        app.launchArguments = ["enable-testing"]
-        app.launch()
-    }
+  private func launchApp(app: XCUIApplication) {
+    app.launchArguments = ["enable-testing"]
+    app.launch()
+  }
 }

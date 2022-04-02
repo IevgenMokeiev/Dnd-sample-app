@@ -20,7 +20,7 @@ class DatabaseServiceTests: XCTestCase {
     let sut = makeSUT()
     guard let context = context else { XCTFail("no context"); return }
     _ = FakeDataFactory.provideFakeSpellList(context: context)
-    sut.spellListPublisher()
+    sut.spellListPublisher
       .sink(receiveCompletion: { completion in
         switch completion {
         case .finished:
@@ -29,7 +29,7 @@ class DatabaseServiceTests: XCTestCase {
           XCTFail("\(error)")
         }
       }) { spellDTOs in
-        XCTAssertTrue(spellDTOs == FakeDataFactory.provideFakeSpellListDTO())
+        XCTAssertEqual(spellDTOs, FakeDataFactory.provideFakeSpellListDTO())
       }
       .store(in: &cancellableSet)
   }
@@ -47,7 +47,7 @@ class DatabaseServiceTests: XCTestCase {
           XCTFail("\(error)")
         }
       }) { spellDTO in
-        XCTAssertTrue(spellDTO == FakeDataFactory.provideFakeSpellDTO())
+        XCTAssertEqual(spellDTO, FakeDataFactory.provideFakeSpellDTO())
       }
       .store(in: &cancellableSet)
   }
@@ -56,7 +56,7 @@ class DatabaseServiceTests: XCTestCase {
     let sut = makeSUT()
     guard let context = context else { XCTFail("no context"); return }
     _ = FakeDataFactory.provideFakeSpellList(context: context)
-    sut.favoritesPublisher()
+    sut.favoritesPublisher
       .sink(receiveCompletion: { completion in
         switch completion {
         case .finished:
@@ -65,7 +65,7 @@ class DatabaseServiceTests: XCTestCase {
           XCTFail("\(error)")
         }
       }) { spellDTOs in
-        XCTAssertTrue(spellDTOs.count == 0)
+        XCTAssertTrue(spellDTOs.isEmpty)
       }
       .store(in: &cancellableSet)
   }
@@ -74,7 +74,7 @@ class DatabaseServiceTests: XCTestCase {
     let sut = makeSUT(testFavorites: true)
     guard let context = context else { XCTFail("no context"); return }
     _ = FakeDataFactory.provideFakeFavoritesList(context: context)
-    sut.favoritesPublisher()
+    sut.favoritesPublisher
       .sink(receiveCompletion: { completion in
         switch completion {
         case .finished:
@@ -83,7 +83,7 @@ class DatabaseServiceTests: XCTestCase {
           XCTFail("\(error)")
         }
       }) { spellDTOs in
-        XCTAssertTrue(spellDTOs == FakeDataFactory.provideFakeFavoritesListDTO())
+        XCTAssertEqual(spellDTOs, FakeDataFactory.provideFakeFavoritesListDTO())
       }
       .store(in: &cancellableSet)
   }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1100"
+   LastUpgradeVersion = "1300"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "BD175EEE11D14C65BE385611FA8A7E0E"
+               BlueprintIdentifier = "65A942BD840B50096C8C9C6DC5004953"
                BuildableName = "Pods_SpellBook.framework"
                BlueprintName = "Pods-SpellBook"
                ReferencedContainer = "container:Pods.xcodeproj">
