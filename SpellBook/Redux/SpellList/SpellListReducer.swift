@@ -18,7 +18,7 @@ func spellListReducer(
   case .requestSpellList:
     return ReducerResult(
       effect: environment.spellProviderService
-        .spellListPublisher()
+        .spellListPublisher
         .map { SpellListAction.showSpellList($0) }
         .catch { Just(SpellListAction.showSpellListLoadError($0)) }
         .eraseToAnyPublisher()

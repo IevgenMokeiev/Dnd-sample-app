@@ -20,7 +20,7 @@ private enum Endpoints: String {
 
 /// Service responsible for network communication
 protocol NetworkService {
-  func spellListPublisher() -> SpellListPublisher
+  var spellListPublisher: SpellListPublisher { get }
   func spellDetailPublisher(for path: String) -> SpellDetailPublisher
 }
 
@@ -32,7 +32,7 @@ class NetworkServiceImpl: NetworkService {
     self.networkClient = networkClient
   }
   
-  func spellListPublisher() -> SpellListPublisher {
+  var spellListPublisher: SpellListPublisher {
     guard let url = URL(string: Endpoints.spellList.rawValue) else {
       return Fail(error: .network(.invalidURL))
         .eraseToAnyPublisher()

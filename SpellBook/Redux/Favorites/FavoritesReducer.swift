@@ -9,14 +9,19 @@
 import Foundation
 import Combine
 
-func favoritesReducer(state: FavoritesState, action: FavoritesAction, environment: ServiceContainer) -> ReducerResult<FavoritesState, FavoritesAction> {
-    switch action {
-    case .requestFavorites:
-        return ReducerResult(effect: environment.spellProviderService
-            .favoritesPublisher()
-            .map { FavoritesAction.showFavorites($0) }
-            .eraseToAnyPublisher())
-    case let .showFavorites(spells):
-        return ReducerResult(state: .favorites(spells))
-    }
+func favoritesReducer(
+  state: FavoritesState,
+  action: FavoritesAction,
+  environment: ServiceContainer
+) -> ReducerResult<FavoritesState, FavoritesAction> {
+  switch action {
+  case .requestFavorites:
+    return ReducerResult(
+      effect: environment.spellProviderService
+        .favoritesPublisher
+        .map { FavoritesAction.showFavorites($0) }
+        .eraseToAnyPublisher())
+  case let .showFavorites(spells):
+    return ReducerResult(state: .favorites(spells))
+  }
 }

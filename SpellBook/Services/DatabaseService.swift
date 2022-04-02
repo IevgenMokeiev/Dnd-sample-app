@@ -12,9 +12,9 @@ import Combine
 
 /// Service responsible for database communication
 protocol DatabaseService {
-  func spellListPublisher() -> SpellListPublisher
+  var spellListPublisher: SpellListPublisher { get }
+  var favoritesPublisher: NoErrorSpellListPublisher { get }
   func spellDetailsPublisher(for path: String) -> SpellDetailPublisher
-  func favoritesPublisher() -> NoErrorSpellListPublisher
   func saveSpellList(_ spellDTOs: [SpellDTO])
   func saveSpellDetails(_ spellDTO: SpellDTO)
   func createSpell(_ spellDTO: SpellDTO)
@@ -31,9 +31,16 @@ class DatabaseServiceImpl: DatabaseService {
     self.translationService = translationService
   }
   
-  func spellListPublisher() -> SpellListPublisher {
-    return databaseClient.fetchRecords(expectedType: Spell.self, predicate: nil)
+  var spellListPublisher: SpellListPublisher {
+    databaseClient.fetchRecords(expectedType: Spell.self, predicate: nil)
       .map { self.translationService.convertToDTO(spellList: $0) }
+      .eraseToAnyPublisher()
+  }
+
+  var favoritesPublisher: NoErrorSpellListPublisher {
+    databaseClient.fetchRecords(expectedType: Spell.self, predicate: NSPredicate(format: "isFavorite == true"))
+      .map { self.translationService.convertToDTO(spellList: $0) }
+      .replaceError(with: [])
       .eraseToAnyPublisher()
   }
   
@@ -48,19 +55,19 @@ class DatabaseServiceImpl: DatabaseService {
           throw CustomError.database(.noMatchedEntity)
         }
       }
-      .mapError { $0.transformToCustom }
-      .eraseToAnyPublisher()
-  }
-  
-  func favoritesPublisher() -> NoErrorSpellListPublisher {
-    return databaseClient.fetchRecords(expectedType: Spell.self, predicate: NSPredicate(format: "isFavorite == true"))
-      .map { self.translationService.convertToDTO(spellList: $0) }
-      .replaceError(with: [])
+      .mapError {
+        switch ($0) {
+        case let error as CustomError:
+            return error
+        default:
+          return CustomError.other($0)
+        }
+      }
       .eraseToAnyPublisher()
   }
   
   func saveSpellList(_ spellDTOs: [SpellDTO]) {
-    spellDTOs.forEach { (spell) in
+    spellDTOs.forEach { spell in
       let spellEntity = databaseClient.createRecord(expectedType: Spell.self)
       spellEntity.name = spell.name
       spellEntity.path = spell.path
@@ -85,5 +92,27 @@ class DatabaseServiceImpl: DatabaseService {
     let spellEntity = databaseClient.createRecord(expectedType: Spell.self)
     spellEntity.populate(with: spellDTO)
     databaseClient.save()
+  }
+}
+
+extension Publisher where Output == [SpellDTO] {
+
+  func cacheOutput(service: DatabaseService) -> AnyPublisher<Self.Output, Self.Failure> {
+    self.map {
+      service.saveSpellList($0)
+      return $0
+    }
+    .eraseToAnyPublisher()
+  }
+}
+
+extension Publisher where Output == SpellDTO {
+
+  func cacheOutput(service: DatabaseService) -> AnyPublisher<Self.Output, Self.Failure> {
+    self.map {
+      service.saveSpellDetails($0)
+      return $0
+    }
+    .eraseToAnyPublisher()
   }
 }

@@ -13,7 +13,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
   var window: UIWindow?
 
-  let store = AppStore(initialState: AppState(spellListState: .initial, spellDetailState: .initial, favoritesState: .initial), reducer: appReducer, environment: ServiceContainerImpl())
+  let store = AppStore(
+    initialState: AppState(
+      spellListState: .initial,
+      spellDetailState: .initial,
+      favoritesState: .initial
+    ), reducer: appReducer,
+    environment: ServiceContainerImpl(
+    ))
   let factory = ViewFactory()
 
   func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -25,8 +32,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     if let scene = scene as? UIWindowScene {
       let window = UIWindow(windowScene: scene)
-      window.rootViewController = UIHostingController(rootView:
-                                                        factory.createTabbarView().environmentObject(store).environmentObject(factory))
+      window.rootViewController = UIHostingController(
+        rootView: factory.createTabbarView()
+          .environmentObject(store)
+          .environmentObject(factory)
+      )
       self.window = window
       window.makeKeyAndVisible()
     }

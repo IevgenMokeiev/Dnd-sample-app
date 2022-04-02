@@ -26,8 +26,8 @@ struct ServiceContainerImpl: ServiceContainer {
     let databaseClient = DatabaseClientImpl(coreDataStack: coreDataStack)
     let databaseService = DatabaseServiceImpl(databaseClient: databaseClient, translationService: translationService)
     let networkService = NetworkServiceImpl(networkClient: NetworkClientImpl())
-    self.spellProviderService = SpellProviderServiceImpl(databaseService: databaseService, networkService: networkService)
-    self.refinementsService = RefinementsServiceImpl()
+    spellProviderService = SpellProviderServiceImpl(databaseService: databaseService, networkService: networkService)
+    refinementsService = RefinementsServiceImpl()
     
     if CommandLine.arguments.contains("enable-testing") {
       coreDataStack.cleanupStack()

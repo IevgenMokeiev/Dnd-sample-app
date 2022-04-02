@@ -92,7 +92,11 @@ struct CheckMarkEntryView: View {
 
 struct AddSpellView_Previews: PreviewProvider {
   static var previews: some View {
-    let store = AppStore(initialState: AppState(spellListState: .initial, spellDetailState: .initial, favoritesState: .initial), reducer: appReducer, environment: ServiceContainerImpl())
+    let store = AppStore(initialState: AppState(
+      spellListState: .initial,
+      spellDetailState: .initial,
+      favoritesState: .initial
+    ), reducer: appReducer, environment: ServiceContainerImpl())
     let factory = ViewFactory()
     return factory.createAddSpellView().environmentObject(store).environmentObject(factory)
   }

@@ -12,9 +12,9 @@ import Foundation
 /// If data is requested, tries to get it from the database service
 /// If it's not available, fallback to network service
 protocol SpellProviderService {
-  func spellListPublisher() -> SpellListPublisher
+  var spellListPublisher: SpellListPublisher { get }
+  var favoritesPublisher: NoErrorSpellListPublisher { get }
   func spellDetailsPublisher(for path: String) -> SpellDetailPublisher
-  func favoritesPublisher() -> NoErrorSpellListPublisher
   func saveSpellDetails(_ spellDTO: SpellDTO)
   func createSpell(_ spellDTO: SpellDTO)
 }
@@ -29,45 +29,34 @@ class SpellProviderServiceImpl: SpellProviderService {
     self.networkService = networkService
   }
   
-  func spellListPublisher() -> SpellListPublisher {
-    return databaseService.spellListPublisher()
-      .catch { (error) -> SpellListPublisher in
-        print("Could not retrieve. \(error)")
-        
-        let downloadPublisher = self.networkService.spellListPublisher()
-          .receive(on: RunLoop.main)
-          .map { (spellDTOs) -> [SpellDTO] in
-            self.databaseService.saveSpellList(spellDTOs)
-            return spellDTOs
-          }
-          .eraseToAnyPublisher()
-        
-        return downloadPublisher
-      }
+  var spellListPublisher: SpellListPublisher {
+
+    let downloadPublisher = networkService.spellListPublisher
+      .cacheOutput(service: databaseService)
+      .receive(on: RunLoop.main)
+      .eraseToAnyPublisher()
+
+    return databaseService.spellListPublisher
+      .fallback(downloadPublisher)
+      .receive(on: RunLoop.main)
+      .eraseToAnyPublisher()
+  }
+
+  var favoritesPublisher: NoErrorSpellListPublisher {
+    return databaseService.favoritesPublisher
       .receive(on: RunLoop.main)
       .eraseToAnyPublisher()
   }
   
   func spellDetailsPublisher(for path: String) -> SpellDetailPublisher {
-    return databaseService.spellDetailsPublisher(for: path)
-      .catch { error -> SpellDetailPublisher in
-        print("Could not retrieve. \(error)")
-        let downloadPublisher = self.networkService.spellDetailPublisher(for: path)
-          .receive(on: RunLoop.main)
-          .map { (spellDTO) -> SpellDTO in
-            self.databaseService.saveSpellDetails(spellDTO)
-            return spellDTO
-          }
-          .eraseToAnyPublisher()
-        
-        return downloadPublisher
-      }
+
+    let downloadPublisher = networkService.spellDetailPublisher(for: path)
+      .cacheOutput(service: databaseService)
       .receive(on: RunLoop.main)
       .eraseToAnyPublisher()
-  }
-  
-  func favoritesPublisher() -> NoErrorSpellListPublisher {
-    return databaseService.favoritesPublisher()
+
+    return databaseService.spellDetailsPublisher(for: path)
+      .fallback(downloadPublisher)
       .receive(on: RunLoop.main)
       .eraseToAnyPublisher()
   }
