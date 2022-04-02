@@ -11,54 +11,54 @@ import SwiftUI
 import Combine
 
 enum SpellDetailState {
-    case loading
-    case spell(SpellDTO)
-    case error
+  case loading
+  case spell(SpellDTO)
+  case error
 }
 
 class SpellDetailViewModel: ObservableObject {
 
-    @Published var state: SpellDetailState = .loading
+  @Published var state: SpellDetailState = .loading
 
-    private let publisher: SpellDetailPublisher
-    private let saveBlock: SaveBlock
-    private var cancellableSet: Set<AnyCancellable> = []
+  private let publisher: SpellDetailPublisher
+  private let saveBlock: SaveBlock
+  private var cancellableSet: Set<AnyCancellable> = []
 
-    init(publisher: SpellDetailPublisher, saveBlock: @escaping SaveBlock) {
-        self.publisher = publisher
-        self.saveBlock = saveBlock
+  init(publisher: SpellDetailPublisher, saveBlock: @escaping SaveBlock) {
+    self.publisher = publisher
+    self.saveBlock = saveBlock
+  }
+
+  var favoriteButtonText: String {
+    if case .spell(let spellDTO) = state {
+      return spellDTO.isFavorite ? "Remove from Favorites" : "Add to Favorites"
+    } else {
+      return ""
     }
+  }
 
-    var favoriteButtonText: String {
-        if case .spell(let spellDTO) = state {
-            return spellDTO.isFavorite ? "Remove from Favorites" : "Add to Favorites"
-        } else {
-            return ""
+  func toggleFavorite() {
+    if case .spell(let spellDTO) = state {
+      let newDTO = spellDTO.toggleFavorite(value: !spellDTO.isFavorite)
+      state = .spell(newDTO)
+      saveBlock(newDTO)
+    }
+  }
+
+  func onAppear() {
+    publisher
+      .sink(receiveCompletion: { completion in
+        switch completion {
+        case.finished:
+          break
+        case .failure(let error):
+          print("\(error)")
+          self.state = .error
         }
-    }
-
-    func toggleFavorite() {
-        if case .spell(let spellDTO) = state {
-            let newDTO = spellDTO.toggleFavorite(value: !spellDTO.isFavorite)
-            state = .spell(newDTO)
-            saveBlock(newDTO)
-        }
-    }
-
-    func onAppear() {
-        publisher
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case.finished:
-                    break
-                case .failure(let error):
-                    print("\(error)")
-                    self.state = .error
-                }
-            }, receiveValue: { spellDTO in
-                self.state = .spell(spellDTO)
-            })
-            .store(in: &cancellableSet)
-    }
+      }, receiveValue: { spellDTO in
+        self.state = .spell(spellDTO)
+      })
+      .store(in: &cancellableSet)
+  }
 }
 

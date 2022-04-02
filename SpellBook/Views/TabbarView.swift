@@ -10,27 +10,27 @@ import SwiftUI
 
 struct TabbarView: View {
 
-    @EnvironmentObject var factory: ViewFactory
-    
-    var body: some View {
-        TabView() {
-            factory.createSpellListView()
-            .tabItem {
-                Image(systemName: "book.fill")
-                Text("Spell Book")
-            }.accessibility(identifier: "SpellTab")
-            factory.createFavoritesView()
-            .tabItem {
-                Image(systemName: "bookmark.fill")
-                Text("Favorites")
-            }.accessibility(identifier: "FavoritesTab")
-        }
-        .accentColor(.orange)
+  @EnvironmentObject var factory: ViewFactory
+
+  var body: some View {
+    TabView() {
+      factory.createSpellListView()
+        .tabItem {
+          Image(systemName: "book.fill")
+          Text("Spell Book")
+        }.accessibility(identifier: "SpellTab")
+      factory.createFavoritesView()
+        .tabItem {
+          Image(systemName: "bookmark.fill")
+          Text("Favorites")
+        }.accessibility(identifier: "FavoritesTab")
     }
+    .accentColor(.orange)
+  }
 }
 
 struct TabbarView_Previews: PreviewProvider {
-    static var previews: some View {
-        return AppCoordinator().viewFactory.createTabbarView()
-    }
+  static var previews: some View {
+    return AppCoordinator().viewFactory.createTabbarView()
+  }
 }

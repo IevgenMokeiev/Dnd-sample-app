@@ -1,0 +1,13 @@
+current directory: /Users/yevhenmokeiev/Documents/Personal/Dnd-sample-app/vendor/bundle/ruby/2.7.0/gems/json-2.6.1/ext/json
+/Users/yevhenmokeiev/.rbenv/versions/2.7.4/bin/ruby -I /Users/yevhenmokeiev/.rbenv/versions/2.7.4/lib/ruby/2.7.0 -r ./siteconf20220402-32916-1l6jq41.rb extconf.rb
+creating Makefile
+
+current directory: /Users/yevhenmokeiev/Documents/Personal/Dnd-sample-app/vendor/bundle/ruby/2.7.0/gems/json-2.6.1/ext/json
+make "DESTDIR=" clean
+
+current directory: /Users/yevhenmokeiev/Documents/Personal/Dnd-sample-app/vendor/bundle/ruby/2.7.0/gems/json-2.6.1/ext/json
+make "DESTDIR="
+make: Nothing to be done for `all'.
+
+current directory: /Users/yevhenmokeiev/Documents/Personal/Dnd-sample-app/vendor/bundle/ruby/2.7.0/gems/json-2.6.1/ext/json
+make "DESTDIR=" install

@@ -10,23 +10,20 @@
 
 class FakeNetworkService: NetworkService {
 
-    static var spellListHandler: (() -> Result<[SpellDTO], NetworkClientError>)?
+  static var spellListHandler: (() -> Result<[SpellDTO], CustomError>)?
+  static var spellDetailHandler: (() -> Result<SpellDTO, CustomError>)?
 
-    static var spellDetailHandler: (() -> Result<SpellDTO, NetworkClientError>)?
-
-    func spellListPublisher() -> NetworkSpellPublisher {
-        guard let handler = Self.spellListHandler else {
-            fatalError("Handler is unavailable.")
-        }
-        let result = handler()
-        return Result.Publisher(result).eraseToAnyPublisher()
+  var spellListPublisher: SpellListPublisher {
+    guard let handler = Self.spellListHandler else {
+      fatalError("Handler is unavailable.")
     }
+    return Result.Publisher(handler()).eraseToAnyPublisher()
+  }
 
-    func spellDetailPublisher(for path: String) -> NetworkSpellDetailPublisher {
-        guard let handler = Self.spellDetailHandler else {
-            fatalError("Handler is unavailable.")
-        }
-        let result = handler()
-        return Result.Publisher(result).eraseToAnyPublisher()
+  func spellDetailPublisher(for path: String) -> SpellDetailPublisher {
+    guard let handler = Self.spellDetailHandler else {
+      fatalError("Handler is unavailable.")
     }
+    return Result.Publisher(handler()).eraseToAnyPublisher()
+  }
 }

@@ -26,11 +26,14 @@ struct SpellDetailView: View {
         )
     }
 
-    private var content: AnyView {
+    @ViewBuilder private var content: some View {
         switch viewModel.state {
-        case .loading: return AnyView(ProgressView(isAnimating: true))
-        case .spell(let spellDTO): return AnyView(loadedView(spellDTO))
-        case .error: return AnyView(ErrorView())
+        case .loading:
+          ProgressView(isAnimating: true)
+        case .spell(let spellDTO):
+          loadedView(spellDTO)
+        case .error:
+          ErrorView()
         }
     }
 }

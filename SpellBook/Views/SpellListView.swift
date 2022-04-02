@@ -26,11 +26,14 @@ struct SpellListView: View {
         }.onAppear(perform: viewModel.onAppear)
     }
 
-    private var content: AnyView {
+    @ViewBuilder private var content: some View {
         switch viewModel.state {
-        case .loading: return AnyView(ProgressView(isAnimating: true))
-        case .spells(let spellDTOs): return AnyView(loadedView(spellDTOs, searchTerm: $viewModel.searchTerm))
-        case .error: return AnyView(ErrorView())
+        case .loading:
+          ProgressView(isAnimating: true)
+        case .spells(let spellDTOs):
+          loadedView(spellDTOs, searchTerm: $viewModel.searchTerm)
+        case .error:
+          ErrorView()
         }
     }
 }

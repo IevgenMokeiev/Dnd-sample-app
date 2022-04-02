@@ -11,19 +11,19 @@ import Combine
 
 class FavoritesViewModel: ObservableObject {
 
-    @Published var spellDTOs: [SpellDTO] = []
+  @Published var spellDTOs: [SpellDTO] = []
 
-    private let publisherConstructor: SpellPublisherConstructor
-    private var cancellableSet: Set<AnyCancellable> = []
+  private let publisher: NoErrorSpellListPublisher
+  private var cancellableSet: Set<AnyCancellable> = []
 
-    init(publisherConstructor: @escaping SpellPublisherConstructor) {
-        self.publisherConstructor = publisherConstructor
-    }
+  init(publisher: NoErrorSpellListPublisher) {
+    self.publisher = publisher
+  }
 
-    func onAppear() {
-        publisherConstructor()
-            .replaceError(with: [])
-            .assign(to: \.spellDTOs, on: self)
-            .store(in: &cancellableSet)
-    }
+  func onAppear() {
+    publisher
+      .replaceError(with: [])
+      .assign(to: \.spellDTOs, on: self)
+      .store(in: &cancellableSet)
+  }
 }

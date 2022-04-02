@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -39,6 +39,8 @@
 		9F91A3A024756B2D0034642A /* TabbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F91A39F24756B2D0034642A /* TabbarView.swift */; };
 		9F91A3A4247574020034642A /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F91A3A3247574020034642A /* FavoritesView.swift */; };
 		9F91A3A62475749B0034642A /* FavoritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F91A3A52475749B0034642A /* FavoritesViewModel.swift */; };
+		9FB3A49727F8535A004A0596 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB3A49627F8535A004A0596 /* CustomError.swift */; };
+		9FB3A49927F85378004A0596 /* PublisherExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB3A49827F85378004A0596 /* PublisherExtensions.swift */; };
 		9FC14EAD246B3AC000428073 /* TranslationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC14EAC246B3AC000428073 /* TranslationServiceTests.swift */; };
 		9FC3E0562472CCBA00C5AE17 /* CustomTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC3E0552472CCBA00C5AE17 /* CustomTypes.swift */; };
 		9FD27450246D4244009A9FBD /* SpellListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2744F246D4244009A9FBD /* SpellListViewModel.swift */; };
@@ -109,6 +111,8 @@
 		9F91A39F24756B2D0034642A /* TabbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarView.swift; sourceTree = "<group>"; };
 		9F91A3A3247574020034642A /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
 		9F91A3A52475749B0034642A /* FavoritesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewModel.swift; sourceTree = "<group>"; };
+		9FB3A49627F8535A004A0596 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
+		9FB3A49827F85378004A0596 /* PublisherExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherExtensions.swift; sourceTree = "<group>"; };
 		9FC14EAC246B3AC000428073 /* TranslationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationServiceTests.swift; sourceTree = "<group>"; };
 		9FC3E0552472CCBA00C5AE17 /* CustomTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTypes.swift; sourceTree = "<group>"; };
 		9FD2744F246D4244009A9FBD /* SpellListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellListViewModel.swift; sourceTree = "<group>"; };
@@ -252,7 +256,6 @@
 			children = (
 				9F109D8E2476B2EF0091B7E3 /* CoreData */,
 				85B354602268BCD400617C7E /* Interactor.swift */,
-				9FC3E0552472CCBA00C5AE17 /* CustomTypes.swift */,
 				9F6BD7C1246593CF001D8825 /* SpellDTO.swift */,
 			);
 			path = Models;
@@ -311,6 +314,15 @@
 			path = Factories;
 			sourceTree = "<group>";
 		};
+		9FB3A49527F85209004A0596 /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+				9FFF78B8247821170068743F /* NetworkClient.swift */,
+				9FFF78BA247821390068743F /* DatabaseClient.swift */,
+			);
+			path = Clients;
+			sourceTree = "<group>";
+		};
 		9FC14EAB246B3A8500428073 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -334,8 +346,10 @@
 		9FFF78B7247820FD0068743F /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				9FFF78B8247821170068743F /* NetworkClient.swift */,
-				9FFF78BA247821390068743F /* DatabaseClient.swift */,
+				9FB3A49527F85209004A0596 /* Clients */,
+				9FC3E0552472CCBA00C5AE17 /* CustomTypes.swift */,
+				9FB3A49627F8535A004A0596 /* CustomError.swift */,
+				9FB3A49827F85378004A0596 /* PublisherExtensions.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -405,7 +419,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1020;
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1300;
 				ORGANIZATIONNAME = Ievgen;
 				TargetAttributes = {
 					85B353E92267B64200617C7E = {
@@ -475,16 +489,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SpellBook/Pods-SpellBook-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-SpellBook/Pods-SpellBook-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-SpellBook/Pods-SpellBook-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -532,6 +541,7 @@
 				9F54AC1F246BF023005B4849 /* CoreDataStack.swift in Sources */,
 				9F54AC24246C0B8C005B4849 /* ViewFactory.swift in Sources */,
 				9FDC20CF2479280800D87439 /* ErrorView.swift in Sources */,
+				9FB3A49927F85378004A0596 /* PublisherExtensions.swift in Sources */,
 				9FFF78BB247821390068743F /* DatabaseClient.swift in Sources */,
 				9F91A3A4247574020034642A /* FavoritesView.swift in Sources */,
 				9F109D8B2476B1500091B7E3 /* Spell+Population.swift in Sources */,
@@ -541,6 +551,7 @@
 				85B3547B2269AF3100617C7E /* DatabaseService.swift in Sources */,
 				9F91A3A024756B2D0034642A /* TabbarView.swift in Sources */,
 				9FD27450246D4244009A9FBD /* SpellListViewModel.swift in Sources */,
+				9FB3A49727F8535A004A0596 /* CustomError.swift in Sources */,
 				9F91A3A62475749B0034642A /* FavoritesViewModel.swift in Sources */,
 				9F54AC28246C1150005B4849 /* AppCoordinator.swift in Sources */,
 				9FFF78B9247821170068743F /* NetworkClient.swift in Sources */,
@@ -630,6 +641,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -655,7 +667,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -691,6 +703,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -710,7 +723,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -728,6 +741,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7FA4YF49TS;
 				INFOPLIST_FILE = SpellBook/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -747,6 +761,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7FA4YF49TS;
 				INFOPLIST_FILE = SpellBook/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
