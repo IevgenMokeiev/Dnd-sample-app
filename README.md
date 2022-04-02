@@ -14,4 +14,4 @@ Model layer includes DTO, database and data layer.
 
 Data layer uses the next approach: data are retrieved from DB, if not present we fallback to the network data.
 
-Master branch is writeen in MVVM, redux branch is using Redux architecture and has more features.
+Master branch is writeen in Redux, for common implementation see mvvm branch.
