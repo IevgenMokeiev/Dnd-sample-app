@@ -11,21 +11,31 @@ import SwiftUI
 struct TabbarView: View {
 
   @EnvironmentObject var factory: ViewFactory
+  @State private var selectedPage = 0
+  @State private var redraw = false
 
   var body: some View {
-    TabView() {
+    TabView(selection: $selectedPage) {
       factory.createSpellListView()
         .tabItem {
           Image(systemName: "book.fill")
           Text("Spell Book")
-        }.accessibility(identifier: "SpellTab")
+        }
+        .accessibility(identifier: "SpellTab")
+        .tag(0)
       factory.createFavoritesView()
         .tabItem {
           Image(systemName: "bookmark.fill")
           Text("Favorites")
-        }.accessibility(identifier: "FavoritesTab")
+        }
+        .accessibility(identifier: "FavoritesTab")
+        .tag(1)
     }
     .accentColor(.orange)
+    .onChange(of: selectedPage) { newValue in
+      // we want view to redraw each time different tab is selected
+      redraw.toggle()
+    }
   }
 }
 
