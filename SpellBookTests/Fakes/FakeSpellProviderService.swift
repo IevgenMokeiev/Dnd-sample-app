@@ -35,9 +35,7 @@ class FakeSpellProviderService: SpellProviderService {
     return Result.Publisher(handler()).eraseToAnyPublisher()
   }
   
-  func saveSpellDetails(_ spellDTO: SpellDTO) {
-  }
+  func saveSpellDetails(_ spellDTO: SpellDTO) {}
   
-  func createSpell(_ spellDTO: SpellDTO) {
-  }
+  func createSpell(_ spellDTO: SpellDTO) {}
 }

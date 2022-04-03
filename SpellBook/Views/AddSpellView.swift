@@ -14,8 +14,8 @@ struct AddSpellView: View {
   @EnvironmentObject var factory: ViewFactory
   
   @ObservedObject var viewModel: AddSpellViewModel = AddSpellViewModel()
-  @State private var addButtonDisabled: Bool = true
-  @State private var showingAlert = false
+  @State private var addButtonDisabled = true
+  @State private var isShowingAlert = false
   
   var body: some View {
     NavigationView {
@@ -32,15 +32,20 @@ struct AddSpellView: View {
         AddSpellEntryView(title: "Higher Level: ", enteredText: $viewModel.higherLevel)
       }
       .navigationBarTitle("Add Spell", displayMode: .inline)
-      .navigationBarItems(trailing:
-                            Button("Add") {
-        self.add()
-      }
-                            .foregroundColor(addButtonDisabled ? .red : .orange)
-                            .disabled(addButtonDisabled)
-                            .alert(isPresented: $showingAlert) {
-        Alert(title: Text("Message"), message: Text("Spell Added"), dismissButton: .default(Text("Got it!")))
-      }
+      .navigationBarItems(
+        trailing:Button("Add") {
+          self.add()
+        }
+          .foregroundColor(addButtonDisabled ? .red : .orange)
+          .disabled(addButtonDisabled)
+          .alert(isPresented: $isShowingAlert) {
+            Alert(
+              title: Text("Message"),
+              message: Text("Spell Added"),
+              dismissButton: .default(Text("Got it!")
+                                     )
+            )
+          }
       )
       .onReceive(viewModel.buttonEnabled, perform: validateButton)
     }
@@ -52,7 +57,7 @@ struct AddSpellView: View {
   
   private func add() {
     store.send(.addSpell(viewModel.spellDTO))
-    showingAlert = true
+    isShowingAlert = true
   }
   
   private func validateButton(_ value: Bool) {
@@ -81,10 +86,11 @@ struct CheckMarkEntryView: View {
     HStack {
       Text(title)
       Button(action: {
-        self.isEnabled = !self.isEnabled
-        self.isChecked = !self.isChecked
+        self.isEnabled.toggle()
+        self.isChecked.toggle()
       }){
-        Image(systemName: isEnabled ? "checkmark.square.fill" : "square").foregroundColor(.orange)
+        Image(systemName: isEnabled ? "checkmark.square.fill" : "square")
+          .foregroundColor(.orange)
       }
     }.padding()
   }
@@ -92,11 +98,15 @@ struct CheckMarkEntryView: View {
 
 struct AddSpellView_Previews: PreviewProvider {
   static var previews: some View {
-    let store = AppStore(initialState: AppState(
-      spellListState: .initial,
-      spellDetailState: .initial,
-      favoritesState: .initial
-    ), reducer: appReducer, environment: ServiceContainerImpl())
+    let store = AppStore(
+      initialState: AppState(
+        spellListState: .initial,
+        spellDetailState: .initial,
+        favoritesState: .initial
+      ),
+      reducer: appReducer,
+      environment: ServiceContainerImpl()
+    )
     let factory = ViewFactory()
     return factory.createAddSpellView().environmentObject(store).environmentObject(factory)
   }

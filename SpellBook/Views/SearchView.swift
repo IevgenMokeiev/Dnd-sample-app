@@ -25,6 +25,7 @@ struct SearchView: View {
         .padding(.trailing, 5)
       TextField("type spell here...", text: $query)
         .accessibility(identifier: "SpellSearchView")
-    }.padding([.horizontal, .top], 15)
+    }
+    .padding([.horizontal, .top], 15)
   }
 }

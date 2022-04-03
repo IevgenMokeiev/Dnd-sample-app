@@ -18,7 +18,7 @@ class SpellProviderServiceTests: XCTestCase {
     let sut = makeSUT()
     let interactorExpectation = expectation(description: "wait for interactor")
     
-    let fakeData = FakeDataFactory.provideFakeSpellListDTO()
+    let fakeData = FakeDataFactory.spellListDTO
     
     FakeNetworkService.spellListHandler = {
       Result.success(fakeData)
@@ -49,7 +49,7 @@ class SpellProviderServiceTests: XCTestCase {
     let sut = makeSUT()
     let interactorExpectation = expectation(description: "wait for interactor")
     
-    let fakeData = FakeDataFactory.provideFakeSpellListDTO()
+    let fakeData = FakeDataFactory.spellListDTO
     
     FakeNetworkService.spellListHandler = {
       Result.failure(.network(.decodingFailed))
@@ -80,7 +80,7 @@ class SpellProviderServiceTests: XCTestCase {
     let sut = makeSUT()
     let interactorExpectation = expectation(description: "wait for interactor")
     
-    let fakeData = FakeDataFactory.provideFakeSpellDTO()
+    let fakeData = FakeDataFactory.spellDTO
     
     FakeNetworkService.spellDetailHandler = {
       Result.success(fakeData)
@@ -111,7 +111,7 @@ class SpellProviderServiceTests: XCTestCase {
     let sut = makeSUT()
     let interactorExpectation = expectation(description: "wait for interactor")
     
-    let fakeData = FakeDataFactory.provideFakeSpellDTO()
+    let fakeData = FakeDataFactory.spellDTO
     
     FakeNetworkService.spellDetailHandler = {
       Result.failure(.network(.decodingFailed))

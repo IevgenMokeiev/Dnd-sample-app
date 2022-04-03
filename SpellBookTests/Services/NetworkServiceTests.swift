@@ -18,8 +18,12 @@ class NetworkServiceTests: XCTestCase {
     let sut = makeSUT()
     
     let apiURL = URL(string: "http://dnd5eapi.co/api/spells")!
-    let response = HTTPURLResponse(url: apiURL, statusCode: 200, httpVersion: nil, headerFields: nil)!
-    let data = FakeDataFactory.provideFakeSpellListRawData()
+    let response = HTTPURLResponse(
+      url: apiURL, statusCode: 200,
+      httpVersion: nil,
+      headerFields: nil
+    )!
+    let data = FakeDataFactory.spellListRawData
     
     FakeURLProtocol.requestHandler = { request in
       XCTAssertTrue(request.url == apiURL)
@@ -38,7 +42,7 @@ class NetworkServiceTests: XCTestCase {
           XCTFail("\(error)")
         }
       }, receiveValue: { spellDTOs in
-        XCTAssertEqual(spellDTOs, FakeDataFactory.provideEmptySpellListDTO())
+        XCTAssertEqual(spellDTOs, FakeDataFactory.emptySpellListDTO)
       })
       .store(in: &cancellableSet)
     
@@ -49,7 +53,7 @@ class NetworkServiceTests: XCTestCase {
     let sut = makeSUT()
     
     let apiURL = URL(string: "http://dnd5eapi.co/api/spells/acid-arrow")!
-    let data = FakeDataFactory.provideFakeSpellDetailsRawData()
+    let data = FakeDataFactory.spellDetailsRawData
     
     FakeURLProtocol.requestHandler = { request in
       XCTAssertTrue(request.url == apiURL)
@@ -69,7 +73,7 @@ class NetworkServiceTests: XCTestCase {
           XCTFail("\(error)")
         }
       }, receiveValue: { spellDTO in
-        XCTAssertEqual(spellDTO, FakeDataFactory.provideFakeSpellDTO())
+        XCTAssertEqual(spellDTO, FakeDataFactory.spellDTO)
       })
       .store(in: &cancellableSet)
     

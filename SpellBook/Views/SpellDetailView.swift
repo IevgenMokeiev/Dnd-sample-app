@@ -18,11 +18,12 @@ struct SpellDetailView: View {
       .padding(.top, 5)
       .onAppear(perform: fetch)
       .navigationBarTitle("Spell Detail")
-      .navigationBarItems(trailing:
-                            Button(favoriteButtonText) {
+      .navigationBarItems(
+        trailing: Button(favoriteButtonText) {
         self.store.send(.toggleFavorite)
-      }.foregroundColor(.orange)
-                            .accessibility(identifier: "FavoritesButton")
+      }
+          .foregroundColor(.orange)
+          .accessibility(identifier: "FavoritesButton")
       )
   }
 
@@ -72,11 +73,14 @@ extension SpellDetailView {
         Text("Classes: \(spellDTO.classes ?? "")")
           .padding(.vertical, 5)
           .padding(.horizontal)
-        Divider().background(Color.orange)
+        Divider()
+          .background(Color.orange)
         Text("\(spellDTO.description ?? "")").padding()
         if spellDTO.higherLevel != nil {
-          Divider().background(Color.orange)
-          Text("At Higher Levels: \(spellDTO.higherLevel ?? "")").padding()
+          Divider()
+            .background(Color.orange)
+          Text("At Higher Levels: \(spellDTO.higherLevel ?? "")")
+            .padding()
         }
       }
     }
@@ -91,6 +95,8 @@ struct SpellDetailView_Previews: PreviewProvider {
       favoritesState: .initial
     ), reducer: appReducer, environment: ServiceContainerImpl())
     let factory = ViewFactory()
-    return factory.createSpellDetailView(path: "path").environmentObject(store).environmentObject(factory)
+    return factory.createSpellDetailView(path: "path")
+      .environmentObject(store)
+      .environmentObject(factory)
   }
 }

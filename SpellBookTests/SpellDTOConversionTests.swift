@@ -15,9 +15,9 @@ class SpellDTOConversionTests: XCTestCase {
   func test_spell_population() {
     let coreDataStack = FakeCoreDataStack()
     let context = coreDataStack.persistentContainer.viewContext
-    let spell = FakeDataFactory.provideEmptySpell(context: context)
-    let spellDTO = FakeDataFactory.provideFakeSpellDTO()
-    let expectedSpell = FakeDataFactory.provideFakeSpell(context: context)
+    let spell = FakeDataFactory.emptySpell(context: context)
+    let spellDTO = FakeDataFactory.spellDTO
+    let expectedSpell = FakeDataFactory.spell(context: context)
 
     spell.populate(with: spellDTO)
     XCTAssertTrue(spell == expectedSpell)

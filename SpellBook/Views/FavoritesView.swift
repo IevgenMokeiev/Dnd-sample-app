@@ -42,7 +42,7 @@ struct FavoritesView: View {
 extension FavoritesView {
   func loadedView(_ spellDTOs: [SpellDTO]) -> some View {
     List(spellDTOs) { spell in
-      NavigationLink(destination: self.factory.createSpellDetailView(path: spell.path)) {
+      NavigationLink(destination: factory.createSpellDetailView(path: spell.path)) {
         Text(spell.name)
       }
     }

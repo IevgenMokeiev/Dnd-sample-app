@@ -9,11 +9,11 @@
 import Foundation
 
 enum FavoritesState {
-    case initial
-    case favorites([SpellDTO])
+  case initial
+  case favorites([SpellDTO])
 }
 
 enum FavoritesAction {
-    case requestFavorites
-    case showFavorites([SpellDTO])
+  case requestFavorites
+  case showFavorites([SpellDTO])
 }

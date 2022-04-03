@@ -20,7 +20,17 @@ class AddSpellViewModel: ObservableObject {
   var higherLevel: String = ""
 
   var spellDTO: SpellDTO {
-    return SpellDTO(name: name, path: "api/spells/" + name, level: Int(level), castingTime: castingTime, concentration: concentration, classes: classes, description: description, higherLevel: higherLevel, isFavorite: false)
+    return SpellDTO(
+      name: name,
+      path: "api/spells/" + name,
+      level: Int(level),
+      castingTime: castingTime,
+      concentration: concentration,
+      classes: classes,
+      description: description,
+      higherLevel: higherLevel,
+      isFavorite: false
+    )
   }
 
   var buttonEnabled: AnyPublisher<Bool, Never> {

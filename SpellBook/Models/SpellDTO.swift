@@ -25,7 +25,17 @@ struct SpellDTO: Equatable, Identifiable {
   let isFavorite: Bool
 
   func toggleFavorite(value: Bool) -> SpellDTO {
-    return SpellDTO(name: self.name, path: self.path, level: self.level, castingTime: self.castingTime, concentration: self.concentration, classes: self.classes, description: self.description, higherLevel: self.higherLevel, isFavorite: value)
+    return SpellDTO(
+      name: self.name,
+      path: self.path,
+      level: self.level,
+      castingTime: self.castingTime,
+      concentration: self.concentration,
+      classes: self.classes,
+      description: self.description,
+      higherLevel: self.higherLevel,
+      isFavorite: value
+    )
   }
 }
 

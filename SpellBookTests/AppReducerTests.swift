@@ -16,7 +16,7 @@ class AppReducerTests: XCTestCase {
   
   func test_reduce_to_spell_list() {
     let store = makeSUT()
-    let fakeData = FakeDataFactory.provideFakeSpellListDTO()
+    let fakeData = FakeDataFactory.spellListDTO
     store.send(.spellList(.showSpellList(fakeData)))
     guard case let .spellList(displayedSpells, allSpells) = store.state.spellListState else { XCTFail("wrong state"); return }
     XCTAssertTrue(displayedSpells == fakeData)
@@ -25,7 +25,7 @@ class AppReducerTests: XCTestCase {
   
   func test_reduce_to_spell() {
     let store = makeSUT()
-    let fakeData = FakeDataFactory.provideFakeSpellDTO()
+    let fakeData = FakeDataFactory.spellDTO
     store.send(.spellDetail(.showSpell(fakeData)))
     guard case let .selectedSpell(spell) = store.state.spellDetailState else { XCTFail("wrong state"); return }
     XCTAssertTrue(spell == fakeData)
@@ -33,7 +33,7 @@ class AppReducerTests: XCTestCase {
   
   func test_reduce_to_favorites() {
     let store = makeSUT()
-    let fakeData = FakeDataFactory.provideFakeFavoritesListDTO()
+    let fakeData = FakeDataFactory.favoritesListDTO
     store.send(.favorites(.showFavorites(fakeData)))
     guard case let .favorites(spells) = store.state.favoritesState else { XCTFail("wrong state"); return }
     XCTAssertTrue(spells == fakeData)
@@ -56,7 +56,7 @@ class AppReducerTests: XCTestCase {
   func test_request_spell_list(){
     let store = makeSUT()
     let completionExpectation = expectation(description: "wait for sink")
-    let fakeData = FakeDataFactory.provideFakeSpellListDTO()
+    let fakeData = FakeDataFactory.spellListDTO
     
     FakeSpellProviderService.spellListHandler = {
       return Result.success(fakeData)
@@ -78,7 +78,7 @@ class AppReducerTests: XCTestCase {
   func test_request_spell(){
     let store = makeSUT()
     let completionExpectation = expectation(description: "wait for sink")
-    let fakeData = FakeDataFactory.provideFakeSpellDTO()
+    let fakeData = FakeDataFactory.spellDTO
     
     FakeSpellProviderService.spellDetailHandler = {
       return Result.success(fakeData)
@@ -99,7 +99,7 @@ class AppReducerTests: XCTestCase {
   func test_request_favorites(){
     let store = makeSUT()
     let completionExpectation = expectation(description: "wait for sink")
-    let fakeData = FakeDataFactory.provideFakeFavoritesListDTO()
+    let fakeData = FakeDataFactory.favoritesListDTO
     
     FakeSpellProviderService.favoritesHandler = {
       return Result.success(fakeData)
@@ -120,7 +120,7 @@ class AppReducerTests: XCTestCase {
   func test_reduce_toggle_favorite() {
     let store = makeSUT()
     let completionExpectation = expectation(description: "wait for sink")
-    let fakeData = FakeDataFactory.provideFakeSpellDTO()
+    let fakeData = FakeDataFactory.spellDTO
     
     XCTAssertTrue(fakeData.isFavorite == false)
     store.send(.spellDetail(.showSpell(fakeData)))
@@ -145,7 +145,7 @@ class AppReducerTests: XCTestCase {
   
   func test_reduce_add_spell() {
     let store = makeSUT()
-    let fakeData = FakeDataFactory.provideFakeSpellDTO()
+    let fakeData = FakeDataFactory.spellDTO
     let completionExpectation = expectation(description: "wait for sink")
     
     store.send(.addSpell(fakeData))

@@ -17,10 +17,10 @@ class FakeTranslationService: TranslationService {
   }
   
   func convertToDTO(spell: Spell) -> SpellDTO {
-    return FakeDataFactory.provideFakeSpellDTO()
+    return FakeDataFactory.spellDTO
   }
   
   func convertToDTO(spellList: [Spell]) -> [SpellDTO] {
-    return testFavorites ? FakeDataFactory.provideFakeFavoritesListDTO() : FakeDataFactory.provideFakeSpellListDTO()
+    return testFavorites ? FakeDataFactory.favoritesListDTO : FakeDataFactory.spellListDTO
   }
 }

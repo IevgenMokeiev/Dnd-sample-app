@@ -25,7 +25,6 @@ class RefinementsServiceImpl: RefinementsService {
         return ($0.level ?? 0) < ($1.level ?? 0)
       }
     }
-
     return spells.sorted(by: sortRule)
   }
 

@@ -22,14 +22,17 @@ struct SpellListView: View {
     NavigationView {
       content
         .navigationBarTitle("Spell Book", displayMode: .inline)
-        .navigationBarItems(trailing:
-                              Button("Sort by Level") {
-          self.store.send(.spellList(.sort(by: .level)))
-        }.foregroundColor(.orange)
+        .navigationBarItems(
+          trailing: Button("Sort by Level") {
+            self.store.send(.spellList(.sort(by: .level)))
+          }
+            .foregroundColor(.orange)
         )
     }
     .onAppear(perform: fetch)
-    .onReceive(searchStore.$query.dropFirst()) { self.search(query: $0) }
+    .onReceive(searchStore.$query.dropFirst()) {
+      self.search(query: $0)
+    }
   }
   
   @ViewBuilder private var content: some View {
@@ -56,9 +59,11 @@ extension SpellListView {
   func loadedView(_ spellDTOs: [SpellDTO]) -> some View {
     VStack {
       SearchView(query: $searchStore.query)
-      Divider().background(Color.orange)
+      Divider()
+        .background(Color.orange)
       List(spellDTOs) { spell in
-        NavigationLink(destination: self.factory.createSpellDetailView(path: spell.path)) {
+        NavigationLink(
+          destination: factory.createSpellDetailView(path: spell.path)) {
           Text(spell.name)
         }
       }

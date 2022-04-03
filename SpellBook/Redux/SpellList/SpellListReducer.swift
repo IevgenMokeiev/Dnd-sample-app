@@ -31,7 +31,7 @@ func spellListReducer(
     return ReducerResult(
       state: .spellList(
         displayedSpells: sortedSpells,
-        allSpells: sortedSpells
+        allSpells: spells
       )
     )
   case let .showSpellListLoadError(error):

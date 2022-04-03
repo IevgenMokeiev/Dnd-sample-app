@@ -26,7 +26,7 @@ protocol DatabaseClient {
 class DatabaseClientImpl: DatabaseClient {
 
   private let coreDataStack: CoreDataStack
-  private var cancellableSet: Set<AnyCancellable> = []
+  private var cancellableSet = Set<AnyCancellable>()
 
   init(coreDataStack: CoreDataStack) {
     self.coreDataStack = coreDataStack
@@ -49,7 +49,8 @@ class DatabaseClientImpl: DatabaseClient {
         return Fail(error: .database(.noData))
           .eraseToAnyPublisher()
       } else {
-        return Result.Publisher(fetchResult).eraseToAnyPublisher()
+        return Result.Publisher(fetchResult)
+          .eraseToAnyPublisher()
       }
     } catch let error as NSError {
       print("Could not retrieve. \(error), \(error.userInfo)")

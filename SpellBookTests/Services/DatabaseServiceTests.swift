@@ -19,7 +19,7 @@ class DatabaseServiceTests: XCTestCase {
   func test_spellList_fetch() {
     let sut = makeSUT()
     guard let context = context else { XCTFail("no context"); return }
-    _ = FakeDataFactory.provideFakeSpellList(context: context)
+    FakeDataFactory.spellList(context: context)
     sut.spellListPublisher
       .sink(receiveCompletion: { completion in
         switch completion {
@@ -29,7 +29,7 @@ class DatabaseServiceTests: XCTestCase {
           XCTFail("\(error)")
         }
       }) { spellDTOs in
-        XCTAssertEqual(spellDTOs, FakeDataFactory.provideFakeSpellListDTO())
+        XCTAssertEqual(spellDTOs, FakeDataFactory.spellListDTO)
       }
       .store(in: &cancellableSet)
   }
@@ -37,7 +37,7 @@ class DatabaseServiceTests: XCTestCase {
   func test_spell_fetch() {
     let sut = makeSUT()
     guard let context = context else { XCTFail("no context"); return }
-    let spell = FakeDataFactory.provideFakeSpell(context: context)
+    let spell = FakeDataFactory.spell(context: context)
     sut.spellDetailsPublisher(for: spell.path!)
       .sink(receiveCompletion: { completion in
         switch completion {
@@ -47,7 +47,7 @@ class DatabaseServiceTests: XCTestCase {
           XCTFail("\(error)")
         }
       }) { spellDTO in
-        XCTAssertEqual(spellDTO, FakeDataFactory.provideFakeSpellDTO())
+        XCTAssertEqual(spellDTO, FakeDataFactory.spellDTO)
       }
       .store(in: &cancellableSet)
   }
@@ -55,7 +55,7 @@ class DatabaseServiceTests: XCTestCase {
   func test_favorites_fetch_no_favorites() {
     let sut = makeSUT()
     guard let context = context else { XCTFail("no context"); return }
-    _ = FakeDataFactory.provideFakeSpellList(context: context)
+    FakeDataFactory.spellList(context: context)
     sut.favoritesPublisher
       .sink(receiveCompletion: { completion in
         switch completion {
@@ -73,7 +73,7 @@ class DatabaseServiceTests: XCTestCase {
   func test_favorites_fetch_has_favorites() {
     let sut = makeSUT(testFavorites: true)
     guard let context = context else { XCTFail("no context"); return }
-    _ = FakeDataFactory.provideFakeFavoritesList(context: context)
+    FakeDataFactory.favoritesList(context: context)
     sut.favoritesPublisher
       .sink(receiveCompletion: { completion in
         switch completion {
@@ -83,7 +83,7 @@ class DatabaseServiceTests: XCTestCase {
           XCTFail("\(error)")
         }
       }) { spellDTOs in
-        XCTAssertEqual(spellDTOs, FakeDataFactory.provideFakeFavoritesListDTO())
+        XCTAssertEqual(spellDTOs, FakeDataFactory.favoritesListDTO)
       }
       .store(in: &cancellableSet)
   }
