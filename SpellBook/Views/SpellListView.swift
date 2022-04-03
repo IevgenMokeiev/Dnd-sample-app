@@ -57,16 +57,18 @@ struct SpellListView: View {
 
 extension SpellListView {
   func loadedView(_ spellDTOs: [SpellDTO]) -> some View {
-    VStack {
+    VStack() {
       SearchView(query: $searchStore.query)
       Divider()
         .background(Color.orange)
       List(spellDTOs) { spell in
         NavigationLink(
-          destination: factory.createSpellDetailView(path: spell.path)) {
+          destination: factory.createSpellDetailView(path: spell.path)
+        ) {
           Text(spell.name)
         }
       }
+      .listStyle(.plain)
       .accessibility(label: Text("Spell Table View"))
       .accessibility(identifier: "SpellTableView")
     }

@@ -46,6 +46,7 @@ extension FavoritesView {
         Text(spell.name)
       }
     }
+    .listStyle(.plain)
     .accessibility(label: Text("Favorites Table"))
     .accessibility(identifier: "FavoritesTableView")
   }
