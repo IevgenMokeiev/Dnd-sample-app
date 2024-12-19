@@ -1,5 +1,5 @@
 //
-//  FakeNetworkService.swift
+//  NetworkServiceMock.swift
 //  SpellBook
 //
 //  Created by Yevhen Mokeiev on 22.05.2020.
@@ -8,7 +8,7 @@
 
 @testable import SpellBook
 
-class FakeNetworkService: NetworkService {
+class NetworkServiceMock: NetworkService {
     static var spellListHandler: (() -> Result<[SpellDTO], CustomError>)?
     static var spellDetailHandler: (() -> Result<SpellDTO, CustomError>)?
 

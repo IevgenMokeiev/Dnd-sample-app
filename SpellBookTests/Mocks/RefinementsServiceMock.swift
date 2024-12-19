@@ -1,5 +1,5 @@
 //
-//  FakeRefinementsService.swift
+//  RefinementsServiceMock.swift
 //  SpellBook
 //
 //  Created by Yevhen Mokeiev on 22.05.2020.
@@ -8,7 +8,7 @@
 
 @testable import SpellBook
 
-class FakeRefinementsService: RefinementsService {
+class RefinementsServiceMock: RefinementsService {
     func refineSpells(spells: [SpellDTO], sort _: Sort, searchTerm _: String) -> [SpellDTO] {
         return spells
     }

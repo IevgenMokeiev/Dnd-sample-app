@@ -12,7 +12,7 @@ import XCTest
 
 class SpellDTOConversionTests: XCTestCase {
     func test_spell_population() {
-        let coreDataStack = FakeCoreDataStack()
+        let coreDataStack = CoreDataStackMock()
         let context = coreDataStack.persistentContainer.viewContext
         let spell = FakeDataFactory.provideEmptySpell(context: context)
         let spellDTO = FakeDataFactory.provideFakeSpellDTO()

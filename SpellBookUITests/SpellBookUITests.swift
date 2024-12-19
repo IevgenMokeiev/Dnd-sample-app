@@ -13,14 +13,10 @@ class SpellBookUITests: XCTestCase {
         continueAfterFailure = false
     }
     
-        func test_test() {
-        
-    }
-
     func test_selection() {
         let app = XCUIApplication()
         launchApp(app: app)
-        let tableView = app.tables["SpellTableView"]
+        let tableView = app.collectionViews["SpellTableView"]
         tableView.cells.element(boundBy: 0).tap()
 
         let spellLabel = app.staticTexts["Acid Arrow"]
@@ -30,7 +26,7 @@ class SpellBookUITests: XCTestCase {
     func test_search() {
         let app = XCUIApplication()
         launchApp(app: app)
-        let tableView = app.tables["SpellTableView"]
+        let tableView = app.collectionViews["SpellTableView"]
         let searchView = app.textFields["SpellSearchView"]
         searchView.tap()
         searchView.typeText("Acid Arrow")
@@ -44,7 +40,7 @@ class SpellBookUITests: XCTestCase {
     func test_add_favorite() {
         let app = XCUIApplication()
         launchApp(app: app)
-        let tableView = app.tables["SpellTableView"]
+        let tableView = app.collectionViews["SpellTableView"]
         tableView.cells.element(boundBy: 0).tap()
 
         let spellLabel = app.staticTexts["Acid Arrow"]
@@ -55,7 +51,7 @@ class SpellBookUITests: XCTestCase {
 
         app.tabBars.buttons.element(boundBy: 1).tap()
 
-        let favoritesTableView = app.tables["FavoritesTableView"]
+        let favoritesTableView = app.collectionViews["FavoritesTableView"]
         favoritesTableView.cells.element(boundBy: 0).tap()
 
         let favoriteSpellLabel = app.staticTexts["Acid Arrow"]

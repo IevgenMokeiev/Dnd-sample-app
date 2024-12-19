@@ -19,11 +19,11 @@ class InteractorTests: XCTestCase {
 
         let fakeData = FakeDataFactory.provideFakeSpellListDTO()
 
-        FakeNetworkService.spellListHandler = {
+        NetworkServiceMock.spellListHandler = {
             Result.success(fakeData)
         }
 
-        FakeDatabaseService.spellListHandler = {
+        DatabaseServiceMock.spellListHandler = {
             Result.failure(.database(.noData))
         }
 
@@ -50,11 +50,11 @@ class InteractorTests: XCTestCase {
 
         let fakeData = FakeDataFactory.provideFakeSpellListDTO()
 
-        FakeNetworkService.spellListHandler = {
+        NetworkServiceMock.spellListHandler = {
             Result.failure(.network(.decodingFailed))
         }
 
-        FakeDatabaseService.spellListHandler = {
+        DatabaseServiceMock.spellListHandler = {
             Result.success(fakeData)
         }
 
@@ -81,11 +81,11 @@ class InteractorTests: XCTestCase {
 
         let fakeData = FakeDataFactory.provideFakeSpellDTO()
 
-        FakeNetworkService.spellDetailHandler = {
+        NetworkServiceMock.spellDetailHandler = {
             Result.success(fakeData)
         }
 
-        FakeDatabaseService.spellDetailHandler = {
+        DatabaseServiceMock.spellDetailHandler = {
             Result.failure(.database(.noMatchedEntity))
         }
 
@@ -112,11 +112,11 @@ class InteractorTests: XCTestCase {
 
         let fakeData = FakeDataFactory.provideFakeSpellDTO()
 
-        FakeNetworkService.spellDetailHandler = {
+        NetworkServiceMock.spellDetailHandler = {
             Result.failure(.network(.decodingFailed))
         }
 
-        FakeDatabaseService.spellDetailHandler = {
+        DatabaseServiceMock.spellDetailHandler = {
             Result.success(fakeData)
         }
 
@@ -138,9 +138,9 @@ class InteractorTests: XCTestCase {
     }
 
     private func makeSUT() -> Interactor {
-        let fakeDatabaseService = FakeDatabaseService()
-        let fakeNetworkService = FakeNetworkService()
-        let fakeRefinementsService = FakeRefinementsService()
+        let fakeDatabaseService = DatabaseServiceMock()
+        let fakeNetworkService = NetworkServiceMock()
+        let fakeRefinementsService = RefinementsServiceMock()
         return InteractorImpl(databaseService: fakeDatabaseService, networkService: fakeNetworkService, refinementsService: fakeRefinementsService)
     }
 }

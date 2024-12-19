@@ -1,5 +1,5 @@
 //
-//  FakeTranslationService.swift
+//  TranslationServiceMock.swift
 //  SpellBook
 //
 //  Created by Yevhen Mokeiev on 22.05.2020.
@@ -8,7 +8,7 @@
 
 @testable import SpellBook
 
-class FakeTranslationService: TranslationService {
+class TranslationServiceMock: TranslationService {
     let testFavorites: Bool
 
     init(testFavorites: Bool) {

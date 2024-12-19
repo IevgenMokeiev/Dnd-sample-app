@@ -1,5 +1,5 @@
 //
-//  FakeDatabaseService.swift
+//  DatabaseServiceMock.swift
 //  SpellBook
 //
 //  Created by Yevhen Mokeiev on 22.05.2020.
@@ -8,7 +8,7 @@
 
 @testable import SpellBook
 
-class FakeDatabaseService: DatabaseService {
+class DatabaseServiceMock: DatabaseService {
     static var spellListHandler: (() -> Result<[SpellDTO], CustomError>)?
     static var spellDetailHandler: (() -> Result<SpellDTO, CustomError>)?
     static var favoritesHandler: (() -> Result<[SpellDTO], Never>)?
