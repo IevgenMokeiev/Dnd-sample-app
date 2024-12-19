@@ -12,6 +12,10 @@ class SpellBookUITests: XCTestCase {
     override func setUp() {
         continueAfterFailure = false
     }
+    
+        func test_test() {
+        
+    }
 
     func test_selection() {
         let app = XCUIApplication()
