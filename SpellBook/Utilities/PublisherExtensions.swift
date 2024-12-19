@@ -6,14 +6,13 @@
 //  Copyright © 2022 Ievgen. All rights reserved.
 //
 
-import Foundation
 import Combine
+import Foundation
 
 extension Publisher {
-
-  func fallback(_ otherPublisher: AnyPublisher<Self.Output, Self.Failure>) -> AnyPublisher<Self.Output, Self.Failure> {
-    return self.catch { _ in
-      return otherPublisher
-    }.eraseToAnyPublisher()
-  }
+    func fallback(_ otherPublisher: AnyPublisher<Self.Output, Self.Failure>) -> AnyPublisher<Self.Output, Self.Failure> {
+        return self.catch { _ in
+            otherPublisher
+        }.eraseToAnyPublisher()
+    }
 }

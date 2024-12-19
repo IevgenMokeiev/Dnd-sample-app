@@ -1,15 +1,15 @@
 //
-//  Interactor.swift
+//  DataLayer.swift
 //  SpellBookApp
 //
 //  Created by Yevhen Mokeiev on 4/18/19.
 //  Copyright © 2019 Yevhen Mokeiev. All rights reserved.
 //
 
+import Combine
+import CoreData
 import Foundation
 import UIKit
-import CoreData
-import Combine
 
 /// Provides data to UI using services.
 /// Uses services to provide requested data
@@ -34,19 +34,19 @@ class DataLayerImpl: Interactor {
         self.networkService = networkService
         self.refinementsService = refinementsService
     }
-    
+
     func spellListPublisher() -> SpellPublisher {
         let downloadPublisher = networkService.spellListPublisher()
             .mapError { $0 as Error }
-            .map({ (spellDTOs) -> [SpellDTO] in
+            .map { spellDTOs -> [SpellDTO] in
                 self.databaseService.saveSpellList(spellDTOs)
                 return spellDTOs
-            })
+            }
             .eraseToAnyPublisher()
 
         return databaseService.spellListPublisher()
             .mapError { $0 as Error }
-            .catch { (error) -> SpellPublisher in
+            .catch { error -> SpellPublisher in
                 print("Could not retrieve. \(error)")
                 return downloadPublisher
             }
@@ -57,15 +57,15 @@ class DataLayerImpl: Interactor {
     func spellDetailsPublisher(for path: String) -> SpellDetailPublisher {
         let downloadPublisher = networkService.spellDetailPublisher(for: path)
             .mapError { $0 as Error }
-            .map({ (spellDTO) -> SpellDTO in
+            .map { spellDTO -> SpellDTO in
                 self.databaseService.saveSpellDetails(spellDTO)
                 return spellDTO
-            })
+            }
             .eraseToAnyPublisher()
 
         return databaseService.spellDetailsPublisher(for: path)
             .mapError { $0 as Error }
-            .catch { (error) -> SpellDetailPublisher in
+            .catch { error -> SpellDetailPublisher in
                 print("Could not retrieve. \(error)")
                 return downloadPublisher
             }

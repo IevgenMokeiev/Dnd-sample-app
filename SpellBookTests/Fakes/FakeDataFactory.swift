@@ -6,13 +6,12 @@
 //  Copyright © 2020 Yevhen Mokeiev. All rights reserved.
 //
 
-import Foundation
 import CoreData
+import Foundation
 @testable import SpellBook
 
 /// A collection of fake objects that can be used in the tests
 class FakeDataFactory {
-
     static func provideFakeSpellDTO() -> SpellDTO {
         return SpellDTO(name: "fake", path: "/api/spells/fake", level: 1, castingTime: "fake time", concentration: true, classes: "fake class", description: "fake desc", isFavorite: false)
     }
@@ -20,20 +19,20 @@ class FakeDataFactory {
     static func provideEmptySpellListDTO() -> [SpellDTO] {
         return [
             SpellDTO(name: "fake1", path: "/api/spells/fake1", level: nil, castingTime: nil, concentration: nil, classes: nil, description: nil, isFavorite: false),
-            SpellDTO(name: "fake2", path: "/api/spells/fake2", level: nil, castingTime: nil, concentration: nil, classes: nil, description: nil, isFavorite: false)
+            SpellDTO(name: "fake2", path: "/api/spells/fake2", level: nil, castingTime: nil, concentration: nil, classes: nil, description: nil, isFavorite: false),
         ]
     }
 
     static func provideFakeSpellListDTO() -> [SpellDTO] {
         return [
             SpellDTO(name: "fake1", path: "/api/spells/fake1", level: 1, castingTime: "fake time 1", concentration: true, classes: "fake class 1", description: "fake desc 1", isFavorite: false),
-            SpellDTO(name: "fake2", path: "/api/spells/fake2", level: 0, castingTime: "fake time 2", concentration: false, classes: "fake class 2", description: "fake desc 2", isFavorite: false)
+            SpellDTO(name: "fake2", path: "/api/spells/fake2", level: 0, castingTime: "fake time 2", concentration: false, classes: "fake class 2", description: "fake desc 2", isFavorite: false),
         ]
     }
 
     static func provideFakeFavoritesListDTO() -> [SpellDTO] {
         return [
-            SpellDTO(name: "fake2", path: "/api/spells/fake2", level: 0, castingTime: "fake time 2", concentration: false, classes: "fake class 2", description: "fake desc 2", isFavorite: true)
+            SpellDTO(name: "fake2", path: "/api/spells/fake2", level: 0, castingTime: "fake time 2", concentration: false, classes: "fake class 2", description: "fake desc 2", isFavorite: true),
         ]
     }
 

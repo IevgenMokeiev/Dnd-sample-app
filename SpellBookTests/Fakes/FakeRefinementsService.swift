@@ -9,7 +9,7 @@
 @testable import SpellBook
 
 class FakeRefinementsService: RefinementsService {
-    func refineSpells(spells: [SpellDTO], sort: Sort, searchTerm: String) -> [SpellDTO] {
+    func refineSpells(spells: [SpellDTO], sort _: Sort, searchTerm _: String) -> [SpellDTO] {
         return spells
     }
 }

@@ -6,12 +6,11 @@
 //  Copyright © 2020 Yevhen Mokeiev. All rights reserved.
 //
 
-import XCTest
 import CoreData
 @testable import SpellBook
+import XCTest
 
 class SpellDTOConversionTests: XCTestCase {
-
     func test_spell_population() {
         let coreDataStack = FakeCoreDataStack()
         let context = coreDataStack.persistentContainer.viewContext

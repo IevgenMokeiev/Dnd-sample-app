@@ -6,24 +6,23 @@
 //  Copyright © 2020 Ievgen. All rights reserved.
 //
 
-import Foundation
 import Combine
+import Foundation
 
 class FavoritesViewModel: ObservableObject {
+    @Published var spellDTOs: [SpellDTO] = []
 
-  @Published var spellDTOs: [SpellDTO] = []
+    private let publisher: NoErrorSpellListPublisher
+    private var cancellableSet: Set<AnyCancellable> = []
 
-  private let publisher: NoErrorSpellListPublisher
-  private var cancellableSet: Set<AnyCancellable> = []
+    init(publisher: NoErrorSpellListPublisher) {
+        self.publisher = publisher
+    }
 
-  init(publisher: NoErrorSpellListPublisher) {
-    self.publisher = publisher
-  }
-
-  func onAppear() {
-    publisher
-      .replaceError(with: [])
-      .assign(to: \.spellDTOs, on: self)
-      .store(in: &cancellableSet)
-  }
+    func onAppear() {
+        publisher
+            .replaceError(with: [])
+            .assign(to: \.spellDTOs, on: self)
+            .store(in: &cancellableSet)
+    }
 }

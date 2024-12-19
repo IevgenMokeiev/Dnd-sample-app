@@ -6,12 +6,11 @@
 //  Copyright © 2020 Yevhen Mokeiev. All rights reserved.
 //
 
-import XCTest
 import CoreData
 @testable import SpellBook
+import XCTest
 
 class TranslationServiceTests: XCTestCase {
-
     var context: NSManagedObjectContext?
 
     func test_spell_dto_conversion() {
@@ -25,7 +24,7 @@ class TranslationServiceTests: XCTestCase {
     func test_spellList_dto_conversion() {
         let sut = makeSUT()
         guard let context = context else { XCTFail("no context"); return }
-        let spellList = FakeDataFactory.provideFakeSpellList(context: context)        
+        let spellList = FakeDataFactory.provideFakeSpellList(context: context)
         let spellDTOs = sut.convertToDTO(spellList: spellList)
         XCTAssertTrue(spellDTOs == FakeDataFactory.provideFakeSpellListDTO())
     }

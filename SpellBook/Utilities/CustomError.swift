@@ -8,8 +8,7 @@
 import Foundation
 
 enum CustomError: Error {
-
-  case network(NetworkClientError)
-  case database(DatabaseClientError)
-  case other(Error)
+    case network(NetworkClientError)
+    case database(DatabaseClientError)
+    case other(Error)
 }

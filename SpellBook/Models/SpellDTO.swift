@@ -24,12 +24,11 @@ struct SpellDTO: Equatable, Identifiable {
     let isFavorite: Bool
 
     func toggleFavorite(value: Bool) -> SpellDTO {
-        return SpellDTO(name: self.name, path: self.path, level: self.level, castingTime: self.castingTime, concentration: self.concentration, classes: self.classes, description: self.description, isFavorite: value)
+        return SpellDTO(name: name, path: path, level: level, castingTime: castingTime, concentration: concentration, classes: classes, description: description, isFavorite: value)
     }
 }
 
 extension SpellDTO: Codable {
-
     struct ClassObject: Codable {
         let name: String
         let url: String

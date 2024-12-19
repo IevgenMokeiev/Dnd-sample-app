@@ -10,31 +10,26 @@ import Foundation
 import SwiftUI
 
 struct FavoritesView: View {
+    @ObservedObject var viewModel: FavoritesViewModel
+    @EnvironmentObject var factory: ViewFactory
 
-  @ObservedObject var viewModel: FavoritesViewModel
-  @EnvironmentObject var factory: ViewFactory
-
-  var body: some View {
-    NavigationView {
-      List(viewModel.spellDTOs) { spell in
-        NavigationLink(destination: self.factory.createSpellDetailView(path: spell.path)) {
-          Text(spell.name)
+    var body: some View {
+        NavigationView {
+            List(viewModel.spellDTOs) { spell in
+                NavigationLink(destination: self.factory.createSpellDetailView(path: spell.path)) {
+                    Text(spell.name)
+                }
+            }
+            .accessibility(label: Text("Favorites Table"))
+            .accessibility(identifier: "FavoritesTableView")
+            .navigationBarTitle("Favorites", displayMode: .inline)
+            .onAppear(perform: viewModel.onAppear)
         }
-      }
-      .accessibility(label: Text("Favorites Table"))
-      .accessibility(identifier: "FavoritesTableView")
-      .navigationBarTitle("Favorites", displayMode: .inline)
-      .onAppear(perform: viewModel.onAppear)
     }
-  }
 }
 
 struct FavoritesView_Previews: PreviewProvider {
-  static var previews: some View {
-    return AppCoordinator().viewFactory.createFavoritesView()
-  }
+    static var previews: some View {
+        return AppCoordinator().viewFactory.createFavoritesView()
+    }
 }
-
-
-
-

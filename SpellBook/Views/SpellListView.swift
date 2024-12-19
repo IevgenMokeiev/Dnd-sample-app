@@ -6,40 +6,41 @@
 //  Copyright © 2020 Yevhen Mokeiev. All rights reserved.
 //
 
-import SwiftUI
 import Combine
+import SwiftUI
 
 struct SpellListView: View {
-
     @ObservedObject var viewModel: SpellListViewModel
     @EnvironmentObject var factory: ViewFactory
 
     var body: some View {
         NavigationView {
             content
-            .navigationBarTitle("Spell Book", displayMode: .inline)
-            .navigationBarItems(trailing:
-                Button("Sort by Level") {
-                    self.viewModel.selectedSort = .level
-                }.foregroundColor(.orange)
-            )
+                .navigationBarTitle("Spell Book", displayMode: .inline)
+                .navigationBarItems(trailing:
+                    Button("Sort by Level") {
+                        self.viewModel.selectedSort = .level
+                    }.foregroundColor(.orange)
+                )
         }.onAppear(perform: viewModel.onAppear)
     }
 
     @ViewBuilder private var content: some View {
         switch viewModel.state {
         case .loading:
-          ProgressView(isAnimating: true)
-        case .spells(let spellDTOs):
-          loadedView(spellDTOs, searchTerm: $viewModel.searchTerm)
+            ProgressView {
+                Text("Loading...")
+            }
+        case let .spells(spellDTOs):
+            loadedView(spellDTOs, searchTerm: $viewModel.searchTerm)
         case .error:
-          ErrorView()
+            ErrorView()
         }
     }
 }
 
 extension SpellListView {
-   func loadedView(_ spellDTOs: [SpellDTO], searchTerm: Binding<String>) -> some View {
+    func loadedView(_ spellDTOs: [SpellDTO], searchTerm: Binding<String>) -> some View {
         VStack {
             SearchView(searchTerm: searchTerm)
             Divider().background(Color.orange)

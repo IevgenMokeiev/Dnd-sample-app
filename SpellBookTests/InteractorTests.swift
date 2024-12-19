@@ -6,142 +6,141 @@
 //  Copyright © 2020 Yevhen Mokeiev. All rights reserved.
 //
 
-import XCTest
 import Combine
 @testable import SpellBook
+import XCTest
 
 class InteractorTests: XCTestCase {
+    private var cancellableSet: Set<AnyCancellable> = []
 
-  private var cancellableSet: Set<AnyCancellable> = []
+    func test_spellList_fetch_no_local_data() {
+        let sut = makeSUT()
+        let interactorExpectation = expectation(description: "wait for interactor")
 
-  func test_spellList_fetch_no_local_data() {
-    let sut = makeSUT()
-    let interactorExpectation = expectation(description: "wait for interactor")
+        let fakeData = FakeDataFactory.provideFakeSpellListDTO()
 
-    let fakeData = FakeDataFactory.provideFakeSpellListDTO()
-
-    FakeNetworkService.spellListHandler = {
-      Result.success(fakeData)
-    }
-
-    FakeDatabaseService.spellListHandler = {
-      Result.failure(.database(.noData))
-    }
-
-    sut.spellListPublisher
-      .sink(receiveCompletion: { completion in
-        interactorExpectation.fulfill()
-        switch completion {
-        case .finished:
-          break
-        case .failure(let error):
-          XCTFail("\(error)")
+        FakeNetworkService.spellListHandler = {
+            Result.success(fakeData)
         }
-      }) { spellDTOs in
-        XCTAssertEqual(spellDTOs, fakeData)
-      }
-      .store(in: &cancellableSet)
 
-    waitForExpectations(timeout: 5)
-  }
-
-  func test_spellList_fetch_from_local_data() {
-    let sut = makeSUT()
-    let interactorExpectation = expectation(description: "wait for interactor")
-
-    let fakeData = FakeDataFactory.provideFakeSpellListDTO()
-
-    FakeNetworkService.spellListHandler = {
-      Result.failure(.network(.decodingFailed))
-    }
-
-    FakeDatabaseService.spellListHandler = {
-      Result.success(fakeData)
-    }
-
-    sut.spellListPublisher
-      .sink(receiveCompletion: { completion in
-        interactorExpectation.fulfill()
-        switch completion {
-        case .finished:
-          break
-        case .failure(let error):
-          XCTFail("\(error)")
+        FakeDatabaseService.spellListHandler = {
+            Result.failure(.database(.noData))
         }
-      }) { spellDTOs in
-        XCTAssertEqual(spellDTOs, fakeData)
-      }
-      .store(in: &cancellableSet)
 
-    waitForExpectations(timeout: 5)
-  }
+        sut.spellListPublisher
+            .sink(receiveCompletion: { completion in
+                interactorExpectation.fulfill()
+                switch completion {
+                case .finished:
+                    break
+                case let .failure(error):
+                    XCTFail("\(error)")
+                }
+            }) { spellDTOs in
+                XCTAssertEqual(spellDTOs, fakeData)
+            }
+            .store(in: &cancellableSet)
 
-  func test_spellDetail_fetch_no_local_data() {
-    let sut = makeSUT()
-    let interactorExpectation = expectation(description: "wait for interactor")
-
-    let fakeData = FakeDataFactory.provideFakeSpellDTO()
-
-    FakeNetworkService.spellDetailHandler = {
-      Result.success(fakeData)
+        waitForExpectations(timeout: 5)
     }
 
-    FakeDatabaseService.spellDetailHandler = {
-      Result.failure(.database(.noMatchedEntity))
-    }
+    func test_spellList_fetch_from_local_data() {
+        let sut = makeSUT()
+        let interactorExpectation = expectation(description: "wait for interactor")
 
-    sut.spellDetailsPublisher(for: "/api/spells/fake")
-      .sink(receiveCompletion: { completion in
-        interactorExpectation.fulfill()
-        switch completion {
-        case .finished:
-          break
-        case .failure(let error):
-          XCTFail("\(error)")
+        let fakeData = FakeDataFactory.provideFakeSpellListDTO()
+
+        FakeNetworkService.spellListHandler = {
+            Result.failure(.network(.decodingFailed))
         }
-      }) { spellDTO in
-        XCTAssertEqual(spellDTO, fakeData)
-      }
-      .store(in: &cancellableSet)
 
-    waitForExpectations(timeout: 5)
-  }
-
-  func test_spellDetail_fetch_from_local_data() {
-    let sut = makeSUT()
-    let interactorExpectation = expectation(description: "wait for interactor")
-
-    let fakeData = FakeDataFactory.provideFakeSpellDTO()
-
-    FakeNetworkService.spellDetailHandler = {
-      Result.failure(.network(.decodingFailed))
-    }
-
-    FakeDatabaseService.spellDetailHandler = {
-      Result.success(fakeData)
-    }
-
-    sut.spellDetailsPublisher(for: "/api/spells/fake")
-      .sink(receiveCompletion: { completion in
-        interactorExpectation.fulfill()
-        switch completion {
-        case .finished:
-          break
-        case .failure(let error):
-          XCTFail("\(error)")
+        FakeDatabaseService.spellListHandler = {
+            Result.success(fakeData)
         }
-      }) { spellDTO in
-        XCTAssertEqual(spellDTO, fakeData)
-      }
-      .store(in: &cancellableSet)
 
-    waitForExpectations(timeout: 5)
-  }
+        sut.spellListPublisher
+            .sink(receiveCompletion: { completion in
+                interactorExpectation.fulfill()
+                switch completion {
+                case .finished:
+                    break
+                case let .failure(error):
+                    XCTFail("\(error)")
+                }
+            }) { spellDTOs in
+                XCTAssertEqual(spellDTOs, fakeData)
+            }
+            .store(in: &cancellableSet)
 
-  private func makeSUT() -> Interactor {
-    let fakeDatabaseService = FakeDatabaseService()
-    let fakeNetworkService = FakeNetworkService()
-    let fakeRefinementsService = FakeRefinementsService()
-    return InteractorImpl(databaseService: fakeDatabaseService, networkService: fakeNetworkService, refinementsService: fakeRefinementsService)
-  }
+        waitForExpectations(timeout: 5)
+    }
+
+    func test_spellDetail_fetch_no_local_data() {
+        let sut = makeSUT()
+        let interactorExpectation = expectation(description: "wait for interactor")
+
+        let fakeData = FakeDataFactory.provideFakeSpellDTO()
+
+        FakeNetworkService.spellDetailHandler = {
+            Result.success(fakeData)
+        }
+
+        FakeDatabaseService.spellDetailHandler = {
+            Result.failure(.database(.noMatchedEntity))
+        }
+
+        sut.spellDetailsPublisher(for: "/api/spells/fake")
+            .sink(receiveCompletion: { completion in
+                interactorExpectation.fulfill()
+                switch completion {
+                case .finished:
+                    break
+                case let .failure(error):
+                    XCTFail("\(error)")
+                }
+            }) { spellDTO in
+                XCTAssertEqual(spellDTO, fakeData)
+            }
+            .store(in: &cancellableSet)
+
+        waitForExpectations(timeout: 5)
+    }
+
+    func test_spellDetail_fetch_from_local_data() {
+        let sut = makeSUT()
+        let interactorExpectation = expectation(description: "wait for interactor")
+
+        let fakeData = FakeDataFactory.provideFakeSpellDTO()
+
+        FakeNetworkService.spellDetailHandler = {
+            Result.failure(.network(.decodingFailed))
+        }
+
+        FakeDatabaseService.spellDetailHandler = {
+            Result.success(fakeData)
+        }
+
+        sut.spellDetailsPublisher(for: "/api/spells/fake")
+            .sink(receiveCompletion: { completion in
+                interactorExpectation.fulfill()
+                switch completion {
+                case .finished:
+                    break
+                case let .failure(error):
+                    XCTFail("\(error)")
+                }
+            }) { spellDTO in
+                XCTAssertEqual(spellDTO, fakeData)
+            }
+            .store(in: &cancellableSet)
+
+        waitForExpectations(timeout: 5)
+    }
+
+    private func makeSUT() -> Interactor {
+        let fakeDatabaseService = FakeDatabaseService()
+        let fakeNetworkService = FakeNetworkService()
+        let fakeRefinementsService = FakeRefinementsService()
+        return InteractorImpl(databaseService: fakeDatabaseService, networkService: fakeNetworkService, refinementsService: fakeRefinementsService)
+    }
 }

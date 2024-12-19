@@ -12,17 +12,16 @@ import SwiftUI
 /// - Properties:
 ///     - searchTerm: A binding to sync with text field text
 struct SearchView: View {
-
     @Binding var searchTerm: String
 
     var body: some View {
         HStack {
             Image(systemName: "magnifyingglass")
-            .resizable()
-            .scaledToFit()
-            .foregroundColor(.orange)
-            .frame(width: 25, height: 25)
-            .padding(.trailing, 5)
+                .resizable()
+                .scaledToFit()
+                .foregroundColor(.orange)
+                .frame(width: 25, height: 25)
+                .padding(.trailing, 5)
             TextField("type spell here...", text: $searchTerm).accessibility(identifier: "SpellSearchView")
         }.padding([.horizontal, .top], 15)
     }

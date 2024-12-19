@@ -12,10 +12,9 @@ import Foundation
 /// - Properties:
 ///     - requestHandler: A block property that provides control over returned data
 class FakeURLProtocol: URLProtocol {
-
     static var requestHandler: ((URLRequest) throws -> (HTTPURLResponse, Data?))?
 
-    override class func canInit(with request: URLRequest) -> Bool {
+    override class func canInit(with _: URLRequest) -> Bool {
         return true
     }
 

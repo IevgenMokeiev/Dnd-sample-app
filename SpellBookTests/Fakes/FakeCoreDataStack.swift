@@ -19,7 +19,7 @@ class FakeCoreDataStack: CoreDataStack {
         let description = NSPersistentStoreDescription()
         description.type = NSInMemoryStoreType
         persistentContainer.persistentStoreDescriptions = [description]
-        persistentContainer.loadPersistentStores { (description, error) in
+        persistentContainer.loadPersistentStores { description, _ in
             precondition(description.type == NSInMemoryStoreType)
         }
         managedObjectContext = persistentContainer.viewContext

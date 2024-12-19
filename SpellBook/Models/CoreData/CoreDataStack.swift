@@ -6,8 +6,8 @@
 //  Copyright © 2020 Yevhen Mokeiev. All rights reserved.
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 /// Defines core data stack which is used in a Database service
 protocol CoreDataStack {
@@ -24,7 +24,7 @@ class CoreDataStackImpl: CoreDataStack {
 
     init() {
         persistentContainer = NSPersistentContainer(name: "DnDModel")
-        persistentContainer.loadPersistentStores(completionHandler: { (storeDescription, error) in
+        persistentContainer.loadPersistentStores(completionHandler: { _, error in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
