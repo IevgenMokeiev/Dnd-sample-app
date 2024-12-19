@@ -10,22 +10,23 @@ import Foundation
 import Combine
 
 func spellDetailReducer(
-  state: SpellDetailState,
-  action: SpellDetaiAction,
-  environment: ServiceContainer
+    state: SpellDetailState,
+    action: SpellDetaiAction,
+    environment: ServiceContainer
 ) -> ReducerResult<SpellDetailState, SpellDetaiAction> {
-  switch action {
-  case let .requestSpell(path: path):
-    return ReducerResult(
-      state: .initial,
-      effect: environment.spellProviderService
-        .spellDetailsPublisher(for: path)
-        .map { SpellDetaiAction.showSpell($0) }
-        .catch { Just(SpellDetaiAction.showSpellLoadError($0)) }
-        .eraseToAnyPublisher())
-  case let .showSpell(spell):
-    return ReducerResult(state: .selectedSpell(spell))
-  case let .showSpellLoadError(error):
-    return ReducerResult(state: .error(error))
-  }
+    switch action {
+    case let .requestSpell(path: path):
+        return ReducerResult(
+            state: .initial,
+            effect: environment.spellProviderService
+                .spellDetailsPublisher(for: path)
+                .map { SpellDetaiAction.showSpell($0) }
+                .catch { Just(SpellDetaiAction.showSpellLoadError($0)) }
+                .eraseToAnyPublisher())
+    case let .showSpell(spell):
+        return ReducerResult(state: .selectedSpell(spell))
+    case let .showSpellLoadError(error):
+        return ReducerResult(state: .error(error))
+    }
 }
+

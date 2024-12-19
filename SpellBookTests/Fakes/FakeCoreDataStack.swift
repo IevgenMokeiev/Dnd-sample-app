@@ -10,21 +10,22 @@ import CoreData
 @testable import SpellBook
 
 class FakeCoreDataStack: CoreDataStack {
-  var managedObjectContext: NSManagedObjectContext!
-  var persistentContainer: NSPersistentContainer!
-  
-  init() {
-    let managedObjectModel = NSManagedObjectModel.mergedModel(from: [Bundle.main])!
-    persistentContainer = NSPersistentContainer(name: "TestingContainer", managedObjectModel: managedObjectModel)
-    let description = NSPersistentStoreDescription()
-    description.type = NSInMemoryStoreType
-    persistentContainer.persistentStoreDescriptions = [description]
-    persistentContainer.loadPersistentStores { (description, error) in
-      precondition(description.type == NSInMemoryStoreType)
+    var managedObjectContext: NSManagedObjectContext!
+    var persistentContainer: NSPersistentContainer!
+    
+    init() {
+        let managedObjectModel = NSManagedObjectModel.mergedModel(from: [Bundle.main])!
+        persistentContainer = NSPersistentContainer(name: "TestingContainer", managedObjectModel: managedObjectModel)
+        let description = NSPersistentStoreDescription()
+        description.type = NSInMemoryStoreType
+        persistentContainer.persistentStoreDescriptions = [description]
+        persistentContainer.loadPersistentStores { (description, error) in
+            precondition(description.type == NSInMemoryStoreType)
+        }
+        managedObjectContext = persistentContainer.viewContext
     }
-    managedObjectContext = persistentContainer.viewContext
-  }
-  
-  func saveContext() {}
-  func cleanupStack() {}
+    
+    func saveContext() {}
+    func cleanupStack() {}
 }
+

@@ -9,14 +9,14 @@
 import Foundation
 
 enum SpellDetailState {
-  case initial
-  case selectedSpell(SpellDTO)
-  case error(Error)
+    case initial
+    case selectedSpell(SpellDTO)
+    case error(Error)
 }
 
 enum SpellDetaiAction {
-  case requestSpell(path: String)
-  case showSpell(SpellDTO)
-  case showSpellLoadError(Error)
+    case requestSpell(path: String)
+    case showSpell(SpellDTO)
+    case showSpellLoadError(Error)
 }
 

@@ -12,3 +12,4 @@ import Combine
 typealias SpellListPublisher = AnyPublisher<[SpellDTO], CustomError>
 typealias SpellDetailPublisher = AnyPublisher<SpellDTO, CustomError>
 typealias NoErrorSpellListPublisher = AnyPublisher<[SpellDTO], Never>
+

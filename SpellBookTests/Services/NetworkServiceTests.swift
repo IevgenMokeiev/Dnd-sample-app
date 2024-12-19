@@ -11,79 +11,80 @@ import Combine
 @testable import SpellBook
 
 class NetworkServiceTests: XCTestCase {
-  
-  private var cancellableSet: Set<AnyCancellable> = []
-  
-  func test_download_spellList() {
-    let sut = makeSUT()
     
-    let apiURL = URL(string: "http://dnd5eapi.co/api/spells")!
-    let response = HTTPURLResponse(
-      url: apiURL, statusCode: 200,
-      httpVersion: nil,
-      headerFields: nil
-    )!
-    let data = FakeDataFactory.spellListRawData
+    private var cancellableSet: Set<AnyCancellable> = []
     
-    FakeURLProtocol.requestHandler = { request in
-      XCTAssertTrue(request.url == apiURL)
-      return (response, data)
+    func test_download_spellList() {
+        let sut = makeSUT()
+        
+        let apiURL = URL(string: "http://dnd5eapi.co/api/spells")!
+        let response = HTTPURLResponse(
+            url: apiURL, statusCode: 200,
+            httpVersion: nil,
+            headerFields: nil
+        )!
+        let data = FakeDataFactory.spellListRawData
+        
+        FakeURLProtocol.requestHandler = { request in
+            XCTAssertTrue(request.url == apiURL)
+            return (response, data)
+        }
+        
+        let networkExpectation = expectation(description: "wait for network call")
+        
+        sut.spellListPublisher
+            .sink(receiveCompletion: { completion in
+                networkExpectation.fulfill()
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    XCTFail("\(error)")
+                }
+            }, receiveValue: { spellDTOs in
+                XCTAssertEqual(spellDTOs, FakeDataFactory.emptySpellListDTO)
+            })
+            .store(in: &cancellableSet)
+        
+        waitForExpectations(timeout: 5)
     }
     
-    let networkExpectation = expectation(description: "wait for network call")
-    
-    sut.spellListPublisher
-      .sink(receiveCompletion: { completion in
-        networkExpectation.fulfill()
-        switch completion {
-        case .finished:
-          break
-        case .failure(let error):
-          XCTFail("\(error)")
+    func test_download_spellDetail() {
+        let sut = makeSUT()
+        
+        let apiURL = URL(string: "http://dnd5eapi.co/api/spells/acid-arrow")!
+        let data = FakeDataFactory.spellDetailsRawData
+        
+        FakeURLProtocol.requestHandler = { request in
+            XCTAssertTrue(request.url == apiURL)
+            let response = HTTPURLResponse(url: apiURL, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            return (response, data)
         }
-      }, receiveValue: { spellDTOs in
-        XCTAssertEqual(spellDTOs, FakeDataFactory.emptySpellListDTO)
-      })
-      .store(in: &cancellableSet)
-    
-    waitForExpectations(timeout: 5)
-  }
-  
-  func test_download_spellDetail() {
-    let sut = makeSUT()
-    
-    let apiURL = URL(string: "http://dnd5eapi.co/api/spells/acid-arrow")!
-    let data = FakeDataFactory.spellDetailsRawData
-    
-    FakeURLProtocol.requestHandler = { request in
-      XCTAssertTrue(request.url == apiURL)
-      let response = HTTPURLResponse(url: apiURL, statusCode: 200, httpVersion: nil, headerFields: nil)!
-      return (response, data)
+        
+        let networkExpectation = expectation(description: "wait for network call")
+        
+        sut.spellDetailPublisher(for: "/api/spells/acid-arrow")
+            .sink(receiveCompletion: { completion in
+                networkExpectation.fulfill()
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    XCTFail("\(error)")
+                }
+            }, receiveValue: { spellDTO in
+                XCTAssertEqual(spellDTO, FakeDataFactory.spellDTO)
+            })
+            .store(in: &cancellableSet)
+        
+        waitForExpectations(timeout: 5)
     }
     
-    let networkExpectation = expectation(description: "wait for network call")
-    
-    sut.spellDetailPublisher(for: "/api/spells/acid-arrow")
-      .sink(receiveCompletion: { completion in
-        networkExpectation.fulfill()
-        switch completion {
-        case .finished:
-          break
-        case .failure(let error):
-          XCTFail("\(error)")
-        }
-      }, receiveValue: { spellDTO in
-        XCTAssertEqual(spellDTO, FakeDataFactory.spellDTO)
-      })
-      .store(in: &cancellableSet)
-    
-    waitForExpectations(timeout: 5)
-  }
-  
-  private func makeSUT() -> NetworkService {
-    let networkClient = NetworkClientImpl(protocolClasses: [FakeURLProtocol.self])
-    let sut = NetworkServiceImpl(networkClient: networkClient)
-    
-    return sut
-  }
+    private func makeSUT() -> NetworkService {
+        let networkClient = NetworkClientImpl(protocolClasses: [FakeURLProtocol.self])
+        let sut = NetworkServiceImpl(networkClient: networkClient)
+        
+        return sut
+    }
 }
+

@@ -9,18 +9,19 @@
 @testable import SpellBook
 
 class FakeTranslationService: TranslationService {
-  
-  let testFavorites: Bool
-  
-  init(testFavorites: Bool) {
-    self.testFavorites = testFavorites
-  }
-  
-  func convertToDTO(spell: Spell) -> SpellDTO {
-    return FakeDataFactory.spellDTO
-  }
-  
-  func convertToDTO(spellList: [Spell]) -> [SpellDTO] {
-    return testFavorites ? FakeDataFactory.favoritesListDTO : FakeDataFactory.spellListDTO
-  }
+    
+    let testFavorites: Bool
+    
+    init(testFavorites: Bool) {
+        self.testFavorites = testFavorites
+    }
+    
+    func convertToDTO(spell: Spell) -> SpellDTO {
+        return FakeDataFactory.spellDTO
+    }
+    
+    func convertToDTO(spellList: [Spell]) -> [SpellDTO] {
+        return testFavorites ? FakeDataFactory.favoritesListDTO : FakeDataFactory.spellListDTO
+    }
 }
+

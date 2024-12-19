@@ -10,7 +10,8 @@ import Foundation
 
 /// Protocol conformance to define equatable rule for spells
 extension Spell {
-  static func == (lhs: Spell, rhs: Spell) -> Bool {
-    return lhs.path == rhs.path
-  }
+    static func == (lhs: Spell, rhs: Spell) -> Bool {
+        return lhs.path == rhs.path
+    }
 }
+

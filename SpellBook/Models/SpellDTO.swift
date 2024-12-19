@@ -11,73 +11,74 @@ import Foundation
 /// Simple data transfer object for spells
 /// Has protocol conformances to wok with Combine as well as Codable implementation
 struct SpellDTO: Equatable, Identifiable {
-  typealias ID = String
-  var id: String { path }
-
-  let name: String
-  let path: String
-  let level: Int?
-  let castingTime: String?
-  let concentration: Bool?
-  let classes: String?
-  let description: String?
-  let higherLevel: String?
-  let isFavorite: Bool
-
-  func toggleFavorite(value: Bool) -> SpellDTO {
-    return SpellDTO(
-      name: self.name,
-      path: self.path,
-      level: self.level,
-      castingTime: self.castingTime,
-      concentration: self.concentration,
-      classes: self.classes,
-      description: self.description,
-      higherLevel: self.higherLevel,
-      isFavorite: value
-    )
-  }
+    typealias ID = String
+    var id: String { path }
+    
+    let name: String
+    let path: String
+    let level: Int?
+    let castingTime: String?
+    let concentration: Bool?
+    let classes: String?
+    let description: String?
+    let higherLevel: String?
+    let isFavorite: Bool
+    
+    func toggleFavorite(value: Bool) -> SpellDTO {
+        return SpellDTO(
+            name: self.name,
+            path: self.path,
+            level: self.level,
+            castingTime: self.castingTime,
+            concentration: self.concentration,
+            classes: self.classes,
+            description: self.description,
+            higherLevel: self.higherLevel,
+            isFavorite: value
+        )
+    }
 }
 
 extension SpellDTO: Codable {
-
-  struct ClassObject: Codable {
-    let name: String
-    let url: String
-
-    enum CodingKeys: String, CodingKey {
-      case name
-      case url
+    
+    struct ClassObject: Codable {
+        let name: String
+        let url: String
+        
+        enum CodingKeys: String, CodingKey {
+            case name
+            case url
+        }
     }
-  }
-
-  private enum CodingKeys: String, CodingKey {
-    case name
-    case path = "url"
-    case level
-    case castingTime = "casting_time"
-    case concentration
-    case classes
-    case description = "desc"
-    case higherLevel = "higher_level"
-  }
-
-  init(from decoder: Decoder) throws {
-    let values = try decoder.container(keyedBy: CodingKeys.self)
-
-    name = try values.decode(String.self, forKey: .name)
-    path = try values.decode(String.self, forKey: .path)
-    level = try values.decodeIfPresent(Int.self, forKey: .level)
-    castingTime = try values.decodeIfPresent(String.self, forKey: .castingTime)
-    concentration = try values.decodeIfPresent(Bool.self, forKey: .concentration)
-    let descArray = try values.decodeIfPresent([String].self, forKey: .description)
-    description = descArray?.joined(separator: "\n\n")
-
-    let classesArray = try values.decodeIfPresent([ClassObject].self, forKey: .classes)
-    let namesArray = classesArray?.map { $0.name }
-    classes = namesArray?.joined(separator: ", ")
-    let higherLevelArray = try values.decodeIfPresent([String].self, forKey: .higherLevel)
-    higherLevel = higherLevelArray?.joined(separator: "\n\n")
-    isFavorite = false
-  }
+    
+    private enum CodingKeys: String, CodingKey {
+        case name
+        case path = "url"
+        case level
+        case castingTime = "casting_time"
+        case concentration
+        case classes
+        case description = "desc"
+        case higherLevel = "higher_level"
+    }
+    
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        
+        name = try values.decode(String.self, forKey: .name)
+        path = try values.decode(String.self, forKey: .path)
+        level = try values.decodeIfPresent(Int.self, forKey: .level)
+        castingTime = try values.decodeIfPresent(String.self, forKey: .castingTime)
+        concentration = try values.decodeIfPresent(Bool.self, forKey: .concentration)
+        let descArray = try values.decodeIfPresent([String].self, forKey: .description)
+        description = descArray?.joined(separator: "\n\n")
+        
+        let classesArray = try values.decodeIfPresent([ClassObject].self, forKey: .classes)
+        let namesArray = classesArray?.map { $0.name }
+        classes = namesArray?.joined(separator: ", ")
+        let higherLevelArray = try values.decodeIfPresent([String].self, forKey: .higherLevel)
+        higherLevel = higherLevelArray?.joined(separator: "\n\n")
+        isFavorite = false
+    }
 }
+

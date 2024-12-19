@@ -11,15 +11,16 @@ import CoreData
 @testable import SpellBook
 
 class SpellDTOConversionTests: XCTestCase {
-
-  func test_spell_population() {
-    let coreDataStack = FakeCoreDataStack()
-    let context = coreDataStack.persistentContainer.viewContext
-    let spell = FakeDataFactory.emptySpell(context: context)
-    let spellDTO = FakeDataFactory.spellDTO
-    let expectedSpell = FakeDataFactory.spell(context: context)
-
-    spell.populate(with: spellDTO)
-    XCTAssertTrue(spell == expectedSpell)
-  }
+    
+    func test_spell_population() {
+        let coreDataStack = FakeCoreDataStack()
+        let context = coreDataStack.persistentContainer.viewContext
+        let spell = FakeDataFactory.emptySpell(context: context)
+        let spellDTO = FakeDataFactory.spellDTO
+        let expectedSpell = FakeDataFactory.spell(context: context)
+        
+        spell.populate(with: spellDTO)
+        XCTAssertTrue(spell == expectedSpell)
+    }
 }
+

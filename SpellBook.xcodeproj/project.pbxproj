@@ -3,11 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2E97978D26AA2699498FA652 /* Pods_SpellBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBDA135426DC559F4EF9BBF1 /* Pods_SpellBook.framework */; };
 		85B353EE2267B64200617C7E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B353ED2267B64200617C7E /* AppDelegate.swift */; };
 		85B353F52267B64A00617C7E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85B353F42267B64A00617C7E /* Assets.xcassets */; };
 		85B353F82267B64A00617C7E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85B353F62267B64A00617C7E /* LaunchScreen.storyboard */; };
@@ -18,7 +17,6 @@
 		85B3547B2269AF3100617C7E /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B3547A2269AF3100617C7E /* DatabaseService.swift */; };
 		9F0C894C246A885C003592F5 /* SpellDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0C894B246A885C003592F5 /* SpellDetailView.swift */; };
 		9F0C894E246A921C003592F5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0C894D246A921C003592F5 /* SceneDelegate.swift */; };
-		9F0C8951246ACC92003592F5 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0C8950246ACC92003592F5 /* ProgressView.swift */; };
 		9F0FF92E2477D66E00654865 /* SpellProviderServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0FF92D2477D66E00654865 /* SpellProviderServiceTests.swift */; };
 		9F109D8B2476B1500091B7E3 /* Spell+Population.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F109D8A2476B1500091B7E3 /* Spell+Population.swift */; };
 		9F109D8D2476B2320091B7E3 /* SpellDTOConversionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F109D8C2476B2320091B7E3 /* SpellDTOConversionTests.swift */; };
@@ -83,8 +81,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3333E5D2C97CF77B9ACAE369 /* Pods-Dnd5eApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dnd5eApp.release.xcconfig"; path = "Target Support Files/Pods-Dnd5eApp/Pods-Dnd5eApp.release.xcconfig"; sourceTree = "<group>"; };
-		5FFD2B8E3FC0D68652CDEF67 /* Pods-Dnd5eApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dnd5eApp.debug.xcconfig"; path = "Target Support Files/Pods-Dnd5eApp/Pods-Dnd5eApp.debug.xcconfig"; sourceTree = "<group>"; };
 		85B353EA2267B64200617C7E /* SpellBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpellBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85B353ED2267B64200617C7E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		85B353F42267B64A00617C7E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -101,7 +97,6 @@
 		85B3547A2269AF3100617C7E /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
 		9F0C894B246A885C003592F5 /* SpellDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellDetailView.swift; sourceTree = "<group>"; };
 		9F0C894D246A921C003592F5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		9F0C8950246ACC92003592F5 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
 		9F0FF92D2477D66E00654865 /* SpellProviderServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellProviderServiceTests.swift; sourceTree = "<group>"; };
 		9F109D8A2476B1500091B7E3 /* Spell+Population.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Spell+Population.swift"; sourceTree = "<group>"; };
 		9F109D8C2476B2320091B7E3 /* SpellDTOConversionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellDTOConversionTests.swift; sourceTree = "<group>"; };
@@ -146,10 +141,6 @@
 		9FFF78AE2477E1320068743F /* FakeTranslationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeTranslationService.swift; sourceTree = "<group>"; };
 		9FFF78B8247821170068743F /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
 		9FFF78BA247821390068743F /* DatabaseClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseClient.swift; sourceTree = "<group>"; };
-		BF06A7D58F74D8CD1588A792 /* Pods-SpellBook.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpellBook.debug.xcconfig"; path = "Target Support Files/Pods-SpellBook/Pods-SpellBook.debug.xcconfig"; sourceTree = "<group>"; };
-		D05E6B1516E140741ECBB23F /* Pods_Dnd5eApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dnd5eApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D6D976ECE04481F6D97FC91F /* Pods-SpellBook.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpellBook.release.xcconfig"; path = "Target Support Files/Pods-SpellBook/Pods-SpellBook.release.xcconfig"; sourceTree = "<group>"; };
-		DBDA135426DC559F4EF9BBF1 /* Pods_SpellBook.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SpellBook.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,7 +148,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E97978D26AA2699498FA652 /* Pods_SpellBook.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,21 +171,8 @@
 		0FBC1E351D9889D259C1BC27 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				5FFD2B8E3FC0D68652CDEF67 /* Pods-Dnd5eApp.debug.xcconfig */,
-				3333E5D2C97CF77B9ACAE369 /* Pods-Dnd5eApp.release.xcconfig */,
-				BF06A7D58F74D8CD1588A792 /* Pods-SpellBook.debug.xcconfig */,
-				D6D976ECE04481F6D97FC91F /* Pods-SpellBook.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		6FDD1FDE4AB162DE19869E84 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				D05E6B1516E140741ECBB23F /* Pods_Dnd5eApp.framework */,
-				DBDA135426DC559F4EF9BBF1 /* Pods_SpellBook.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		85B353E12267B64200617C7E = {
@@ -206,7 +183,6 @@
 				85B3540C2267B64A00617C7E /* SpellBookUITests */,
 				85B353EB2267B64200617C7E /* Products */,
 				0FBC1E351D9889D259C1BC27 /* Pods */,
-				6FDD1FDE4AB162DE19869E84 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -268,7 +244,6 @@
 				9F8D854F248520E600518006 /* AddSpellViewModel.swift */,
 				9F8D854D24850F5500518006 /* AddSpellView.swift */,
 				9F70C4CF247404530080275E /* SearchView.swift */,
-				9F0C8950246ACC92003592F5 /* ProgressView.swift */,
 				9FDC20CE2479280800D87439 /* ErrorView.swift */,
 			);
 			path = Views;
@@ -418,11 +393,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 85B354122267B64A00617C7E /* Build configuration list for PBXNativeTarget "SpellBook" */;
 			buildPhases = (
-				C211E6CC7F446B46B41ED00E /* [CP] Check Pods Manifest.lock */,
 				85B353E62267B64200617C7E /* Sources */,
 				85B353E72267B64200617C7E /* Frameworks */,
 				85B353E82267B64200617C7E /* Resources */,
-				BD82C4E8558F6474AB4C29AB /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -475,8 +448,9 @@
 		85B353E22267B64200617C7E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1020;
-				LastUpgradeCheck = 1300;
+				LastUpgradeCheck = 1600;
 				ORGANIZATIONNAME = Ievgen;
 				TargetAttributes = {
 					85B353E92267B64200617C7E = {
@@ -539,48 +513,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		BD82C4E8558F6474AB4C29AB /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SpellBook/Pods-SpellBook-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SpellBook/Pods-SpellBook-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SpellBook/Pods-SpellBook-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C211E6CC7F446B46B41ED00E /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SpellBook-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		85B353E62267B64200617C7E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -618,7 +550,6 @@
 				9F9A5342247E976200F65809 /* SpellDetailReducer.swift in Sources */,
 				9FB3A3BA27F834AA004A0596 /* PublisherExtensions.swift in Sources */,
 				9F0C894E246A921C003592F5 /* SceneDelegate.swift in Sources */,
-				9F0C8951246ACC92003592F5 /* ProgressView.swift in Sources */,
 				9F9A5344247E976C00F65809 /* Favorites.swift in Sources */,
 				9F78FED4247BAEBE005B0245 /* Store.swift in Sources */,
 				9F54AC2A246C21D7005B4849 /* Spell+Equatable.swift in Sources */,
@@ -721,6 +652,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -735,7 +667,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -783,6 +715,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -791,7 +724,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -803,13 +736,13 @@
 		};
 		85B354132267B64A00617C7E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BF06A7D58F74D8CD1588A792 /* Pods-SpellBook.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7FA4YF49TS;
 				INFOPLIST_FILE = SpellBook/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.dice-games";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -823,13 +756,13 @@
 		};
 		85B354142267B64A00617C7E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D6D976ECE04481F6D97FC91F /* Pods-SpellBook.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7FA4YF49TS;
 				INFOPLIST_FILE = SpellBook/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.dice-games";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -844,7 +777,6 @@
 		85B354162267B64A00617C7E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -866,7 +798,6 @@
 		85B354172267B64A00617C7E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -887,7 +818,6 @@
 		85B354192267B64A00617C7E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = SpellBookUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -907,7 +837,6 @@
 		85B3541A2267B64A00617C7E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = SpellBookUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

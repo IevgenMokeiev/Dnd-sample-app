@@ -10,22 +10,22 @@ import SwiftUI
 
 /// Somple error view
 struct ErrorView: View {
-
-  var body: some View {
-    VStack {
-      Text("Something gone wrong...")
-        .foregroundColor(.orange)
-      Image("error")
-        .resizable()
-        .scaledToFit()
-        .padding()
+    
+    var body: some View {
+        VStack {
+            Text("Something gone wrong...")
+                .foregroundColor(.orange)
+            Image("error")
+                .resizable()
+                .scaledToFit()
+                .padding()
+        }
     }
-  }
 }
 
 struct ErrorView_Previews: PreviewProvider {
-  static var previews: some View {
-    return ErrorView()
-  }
+    static var previews: some View {
+        return ErrorView()
+    }
 }
 

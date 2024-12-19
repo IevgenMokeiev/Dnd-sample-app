@@ -9,20 +9,21 @@
 import Foundation
 
 enum SpellListState {
-  case initial
-  case spellList(displayedSpells: [SpellDTO], allSpells: [SpellDTO])
-  case error(Error)
+    case initial
+    case spellList(displayedSpells: [SpellDTO], allSpells: [SpellDTO])
+    case error(Error)
 }
 
 enum SpellListAction {
-  case requestSpellList
-  case showSpellList([SpellDTO])
-  case showSpellListLoadError(Error)
-  case search(query: String)
-  case sort(by: Sort)
+    case requestSpellList
+    case showSpellList([SpellDTO])
+    case showSpellListLoadError(Error)
+    case search(query: String)
+    case sort(by: Sort)
 }
 
 enum Sort {
-  case name
-  case level
+    case name
+    case level
 }
+

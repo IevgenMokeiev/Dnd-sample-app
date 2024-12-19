@@ -9,6 +9,7 @@
 @testable import SpellBook
 
 struct FakeServiceContainer: ServiceContainer {
-  let spellProviderService: SpellProviderService = FakeSpellProviderService()
-  let refinementsService: RefinementsService = FakeRefinementsService()
+    let spellProviderService: SpellProviderService = FakeSpellProviderService()
+    let refinementsService: RefinementsService = FakeRefinementsService()
 }
+
