@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-/// Somple error view
 struct ErrorView: View {
     var body: some View {
         VStack {

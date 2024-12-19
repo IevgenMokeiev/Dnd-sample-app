@@ -8,9 +8,6 @@
 
 import SwiftUI
 
-/// Search view which consists of image and text field
-/// - Properties:
-///     - searchTerm: A binding to sync with text field text
 struct SearchView: View {
     @Binding var searchTerm: String
 
