@@ -8,17 +8,20 @@
 
 import CoreData
 @testable import SpellBook
-import XCTest
+import Testing
 
-class SpellDTOConversionTests: XCTestCase {
-    func test_spell_population() {
-        let coreDataStack = CoreDataStackMock()
+@Suite
+final class SpellDTOConversionTests {
+    
+    @Test
+    func whenPopulateSpell_thenHasExpectedData() {
+        let coreDataStack = StubCoreDataStack()
         let context = coreDataStack.persistentContainer.viewContext
         let spell = FakeDataFactory.provideEmptySpell(context: context)
         let spellDTO = FakeDataFactory.provideFakeSpellDTO()
         let expectedSpell = FakeDataFactory.provideFakeSpell(context: context)
 
         spell.populate(with: spellDTO)
-        XCTAssertTrue(spell == expectedSpell)
+        #expect(spell == expectedSpell)
     }
 }

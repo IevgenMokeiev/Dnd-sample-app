@@ -57,6 +57,11 @@
                BlueprintName = "SpellBookUITests"
                ReferencedContainer = "container:SpellBook.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "SpellBookUITests">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>

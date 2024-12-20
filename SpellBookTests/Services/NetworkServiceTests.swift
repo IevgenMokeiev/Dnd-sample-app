@@ -8,77 +8,42 @@
 
 import Combine
 @testable import SpellBook
-import XCTest
+import Foundation
+import Testing
 
-class NetworkServiceTests: XCTestCase {
+@Suite
+final class NetworkServiceTests {
     private var cancellableSet: Set<AnyCancellable> = []
-
-    func test_download_spellList() {
+    
+    @Test
+    func whenDownloadSpellList_thenReturnsCorrectValue() async {
         let sut = makeSUT()
-
+        
         let apiURL = URL(string: "http://dnd5eapi.co/api/spells")!
         let response = HTTPURLResponse(url: apiURL, statusCode: 200, httpVersion: nil, headerFields: nil)!
         let data = FakeDataFactory.provideFakeSpellListRawData()
-
-        URLProtocolMock.requestHandler = { request in
-            XCTAssertTrue(request.url == apiURL)
-            return (response, data)
-        }
-
-        let networkExpectation = expectation(description: "wait for network call")
-
-        sut.spellListPublisher
-            .sink(receiveCompletion: { completion in
-                networkExpectation.fulfill()
-                switch completion {
-                case .finished:
-                    break
-                case let .failure(error):
-                    XCTFail("\(error)")
-                }
-            }, receiveValue: { spellDTOs in
-                XCTAssertEqual(spellDTOs, FakeDataFactory.provideEmptySpellListDTO())
-            })
-            .store(in: &cancellableSet)
-
-        waitForExpectations(timeout: 5)
+        await MockURLProtocol.responsesMap.setResponse(response: (data: data, response: response, error: nil), for: apiURL)
+        let (spy, cancellable) = await sut.spellListPublisher.spy()
+        cancellable.store(in: &cancellableSet)
+        #expect(spy.values.first == FakeDataFactory.provideEmptySpellListDTO())
     }
-
-    func test_download_spellDetail() {
+    
+    @Test
+    func whenDownloadSpellDetail_thenReturnsCorrectValue() async {
         let sut = makeSUT()
-
+        
         let apiURL = URL(string: "http://dnd5eapi.co/api/spells/acid-arrow")!
         let data = FakeDataFactory.provideFakeSpellDetailsRawData()
-
-        URLProtocolMock.requestHandler = { request in
-            XCTAssertTrue(request.url == apiURL)
-            let response = HTTPURLResponse(url: apiURL, statusCode: 200, httpVersion: nil, headerFields: nil)!
-            return (response, data)
-        }
-
-        let networkExpectation = expectation(description: "wait for network call")
-
-        sut.spellDetailPublisher(for: "/api/spells/acid-arrow")
-            .sink(receiveCompletion: { completion in
-                networkExpectation.fulfill()
-                switch completion {
-                case .finished:
-                    break
-                case let .failure(error):
-                    XCTFail("\(error)")
-                }
-            }, receiveValue: { spellDTO in
-                XCTAssertEqual(spellDTO, FakeDataFactory.provideFakeSpellDTO())
-            })
-            .store(in: &cancellableSet)
-
-        waitForExpectations(timeout: 5)
+        let response = HTTPURLResponse(url: apiURL, statusCode: 200, httpVersion: nil, headerFields: nil)
+        await MockURLProtocol.responsesMap.setResponse(response: (data: data, response: response, error: nil), for: apiURL)
+        
+        let (spy, cancellable) = await sut.spellDetailPublisher(for: "/api/spells/acid-arrow").spy()
+        cancellable.store(in: &cancellableSet)
+        #expect(spy.values.first == FakeDataFactory.provideFakeSpellDTO())
     }
-
+    
     private func makeSUT() -> NetworkService {
-        let networkClient = NetworkClientImpl(protocolClasses: [URLProtocolMock.self])
-        let sut = NetworkServiceImpl(networkClient: networkClient)
-
-        return sut
+        let networkClient = NetworkClientImpl(protocolClasses: [MockURLProtocol.self])
+        return NetworkServiceImpl(networkClient: networkClient)
     }
 }

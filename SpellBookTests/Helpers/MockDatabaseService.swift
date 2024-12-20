@@ -1,5 +1,5 @@
 //
-//  DatabaseServiceMock.swift
+//  MockDatabaseService.swift
 //  SpellBook
 //
 //  Created by Yevhen Mokeiev on 22.05.2020.
@@ -8,30 +8,30 @@
 
 @testable import SpellBook
 
-class DatabaseServiceMock: DatabaseService {
-    static var spellListHandler: (() -> Result<[SpellDTO], CustomError>)?
-    static var spellDetailHandler: (() -> Result<SpellDTO, CustomError>)?
-    static var favoritesHandler: (() -> Result<[SpellDTO], Never>)?
+class MockDatabaseService: DatabaseService {
+    var spellListHandler: (() -> Result<[SpellDTO], CustomError>)?
+    var spellDetailHandler: (() -> Result<SpellDTO, CustomError>)?
+    var favoritesHandler: (() -> Result<[SpellDTO], Never>)?
 
     var spellListPublisher: SpellListPublisher {
-        guard let handler = Self.spellListHandler else {
+        guard let spellListHandler else {
             fatalError("Handler is unavailable.")
         }
-        return Result.Publisher(handler()).eraseToAnyPublisher()
+        return Result.Publisher(spellListHandler()).eraseToAnyPublisher()
     }
 
     var favoritesPublisher: NoErrorSpellListPublisher {
-        guard let handler = Self.favoritesHandler else {
+        guard let favoritesHandler else {
             fatalError("Handler is unavailable.")
         }
-        return Result.Publisher(handler()).eraseToAnyPublisher()
+        return Result.Publisher(favoritesHandler()).eraseToAnyPublisher()
     }
 
     func spellDetailsPublisher(for _: String) -> SpellDetailPublisher {
-        guard let handler = Self.spellDetailHandler else {
+        guard let spellDetailHandler else {
             fatalError("Handler is unavailable.")
         }
-        return Result.Publisher(handler()).eraseToAnyPublisher()
+        return Result.Publisher(spellDetailHandler()).eraseToAnyPublisher()
     }
 
     func saveSpellList(_: [SpellDTO]) {}

@@ -1,5 +1,5 @@
 //
-//  CoreDataStackMock.swift
+//  StubCoreDataStack.swift
 //  SpellBookApp
 //
 //  Created by Yevhen Mokeiev on 13.05.2020.
@@ -9,7 +9,7 @@
 import CoreData
 @testable import SpellBook
 
-class CoreDataStackMock: CoreDataStack {
+class StubCoreDataStack: CoreDataStack {
     var managedObjectContext: NSManagedObjectContext!
     var persistentContainer: NSPersistentContainer!
 

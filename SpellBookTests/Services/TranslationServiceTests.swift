@@ -1,5 +1,5 @@
 //
-//  TranslationServiceTesting.swift
+//  TranslationServiceTests.swift
 //  SpellBookTests
 //
 //  Created by Eugene Mokeiev on 19.12.2024.
@@ -11,28 +11,35 @@ import CoreData
 import Testing
 
 @Suite
-struct TranslationServiceTests {
+final class TranslationServiceTests {
     
-    var context: NSManagedObjectContext
-    var sut: TranslationServiceImpl
+    private var context: NSManagedObjectContext!
+    private var sut: TranslationServiceImpl!
     
-    init() async throws {
-        let coreDataStack = CoreDataStackMock()
+    init() {
+        let coreDataStack = StubCoreDataStack()
         context = coreDataStack.persistentContainer.viewContext
         sut = TranslationServiceImpl()
-      }
+    }
+    
+    deinit {
+        context = nil
+        sut = nil
+    }
 
     @Test
-    mutating func whenUsingSpellConversion_thenProducesExpectedResult() throws {
+    func whenUsingSpellConversion_thenReturnsExpectedResult() throws {
         let context = try #require(context)
+        let sut = try #require(sut)
         let spell = FakeDataFactory.provideFakeSpell(context: context)
         let spellDTO = sut.convertToDTO(spell: spell)
         #expect(spellDTO == FakeDataFactory.provideFakeSpellDTO())
     }
     
     @Test
-    func whenUsingSpellListConversion_thenProducesExpectedResult() throws {
+    func whenUsingSpellListConversion_thenReturnsExpectedResult() throws {
         let context = try #require(context)
+        let sut = try #require(sut)
         let spellList = FakeDataFactory.provideFakeSpellList(context: context)
         let spellDTOs = sut.convertToDTO(spellList: spellList)
         #expect(spellDTOs == FakeDataFactory.provideFakeSpellListDTO())

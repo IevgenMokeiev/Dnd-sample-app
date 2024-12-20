@@ -9,15 +9,30 @@
 import Combine
 import CoreData
 @testable import SpellBook
-import XCTest
+import Testing
 
-class DatabaseServiceTests: XCTestCase {
-    var context: NSManagedObjectContext?
+@Suite
+final class DatabaseServiceTests {
+    
+    private var coreDataStack: StubCoreDataStack!
+    private var context: NSManagedObjectContext!
     private var cancellableSet: Set<AnyCancellable> = []
+    
+    init() {
+        coreDataStack = StubCoreDataStack()
+        context = coreDataStack.persistentContainer.viewContext
+    }
+    
+    deinit {
+        coreDataStack = nil
+        context = nil
+        cancellableSet.removeAll()
+    }
 
-    func test_spellList_fetch() {
+    @Test
+    func whenFetchSpellList_thenReturnsExpectedResult() throws {
         let sut = makeSUT()
-        guard let context = context else { XCTFail("no context"); return }
+        let context = try #require(context)
         _ = FakeDataFactory.provideFakeSpellList(context: context)
         sut.spellListPublisher
             .sink(receiveCompletion: { completion in
@@ -25,17 +40,18 @@ class DatabaseServiceTests: XCTestCase {
                 case .finished:
                     break
                 case let .failure(error):
-                    XCTFail("\(error)")
+                    Issue.record("\(error)")
                 }
             }) { spellDTOs in
-                XCTAssertEqual(spellDTOs, FakeDataFactory.provideFakeSpellListDTO())
+                #expect(spellDTOs == FakeDataFactory.provideFakeSpellListDTO())
             }
             .store(in: &cancellableSet)
     }
 
-    func test_spell_fetch() {
+    @Test
+    func whenFetchSpell_thenReturnsExpectedResult() throws {
         let sut = makeSUT()
-        guard let context = context else { XCTFail("no context"); return }
+        let context = try #require(context)
         let spell = FakeDataFactory.provideFakeSpell(context: context)
         sut.spellDetailsPublisher(for: spell.path!)
             .sink(receiveCompletion: { completion in
@@ -43,17 +59,18 @@ class DatabaseServiceTests: XCTestCase {
                 case .finished:
                     break
                 case let .failure(error):
-                    XCTFail("\(error)")
+                    Issue.record("\(error)")
                 }
             }) { spellDTO in
-                XCTAssertEqual(spellDTO, FakeDataFactory.provideFakeSpellDTO())
+                #expect(spellDTO == FakeDataFactory.provideFakeSpellDTO())
             }
             .store(in: &cancellableSet)
     }
 
-    func test_favorites_fetch_no_favorites() {
+    @Test
+    func whenFetchWithNoFavorites_thenReturnsEmptyFavorites() throws {
         let sut = makeSUT()
-        guard let context = context else { XCTFail("no context"); return }
+        let context = try #require(context)
         _ = FakeDataFactory.provideFakeSpellList(context: context)
         sut.favoritesPublisher
             .sink(receiveCompletion: { completion in
@@ -61,17 +78,18 @@ class DatabaseServiceTests: XCTestCase {
                 case .finished:
                     break
                 case let .failure(error):
-                    XCTFail("\(error)")
+                    Issue.record("\(error)")
                 }
             }) { spellDTOs in
-                XCTAssertTrue(spellDTOs.isEmpty)
+                #expect(spellDTOs.isEmpty)
             }
             .store(in: &cancellableSet)
     }
 
-    func test_favorites_fetch_has_favorites() {
+    @Test
+    func whenFetchWithFavorites_thenReturnsFavorites() throws {
         let sut = makeSUT(testFavorites: true)
-        guard let context = context else { XCTFail("no context"); return }
+        let context = try #require(context)
         _ = FakeDataFactory.provideFakeFavoritesList(context: context)
         sut.favoritesPublisher
             .sink(receiveCompletion: { completion in
@@ -79,17 +97,18 @@ class DatabaseServiceTests: XCTestCase {
                 case .finished:
                     break
                 case let .failure(error):
-                    XCTFail("\(error)")
+                    Issue.record("\(error)")
                 }
             }) { spellDTOs in
-                XCTAssertEqual(spellDTOs, FakeDataFactory.provideFakeFavoritesListDTO())
+                #expect(spellDTOs ==  FakeDataFactory.provideFakeFavoritesListDTO())
             }
             .store(in: &cancellableSet)
     }
-
-    private func makeSUT(testFavorites: Bool = false) -> DatabaseService {
-        let fakeStack = CoreDataStackMock()
-        context = fakeStack.persistentContainer.viewContext
-        return DatabaseServiceImpl(databaseClient: DatabaseClientImpl(coreDataStack: fakeStack), translationService: TranslationServiceMock(testFavorites: testFavorites))
+    
+    private func makeSUT(testFavorites: Bool = false) -> DatabaseServiceImpl {
+        return DatabaseServiceImpl(
+            databaseClient: DatabaseClientImpl(coreDataStack: coreDataStack),
+            translationService: MockTranslationService(testFavorites: testFavorites)
+        )
     }
 }

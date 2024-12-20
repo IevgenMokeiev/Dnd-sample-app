@@ -8,139 +8,99 @@
 
 import Combine
 @testable import SpellBook
-import XCTest
+import Testing
 
-class InteractorTests: XCTestCase {
+@Suite
+final class InteractorTests {
     private var cancellableSet: Set<AnyCancellable> = []
+    private var mockDatabaseService: MockDatabaseService!
+    private var mockNetworkService: MockNetworkService!
+    
+    init() {
+        mockDatabaseService = MockDatabaseService()
+        mockNetworkService = MockNetworkService()
+    }
+    
+    deinit {
+        mockDatabaseService = nil
+        mockNetworkService = nil
+    }
 
-    func test_spellList_fetch_no_local_data() {
+    @Test
+    func whenFetchRemoteData_thenSpellListReturnsExpectedValue() async {
         let sut = makeSUT()
-        let interactorExpectation = expectation(description: "wait for interactor")
-
         let fakeData = FakeDataFactory.provideFakeSpellListDTO()
 
-        NetworkServiceMock.spellListHandler = {
+        mockNetworkService.spellListHandler = {
             Result.success(fakeData)
         }
 
-        DatabaseServiceMock.spellListHandler = {
+        mockDatabaseService.spellListHandler = {
             Result.failure(.database(.noData))
         }
-
-        sut.spellListPublisher
-            .sink(receiveCompletion: { completion in
-                interactorExpectation.fulfill()
-                switch completion {
-                case .finished:
-                    break
-                case let .failure(error):
-                    XCTFail("\(error)")
-                }
-            }) { spellDTOs in
-                XCTAssertEqual(spellDTOs, fakeData)
-            }
-            .store(in: &cancellableSet)
-
-        waitForExpectations(timeout: 5)
+        
+        let (spy, cancellable) = await sut.spellListPublisher.spy()
+        cancellable.store(in: &cancellableSet)
+        #expect(spy.values.first == fakeData)
     }
 
-    func test_spellList_fetch_from_local_data() {
+    @Test
+    func whenFetchLocalData_thenSpellListReturnsExpectedValue() async {
         let sut = makeSUT()
-        let interactorExpectation = expectation(description: "wait for interactor")
 
         let fakeData = FakeDataFactory.provideFakeSpellListDTO()
 
-        NetworkServiceMock.spellListHandler = {
+        mockNetworkService.spellListHandler = {
             Result.failure(.network(.decodingFailed))
         }
 
-        DatabaseServiceMock.spellListHandler = {
+        mockDatabaseService.spellListHandler = {
             Result.success(fakeData)
         }
 
-        sut.spellListPublisher
-            .sink(receiveCompletion: { completion in
-                interactorExpectation.fulfill()
-                switch completion {
-                case .finished:
-                    break
-                case let .failure(error):
-                    XCTFail("\(error)")
-                }
-            }) { spellDTOs in
-                XCTAssertEqual(spellDTOs, fakeData)
-            }
-            .store(in: &cancellableSet)
-
-        waitForExpectations(timeout: 5)
+        let (spy, cancellable) = await sut.spellListPublisher.spy()
+        cancellable.store(in: &cancellableSet)
+        #expect(spy.values.first == fakeData)
     }
 
-    func test_spellDetail_fetch_no_local_data() {
+    @Test
+    func whenFetchRemoteData_thenSpellDetailReturnsExpectedValue() async {
         let sut = makeSUT()
-        let interactorExpectation = expectation(description: "wait for interactor")
 
         let fakeData = FakeDataFactory.provideFakeSpellDTO()
 
-        NetworkServiceMock.spellDetailHandler = {
+        mockNetworkService.spellDetailHandler = {
             Result.success(fakeData)
         }
 
-        DatabaseServiceMock.spellDetailHandler = {
+        mockDatabaseService.spellDetailHandler = {
             Result.failure(.database(.noMatchedEntity))
         }
 
-        sut.spellDetailsPublisher(for: "/api/spells/fake")
-            .sink(receiveCompletion: { completion in
-                interactorExpectation.fulfill()
-                switch completion {
-                case .finished:
-                    break
-                case let .failure(error):
-                    XCTFail("\(error)")
-                }
-            }) { spellDTO in
-                XCTAssertEqual(spellDTO, fakeData)
-            }
-            .store(in: &cancellableSet)
-
-        waitForExpectations(timeout: 5)
+        let (spy, cancellable) = await sut.spellDetailsPublisher(for: "/api/spells/fake").spy()
+        cancellable.store(in: &cancellableSet)
+        #expect(spy.values.first == fakeData)
     }
 
-    func test_spellDetail_fetch_from_local_data() {
+    @Test
+    func whenFetchLocalData_thenSpellDetailReturnsExpectedValue() async {
         let sut = makeSUT()
-        let interactorExpectation = expectation(description: "wait for interactor")
-
         let fakeData = FakeDataFactory.provideFakeSpellDTO()
 
-        NetworkServiceMock.spellDetailHandler = {
+        mockNetworkService.spellDetailHandler = {
             Result.failure(.network(.decodingFailed))
         }
 
-        DatabaseServiceMock.spellDetailHandler = {
+        mockDatabaseService.spellDetailHandler = {
             Result.success(fakeData)
         }
 
-        sut.spellDetailsPublisher(for: "/api/spells/fake")
-            .sink(receiveCompletion: { completion in
-                interactorExpectation.fulfill()
-                switch completion {
-                case .finished:
-                    break
-                case let .failure(error):
-                    XCTFail("\(error)")
-                }
-            }) { spellDTO in
-                XCTAssertEqual(spellDTO, fakeData)
-            }
-            .store(in: &cancellableSet)
-
-        waitForExpectations(timeout: 5)
+        let (spy, cancellable) = await sut.spellDetailsPublisher(for: "/api/spells/fake").spy()
+        cancellable.store(in: &cancellableSet)
+        #expect(spy.values.first == fakeData)
     }
 
     private func makeSUT() -> Interactor {
-        let fakeDatabaseService = DatabaseServiceMock()
-        let fakeNetworkService = NetworkServiceMock()
-        let fakeRefinementsService = RefinementsServiceMock()
-        return InteractorImpl(databaseService: fakeDatabaseService, networkService: fakeNetworkService, refinementsService: fakeRefinementsService)
+        InteractorImpl(databaseService: mockDatabaseService, networkService: mockNetworkService, refinementsService: StubRefinementsService())
     }
 }
