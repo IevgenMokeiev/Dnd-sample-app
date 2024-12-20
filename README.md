@@ -1,17 +1,18 @@
 # Dnd-sample-app
-uses DnD 5th edition API from http://www.dnd5eapi.co/
+Simple spell navigator to be used during games.
+- Uses DnD 5th edition API from http://www.dnd5eapi.co/
+- includes the possibility to cache retrieved data, so can be used offline.
 
-simple spell navigator to be used during games.
+# Structure
+- Project is separated into different layers, dependency injection is utilized. 
+- Service layer is responsible for different tasks such as communication with network/ db, translation and filtering. 
+- Model layer includes DTO, database and data layer.
+- Data layer uses the next approach: data are retrieved from DB, if not present we fallback to the network data.
 
-includes possibility to cache retrieved data, so can be used offline.
+# Architecture
+Master branch is written in MVVM, other notable branch is redux which uses Redux architecture.
 
-App heavily relies on SwiftUI and Combine. 
-
-Project is separated into different layers, dependency injection is heavily used. 
-
-Service layer is responsible for different tasks such as communication with network/ db, translation and filtering. 
-Model layer includes DTO, database and data layer. 
-
-Data layer uses the next approach: data are retrieved from DB, if not present we fallback to the network data.
-
-Master branch is writeen in MVVM, redux branch is using Redux architecture and has more features.
+# Frameworks
+- App relies on SwiftUI and Combine. 
+- Master has Unit Tests fully migrated to SwiftTesting
+- Upcoming: migration from CoreData to SwiftData
