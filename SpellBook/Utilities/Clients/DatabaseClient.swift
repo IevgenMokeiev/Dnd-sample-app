@@ -6,7 +6,6 @@
 //  Copyright © 2020 Yevhen Mokeiev. All rights reserved.
 //
 
-import Combine
 import SwiftData
 import UIKit
 
@@ -15,8 +14,7 @@ enum DatabaseClientError: Error {
     case modelActor(BackgroundModelActorError)
 }
 
-@available(iOS 17, *)
-protocol DatabaseClient {
+protocol DatabaseClient: Sendable {
     func fetchRecords(predicate: Predicate<Spell>?) async throws -> [SpellDTO]
     func createRecord(spellDTO: SpellDTO) async throws
     func updateRecord(predicate: Predicate<Spell>?, spellDTO: SpellDTO) async throws

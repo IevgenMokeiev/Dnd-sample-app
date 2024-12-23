@@ -6,7 +6,6 @@
 //  Copyright © 2020 Yevhen Mokeiev. All rights reserved.
 //
 
-import Combine
 import Foundation
 
 enum SpellListState {
@@ -15,7 +14,8 @@ enum SpellListState {
     case error
 }
 
-class SpellListViewModel: ObservableObject {
+@MainActor
+final class SpellListViewModel: ObservableObject {
     @Published var state: SpellListState = .loading
 
     var searchTerm: String = "" {
@@ -29,7 +29,6 @@ class SpellListViewModel: ObservableObject {
             refineSpells()
         }
     }
-
     private var spellDTOs: [SpellDTO] = [] {
         didSet {
             refineSpells()
@@ -38,7 +37,6 @@ class SpellListViewModel: ObservableObject {
 
     private let refinementsClosure: RefinementsClosure
     private let interactor: InteractorProtocol
-    private var cancellableSet: Set<AnyCancellable> = []
 
     init(
         interactor: InteractorProtocol,
@@ -48,7 +46,6 @@ class SpellListViewModel: ObservableObject {
         self.refinementsClosure = refinementsClosure
     }
 
-    @MainActor
     func onAppear() {
         Task {
             do {

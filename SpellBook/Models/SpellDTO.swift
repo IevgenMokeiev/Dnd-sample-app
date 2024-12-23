@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct SpellDTO: Equatable, Sendable, Identifiable {
+struct SpellDTO: Equatable, Identifiable {
     typealias ID = String
     var id: String { return name }
 

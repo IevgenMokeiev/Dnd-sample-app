@@ -6,13 +6,12 @@
 //  Copyright © 2019 Yevhen Mokeiev. All rights reserved.
 //
 
-import Combine
 import CoreData
 import Foundation
 
 typealias SaveClosure = (SpellDTO) -> Void
 
-protocol DatabaseService {
+protocol DatabaseService: Sendable {
     func getSpellList() async throws -> [SpellDTO]
     func getFavorites() async throws -> [SpellDTO]
     func getSpellDetails(for path: String) async throws -> SpellDTO

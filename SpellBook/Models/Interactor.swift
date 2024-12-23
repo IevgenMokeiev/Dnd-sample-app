@@ -6,7 +6,6 @@
 //  Copyright © 2019 Yevhen Mokeiev. All rights reserved.
 //
 
-import Combine
 import Foundation
 import UIKit
 
@@ -14,7 +13,7 @@ import UIKit
 /// Uses services to provide requested data
 /// If data is requested, tries to get it from the database service
 /// If it's not available, fallback to network service
-protocol InteractorProtocol {
+protocol InteractorProtocol: Sendable {
     func getSpellList() async throws -> [SpellDTO]
     func getFavorites() async throws -> [SpellDTO]
     func getSpellDetails(for path: String) async throws -> SpellDTO
@@ -22,10 +21,10 @@ protocol InteractorProtocol {
     func saveSpell(_ spellDTO: SpellDTO) async throws
 }
 
-class Interactor: InteractorProtocol {
-    private var databaseService: DatabaseService
-    private var networkService: NetworkService
-    private var refinementsService: RefinementsService
+final class Interactor: InteractorProtocol {
+    private let databaseService: DatabaseService
+    private let networkService: NetworkService
+    private let refinementsService: RefinementsService
 
     init(databaseService: DatabaseService, networkService: NetworkService, refinementsService: RefinementsService) {
         self.databaseService = databaseService

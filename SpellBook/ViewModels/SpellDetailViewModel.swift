@@ -6,7 +6,6 @@
 //  Copyright © 2020 Yevhen Mokeiev. All rights reserved.
 //
 
-import Combine
 import Foundation
 import SwiftUI
 
@@ -16,13 +15,13 @@ enum SpellDetailState {
     case error
 }
 
+@MainActor
 class SpellDetailViewModel: ObservableObject {
     @Published var state: SpellDetailState = .loading
 
     private let interactor: InteractorProtocol
     private let path: String
     private let saveClosure: SaveClosure
-    private var cancellableSet: Set<AnyCancellable> = []
 
     init(interactor: InteractorProtocol, path: String, saveClosure: @escaping SaveClosure) {
         self.interactor = interactor
@@ -46,7 +45,6 @@ class SpellDetailViewModel: ObservableObject {
         }
     }
 
-    @MainActor
     func onAppear() {
         Task {
             do {

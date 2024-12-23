@@ -6,7 +6,7 @@
 //  Copyright © 2019 Yevhen Mokeiev. All rights reserved.
 //
 
-import Combine
+
 import Foundation
 
 struct Response: Codable {
@@ -18,7 +18,7 @@ private enum Endpoints: String {
     case spellDetails = "http://dnd5eapi.co"
 }
 
-protocol NetworkService {
+protocol NetworkService: Sendable {
     func getSpellList() async throws -> [SpellDTO]
     func getSpellDetails(for path: String) async throws -> SpellDTO
 }

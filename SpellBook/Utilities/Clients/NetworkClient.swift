@@ -6,7 +6,6 @@
 //  Copyright © 2020 Yevhen Mokeiev. All rights reserved.
 //
 
-import Combine
 import Foundation
 
 public enum NetworkClientError: Error {
@@ -14,11 +13,11 @@ public enum NetworkClientError: Error {
     case invalidURL
 }
 
-protocol NetworkClient {
+protocol NetworkClient: Sendable {
     func performRequest<T: Decodable>(to url: URL, expectedType: T.Type) async throws -> T
 }
 
-class NetworkClientImpl: NetworkClient {
+final class NetworkClientImpl: NetworkClient {
     private let protocolClasses: [AnyClass]?
 
     init(protocolClasses: [AnyClass]? = nil) {

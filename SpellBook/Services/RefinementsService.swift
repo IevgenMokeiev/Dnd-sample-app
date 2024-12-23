@@ -15,7 +15,7 @@ enum Sort {
     case level
 }
 
-protocol RefinementsService {
+protocol RefinementsService: Sendable {
     func refineSpells(spells: [SpellDTO], sort: Sort, searchTerm: String) -> [SpellDTO]
 }
 

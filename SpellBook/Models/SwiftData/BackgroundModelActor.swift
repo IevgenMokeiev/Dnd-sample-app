@@ -8,7 +8,6 @@
 
 import Foundation
 import SwiftData
-import Combine
 
 enum BackgroundModelActorError: Error {
     case noData
@@ -17,7 +16,7 @@ enum BackgroundModelActorError: Error {
 }
 
 @ModelActor
-actor BackgroundModelActor: Sendable {
+actor BackgroundModelActor {
     private var context: ModelContext { modelExecutor.modelContext }
     
     func fetchSpellList(predicate: Predicate<Spell>?) throws -> [SpellDTO] {

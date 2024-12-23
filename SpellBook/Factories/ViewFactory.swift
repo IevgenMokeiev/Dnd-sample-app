@@ -9,6 +9,7 @@
 import Foundation
 import SwiftUI
 
+@MainActor
 class ViewFactory: ObservableObject {
     let interactor: Interactor
 
@@ -16,12 +17,10 @@ class ViewFactory: ObservableObject {
         self.interactor = interactor
     }
 
-    @MainActor
     func createTabbarView() -> TabbarView {
         return TabbarView()
     }
 
-    @MainActor
     func createSpellListView() -> SpellListView {
         let viewModel = SpellListViewModel(
             interactor: interactor,
@@ -33,7 +32,6 @@ class ViewFactory: ObservableObject {
         return SpellListView(viewModel: viewModel)
     }
 
-    @MainActor
     func createSpellDetailView(path: String) -> SpellDetailView {
         let viewModel = SpellDetailViewModel(
             interactor: interactor,
@@ -50,7 +48,6 @@ class ViewFactory: ObservableObject {
         )
     }
 
-    @MainActor
     func createFavoritesView() -> FavoritesView {
         let viewModel = FavoritesViewModel(interactor: interactor)
         return FavoritesView(viewModel: viewModel)
