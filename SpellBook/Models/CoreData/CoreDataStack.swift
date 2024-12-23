@@ -9,7 +9,6 @@
 import CoreData
 import Foundation
 
-/// Defines core data stack which is used in a Database service
 protocol CoreDataStack {
     var persistentContainer: NSPersistentContainer! { get }
     var managedObjectContext: NSManagedObjectContext! { get }

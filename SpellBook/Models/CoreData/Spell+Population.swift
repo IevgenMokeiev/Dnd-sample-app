@@ -8,7 +8,6 @@
 
 import Foundation
 
-/// Extension which allows spell population with DTO object
 extension Spell {
     func populate(with dto: SpellDTO) {
         name = dto.name

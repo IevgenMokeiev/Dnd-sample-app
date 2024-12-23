@@ -16,7 +16,6 @@ import Foundation
 
 typealias SaveBlock = (SpellDTO) -> Void
 
-/// Service responsible for database communication
 protocol DatabaseService {
     var spellListPublisher: SpellListPublisher { get }
     var favoritesPublisher: NoErrorSpellListPublisher { get }

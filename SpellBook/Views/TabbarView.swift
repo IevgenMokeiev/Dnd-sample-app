@@ -32,7 +32,6 @@ struct TabbarView: View {
         }
         .accentColor(.orange)
         .onChange(of: selectedPage) { _ in
-            // we want view to redraw each time different tab is selected
             redraw.toggle()
         }
     }

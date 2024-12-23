@@ -7,7 +7,6 @@
 //
 import Combine
 
-/// Custom typealiases which are commonly used in the project
 typealias SpellListPublisher = AnyPublisher<[SpellDTO], CustomError>
 typealias SpellDetailPublisher = AnyPublisher<SpellDTO, CustomError>
 typealias NoErrorSpellListPublisher = AnyPublisher<[SpellDTO], Never>

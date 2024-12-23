@@ -9,7 +9,6 @@
 import Foundation
 import SwiftUI
 
-/// Factory to construct SwiftUI views
 class ViewFactory: ObservableObject {
     let interactor: Interactor
 

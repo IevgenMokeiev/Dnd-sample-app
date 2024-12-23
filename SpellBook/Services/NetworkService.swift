@@ -18,7 +18,6 @@ private enum Endpoints: String {
     case spellDetails = "http://dnd5eapi.co"
 }
 
-/// Service responsible for network communication
 protocol NetworkService {
     var spellListPublisher: SpellListPublisher { get }
     func spellDetailPublisher(for path: String) -> SpellDetailPublisher
