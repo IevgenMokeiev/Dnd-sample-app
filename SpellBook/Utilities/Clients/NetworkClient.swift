@@ -10,15 +10,12 @@ import Combine
 import Foundation
 
 public enum NetworkClientError: Error {
-    case invalidURL
-    case decodingFailed
     case invalidResponseStatusCode
-    case sessionFailed(Error)
-    case other(Error)
+    case invalidURL
 }
 
 protocol NetworkClient {
-    func performRequest<T: Decodable>(to url: URL, expectedType: T.Type) -> AnyPublisher<T, CustomError>
+    func performRequest<T: Decodable>(to url: URL, expectedType: T.Type) async throws -> T
 }
 
 class NetworkClientImpl: NetworkClient {
@@ -28,30 +25,18 @@ class NetworkClientImpl: NetworkClient {
         self.protocolClasses = protocolClasses
     }
 
-    func performRequest<T: Decodable>(to url: URL, expectedType: T.Type) -> AnyPublisher<T, CustomError> {
+    func performRequest<T: Decodable>(to url: URL, expectedType: T.Type) async throws -> T {
         let configuration = URLSessionConfiguration.default
         configuration.protocolClasses = protocolClasses
-
-        return URLSession(configuration: configuration).dataTaskPublisher(for: url)
-            .tryMap { data, response in
-                guard let httpResponse = response as? HTTPURLResponse,
-                      httpResponse.statusCode == 200
-                else {
-                    throw NetworkClientError.invalidResponseStatusCode
-                }
-                return data
-            }
-            .decode(type: expectedType.self, decoder: JSONDecoder())
-            .mapError { error in
-                switch error {
-                case is DecodingError:
-                    return .network(.decodingFailed)
-                case is URLError:
-                    return .network(.sessionFailed(error))
-                default:
-                    return .network(.other(error))
-                }
-            }
-            .eraseToAnyPublisher()
+        
+        let request = URLRequest(url: url)
+        let (data, response) = try await URLSession(configuration: configuration).data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse,
+              httpResponse.statusCode == 200
+        else {
+            throw NetworkClientError.invalidResponseStatusCode
+        }
+        return try JSONDecoder().decode(expectedType.self, from: data)
     }
 }

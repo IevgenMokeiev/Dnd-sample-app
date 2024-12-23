@@ -10,114 +10,58 @@ import Combine
 import CoreData
 import Foundation
 
-import Combine
-import CoreData
-import Foundation
-
-typealias SaveBlock = (SpellDTO) -> Void
+typealias SaveClosure = (SpellDTO) -> Void
 
 protocol DatabaseService {
-    var spellListPublisher: SpellListPublisher { get }
-    var favoritesPublisher: NoErrorSpellListPublisher { get }
-    func spellDetailsPublisher(for path: String) -> SpellDetailPublisher
-    func saveSpellList(_ spellDTOs: [SpellDTO])
-    func saveSpellDetails(_ spellDTO: SpellDTO)
-    func createSpell(_ spellDTO: SpellDTO)
+    func getSpellList() async throws -> [SpellDTO]
+    func getFavorites() async throws -> [SpellDTO]
+    func getSpellDetails(for path: String) async throws -> SpellDTO
+    func saveSpellList(_ spellDTOs: [SpellDTO]) async
+    func saveSpellDetails(_ spellDTO: SpellDTO) async
+    func createSpell(_ spellDTO: SpellDTO) async
 }
 
-class DatabaseServiceImpl: DatabaseService {
+final class DatabaseServiceImpl: DatabaseService {
     private let databaseClient: DatabaseClient
-    private let translationService: TranslationService
-    private var cancellableSet: Set<AnyCancellable> = []
 
-    init(databaseClient: DatabaseClient, translationService: TranslationService) {
+    init(databaseClient: DatabaseClient) {
         self.databaseClient = databaseClient
-        self.translationService = translationService
     }
 
-    var spellListPublisher: SpellListPublisher {
-        databaseClient.fetchRecords(expectedType: Spell.self, predicate: nil)
-            .map { self.translationService.convertToDTO(spellList: $0) }
-            .eraseToAnyPublisher()
+    func getSpellList() async throws -> [SpellDTO] {
+        try await databaseClient.fetchRecords(predicate: nil)
     }
 
-    var favoritesPublisher: NoErrorSpellListPublisher {
-        databaseClient.fetchRecords(
-            expectedType: Spell.self,
-            predicate: NSPredicate(format: "isFavorite == true")
+    func getFavorites() async throws -> [SpellDTO] {
+        try await databaseClient.fetchRecords(
+            predicate: #Predicate { $0.isFavorite == true }
         )
-        .map { self.translationService.convertToDTO(spellList: $0) }
-        .replaceError(with: [])
-        .eraseToAnyPublisher()
     }
 
-    func spellDetailsPublisher(for path: String) -> SpellDetailPublisher {
-        let predicate = NSPredicate(format: "path == %@", path)
-        return databaseClient
-            .fetchRecords(expectedType: Spell.self, predicate: predicate)
-            .tryMap { spells -> SpellDTO in
-                if let spell = spells.first, spell.desc != nil {
-                    return self.translationService.convertToDTO(spell: spell)
-                } else {
-                    throw CustomError.database(.noMatchedEntity)
-                }
-            }
-            .mapError {
-                switch $0 {
-                case let error as CustomError:
-                    return error
-                default:
-                    return CustomError.other($0)
-                }
-            }
-            .eraseToAnyPublisher()
-    }
-
-    func saveSpellList(_ spellDTOs: [SpellDTO]) {
-        for spell in spellDTOs {
-            let spellEntity = databaseClient.createRecord(expectedType: Spell.self)
-            spellEntity.name = spell.name
-            spellEntity.path = spell.path
+    func getSpellDetails(for path: String) async throws -> SpellDTO {
+        let predicate: Predicate<Spell> = #Predicate { $0.path == path }
+        guard let matchedSpell = try await databaseClient.fetchRecords(predicate: predicate).first,
+                matchedSpell.isPopulated else {
+            throw CustomError.database(.noMatchedEntity)
         }
-        databaseClient.save()
+        return matchedSpell
     }
 
-    func saveSpellDetails(_ spellDTO: SpellDTO) {
-        let predicate = NSPredicate(format: "path == %@", spellDTO.path)
-        databaseClient.fetchRecords(expectedType: Spell.self, predicate: predicate)
-            .receive(on: RunLoop.main)
-            .sink(receiveCompletion: { _ in
-            }, receiveValue: { spells in
-                let matchedSpell = spells.first
-                matchedSpell?.populate(with: spellDTO)
-                self.databaseClient.save()
-            })
-            .store(in: &cancellableSet)
-    }
-
-    func createSpell(_ spellDTO: SpellDTO) {
-        let spellEntity = databaseClient.createRecord(expectedType: Spell.self)
-        spellEntity.populate(with: spellDTO)
-        databaseClient.save()
-    }
-}
-
-extension Publisher where Output == [SpellDTO] {
-    func cacheOutput(service: DatabaseService) -> AnyPublisher<Self.Output, Self.Failure> {
-        map {
-            service.saveSpellList($0)
-            return $0
+    func saveSpellList(_ spellDTOs: [SpellDTO]) async {
+        for spellDTO in spellDTOs {
+            try? await databaseClient.createRecord(spellDTO: spellDTO)
         }
-        .eraseToAnyPublisher()
+        await databaseClient.save()
     }
-}
 
-extension Publisher where Output == SpellDTO {
-    func cacheOutput(service: DatabaseService) -> AnyPublisher<Self.Output, Self.Failure> {
-        map {
-            service.saveSpellDetails($0)
-            return $0
-        }
-        .eraseToAnyPublisher()
+    func saveSpellDetails(_ spellDTO: SpellDTO) async {
+        let predicate: Predicate<Spell> = #Predicate { $0.path == spellDTO.path }
+        try? await databaseClient.updateRecord(predicate: predicate, spellDTO: spellDTO)
+        await databaseClient.save()
+    }
+
+    func createSpell(_ spellDTO: SpellDTO) async {
+        try? await databaseClient.createRecord(spellDTO: spellDTO)
+        await databaseClient.save()
     }
 }

@@ -7,65 +7,45 @@
 //
 
 import Combine
-import CoreData
+import SwiftData
 import UIKit
 
 enum DatabaseClientError: Error {
-    case noData
-    case wrongRequest
     case noMatchedEntity
-    case fetchFailed(Error)
+    case modelActor(BackgroundModelActorError)
 }
 
+@available(iOS 17, *)
 protocol DatabaseClient {
-    func fetchRecords<T: NSManagedObject>(expectedType: T.Type, predicate: NSPredicate?) -> AnyPublisher<[T], CustomError>
-    func createRecord<T: NSManagedObject>(expectedType: T.Type) -> T
-    func save()
+    func fetchRecords(predicate: Predicate<Spell>?) async throws -> [SpellDTO]
+    func createRecord(spellDTO: SpellDTO) async throws
+    func updateRecord(predicate: Predicate<Spell>?, spellDTO: SpellDTO) async throws
+    func save() async
 }
 
-class DatabaseClientImpl: DatabaseClient {
-    private let coreDataStack: CoreDataStack
-    private var cancellableSet: Set<AnyCancellable> = []
+@available(iOS 17, *)
+final class DatabaseClientImpl: DatabaseClient {
+    private let modelContainer: ModelContainer
+    private let modelActor: BackgroundModelActor
 
-    init(coreDataStack: CoreDataStack) {
-        self.coreDataStack = coreDataStack
-        NotificationCenter.default.publisher(for: UIApplication.willTerminateNotification)
-            .sink { _ in coreDataStack.saveContext() }
-            .store(in: &cancellableSet)
+    init() throws {
+        modelContainer = try ModelContainer(for: Spell.self)
+        modelActor = BackgroundModelActor(modelContainer: modelContainer)
     }
 
-    func fetchRecords<T: NSManagedObject>(expectedType _: T.Type, predicate: NSPredicate?) -> AnyPublisher<[T], CustomError> {
-        let context = coreDataStack.persistentContainer.viewContext
-        let request = NSFetchRequest<T>(entityName: String(describing: T.self))
-        if let predicate = predicate {
-            request.predicate = predicate
-        }
-        request.returnsObjectsAsFaults = false
-
-        do {
-            let fetchResult = try context.fetch(request)
-            if fetchResult.isEmpty {
-                return Fail(error: .database(.noData))
-                    .eraseToAnyPublisher()
-            } else {
-                return Result.Publisher(fetchResult).eraseToAnyPublisher()
-            }
-        } catch let error as NSError {
-            print("Could not retrieve. \(error), \(error.userInfo)")
-            return Fail(error: .database(.fetchFailed(error)))
-                .eraseToAnyPublisher()
-        }
+    func fetchRecords(predicate: Predicate<Spell>?) async throws -> [SpellDTO] {
+        try await modelActor.fetchSpellList(predicate: predicate)
     }
-
-    func createRecord<T: NSManagedObject>(expectedType _: T.Type) -> T {
-        return T(context: coreDataStack.persistentContainer.viewContext)
+    
+    func updateRecord(predicate: Predicate<Spell>?, spellDTO: SpellDTO) async throws {
+        try await modelActor.updateSpell(predicate: predicate, spellDTO: spellDTO)
     }
-
-    func save() {
-        do {
-            try coreDataStack.persistentContainer.viewContext.save()
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
-        }
+    
+    func createRecord(spellDTO: SpellDTO) async throws {
+        try await modelActor.createSpell(spellDTO: spellDTO)
+    }
+    
+    func save() async {
+        try? await modelActor.save()
     }
 }

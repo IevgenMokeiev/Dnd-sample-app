@@ -31,7 +31,7 @@ struct TabbarView: View {
                 .tag(1)
         }
         .accentColor(.orange)
-        .onChange(of: selectedPage) { _ in
+        .onChange(of: selectedPage) {
             redraw.toggle()
         }
     }

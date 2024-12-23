@@ -8,7 +8,7 @@
 
 import Foundation
 
-typealias RefinementsBlock = (_ spells: [SpellDTO], _ sort: Sort, _ searchTerm: String) -> [SpellDTO]
+typealias RefinementsClosure = (_ spells: [SpellDTO], _ sort: Sort, _ searchTerm: String) -> [SpellDTO]
 
 enum Sort {
     case name
@@ -19,7 +19,7 @@ protocol RefinementsService {
     func refineSpells(spells: [SpellDTO], sort: Sort, searchTerm: String) -> [SpellDTO]
 }
 
-class RefinementsServiceImpl: RefinementsService {
+final class RefinementsServiceImpl: RefinementsService {
     func refineSpells(spells: [SpellDTO], sort: Sort, searchTerm: String) -> [SpellDTO] {
         let sortedDTOs = sortedSpells(spells: spells, sort: sort)
         let filteredDTOs = filteredSpells(spells: sortedDTOs, by: searchTerm)

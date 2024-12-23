@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct SpellDTO: Equatable, Identifiable {
+struct SpellDTO: Equatable, Sendable, Identifiable {
     typealias ID = String
     var id: String { return name }
 
@@ -16,13 +16,13 @@ struct SpellDTO: Equatable, Identifiable {
     let path: String
     let level: Int?
     let castingTime: String?
-    let concentration: Bool?
+    let isConcentration: Bool?
     let classes: String?
     let description: String?
     let isFavorite: Bool
 
     func toggleFavorite(value: Bool) -> SpellDTO {
-        return SpellDTO(name: name, path: path, level: level, castingTime: castingTime, concentration: concentration, classes: classes, description: description, isFavorite: value)
+        return SpellDTO(name: name, path: path, level: level, castingTime: castingTime, isConcentration: isConcentration, classes: classes, description: description, isFavorite: value)
     }
 }
 
@@ -42,7 +42,7 @@ extension SpellDTO: Codable {
         case path = "url"
         case level
         case castingTime = "casting_time"
-        case concentration
+        case isConcentration = "concentration"
         case classes
         case description = "desc"
     }
@@ -54,13 +54,18 @@ extension SpellDTO: Codable {
         path = try values.decode(String.self, forKey: .path)
         level = try values.decodeIfPresent(Int.self, forKey: .level)
         castingTime = try values.decodeIfPresent(String.self, forKey: .castingTime)
-        concentration = try values.decodeIfPresent(Bool.self, forKey: .concentration)
-        let descArray = try values.decodeIfPresent([String].self, forKey: .description)
-        description = descArray?.joined(separator: "\n\n")
+        isConcentration = try values.decodeIfPresent(Bool.self, forKey: .isConcentration)
+        let descriptionArray = try values.decodeIfPresent([String].self, forKey: .description)
+        description = descriptionArray?.joined(separator: "\n\n")
 
         let classesArray = try values.decodeIfPresent([ClassObject].self, forKey: .classes)
         let namesArray = classesArray?.map { $0.name }
         classes = namesArray?.joined(separator: ", ")
         isFavorite = false
+    }
+    
+    var isPopulated: Bool {
+        guard let description else { return false }
+        return !description.isEmpty
     }
 }

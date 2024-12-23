@@ -19,33 +19,29 @@ private enum Endpoints: String {
 }
 
 protocol NetworkService {
-    var spellListPublisher: SpellListPublisher { get }
-    func spellDetailPublisher(for path: String) -> SpellDetailPublisher
+    func getSpellList() async throws -> [SpellDTO]
+    func getSpellDetails(for path: String) async throws -> SpellDTO
 }
 
-class NetworkServiceImpl: NetworkService {
+final class NetworkServiceImpl: NetworkService {
     let networkClient: NetworkClient
 
     init(networkClient: NetworkClient) {
         self.networkClient = networkClient
     }
 
-    var spellListPublisher: SpellListPublisher {
+    func getSpellList() async throws -> [SpellDTO] {
         guard let url = URL(string: Endpoints.spellList.rawValue) else {
-            return Fail(error: .network(.invalidURL))
-                .eraseToAnyPublisher()
+            throw CustomError.network(.invalidURL)
         }
-
-        return networkClient.performRequest(to: url, expectedType: Response.self)
-            .map { $0.results }
-            .eraseToAnyPublisher()
+        let response = try await networkClient.performRequest(to: url, expectedType: Response.self)
+        return response.results
     }
 
-    func spellDetailPublisher(for path: String) -> SpellDetailPublisher {
+    func getSpellDetails(for path: String) async throws -> SpellDTO {
         guard let url = URL(string: Endpoints.spellDetails.rawValue + path) else {
-            return Fail(error: .network(.invalidURL)).eraseToAnyPublisher()
+            throw CustomError.network(.invalidURL)
         }
-
-        return networkClient.performRequest(to: url, expectedType: SpellDTO.self)
+        return try await networkClient.performRequest(to: url, expectedType: SpellDTO.self)
     }
 }

@@ -58,7 +58,7 @@ extension SpellDetailView {
                 Text("Casting time: \(spellDTO.castingTime ?? "")")
                     .padding(.vertical, 5)
                     .padding(.horizontal)
-                Text("Concentration: \(spellDTO.concentration ?? false ? "true" : "false")")
+                Text("Concentration: \(spellDTO.isConcentration ?? false ? "true" : "false")")
                     .padding(.vertical, 5)
                     .padding(.horizontal)
                 Text("Classes: \(spellDTO.classes ?? "")")

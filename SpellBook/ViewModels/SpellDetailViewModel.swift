@@ -19,13 +19,15 @@ enum SpellDetailState {
 class SpellDetailViewModel: ObservableObject {
     @Published var state: SpellDetailState = .loading
 
-    private let publisher: SpellDetailPublisher
-    private let saveBlock: SaveBlock
+    private let interactor: InteractorProtocol
+    private let path: String
+    private let saveClosure: SaveClosure
     private var cancellableSet: Set<AnyCancellable> = []
 
-    init(publisher: SpellDetailPublisher, saveBlock: @escaping SaveBlock) {
-        self.publisher = publisher
-        self.saveBlock = saveBlock
+    init(interactor: InteractorProtocol, path: String, saveClosure: @escaping SaveClosure) {
+        self.interactor = interactor
+        self.path = path
+        self.saveClosure = saveClosure
     }
 
     var favoriteButtonText: String {
@@ -40,23 +42,19 @@ class SpellDetailViewModel: ObservableObject {
         if case let .spell(spellDTO) = state {
             let newDTO = spellDTO.toggleFavorite(value: !spellDTO.isFavorite)
             state = .spell(newDTO)
-            saveBlock(newDTO)
+            saveClosure(newDTO)
         }
     }
 
+    @MainActor
     func onAppear() {
-        publisher
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    break
-                case let .failure(error):
-                    print("\(error)")
-                    self.state = .error
-                }
-            }, receiveValue: { spellDTO in
+        Task {
+            do {
+                let spellDTO = try await interactor.getSpellDetails(for: self.path)
                 self.state = .spell(spellDTO)
-            })
-            .store(in: &cancellableSet)
+            } catch {
+                self.state = .error
+            }
+        }
     }
 }

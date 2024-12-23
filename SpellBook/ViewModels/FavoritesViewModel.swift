@@ -12,17 +12,18 @@ import Foundation
 class FavoritesViewModel: ObservableObject {
     @Published var spellDTOs: [SpellDTO] = []
 
-    private let publisher: NoErrorSpellListPublisher
+    private let interactor: InteractorProtocol
     private var cancellableSet: Set<AnyCancellable> = []
 
-    init(publisher: NoErrorSpellListPublisher) {
-        self.publisher = publisher
+    init(interactor: InteractorProtocol) {
+        self.interactor = interactor
     }
 
+    @MainActor
     func onAppear() {
-        publisher
-            .replaceError(with: [])
-            .assign(to: \.spellDTOs, on: self)
-            .store(in: &cancellableSet)
+        Task {
+            let favorites = try? await interactor.getFavorites()
+            self.spellDTOs = favorites ?? []
+        }
     }
 }

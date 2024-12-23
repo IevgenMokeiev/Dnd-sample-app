@@ -76,5 +76,167 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3D1312D1-4849-43D6-A153-164382D1CDEA"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SpellBook/Models/SwiftData/BackgroundModelActor.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "updateSpell(predicate:spellDTO:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3D690297-9426-49AF-BFBB-1B049AD90F52"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SpellBook/Models/Interactor.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "getSpellDetails(for:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "3D690297-9426-49AF-BFBB-1B049AD90F52 - 907ecf11ab6930ed"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for SpellBook.Interactor.getSpellDetails(for: Swift.String) async throws -&gt; SpellBook.SpellDTO"
+                  moduleName = "SpellBook.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ievgen.mokeiev/Documents/Personal/Spellbook/SpellBook/Models/Interactor.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "56"
+                  endingLineNumber = "56">
+               </Location>
+               <Location
+                  uuid = "3D690297-9426-49AF-BFBB-1B049AD90F52 - 7ab8ce3c2357334f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(5) await resume partial function for SpellBook.Interactor.getSpellDetails(for: Swift.String) async throws -&gt; SpellBook.SpellDTO"
+                  moduleName = "SpellBook.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ievgen.mokeiev/Documents/Personal/Spellbook/SpellBook/Models/Interactor.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "53"
+                  endingLineNumber = "53">
+               </Location>
+               <Location
+                  uuid = "3D690297-9426-49AF-BFBB-1B049AD90F52 - 7ab8ce3c235733ac"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(5) await resume partial function for SpellBook.Interactor.getSpellDetails(for: Swift.String) async throws -&gt; SpellBook.SpellDTO"
+                  moduleName = "SpellBook.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ievgen.mokeiev/Documents/Personal/Spellbook/SpellBook/Models/Interactor.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "56"
+                  endingLineNumber = "56">
+               </Location>
+               <Location
+                  uuid = "3D690297-9426-49AF-BFBB-1B049AD90F52 - dbe1a2a2e8ab6414"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(6) suspend resume partial function for SpellBook.Interactor.getSpellDetails(for: Swift.String) async throws -&gt; SpellBook.SpellDTO"
+                  moduleName = "SpellBook.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ievgen.mokeiev/Documents/Personal/Spellbook/SpellBook/Models/Interactor.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "53"
+                  endingLineNumber = "53">
+               </Location>
+               <Location
+                  uuid = "3D690297-9426-49AF-BFBB-1B049AD90F52 - dbe1a2a2e8ab64f7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(6) suspend resume partial function for SpellBook.Interactor.getSpellDetails(for: Swift.String) async throws -&gt; SpellBook.SpellDTO"
+                  moduleName = "SpellBook.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ievgen.mokeiev/Documents/Personal/Spellbook/SpellBook/Models/Interactor.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "56"
+                  endingLineNumber = "56">
+               </Location>
+               <Location
+                  uuid = "3D690297-9426-49AF-BFBB-1B049AD90F52 - e9ce3fab8485e625"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(9) suspend resume partial function for SpellBook.Interactor.getSpellDetails(for: Swift.String) async throws -&gt; SpellBook.SpellDTO"
+                  moduleName = "SpellBook.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ievgen.mokeiev/Documents/Personal/Spellbook/SpellBook/Models/Interactor.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "53"
+                  endingLineNumber = "53">
+               </Location>
+               <Location
+                  uuid = "3D690297-9426-49AF-BFBB-1B049AD90F52 - e9ce3fab8485e6c6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(9) suspend resume partial function for SpellBook.Interactor.getSpellDetails(for: Swift.String) async throws -&gt; SpellBook.SpellDTO"
+                  moduleName = "SpellBook.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ievgen.mokeiev/Documents/Personal/Spellbook/SpellBook/Models/Interactor.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "56"
+                  endingLineNumber = "56">
+               </Location>
+               <Location
+                  uuid = "3D690297-9426-49AF-BFBB-1B049AD90F52 - e9ce3fab8485e6c6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(9) suspend resume partial function for SpellBook.Interactor.getSpellDetails(for: Swift.String) async throws -&gt; SpellBook.SpellDTO"
+                  moduleName = "SpellBook.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ievgen.mokeiev/Documents/Personal/Spellbook/SpellBook/Models/Interactor.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "56"
+                  endingLineNumber = "56">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6BE4B13E-B709-4593-91E1-04C9597DEBAA"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SpellBook/Models/Interactor.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
+            landmarkName = "getSpellDetails(for:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

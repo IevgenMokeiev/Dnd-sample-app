@@ -36,35 +36,31 @@ class SpellListViewModel: ObservableObject {
         }
     }
 
-    private let refinementsBlock: RefinementsBlock
-    private let publisher: SpellListPublisher
+    private let refinementsClosure: RefinementsClosure
+    private let interactor: InteractorProtocol
     private var cancellableSet: Set<AnyCancellable> = []
 
     init(
-        publisher: SpellListPublisher,
-        refinementsBlock: @escaping RefinementsBlock
+        interactor: InteractorProtocol,
+        refinementsClosure: @escaping RefinementsClosure
     ) {
-        self.publisher = publisher
-        self.refinementsBlock = refinementsBlock
+        self.interactor = interactor
+        self.refinementsClosure = refinementsClosure
     }
 
+    @MainActor
     func onAppear() {
-        publisher
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    break
-                case let .failure(error):
-                    print("\(error)")
-                    self.state = .error
-                }
-            }, receiveValue: { spellDTOs in
-                self.spellDTOs = spellDTOs
-            })
-            .store(in: &cancellableSet)
+        Task {
+            do {
+                let spellList = try await interactor.getSpellList()
+                self.spellDTOs = spellList
+            } catch {
+                self.state = .error
+            }
+        }
     }
 
     private func refineSpells() {
-        state = .spells(refinementsBlock(spellDTOs, selectedSort, searchTerm))
+        state = .spells(refinementsClosure(spellDTOs, selectedSort, searchTerm))
     }
 }

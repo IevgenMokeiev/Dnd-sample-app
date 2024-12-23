@@ -7,22 +7,22 @@
 //
 
 import Foundation
-
+@MainActor
 class AppCoordinator {
     let viewFactory: ViewFactory
 
     init(configureForTesting: Bool = false) {
-        let translationServiceImpl = TranslationServiceImpl()
-        let coreDataStackImpl = CoreDataStackImpl()
-        let databaseClientImpl = DatabaseClientImpl(coreDataStack: coreDataStackImpl)
-        let databaseServiceImpl = DatabaseServiceImpl(databaseClient: databaseClientImpl, translationService: translationServiceImpl)
+        guard let databaseClientImpl = try? DatabaseClientImpl() else {
+            fatalError()
+        }
+        let databaseServiceImpl = DatabaseServiceImpl(databaseClient: databaseClientImpl)
         let networkServiceImpl = NetworkServiceImpl(networkClient: NetworkClientImpl())
         let refinementsServiceImpl = RefinementsServiceImpl()
-        let interactor = InteractorImpl(databaseService: databaseServiceImpl, networkService: networkServiceImpl, refinementsService: refinementsServiceImpl)
+        let interactor = Interactor(databaseService: databaseServiceImpl, networkService: networkServiceImpl, refinementsService: refinementsServiceImpl)
         viewFactory = ViewFactory(interactor: interactor)
 
-        if configureForTesting {
-            coreDataStackImpl.cleanupStack()
-        }
+//        if configureForTesting {
+//            coreDataStackImpl.cleanupStack()
+//        }
     }
 }

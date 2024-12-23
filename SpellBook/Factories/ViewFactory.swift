@@ -16,25 +16,43 @@ class ViewFactory: ObservableObject {
         self.interactor = interactor
     }
 
+    @MainActor
     func createTabbarView() -> TabbarView {
         return TabbarView()
     }
 
+    @MainActor
     func createSpellListView() -> SpellListView {
         let viewModel = SpellListViewModel(
-            publisher: interactor.spellListPublisher,
-            refinementsBlock: { self.interactor.refine(spells: $0, sort: $1, searchTerm: $2) }
+            interactor: interactor,
+            refinementsClosure: { [weak self] in
+                guard let self else { return [] }
+                return self.interactor.refine(spells: $0, sort: $1, searchTerm: $2)
+            }
         )
         return SpellListView(viewModel: viewModel)
     }
 
+    @MainActor
     func createSpellDetailView(path: String) -> SpellDetailView {
-        let viewModel = SpellDetailViewModel(publisher: interactor.spellDetailsPublisher(for: path), saveBlock: { self.interactor.saveSpell($0) })
-        return SpellDetailView(viewModel: viewModel)
+        let viewModel = SpellDetailViewModel(
+            interactor: interactor,
+            path: path,
+            saveClosure: { spellDTO in
+                Task { [weak self] in
+                    guard let self else { return }
+                    await self.interactor.saveSpell(spellDTO)
+                }
+            }
+        )
+        return SpellDetailView(
+            viewModel: viewModel
+        )
     }
 
+    @MainActor
     func createFavoritesView() -> FavoritesView {
-        let viewModel = FavoritesViewModel(publisher: interactor.favoritesPublisher)
+        let viewModel = FavoritesViewModel(interactor: interactor)
         return FavoritesView(viewModel: viewModel)
     }
 }
