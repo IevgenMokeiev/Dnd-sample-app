@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let coordinator: AppCoordinator = {
             if CommandLine.arguments.contains("enable-testing") {
-                return AppCoordinator(configureForTesting: true)
+                return AppCoordinator()
             } else {
                 return AppCoordinator()
             }

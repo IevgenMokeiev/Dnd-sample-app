@@ -15,11 +15,11 @@ enum Sort {
     case level
 }
 
-protocol RefinementsService: Sendable {
+protocol RefinementsServiceProtocol: Sendable {
     func refineSpells(spells: [SpellDTO], sort: Sort, searchTerm: String) -> [SpellDTO]
 }
 
-final class RefinementsServiceImpl: RefinementsService {
+final class RefinementsService: RefinementsServiceProtocol {
     func refineSpells(spells: [SpellDTO], sort: Sort, searchTerm: String) -> [SpellDTO] {
         let sortedDTOs = sortedSpells(spells: spells, sort: sort)
         let filteredDTOs = filteredSpells(spells: sortedDTOs, by: searchTerm)

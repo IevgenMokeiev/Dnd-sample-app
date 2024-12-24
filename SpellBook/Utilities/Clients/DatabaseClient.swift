@@ -14,7 +14,7 @@ enum DatabaseClientError: Error {
     case modelActor(BackgroundModelActorError)
 }
 
-protocol DatabaseClient: Sendable {
+protocol DatabaseClientProtocol: Sendable {
     func fetchRecords(predicate: Predicate<Spell>?) async throws -> [SpellDTO]
     func createRecord(spellDTO: SpellDTO) async throws
     func updateRecord(predicate: Predicate<Spell>?, spellDTO: SpellDTO) async throws
@@ -22,7 +22,7 @@ protocol DatabaseClient: Sendable {
 }
 
 @available(iOS 17, *)
-final class DatabaseClientImpl: DatabaseClient {
+final class DatabaseClient: DatabaseClientProtocol {
     private let modelContainer: ModelContainer
     private let modelActor: BackgroundModelActor
 

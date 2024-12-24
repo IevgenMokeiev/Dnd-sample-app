@@ -13,11 +13,11 @@ public enum NetworkClientError: Error {
     case invalidURL
 }
 
-protocol NetworkClient: Sendable {
+protocol NetworkClientProtocol: Sendable {
     func performRequest<T: Decodable>(to url: URL, expectedType: T.Type) async throws -> T
 }
 
-final class NetworkClientImpl: NetworkClient {
+final class NetworkClient: NetworkClientProtocol {
     private let protocolClasses: [AnyClass]?
 
     init(protocolClasses: [AnyClass]? = nil) {

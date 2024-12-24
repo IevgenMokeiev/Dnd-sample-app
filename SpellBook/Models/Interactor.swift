@@ -22,11 +22,11 @@ protocol InteractorProtocol: Sendable {
 }
 
 final class Interactor: InteractorProtocol {
-    private let databaseService: DatabaseService
-    private let networkService: NetworkService
-    private let refinementsService: RefinementsService
+    private let databaseService: DatabaseServiceProtocol
+    private let networkService: NetworkServiceProtocol
+    private let refinementsService: RefinementsServiceProtocol
 
-    init(databaseService: DatabaseService, networkService: NetworkService, refinementsService: RefinementsService) {
+    init(databaseService: DatabaseServiceProtocol, networkService: NetworkServiceProtocol, refinementsService: RefinementsServiceProtocol) {
         self.databaseService = databaseService
         self.networkService = networkService
         self.refinementsService = refinementsService

@@ -23,7 +23,9 @@ struct FavoritesView: View {
             .accessibility(label: Text("Favorites Table"))
             .accessibility(identifier: "FavoritesTableView")
             .navigationBarTitle("Favorites", displayMode: .inline)
-            .onAppear(perform: viewModel.onAppear)
+            .task {
+                await viewModel.onAppear()
+            }
         }
     }
 }

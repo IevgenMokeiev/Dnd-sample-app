@@ -14,14 +14,15 @@ struct SpellDetailView: View {
     var body: some View {
         content
             .padding(.top, 5)
-            .onAppear(perform: viewModel.onAppear)
             .navigationBarTitle("Spell Detail")
             .navigationBarItems(trailing:
                 Button(viewModel.favoriteButtonText) {
-                    self.viewModel.toggleFavorite()
+                    viewModel.toggleFavorite()
                 }.foregroundColor(.orange)
                     .accessibility(identifier: "FavoritesButton")
-            )
+            ).task {
+                await viewModel.onAppear()
+            }
     }
 
     @ViewBuilder private var content: some View {

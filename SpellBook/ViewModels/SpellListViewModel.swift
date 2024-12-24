@@ -35,29 +35,21 @@ final class SpellListViewModel: ObservableObject {
         }
     }
 
-    private let refinementsClosure: RefinementsClosure
     private let interactor: InteractorProtocol
 
-    init(
-        interactor: InteractorProtocol,
-        refinementsClosure: @escaping RefinementsClosure
-    ) {
+    init(interactor: InteractorProtocol) {
         self.interactor = interactor
-        self.refinementsClosure = refinementsClosure
     }
 
-    func onAppear() {
-        Task {
-            do {
-                let spellList = try await interactor.getSpellList()
-                self.spellDTOs = spellList
-            } catch {
-                self.state = .error
-            }
+    func onAppear() async {
+        do {
+            spellDTOs = try await interactor.getSpellList()
+        } catch {
+            state = .error
         }
     }
 
     private func refineSpells() {
-        state = .spells(refinementsClosure(spellDTOs, selectedSort, searchTerm))
+        state = .spells(interactor.refine(spells: spellDTOs, sort: selectedSort, searchTerm: searchTerm))
     }
 }

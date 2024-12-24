@@ -18,10 +18,7 @@ class FavoritesViewModel: ObservableObject {
         self.interactor = interactor
     }
 
-    func onAppear() {
-        Task {
-            let favorites = try? await interactor.getFavorites()
-            self.spellDTOs = favorites ?? []
-        }
+    func onAppear() async {
+        spellDTOs = (try? await interactor.getFavorites()) ?? []
     }
 }

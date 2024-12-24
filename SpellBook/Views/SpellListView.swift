@@ -21,7 +21,9 @@ struct SpellListView: View {
                         self.viewModel.selectedSort = .level
                     }.foregroundColor(.orange)
                 )
-        }.onAppear(perform: viewModel.onAppear)
+        }.task {
+            await viewModel.onAppear()
+        }
     }
 
     @ViewBuilder private var content: some View {

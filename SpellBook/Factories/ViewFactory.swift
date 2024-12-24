@@ -22,26 +22,14 @@ class ViewFactory: ObservableObject {
     }
 
     func createSpellListView() -> SpellListView {
-        let viewModel = SpellListViewModel(
-            interactor: interactor,
-            refinementsClosure: { [weak self] in
-                guard let self else { return [] }
-                return self.interactor.refine(spells: $0, sort: $1, searchTerm: $2)
-            }
-        )
+        let viewModel = SpellListViewModel(interactor: interactor)
         return SpellListView(viewModel: viewModel)
     }
 
     func createSpellDetailView(path: String) -> SpellDetailView {
         let viewModel = SpellDetailViewModel(
             interactor: interactor,
-            path: path,
-            saveClosure: { spellDTO in
-                Task { [weak self] in
-                    guard let self else { return }
-                    await self.interactor.saveSpell(spellDTO)
-                }
-            }
+            path: path
         )
         return SpellDetailView(
             viewModel: viewModel

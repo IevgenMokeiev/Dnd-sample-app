@@ -18,12 +18,12 @@ private enum Endpoints: String {
     case spellDetails = "http://dnd5eapi.co"
 }
 
-protocol NetworkService: Sendable {
+protocol NetworkServiceProtocol: Sendable {
     func getSpellList() async throws -> [SpellDTO]
     func getSpellDetails(for path: String) async throws -> SpellDTO
 }
 
-final class NetworkServiceImpl: NetworkService {
+final class NetworkService: NetworkServiceProtocol {
     let networkClient: NetworkClient
 
     init(networkClient: NetworkClient) {
