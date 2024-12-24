@@ -8,21 +8,20 @@
 
 @testable import SpellBook
 
-class MockNetworkService: NetworkService {
-    var spellListHandler: (() -> Result<[SpellDTO], CustomError>)?
-    var spellDetailHandler: (() -> Result<SpellDTO, CustomError>)?
-
-    var spellListPublisher: SpellListPublisher {
-        guard let spellListHandler else {
-            fatalError("Handler is unavailable.")
-        }
-        return Result.Publisher(spellListHandler()).eraseToAnyPublisher()
+final class MockNetworkService: NetworkServiceProtocol {
+    let mockSpellList: [SpellDTO]
+    let mockSpellDetails: SpellDTO
+    
+    init(mockSpellList: [SpellDTO], mockSpellDetails: SpellDTO) {
+        self.mockSpellList = mockSpellList
+        self.mockSpellDetails = mockSpellDetails
     }
-
-    func spellDetailPublisher(for _: String) -> SpellDetailPublisher {
-        guard let spellDetailHandler else {
-            fatalError("Handler is unavailable.")
-        }
-        return Result.Publisher(spellDetailHandler()).eraseToAnyPublisher()
+    
+    func getSpellList() async throws -> [SpellDTO] {
+        mockSpellList
+    }
+    
+    func getSpellDetails(for path: String) async throws -> SpellDTO {
+        mockSpellDetails
     }
 }

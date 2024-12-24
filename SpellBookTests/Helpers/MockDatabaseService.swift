@@ -8,35 +8,27 @@
 
 @testable import SpellBook
 
-class MockDatabaseService: DatabaseService {
-    var spellListHandler: (() -> Result<[SpellDTO], CustomError>)?
-    var spellDetailHandler: (() -> Result<SpellDTO, CustomError>)?
-    var favoritesHandler: (() -> Result<[SpellDTO], Never>)?
-
-    var spellListPublisher: SpellListPublisher {
-        guard let spellListHandler else {
-            fatalError("Handler is unavailable.")
-        }
-        return Result.Publisher(spellListHandler()).eraseToAnyPublisher()
+final class MockDatabaseService: DatabaseServiceProtocol {
+    let mockSpellList: [SpellDTO]
+    let mockFavorites: [SpellDTO]
+    let mockSpellDetails: SpellDTO
+    
+    init(mockSpellList: [SpellDTO], mockFavorites: [SpellDTO], mockSpellDetails: SpellDTO) {
+        self.mockSpellList = mockSpellList
+        self.mockFavorites = mockFavorites
+        self.mockSpellDetails = mockSpellDetails
     }
 
-    var favoritesPublisher: NoErrorSpellListPublisher {
-        guard let favoritesHandler else {
-            fatalError("Handler is unavailable.")
-        }
-        return Result.Publisher(favoritesHandler()).eraseToAnyPublisher()
+    func getSpellList() async throws -> [SpellDTO] {
+        mockSpellList
     }
-
-    func spellDetailsPublisher(for _: String) -> SpellDetailPublisher {
-        guard let spellDetailHandler else {
-            fatalError("Handler is unavailable.")
-        }
-        return Result.Publisher(spellDetailHandler()).eraseToAnyPublisher()
+    func getFavorites() async throws -> [SpellDTO] {
+        mockFavorites
     }
-
-    func saveSpellList(_: [SpellDTO]) {}
-
-    func saveSpellDetails(_: SpellDTO) {}
-
-    func createSpell(_: SpellDTO) {}
+    func getSpellDetails(for path: String) async throws -> SpellDTO {
+        mockSpellDetails
+    }
+    func saveSpellList(_ spellDTOs: [SpellDTO]) async {}
+    func saveSpellDetails(_ spellDTO: SpellDTO) async {}
+    func createSpell(_ spellDTO: SpellDTO) async {}
 }

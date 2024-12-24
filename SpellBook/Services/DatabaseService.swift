@@ -18,9 +18,9 @@ protocol DatabaseServiceProtocol: Sendable {
 }
 
 final class DatabaseService: DatabaseServiceProtocol {
-    private let databaseClient: DatabaseClient
+    private let databaseClient: DatabaseClientProtocol
 
-    init(databaseClient: DatabaseClient) {
+    init(databaseClient: DatabaseClientProtocol) {
         self.databaseClient = databaseClient
     }
 

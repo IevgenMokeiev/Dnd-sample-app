@@ -15,11 +15,9 @@ final class SpellDTOConversionTests {
     
     @Test
     func whenPopulateSpell_thenHasExpectedData() {
-        let coreDataStack = StubCoreDataStack()
-        let context = coreDataStack.persistentContainer.viewContext
-        let spell = FakeDataFactory.provideEmptySpell(context: context)
+        let spell = FakeDataFactory.provideEmptySpell()
         let spellDTO = FakeDataFactory.provideFakeSpellDTO()
-        let expectedSpell = FakeDataFactory.provideFakeSpell(context: context)
+        let expectedSpell = FakeDataFactory.provideFakeSpell()
 
         spell.populate(with: spellDTO)
         #expect(spell == expectedSpell)

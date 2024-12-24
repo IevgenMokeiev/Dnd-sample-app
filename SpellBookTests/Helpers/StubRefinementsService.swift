@@ -8,7 +8,7 @@
 
 @testable import SpellBook
 
-class StubRefinementsService: RefinementsService {
+final class StubRefinementsService: RefinementsServiceProtocol {
     func refineSpells(spells: [SpellDTO], sort _: Sort, searchTerm _: String) -> [SpellDTO] {
         return spells
     }

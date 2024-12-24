@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1395392A2D14A23800B51AAB /* TranslationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139539292D14A23800B51AAB /* TranslationServiceTests.swift */; };
-		1395392C2D158A8A00B51AAB /* Publisher+Spy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1395392B2D158A8900B51AAB /* Publisher+Spy.swift */; };
+		133274D72D1AC96900B7DDFF /* MockDatabaseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133274D62D1AC96400B7DDFF /* MockDatabaseClient.swift */; };
 		13CDF6002D19778400B70FFD /* Spell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CDF5FF2D19777C00B70FFD /* Spell.swift */; };
 		13CDF6042D198FD900B70FFD /* BackgroundModelActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CDF6032D198FD800B70FFD /* BackgroundModelActor.swift */; };
 		85B353EE2267B64200617C7E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B353ED2267B64200617C7E /* AppDelegate.swift */; };
@@ -24,7 +23,6 @@
 		9F109D8D2476B2320091B7E3 /* SpellDTOConversionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F109D8C2476B2320091B7E3 /* SpellDTOConversionTests.swift */; };
 		9F54AC13246BE47A005B4849 /* NetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC12246BE47A005B4849 /* NetworkServiceTests.swift */; };
 		9F54AC17246BE651005B4849 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC15246BE628005B4849 /* MockURLProtocol.swift */; };
-		9F54AC1A246BE721005B4849 /* StubCoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC18246BE71E005B4849 /* StubCoreDataStack.swift */; };
 		9F54AC1D246BE997005B4849 /* FakeDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC1B246BE90E005B4849 /* FakeDataFactory.swift */; };
 		9F54AC21246BF86D005B4849 /* DatabaseServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC20246BF86D005B4849 /* DatabaseServiceTests.swift */; };
 		9F54AC24246C0B8C005B4849 /* ViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AC23246C0B8C005B4849 /* ViewFactory.swift */; };
@@ -43,7 +41,6 @@
 		9FFF78B32477E18F0068743F /* MockDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFF78AA2477E0FA0068743F /* MockDatabaseService.swift */; };
 		9FFF78B42477E18F0068743F /* MockNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFF78AC2477E1170068743F /* MockNetworkService.swift */; };
 		9FFF78B52477E18F0068743F /* StubRefinementsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFF78A82477E0D60068743F /* StubRefinementsService.swift */; };
-		9FFF78B62477E18F0068743F /* MockTranslationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFF78AE2477E1320068743F /* MockTranslationService.swift */; };
 		9FFF78B9247821170068743F /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFF78B8247821170068743F /* NetworkClient.swift */; };
 		9FFF78BB247821390068743F /* DatabaseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFF78BA247821390068743F /* DatabaseClient.swift */; };
 /* End PBXBuildFile section */
@@ -66,8 +63,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		139539292D14A23800B51AAB /* TranslationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationServiceTests.swift; sourceTree = "<group>"; };
-		1395392B2D158A8900B51AAB /* Publisher+Spy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Spy.swift"; sourceTree = "<group>"; };
+		133274D62D1AC96400B7DDFF /* MockDatabaseClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDatabaseClient.swift; sourceTree = "<group>"; };
 		13CDF5FF2D19777C00B70FFD /* Spell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spell.swift; sourceTree = "<group>"; };
 		13CDF6032D198FD800B70FFD /* BackgroundModelActor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundModelActor.swift; sourceTree = "<group>"; };
 		85B353EA2267B64200617C7E /* SpellBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpellBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -89,7 +85,6 @@
 		9F109D8C2476B2320091B7E3 /* SpellDTOConversionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellDTOConversionTests.swift; sourceTree = "<group>"; };
 		9F54AC12246BE47A005B4849 /* NetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceTests.swift; sourceTree = "<group>"; };
 		9F54AC15246BE628005B4849 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
-		9F54AC18246BE71E005B4849 /* StubCoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubCoreDataStack.swift; sourceTree = "<group>"; };
 		9F54AC1B246BE90E005B4849 /* FakeDataFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeDataFactory.swift; sourceTree = "<group>"; };
 		9F54AC20246BF86D005B4849 /* DatabaseServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseServiceTests.swift; sourceTree = "<group>"; };
 		9F54AC23246C0B8C005B4849 /* ViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewFactory.swift; sourceTree = "<group>"; };
@@ -108,7 +103,6 @@
 		9FFF78A82477E0D60068743F /* StubRefinementsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubRefinementsService.swift; sourceTree = "<group>"; };
 		9FFF78AA2477E0FA0068743F /* MockDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDatabaseService.swift; sourceTree = "<group>"; };
 		9FFF78AC2477E1170068743F /* MockNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkService.swift; sourceTree = "<group>"; };
-		9FFF78AE2477E1320068743F /* MockTranslationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTranslationService.swift; sourceTree = "<group>"; };
 		9FFF78B8247821170068743F /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
 		9FFF78BA247821390068743F /* DatabaseClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -254,11 +248,9 @@
 				9FFF78AA2477E0FA0068743F /* MockDatabaseService.swift */,
 				9FFF78AC2477E1170068743F /* MockNetworkService.swift */,
 				9FFF78A82477E0D60068743F /* StubRefinementsService.swift */,
-				9FFF78AE2477E1320068743F /* MockTranslationService.swift */,
+				133274D62D1AC96400B7DDFF /* MockDatabaseClient.swift */,
 				9F54AC15246BE628005B4849 /* MockURLProtocol.swift */,
-				9F54AC18246BE71E005B4849 /* StubCoreDataStack.swift */,
 				9F54AC1B246BE90E005B4849 /* FakeDataFactory.swift */,
-				1395392B2D158A8900B51AAB /* Publisher+Spy.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -283,7 +275,6 @@
 		9FC14EAB246B3A8500428073 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				139539292D14A23800B51AAB /* TranslationServiceTests.swift */,
 				9F54AC20246BF86D005B4849 /* DatabaseServiceTests.swift */,
 				9F54AC12246BE47A005B4849 /* NetworkServiceTests.swift */,
 			);
@@ -472,16 +463,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F54AC1D246BE997005B4849 /* FakeDataFactory.swift in Sources */,
-				9F54AC1A246BE721005B4849 /* StubCoreDataStack.swift in Sources */,
+				133274D72D1AC96900B7DDFF /* MockDatabaseClient.swift in Sources */,
 				9FFF78B52477E18F0068743F /* StubRefinementsService.swift in Sources */,
 				9F54AC13246BE47A005B4849 /* NetworkServiceTests.swift in Sources */,
 				9F54AC21246BF86D005B4849 /* DatabaseServiceTests.swift in Sources */,
-				9FFF78B62477E18F0068743F /* MockTranslationService.swift in Sources */,
 				9F109D8D2476B2320091B7E3 /* SpellDTOConversionTests.swift in Sources */,
 				9F0FF92E2477D66E00654865 /* InteractorTests.swift in Sources */,
-				1395392A2D14A23800B51AAB /* TranslationServiceTests.swift in Sources */,
 				9F54AC17246BE651005B4849 /* MockURLProtocol.swift in Sources */,
-				1395392C2D158A8A00B51AAB /* Publisher+Spy.swift in Sources */,
 				9FFF78B32477E18F0068743F /* MockDatabaseService.swift in Sources */,
 				9FFF78B42477E18F0068743F /* MockNetworkService.swift in Sources */,
 			);
